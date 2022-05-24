@@ -19,4 +19,6 @@ public class ReportType {
 
     private String description;
 
+    private int active;
+
 }
