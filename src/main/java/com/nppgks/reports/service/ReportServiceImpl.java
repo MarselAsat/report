@@ -1,6 +1,5 @@
 package com.nppgks.reports.service;
 
-import com.nppgks.reports.entity.ReportType;
 import com.nppgks.reports.repository.ReportTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,5 +16,4 @@ public class ReportServiceImpl implements ReportService {
     public ReportServiceImpl(ReportTypeRepository repository) {
         this.repository = repository;
     }
-
 }
