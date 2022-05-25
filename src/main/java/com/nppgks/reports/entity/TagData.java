@@ -24,5 +24,5 @@ public class TagData {
 
     @ManyToOne
     @JoinColumn(name = "report_id")
-    private ReportType reportType;
+    private ReportName reportName;
 }

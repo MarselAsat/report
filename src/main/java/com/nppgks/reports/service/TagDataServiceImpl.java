@@ -1,18 +1,13 @@
 package com.nppgks.reports.service;
 
+import com.nppgks.reports.dto.TagDataDto;
 import com.nppgks.reports.entity.TagData;
-import com.nppgks.reports.entity.TagName;
 import com.nppgks.reports.repository.TagDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,20 +20,37 @@ public class TagDataServiceImpl implements TagDataService {
         this.tagDataRepository = tagDataRepository;
     }
 
-    public Map<TagName, Double> getDataForReport(Long reportId, LocalDateTime start, LocalDateTime end){
-        List<TagData> result = getSourceDataForReport(reportId, start, end);
+//    public Map<TagName, Double> getDataForReport(Long reportId, LocalDateTime start, LocalDateTime end){
+//        List<TagData> result = getSourceDataForReport(reportId, start, end);
+//
+//        return result.stream().collect(Collectors.toMap(TagData::getTagName, TagData::getData));
+//
+//    }
 
-        return result.stream().collect(Collectors.toMap(TagData::getTagName, TagData::getData));
-
+    @Override
+    public List<TagDataDto> getDataForReport(Long reportNameId) {
+        List<TagData> resultList = tagDataRepository.findByReportName_id(reportNameId);
+        List<TagDataDto> tagDataDto = resultList.stream()
+                .map(TagDataDto::fromTagData)
+                .sorted()
+                .toList();
+        return tagDataDto;
     }
 
-    private List<TagData> getSourceDataForReport(Long reportId, LocalDateTime start, LocalDateTime end){
-        List<TagData> resultData =  tagDataRepository.findByReportTypeAndDtCreationBetween(reportId, start, end);
-        for (TagData tagData: resultData) {
-            tagData.getTagName().getName();
-        }
-        return resultData;
+    @Override
+    public List<TagData> findAll() {
+        return tagDataRepository.findAll();
     }
+
+//    private List<TagData> getSourceDataForReport(Long reportId, LocalDateTime start, LocalDateTime end){
+//        List<TagData> resultData =  tagDataRepository.findByReportTypeAndDtCreationBetween(reportId, start, end);
+//        for (TagData tagData: resultData) {
+//            tagData.getTagName().getName();
+//        }
+//        return resultData;
+//    }
+
+
 
 
 }

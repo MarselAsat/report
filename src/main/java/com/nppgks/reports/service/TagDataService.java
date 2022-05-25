@@ -1,5 +1,7 @@
 package com.nppgks.reports.service;
 
+import com.nppgks.reports.dto.TagDataDto;
+import com.nppgks.reports.entity.ReportName;
 import com.nppgks.reports.entity.TagData;
 import com.nppgks.reports.entity.TagName;
 
@@ -9,6 +11,7 @@ import java.util.Map;
 
 public interface TagDataService {
 
-    public Map<TagName, Double> getDataForReport(Long reportId, LocalDateTime start, LocalDateTime end);
+    public List<TagDataDto> getDataForReport(Long reportNameId);
 
+    public List<TagData> findAll();
 }

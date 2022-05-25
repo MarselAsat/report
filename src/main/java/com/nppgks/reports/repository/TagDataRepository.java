@@ -7,5 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TagDataRepository extends JpaRepository<TagData, Long> {
-    List<TagData> findByReportTypeAndDtCreationBetween(Long reportId, LocalDateTime start, LocalDateTime stop);
+//    List<TagData> findByReportTypeAndDtCreationBetween(Long reportId, LocalDateTime start, LocalDateTime stop);
+
+    List<TagData> findByReportName(Long reportNameId);
 }
