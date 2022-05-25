@@ -3,6 +3,7 @@ package com.nppgks.reports.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity(name = "report_name")
 @Data
@@ -12,9 +13,12 @@ public class ReportName {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "report_id")
-    private Long reportId;
+    @Column(name = "report_type_id")
+    private Long reportTypeId;
 
     @Column(name = "report_name")
     private String name;
+
+    @Column(name = "date_creation")
+    private LocalDateTime dtCreation;
 }

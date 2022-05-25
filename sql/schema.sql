@@ -1,3 +1,8 @@
+drop table report_name;
+drop table tag_data;
+drop table report_type;
+drop table tag_name;
+
 create table tag_name(
 id bigserial primary key,
 name varchar(256),
@@ -22,5 +27,6 @@ report_id int
 create table report_name(
 id bigserial primary key,
 report_id int,
-report_name varchar(256)
+report_name varchar(256),
+date_creation timestamp
 );
