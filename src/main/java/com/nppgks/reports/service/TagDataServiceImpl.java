@@ -29,7 +29,7 @@ public class TagDataServiceImpl implements TagDataService {
 
     @Override
     public List<TagDataDto> getDataForReport(Long reportNameId) {
-        List<TagData> resultList = tagDataRepository.findByReportName_id(reportNameId);
+        List<TagData> resultList = tagDataRepository.findByReportName(reportNameId);
         List<TagDataDto> tagDataDto = resultList.stream()
                 .map(TagDataDto::fromTagData)
                 .sorted()

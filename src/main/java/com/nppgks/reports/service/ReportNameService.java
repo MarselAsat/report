@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ReportNameService {
 
-    List<ReportName> getReportNameByDateAndReportId(Long reportTypeId, LocalDateTime dtCreationStart);
+    List<ReportName> getReportNameByDateAndReportId(Long reportTypeId, String dtCreationStart);
 
     List<ReportName> findAll();
 

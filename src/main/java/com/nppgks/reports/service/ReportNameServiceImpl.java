@@ -21,8 +21,9 @@ public class ReportNameServiceImpl implements ReportNameService{
     }
 
     @Override
-    public List<ReportName> getReportNameByDateAndReportId(Long reportTypeId, LocalDateTime dtCreationStart) {
-        LocalDateTime dtCreationEnd = dtCreationStart.plus(10, ChronoUnit.MINUTES);
+    public List<ReportName> getReportNameByDateAndReportId(Long reportTypeId, String dtCreationStr) {
+        LocalDateTime dtCreationStart = LocalDateTime.parse(dtCreationStr+"T00:00");
+        LocalDateTime dtCreationEnd = LocalDateTime.parse(dtCreationStr+"T23:59");
         return repository.findByReportTypeIdAndDtCreationBetween(reportTypeId, dtCreationStart, dtCreationEnd);
     }
 

@@ -56,6 +56,17 @@ values
 (1, 'Часовой отчет за 13 часов', to_timestamp('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
 (1, 'Часовой отчет за 14 часов', to_timestamp('2022-05-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
+insert into report_name(report_type_id, report_name, date_creation)
+values
+(2, 'Суточный отчет за 20 мая', to_timestamp('2022-05-20 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
+(2, 'Суточный отчет за 21 мая', to_timestamp('2022-05-21 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+(2, 'Суточный отчет за 22 мая', to_timestamp('2022-05-22 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+insert into report_name(report_type_id, report_name, date_creation)
+values
+(4, 'Месячный отчет за май', to_timestamp('2022-05-20 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
+(4, 'Месячный отчет за июнь', to_timestamp('2022-06-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+(4, 'Месячный отчет за июль', to_timestamp('2022-07-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 insert into tag_data(data, date_creation, name_id, report_id)
 values
