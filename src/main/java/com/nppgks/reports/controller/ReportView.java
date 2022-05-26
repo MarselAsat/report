@@ -32,7 +32,7 @@ public class ReportView {
         this.tagDataService = tagDataService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String getStartPage(ModelMap model){
         setCommonParams(model, true);
         return "blog";
