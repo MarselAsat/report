@@ -41,7 +41,8 @@
                         var listLength = data.length;
                         for (let i = 0; i < listLength; i++) {
 	                        let li = document.createElement('li');
-                            li.innerHTML = '<a href="/tagData">'+data[i].name+'</a>';
+	                        console.log(data[i].id);
+                            li.innerHTML = '<a href="/tagData/'+data[i].id+'">'+data[i].name+'</a>';
 	                        reportNames.appendChild(li);
                         }
                     })
@@ -51,11 +52,11 @@
 </head>
 
 <div th:fragment="navigation" class="container">
-    <a class="navbar-brand" th:href="@{/}">Spring Blog</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<!--    <a class="navbar-brand" th:href="@{/}">Spring Blog</a>-->
+<!--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"-->
+<!--            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
 <!--    <div class="collapse navbar-collapse" id="navbarResponsive">-->
 <!--        <ul class="navbar-nav ml-auto">-->
 <!--            <li sec:authorize="hasRole('USER')" class="nav-item">-->
@@ -74,19 +75,19 @@
 <div th:fragment="widget">
 
     <!-- Search Widget -->
-    <div class="card my-4">
-        <h5 class="card-header">Search</h5>
-        <div class="card-body">
-            <form method="GET" th:action="@{/}">
-<!--                <div class="input-group">-->
-<!--                    <input type="text" class="form-control" placeholder="Search for..." name="q">-->
-<!--                    <span class="input-group-append">-->
-<!--                    <button class="btn btn-secondary" type="submit">Go!</button>-->
-<!--                  </span>-->
-<!--                </div>-->
-            </form>
-        </div>
-    </div>
+<!--    <div class="card my-4">-->
+<!--        <h5 class="card-header">Search</h5>-->
+<!--        <div class="card-body">-->
+<!--            <form method="GET" th:action="@{/}">-->
+<!--&lt;!&ndash;                <div class="input-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <input type="text" class="form-control" placeholder="Search for..." name="q">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <span class="input-group-append">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <button class="btn btn-secondary" type="submit">Go!</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </span>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <!-- ReportType Widget -->
             <div class="card my-4">
@@ -142,11 +143,11 @@
 </div>
 
 
-<footer th:fragment="footer" class="py-5 bg-dark">
-    <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p>
-    </div>
-</footer>
+<!--<footer th:fragment="footer" class="py-5 bg-dark">-->
+<!--    <div class="container">-->
+<!--        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p>-->
+<!--    </div>-->
+<!--</footer>-->
 
 <body>
 
