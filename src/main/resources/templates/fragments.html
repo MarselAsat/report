@@ -30,7 +30,9 @@
 
                 function updateValue(e) {
                     var dateValue = e.target.value;
-                    fetch(contextPath + "startPage/reportName/"+dateValue+"/1", {method: 'GET'})
+                    var pathArray = window.location.pathname.split('/');
+                    var reportTYpeId = pathArray[3];
+                    fetch(contextPath + "startPage/reportName/"+dateValue+"/"+reportTYpeId, {method: 'GET'})
                         .then(response => response.json())
                         .then(data => {
                         console.log(data);
@@ -72,19 +74,19 @@
 <div th:fragment="widget">
 
     <!-- Search Widget -->
-<!--    <div class="card my-4">-->
-<!--        <h5 class="card-header">Search</h5>-->
-<!--        <div class="card-body">-->
-<!--            <form method="GET" th:action="@{/}">-->
+    <div class="card my-4">
+        <h5 class="card-header">Search</h5>
+        <div class="card-body">
+            <form method="GET" th:action="@{/}">
 <!--                <div class="input-group">-->
 <!--                    <input type="text" class="form-control" placeholder="Search for..." name="q">-->
 <!--                    <span class="input-group-append">-->
 <!--                    <button class="btn btn-secondary" type="submit">Go!</button>-->
 <!--                  </span>-->
 <!--                </div>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
+            </form>
+        </div>
+    </div>
 
     <!-- ReportType Widget -->
             <div class="card my-4">
