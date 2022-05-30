@@ -6,7 +6,7 @@ drop table tag_name;
 create table tag_name(
 id bigserial primary key,
 name varchar(256),
-descritption varchar(256)
+description varchar(256)
 );
 
 create table report_type(
@@ -32,7 +32,7 @@ report_id bigint references report_name(id)
 );
 
 --insert block
-insert into tag_name (name, descritption)
+insert into tag_name (name, description)
 values
 ('hour_mass_il1', 'масса за час ил1'),
 ('hour_vol_il1', 'объем за час ил1'),

@@ -7,12 +7,17 @@ import lombok.Data;
 @Data
 public class TagDataDto {
     private double data;
-    private TagName tagName;
+    private String tagName;
+    private String date;
+    private String reportType;
+
 
     public static TagDataDto fromTagData(TagData tagData){
         TagDataDto tagDataDto = new TagDataDto();
         tagDataDto.setData(tagData.getData());
-        tagDataDto.setTagName(tagData.getTagName());
+        tagDataDto.setTagName(tagData.getTagName().getName());
+        tagDataDto.setDate(tagData.getDtCreation().toString());
+        tagDataDto.setReportType(tagData.getReportName().getReportType().getName());
 
         return tagDataDto;
     }

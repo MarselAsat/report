@@ -1,20 +1,18 @@
 package com.nppgks.reports.controller;
 
-import com.nppgks.reports.dto.ReportTypeDto;
 import com.nppgks.reports.dto.TagDataDto;
 import com.nppgks.reports.entity.ReportName;
-import com.nppgks.reports.entity.ReportType;
 import com.nppgks.reports.service.ReportNameService;
 import com.nppgks.reports.service.ReportService;
 import com.nppgks.reports.service.TagDataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -37,8 +35,6 @@ public class ReportView {
         setCommonParams(model, true);
         return "blog";
     }
-
-
     @GetMapping("/reportName/{reportTypeId}")
     public String getReportName(ModelMap modelMap,
                                 @PathVariable(name = "reportTypeId") Long reportTypeId){
@@ -55,11 +51,10 @@ public class ReportView {
     }
 
     @GetMapping("/tagData/{reportNameId}")
-    public String getTegData(ModelMap modelMap,
-                             @PathVariable Long reportNameId){
+    @ResponseBody
+    public List<TagDataDto> getTagData(@PathVariable Long reportNameId){
         List<TagDataDto> tagDataDto = tagDataService.getDataForReport(reportNameId);
-        modelMap.put("tagdata", tagDataDto);
-        return "reports2";
+        return tagDataDto;
     }
     void setCommonParams(ModelMap model, boolean defaultView){
         if(defaultView){
@@ -69,7 +64,5 @@ public class ReportView {
         else{
             model.put("reportTypes", reportService.getAllReportTypes());
         }
-
     }
-
 }
