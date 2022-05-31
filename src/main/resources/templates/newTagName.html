@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+
+    <title id="pageTitle">New Post</title>
+
+</head>
+
+<script type="text/javascript" th:src="@{/js/create-new-tag-name.js}"></script>
+
+
+
+<body>
+
+<!-- Page Content -->
+<div class="container">
+
+    <div id="responses">
+    </div>
+
+    <div class="row">
+
+        <!-- Post Content Column -->
+        <div class="col-lg-8" id = "tag-name-forms">
+                <div class="form-group" id = "tag-name-form">
+                    <input name="title"
+                           class="form-control form-control-lg mt-4 name"
+                           type="text" placeholder="TagName"/>
+                    <input name="tags"
+                           class="form-control description"
+                           type="text" placeholder="Description"/>
+                    <select class = "report-type" id = "report-type-select">
+                        <li th:each="reportType: ${reportTypes}">
+                            <option th:value = "${reportType.id}" th:text = "${reportType.name}"></option>
+                        </li>
+                    </select>
+                </div>
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="createTagNameForm()">new tag</button>
+        <button type="submit" class="btn btn-primary" onclick="sendTagNames()">Submit</button>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

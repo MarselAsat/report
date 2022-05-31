@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Data
 public class ReportTypeDto {
-    private Long id;
+    private Integer id;
     private String name;
 
     public static ReportTypeDto fromReportType(ReportType reportType){

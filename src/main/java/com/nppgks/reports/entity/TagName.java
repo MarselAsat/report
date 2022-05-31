@@ -15,4 +15,7 @@ public class TagName {
     private String name;
 
     private String description;
+
+    @OneToOne
+    private ReportType reportType;
 }
