@@ -22,7 +22,7 @@ public class ReportNameServiceImpl implements ReportNameService{
     }
 
     @Override
-    public List<ReportName> getReportNameByDateAndReportId(Long reportTypeId, String dtCreationStr) {
+    public List<ReportName> getReportNameByDateAndReportId(Integer reportTypeId, String dtCreationStr) {
         LocalDateTime dtCreationStart;
         LocalDateTime dtCreationEnd;
         switch (reportTypeId.intValue()) {
@@ -51,7 +51,7 @@ public class ReportNameServiceImpl implements ReportNameService{
     }
 
     @Override
-    public List<ReportName> findByReportTypeId(Long reportTypeId) {
+    public List<ReportName> findByReportTypeId(Integer reportTypeId) {
         return repository.findByReportTypeId(reportTypeId);
     }
 }

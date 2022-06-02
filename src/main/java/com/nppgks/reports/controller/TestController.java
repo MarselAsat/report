@@ -29,7 +29,7 @@ public class TestController {
     }
 
     @GetMapping("reportName/{reportTypeId}")
-    public List<ReportName> getReportNameByReportTypeId(@PathVariable(name = "reportTypeId") Long id){
+    public List<ReportName> getReportNameByReportTypeId(@PathVariable(name = "reportTypeId") Integer id){
         List<ReportName> reportNames = reportService.findByReportTypeId(id);
         reportNames.get(0).getReportType();
         return reportNames;
@@ -42,7 +42,7 @@ public class TestController {
     }
 
     @GetMapping("/reportName/{date}/{reportTypeId}")
-    public List<ReportName> getReportNameByDateAndReportId(@PathVariable Long reportTypeId,
+    public List<ReportName> getReportNameByDateAndReportId(@PathVariable Integer reportTypeId,
                                                            @PathVariable String date){
         return reportService.getReportNameByDateAndReportId(reportTypeId, date);
     }

@@ -45,7 +45,7 @@ public class ReportView {
     }
     @GetMapping("/reportName/{reportTypeId}")
     public String getReportName(ModelMap modelMap,
-                                @PathVariable(name = "reportTypeId") Long reportTypeId){
+                                @PathVariable(name = "reportTypeId") Integer reportTypeId){
         List<ReportName> all = reportNameService.findByReportTypeId(reportTypeId);
         modelMap.put("reportNames", all);
         setCommonParams(modelMap, false);
@@ -53,7 +53,7 @@ public class ReportView {
     }
     @GetMapping("/reportName/{date}/{id}")
     @ResponseBody
-    public List<ReportName> getReport(ModelMap modelMap, @PathVariable String date, @PathVariable Long id){
+    public List<ReportName> getReport(ModelMap modelMap, @PathVariable String date, @PathVariable Integer id){
         List<ReportName> reportNames = reportNameService.getReportNameByDateAndReportId(id,date);
         return reportNames;
     }
