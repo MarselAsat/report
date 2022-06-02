@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+
+    <title id="pageTitle">Edit tag name table</title>
+
+</head>
+
+<script type="text/javascript" th:src="@{/js/edit-tag-name-table.js}"></script>
+
+
+
+<body>
+
+<!-- Page Content -->
+<div class="container">
+
+    <div id="responses">
+    </div>
+
+    <div class="row">
+
+        <!-- Post Content Column -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <table id = "tag-name-table">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Description</td>
+                        <td>Report type</td>
+                    </tr>
+                    </thead>
+
+                <tr th:each="tagName: ${tagNames}" th:id="${tagName.id}">
+                        <td><input type="text" th:value = "${tagName.name}" onchange="tagNameIsChanged(this)" class="name" onfocus="writeInitialValue(this)"/></td>
+                        <td><input type="text" th:value = "${tagName.description}" onchange="tagNameIsChanged(this)" class="description" onfocus="writeInitialValue(this)"/></td>
+                        <td>
+                            <select class = "report-type" id = "report-type-select"
+                            onchange="tagNameIsChanged(this)" onfocus="writeInitialValue(this)">
+                            <li th:each="reportType: ${reportTypes}">
+                                <option th:value = "${reportType.id}" th:text = "${reportType.name}"
+                                        th:selected="${reportType.id} == ${tagName.reportType}">
+                                </option>
+                            </li>
+                            </select>
+                        </td>
+                        <td class = "response">
+                        </td>
+                </tr>
+                </table>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="saveChangedTagName()">Submit</button>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

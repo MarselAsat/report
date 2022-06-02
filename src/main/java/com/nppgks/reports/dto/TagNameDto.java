@@ -13,8 +13,9 @@ import java.util.Optional;
 @Data
 @NoArgsConstructor
 public class TagNameDto {
+    private Long id;
     private String name;
     private String description;
-    private String reportType;
+    private Integer reportType;
 
 }

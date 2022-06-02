@@ -76,19 +76,32 @@ public class ReportView {
 
     @GetMapping("/tagName/new")
     public String createNewTagName(ModelMap modelMap){
-        List<ReportTypeDto> reporTypes = reportTypeService.getAllReportTypes();
-        modelMap.put("reportTypes", reporTypes);
+        List<ReportTypeDto> reportTypes = reportTypeService.getAllReportTypes();
+        modelMap.put("reportTypes", reportTypes);
         return "newTagName";
     }
 
     @PostMapping("/tagName/new")
     @ResponseBody
-    public String newTagName(@RequestBody TagNameDto tagName, ModelMap model){
+    public String newTagName(@RequestBody TagNameDto tagName){
         System.out.println(tagName.toString());
         boolean isSaved = tagNameService.saveTagName(tagName);
         String isSavedStr = isSaved ? "is saved":"isn't saved";
         String response = "Tag "+tagName.getName()+" "+isSavedStr;
-        model.put("response", response);
-        return response;
+        return isSaved+"";
+    }
+
+    @GetMapping("/tagName")
+    public String getAllTagNames(ModelMap modelMap){
+        List<TagNameDto> tagNames = tagNameService.getAllTagNames();
+        List<ReportTypeDto> reportTypes = reportTypeService.getAllReportTypes();
+        modelMap.put("tagNames", tagNames);
+        modelMap.put("reportTypes", reportTypes);
+        return "edit-tag-name-table";
+    }
+    @PostMapping("/tagName")
+    @ResponseBody
+    public Map<Long, Boolean> updateTagNames(@RequestBody List<TagNameDto> tagNames){
+        return tagNameService.saveTagNames(tagNames);
     }
 }

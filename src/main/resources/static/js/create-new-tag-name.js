@@ -35,7 +35,16 @@ async function sendTagNames(){
         }})
 
         let text = await response.text();
-        responseP.innerHTML = text;
+        var label = name.value;
+        if(text=="true"){
+            responseP.style.color = "green";
+            label = label+" is saved";
+        }
+        else{
+            responseP.style.color = "red";
+            label = label+" isn't saved";
+        }
+        responseP.innerHTML = label;
         responseField.appendChild(responseP);
     }
 }

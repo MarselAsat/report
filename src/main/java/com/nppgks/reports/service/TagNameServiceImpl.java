@@ -5,7 +5,12 @@ import com.nppgks.reports.dto.TagNameMapper;
 import com.nppgks.reports.entity.TagName;
 import com.nppgks.reports.repository.TagNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class TagNameServiceImpl implements TagNameService{
@@ -29,5 +34,23 @@ public class TagNameServiceImpl implements TagNameService{
         catch(Exception e){
             return false;
         }
+    }
+
+    @Override
+    public List<TagNameDto> getAllTagNames() {
+        return repository.findAll().stream()
+                .map(new TagNameMapper(reportTypeService)::toTagNameDto)
+                .toList();
+    }
+
+    @Override
+    public Map<Long, Boolean> saveTagNames(List<TagNameDto> tagNames) {
+        Map<Long, Boolean> responses = tagNames.stream()
+                .map(tagName -> {
+                    Boolean resp = saveTagName(tagName);
+                    return Map.entry(tagName.getId(), resp);
+                })
+                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
+        return responses;
     }
 }

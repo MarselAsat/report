@@ -21,11 +21,24 @@ public class TagNameMapper {
 
     public TagName toTagName(TagNameDto tagNameDto){
         TagName tagName = new TagName();
+        tagName.setId(tagNameDto.getId());
         tagName.setName(tagNameDto.getName());
-        tagName.setDescription(tagName.getDescription());
-        Optional<ReportType> reportType = reportTypeService.getReportTypeById(Integer.parseInt(tagNameDto.getReportType()));
+        tagName.setDescription(tagNameDto.getDescription());
+        Optional<ReportType> reportType = reportTypeService.getReportTypeById(tagNameDto.getReportType());
         tagName.setReportType(reportType.get());
 
         return tagName;
+    }
+    public TagNameDto toTagNameDto(TagName tagName){
+        TagNameDto tagNameDto = new TagNameDto();
+        tagNameDto.setName(tagName.getName());
+        tagNameDto.setDescription(tagName.getDescription());
+        if(tagName.getReportType()!=null){
+            tagNameDto.setReportType(tagName.getReportType().getId());
+        }
+        tagNameDto.setId(tagName.getId());
+
+
+        return tagNameDto;
     }
 }
