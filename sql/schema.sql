@@ -24,7 +24,7 @@ unique(name, report_type_id)
 create table report_name(
 id bigserial primary key,
 report_type_id int references report_type(id),
-report_name varchar(256),
+name varchar(256),
 date_creation timestamp
 );
 

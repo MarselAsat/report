@@ -54,4 +54,9 @@ public class ReportNameServiceImpl implements ReportNameService{
     public List<ReportName> findByReportTypeId(Integer reportTypeId) {
         return repository.findByReportTypeId(reportTypeId);
     }
+
+    @Override
+    public boolean saveReportName(ReportName reportName) {
+        return repository.save(reportName).getId()!=null;
+    }
 }

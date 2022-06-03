@@ -12,4 +12,6 @@ public interface ReportNameService {
     List<ReportName> findAll();
 
     List<ReportName> findByReportTypeId(Integer reportTypeId);
+
+    boolean saveReportName(ReportName reportName);
 }

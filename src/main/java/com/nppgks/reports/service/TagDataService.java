@@ -14,4 +14,6 @@ public interface TagDataService {
     public List<TagDataDto> getDataForReport(Long reportNameId);
 
     public List<TagData> findAll();
+
+    public TagData saveTagData(TagData tagData);
 }

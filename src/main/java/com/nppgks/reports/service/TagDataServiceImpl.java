@@ -41,6 +41,11 @@ public class TagDataServiceImpl implements TagDataService {
         return tagDataRepository.findAll();
     }
 
+    @Override
+    public TagData saveTagData(TagData tagData) {
+        return tagDataRepository.save(tagData);
+    }
+
 //    private List<TagData> getSourceDataForReport(Long reportId, LocalDateTime start, LocalDateTime end){
 //        List<TagData> resultData =  tagDataRepository.findByReportTypeAndDtCreationBetween(reportId, start, end);
 //        for (TagData tagData: resultData) {

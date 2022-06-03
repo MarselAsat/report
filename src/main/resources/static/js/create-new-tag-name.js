@@ -22,7 +22,7 @@ async function sendTagNames(){
 
         let reportType = reportTypeInputs[i];
 
-        let url = "/startPage/tagName/new";
+        let url = "/admin/tagName/new";
 
         // Converting JSON data to string
         var data = JSON.stringify({ "name": name.value, "description": description.value, "reportType": reportType.value});

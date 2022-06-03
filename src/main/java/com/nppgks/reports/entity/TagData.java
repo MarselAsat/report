@@ -1,12 +1,16 @@
 package com.nppgks.reports.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity(name = "tag_data")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TagData {
 
     @Id

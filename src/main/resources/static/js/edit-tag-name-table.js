@@ -34,7 +34,7 @@ async function saveChangedTagName(){
         tagName.reportType = tagNameRow.getElementsByClassName("report-type")[0].value;
         tagNameList.push({...tagName});
     }
-    var url = "/startPage/tagName";
+    var url = "/admin/tagName";
     let response = await fetch(url, {
                          method: "POST",
                          body: JSON.stringify(tagNameList),
