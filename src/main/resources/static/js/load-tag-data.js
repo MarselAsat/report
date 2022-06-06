@@ -27,3 +27,6 @@ function toNewTagName(){
 function toTagNameEditor(){
     window.location.href = "http://localhost:8080/admin/tagName";
 }
+function updatePassword(){
+    window.location.href = "http://localhost:8080/user/updatePassword";
+}

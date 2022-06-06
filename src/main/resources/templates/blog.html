@@ -13,10 +13,13 @@
 <script type="text/javascript" th:src="@{/js/load-tag-data.js}"></script>
 
 <body>
-<!-- Navigation -->
 
 <!-- Page Content -->
 <div class="container">
+  <button onclick="logout()">Logout</button>
+  <button onclick="toNewTagName()">admin new tag</button>
+  <button onclick="toTagNameEditor()">admin edit tag</button>
+  <button onclick="updatePassword()">update password</button>
 
   <div class="row">
 
@@ -29,9 +32,7 @@
 <!--      </h1>-->
       <!-- Blog Posts -->
 
-    <button onclick="logout()">Logout</button>
-    <button onclick="toNewTagName()">admin new tag</button>
-    <button onclick="toTagNameEditor()">admin edit tag</button>
+
     <div class="card mb-4">
       <div class="card-body">
         <table id ="tagData" border = "1" cellpadding = "5" cellspacing = "5">
