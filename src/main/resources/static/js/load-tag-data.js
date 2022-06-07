@@ -5,9 +5,6 @@ function getTagData(id) {
             console.log(data);
             const tagDataDiv = document.getElementById("tagData");
             tagDataDiv.innerHTML = '';
-            let header = document.createElement('tr');
-            header.innerHTML = "<th>Tag</th><th>Data</th><th>Date</th><th>Report Type</th>";
-            tagDataDiv.appendChild(header);
             var listLength = data.length;
             for (let i = 0; i < listLength; i++) {
                 let li = document.createElement('tr');

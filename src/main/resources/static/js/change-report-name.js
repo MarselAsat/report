@@ -15,11 +15,16 @@ window.onload = function () {
                 reportNames.innerHTML = '';
                 var listLength = data.length;
                 for (let i = 0; i < listLength; i++) {
-	                let li = document.createElement('li');
-	                console.log(data[i].id);
-                    li.innerHTML = '<a href="#" onclick="getTagData('+data[i].id+');">'+data[i].name+'</a>';
-	                reportNames.appendChild(li);
+	                let a = document.createElement('a');
+	                a.setAttribute("href", "#");
+	                a.setAttribute("onclick", "getTagData("+data[i].id+")");
+                    a.innerHTML = data[i].name;
+	                reportNames.appendChild(a);
                 }
             })
     }
-};
+}
+
+function selectReportType(element){
+    element.classList.add('active');
+}

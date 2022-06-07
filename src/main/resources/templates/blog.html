@@ -5,70 +5,38 @@
 <head th:include="fragments.html :: header">
   <title id="pageTitle">Blog Home</title>
 </head>
-
-<script type="text/javascript" th:src="@{/resources/js/delete-post.js}"></script>
-<script th:inline="javascript">
-
-</script>
-<script type="text/javascript" th:src="@{/js/load-tag-data.js}"></script>
-
 <body>
 
+
 <!-- Page Content -->
-<div class="container">
-  <button onclick="logout()">Logout</button>
-  <button onclick="toNewTagName()">admin new tag</button>
-  <button onclick="toTagNameEditor()">admin edit tag</button>
-  <button onclick="updatePassword()">update password</button>
+  <div class="container-fluid">
+    <button onclick="logout()">Logout</button>
+    <button onclick="toNewTagName()">admin new tag</button>
+    <button onclick="toTagNameEditor()">admin edit tag</button>
+    <button onclick="updatePassword()">update password</button>
+    <div class="row content">
+      <div th:insert="fragments.html :: widget" class="col-sm-3 sidenav">
+      </div>
+      <div class="col-sm-9">
+        <div class="card my-4">
+          <table border = "1" cellpadding = "5" cellspacing = "5" class="table">
+            <thead>
+            <tr>
+              <th>Tag</th>
+              <th>Data</th>
+              <th>Date</th>
+              <th>Report type</th>
+            </tr>
+            </thead>
+            <tbody id ="tagData">
 
-  <div class="row">
+            </tbody>
+          </table>
+        </div>
 
-    <!-- Blog Entries Column -->
-<!--    <div class="col-md-8">-->
-
-<!--      <h1 class="my-4">-->
-<!--        <span th:text="${title}"></span>-->
-<!--        <small th:text="${subtitle}"></small>-->
-<!--      </h1>-->
-      <!-- Blog Posts -->
-
-
-    <div class="card mb-4">
-      <div class="card-body">
-        <table id ="tagData" border = "1" cellpadding = "5" cellspacing = "5">
-        </table>
       </div>
     </div>
-<!--      <div th:each="post: ${postList}" th:id="'post-' + ${post.postId}" class="card mb-4">-->
-<!--        <div class="card-body">-->
-<!--          <h2 class="card-title" th:text="${post.title}"></h2>-->
-<!--          <p class="card-text" th:text="${post.content}"></p>-->
-<!--                              <a th:href="@{/post/{postId}(postId = ${post.postId})}" class="btn btn-primary">View</a>-->
-<!--                              <a  th:if="${#authentication.name == post.user.username}"-->
-<!--                                  th:href="@{/post/{postId}/edit(postId = ${post.postId})}"-->
-<!--                                  class="btn btn-secondary">Edit</a>-->
-<!--                              <a th:if="${#authentication.name == post.user.username or #authorization.expression('hasRole(''ADMIN'')')}"-->
-<!--                                 th:onclick="'deletePost(\'' + ${post.postId} + '\');'"-->
-<!--                                 class="btn btn-danger">Delete</a>-->
-<!--        </div>-->
-<!--        <div class="card-footer text-muted">-->
-<!--                              Posted on <span-->
-<!--                                  th:text="${#temporals.format(post.dtCreated, 'dd/MM/yyyy HH:mm')}"></span>-->
-<!--                              <a th:href="@{/user/{username}(username = ${post.user.username})}"-->
-<!--                                 th:text="${post.user.username}"></a>-->
-
-<!--                              <a></a>-->
-<!--        </div>-->
-<!--      </div>-->
-
-
-<!--    </div>-->
-
-    <!-- Sidebar Widgets Column -->
-    <div th:insert="fragments.html :: widget" class="col-md-4">
-    </div>
   </div>
-</div>
 </body>
 
 </html>
