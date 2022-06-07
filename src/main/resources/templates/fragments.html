@@ -69,8 +69,8 @@
             <div class="card my-4">
                 <h5 class="card-header">Report Types</h5>
                 <div class="list-group">
-                    <a th:each="reportType: ${reportTypes}" th:href="@{http://localhost:8080/startPage/reportName/{reportTypeId}(reportTypeId=${reportType.id})}"
-                       th:text="${reportType.name}" onclick="selectReportType(this)" class="list-group-item">
+                    <a th:each="reportType: ${reportTypes}"  th:href="@{http://localhost:8080/startPage/reportName/{reportTypeId}(reportTypeId=${reportType.id})}"
+                       th:text="${reportType.name}" class="list-group-item" th:id="'reportType'+${reportType.id}" >
                     </a>
                 </div>
             </div>
@@ -88,7 +88,7 @@
         <h5 class="card-header">Report Names</h5>
         <div class="list-group" id="reportNames">
             <a th:each="reportName: ${reportNames}" href="#"
-               th:text="${reportName.name}" th:onclick="|getTagData('${reportName.id}')|"></a>
+               th:text="${reportName.name}" th:onclick="|getTagData('${reportName.id}')|" class="list-group-item"></a>
         </div>
     </div>
 </div>
