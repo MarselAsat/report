@@ -12,4 +12,6 @@ public interface ReportNameRepository extends JpaRepository<ReportName, Long> {
 
     List<ReportName> findByReportTypeId(Integer reportTypeId);
 
+    List<ReportName> findByDtCreationBetween(LocalDateTime dateStart, LocalDateTime dateEnd);
+
 }

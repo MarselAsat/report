@@ -69,25 +69,24 @@
             <div class="card my-4">
                 <h5 class="card-header">Report Types</h5>
                 <div class="list-group">
-                    <a th:each="reportType: ${reportTypes}"  th:href="@{http://localhost:8080/startPage/reportName/{reportTypeId}(reportTypeId=${reportType.id})}"
-                       th:text="${reportType.name}" class="list-group-item" th:id="'reportType'+${reportType.id}" >
+                    <a th:each="reportType: ${reportTypes}"
+                       th:text="${reportType.name}" class="list-group-item" th:id="'reportType-'+${reportType.id}"
+                       onclick="reportTypeIsChanged(this)">
                     </a>
                 </div>
             </div>
 
 
 
-    <form th:action="@{/reportName/reportTypeId}" method="get">
-        <div>
-            <label for="reportNameDate">Pick the date:</label>
-            <input type="date" id="reportNameDate"/>
-        </div>
-    </form>
+    <div>
+        <label for="datePicker">Pick the date:</label>
+        <input type="date" id="datePicker" onchange="dateIsChanged(this)"/>
+    </div>
     <!-- ReportName Widget -->
     <div class="card my-4">
         <h5 class="card-header">Report Names</h5>
         <div class="list-group" id="reportNames">
-            <a th:each="reportName: ${reportNames}" href="#"
+            <a th:each="reportName: ${reportNames}"
                th:text="${reportName.name}" th:onclick="|getTagData('${reportName.id}')|" class="list-group-item"></a>
         </div>
     </div>

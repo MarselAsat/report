@@ -1,8 +1,6 @@
 package com.nppgks.reports.controller;
 
-import com.nppgks.reports.dto.ReportTypeDto;
 import com.nppgks.reports.dto.TagDataDto;
-import com.nppgks.reports.dto.TagNameDto;
 import com.nppgks.reports.entity.ReportName;
 import com.nppgks.reports.service.ReportNameService;
 import com.nppgks.reports.service.ReportTypeService;
@@ -15,17 +13,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 @Controller
-@RequestMapping("/startPage")
 public class ReportView {
 
     private final ReportNameService reportNameService;
     private final TagDataService tagDataService;
     private final ReportTypeService reportTypeService;
-
-    private final TagNameService tagNameService;
 
     @Autowired
     public ReportView(ReportNameService reportNameService,
@@ -35,27 +30,25 @@ public class ReportView {
         this.reportNameService = reportNameService;
         this.reportTypeService = reportTypeService;
         this.tagDataService = tagDataService;
-        this.tagNameService = tagNameService;
     }
 
-    @GetMapping
+    @GetMapping("/startPage")
     public String getStartPage(ModelMap model){
         setCommonParams(model, true);
         return "blog";
     }
-    @GetMapping("/reportName/{reportTypeId}")
-    public String getReportName(ModelMap modelMap,
-                                @PathVariable(name = "reportTypeId") Integer reportTypeId){
-        List<ReportName> all = reportNameService.findByReportTypeId(reportTypeId);
-        modelMap.put("reportNames", all);
+
+    @GetMapping(value = "/startPage/filter")
+    public String getReportNameByDateAndReportType(ModelMap modelMap,
+                                      @RequestParam(required = false) String date,
+                                      @RequestParam(required = false) Integer reportTypeId){
+        if(Objects.equals(date, "")&&reportTypeId==null){
+            return "redirect:/startPage";
+        }
+        List<ReportName> reportNames = reportNameService.getReportNameByDateAndReportId(reportTypeId, date);
+        modelMap.put("reportNames", reportNames);
         setCommonParams(modelMap, false);
         return "blog";
-    }
-    @GetMapping("/reportName/{date}/{id}")
-    @ResponseBody
-    public List<ReportName> getReport(ModelMap modelMap, @PathVariable String date, @PathVariable Integer id){
-        List<ReportName> reportNames = reportNameService.getReportNameByDateAndReportId(id,date);
-        return reportNames;
     }
 
     @GetMapping("/tagData/{reportNameId}")
@@ -64,6 +57,7 @@ public class ReportView {
         List<TagDataDto> tagDataDto = tagDataService.getDataForReport(reportNameId);
         return tagDataDto;
     }
+
     void setCommonParams(ModelMap model, boolean defaultView){
         if(defaultView){
             model.put("reportTypes", reportTypeService.getAllReportTypes());

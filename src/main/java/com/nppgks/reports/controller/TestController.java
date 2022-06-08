@@ -2,17 +2,13 @@ package com.nppgks.reports.controller;
 
 import com.nppgks.reports.dto.TagDataDto;
 import com.nppgks.reports.entity.ReportName;
-import com.nppgks.reports.entity.TagData;
 import com.nppgks.reports.service.ReportNameService;
 import com.nppgks.reports.service.TagDataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController

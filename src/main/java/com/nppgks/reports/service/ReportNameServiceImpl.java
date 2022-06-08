@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -23,26 +22,35 @@ public class ReportNameServiceImpl implements ReportNameService{
 
     @Override
     public List<ReportName> getReportNameByDateAndReportId(Integer reportTypeId, String dtCreationStr) {
-        LocalDateTime dtCreationStart;
-        LocalDateTime dtCreationEnd;
-        switch (reportTypeId.intValue()) {
-            case 4:
-                Month month = LocalDateTime.parse(dtCreationStr+"T00:00").getMonth();
-                int year = LocalDateTime.parse(dtCreationStr+"T00:00").getYear();
-                dtCreationStart = LocalDateTime.of(year, month, 1, 0, 0);
-                dtCreationEnd = LocalDateTime.of(year, month, month.length(false), 23, 59);
-                break;
-            case 5:
-                int y = LocalDateTime.parse(dtCreationStr+"T00:00").getYear();
-                dtCreationStart = LocalDateTime.of(y, 1, 1, 0, 0);
-                dtCreationEnd = LocalDateTime.of(y, 12, 31, 23, 59);
-                break;
-            default:
-                dtCreationStart = LocalDateTime.parse(dtCreationStr+"T00:00");
-                dtCreationEnd = LocalDateTime.parse(dtCreationStr+"T23:59");
-                break;
+        if(reportTypeId==null){
+            return findByDate(dtCreationStr);
         }
-        return repository.findByReportTypeIdAndDtCreationBetween(reportTypeId, dtCreationStart, dtCreationEnd);
+        else if(dtCreationStr==null||dtCreationStr.equals("")){
+            return findByReportTypeId(reportTypeId);
+        }
+        else{
+            LocalDateTime dtCreationStart;
+            LocalDateTime dtCreationEnd;
+            switch (reportTypeId.intValue()) {
+                case 4:
+                    Month month = LocalDateTime.parse(dtCreationStr+"T00:00").getMonth();
+                    int year = LocalDateTime.parse(dtCreationStr+"T00:00").getYear();
+                    dtCreationStart = LocalDateTime.of(year, month, 1, 0, 0);
+                    dtCreationEnd = LocalDateTime.of(year, month, month.length(false), 23, 59);
+                    break;
+                case 5:
+                    int y = LocalDateTime.parse(dtCreationStr+"T00:00").getYear();
+                    dtCreationStart = LocalDateTime.of(y, 1, 1, 0, 0);
+                    dtCreationEnd = LocalDateTime.of(y, 12, 31, 23, 59);
+                    break;
+                default:
+                    dtCreationStart = LocalDateTime.parse(dtCreationStr+"T00:00");
+                    dtCreationEnd = LocalDateTime.parse(dtCreationStr+"T23:59");
+                    break;
+            }
+            return repository.findByReportTypeIdAndDtCreationBetween(reportTypeId, dtCreationStart, dtCreationEnd);
+        }
+
     }
 
     @Override
@@ -58,5 +66,12 @@ public class ReportNameServiceImpl implements ReportNameService{
     @Override
     public boolean saveReportName(ReportName reportName) {
         return repository.save(reportName).getId()!=null;
+    }
+
+    @Override
+    public List<ReportName> findByDate(String date) {
+        LocalDateTime dtCreationStart = LocalDateTime.parse(date+"T00:00");
+        LocalDateTime dtCreationEnd = LocalDateTime.parse(date+"T23:59");
+        return repository.findByDtCreationBetween(dtCreationStart, dtCreationEnd);
     }
 }

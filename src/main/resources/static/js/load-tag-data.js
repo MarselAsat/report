@@ -1,5 +1,5 @@
 function getTagData(id) {
-    fetch(contextPath + "startPage/tagData/"+id, {method: 'GET'})
+    fetch(contextPath + "api/tagData/"+id, {method: 'GET'})
         .then(response => response.json())
         .then(data => {
             console.log(data);
