@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!--                xmlns:sec="http://www.thymeleaf.org/extras/spring-security"-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:include="fragments.html :: header">
   <title id="pageTitle">Blog Home</title>
@@ -14,13 +14,56 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand">Navbar</a>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a th:href="@{/admin/tagName/new}" class="nav-link">Create new tag</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a th:href="@{/admin/tagName}" class="nav-link">Edit tag_name table</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item"><a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="nav-link"> Log out</a></li>
+        <li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link"> Log in</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--<nav class="navbar navbar-dark bg-dark">-->
+<!--  <div class="container-fluid">-->
+<!--    <div class="navbar-header">-->
+<!--      <a class="navbar-brand" href="#">WebSiteName</a>-->
+<!--    </div>-->
+<!--    <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--      <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+<!--        <li class="nav-item">-->
+<!--          <a href="#" class="nav-link active">Home</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a th:href="@{/admin/tagName/new}" sec:authorize="hasRole('ADMIN')" class="nav-link">Create new tag</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a th:href="@{/admin/tagName}" sec:authorize="hasRole('ADMIN')" class="nav-link">Edit tag_name table</a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--    <ul class="navbar-nav navbar-right">-->
+<!--      <li class="nav-item"><a sec:authorize="isAuthenticated()" th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>-->
+<!--      <li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>-->
+<!--    </ul>-->
+<!--  </div>-->
+<!--</nav>-->
 
 <!-- Page Content -->
   <div class="container-fluid">
-    <button onclick="logout()">Logout</button>
-    <button onclick="toNewTagName()">admin new tag</button>
-    <button onclick="toTagNameEditor()">admin edit tag</button>
-    <button onclick="updatePassword()">update password</button>
     <div class="row content">
       <div th:insert="fragments.html :: widget" class="col-sm-3 sidenav">
       </div>
@@ -36,7 +79,6 @@
             </tr>
             </thead>
             <tbody id ="tagData">
-
             </tbody>
           </table>
         </div>
