@@ -19,17 +19,11 @@
 
 <!-- Page Content -->
 <div class="container">
-
-    <div id="responses">
-    </div>
-
     <div class="row">
-
+        <div class="col-sm-9">
         <!-- Post Content Column -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <table id = "tag-name-table" class="table">
-                    <thead>
+                <table id = "tag-name-table" class="table table-borderless">
+                    <thead class="table-light" style="font-weight: bold">
                         <tr>
                             <td>Name</td>
                             <td>Description</td>
@@ -37,27 +31,26 @@
                         </tr>
                     </thead>
 
-                <tr th:each="tagName: ${tagNames}" th:id="${tagName.id}">
-                        <td><input type="text" th:value = "${tagName.name}" onchange="tagNameIsChanged(this)" class="name" onfocus="writeInitialValue(this)" style="border: 0"/></td>
-                        <td><input type="text" th:value = "${tagName.description}" onchange="tagNameIsChanged(this)" class="description" onfocus="writeInitialValue(this)" style="border: 0"/></td>
-                        <td>
-                            <select class = "report-type" id = "report-type-select"
-                            onchange="tagNameIsChanged(this)" onfocus="writeInitialValue(this)" style="border: 0">
-                            <li th:each="reportType: ${reportTypes}">
-                                <option th:value = "${reportType.id}" th:text = "${reportType.name}"
-                                        th:selected="${reportType.id} == ${tagName.reportType}">
-                                </option>
-                            </li>
-                            </select>
-                        </td>
-                        <td class = "response">
-                        </td>
-                </tr>
+                    <tbody>
+                        <tr th:each="tagName: ${tagNames}" th:id="${tagName.id}">
+                            <td><input type="text" th:value = "${tagName.name}" onchange="tagNameIsChanged(this)" class="name" onfocus="writeInitialValue(this)" style="border: 0"/></td>
+                            <td><input type="text" th:value = "${tagName.description}" onchange="tagNameIsChanged(this)" class="description" onfocus="writeInitialValue(this)" style="border: 0"/></td>
+                            <td>
+                                <select class = "report-type" id = "report-type-select"
+                                        onchange="tagNameIsChanged(this)" onfocus="writeInitialValue(this)" style="border: 0">
+                                    <li th:each="reportType: ${reportTypes}">
+                                        <option th:value = "${reportType.id}" th:text = "${reportType.name}"
+                                                th:selected="${reportType.id} == ${tagName.reportType}">
+                                        </option>
+                                    </li>
+                                </select>
+                            </td>
+                            <td class = "response" width="100"></td>
+                        </tr>
+                    </tbody>
                 </table>
+                <button type="submit" class="btn btn-primary" onclick="saveChangedTagName()">Save</button>
             </div>
-        </div>
-        <button type="submit" class="btn btn-primary" onclick="saveChangedTagName()">Save</button>
-
     </div>
 
 </div>
