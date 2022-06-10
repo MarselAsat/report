@@ -30,6 +30,7 @@
         </li>
       </ul>
       <ul class="navbar-nav navbar-right">
+        <li class="nav-item"><a sec:authorize="isAuthenticated()" th:href="@{/user/updatePassword}" class="nav-link"> Change password</a></li>
         <li class="nav-item"><a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="nav-link"> Log out</a></li>
         <li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link"> Log in</a></li>
       </ul>
