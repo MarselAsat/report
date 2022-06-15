@@ -5,6 +5,17 @@ function createTagNameForm(){
     tagNameFormNew.getElementsByClassName("name")[0].value = "";
     tagNameFormNew.getElementsByClassName("description")[0].value = "";
     tagNameForms.append(tagNameFormNew);
+    var rows = tagNameForms.getElementsByClassName('row');
+    var lenOfRows = rows.length;
+    var row = rows[lenOfRows-1];
+    var divDelete = document.createElement('div');
+    divDelete.className = "col-sm-2 align-self-center";
+    divDelete.innerHTML = '<button class="btn btn-danger" onclick="deleteTagForm(this)">X</button>';
+    row.appendChild(divDelete);
+}
+function deleteTagForm(element){
+    var tagNameForm = element.parentElement.parentElement.parentElement;
+    tagNameForm.remove();
 }
 async function sendTagNames(){
      let responseField = document.getElementById('responses');
