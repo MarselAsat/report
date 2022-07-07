@@ -53,4 +53,15 @@ public class TagNameServiceImpl implements TagNameService{
                 .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
         return responses;
     }
+
+    @Override
+    public boolean deleteTagName(Long id) {
+        try{
+            repository.deleteById(id);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
 }

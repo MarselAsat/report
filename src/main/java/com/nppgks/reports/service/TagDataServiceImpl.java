@@ -31,7 +31,7 @@ public class TagDataServiceImpl implements TagDataService {
     public List<TagDataDto> getDataForReport(Long reportNameId) {
         List<TagData> resultList = tagDataRepository.findByReportName_Id(reportNameId);
         List<TagDataDto> tagDataDto = resultList.stream()
-                .map(TagDataDto::fromTagData)
+                .map(TagDataDto::fromTagData) // в fromTagData происходит изменение времени в зависимости от часового пояса
                 .toList();
         return tagDataDto;
     }

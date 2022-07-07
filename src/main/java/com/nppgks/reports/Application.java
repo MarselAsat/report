@@ -1,6 +1,9 @@
 package com.nppgks.reports;
 
 import com.nppgks.reports.security.UserService;
+import com.nppgks.reports.service.poverka3622.InitialData;
+import com.nppgks.reports.service.poverka3622.Poverka3622;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,12 +14,10 @@ import java.util.Arrays;
 
 @EnableScheduling
 @SpringBootApplication
+@Slf4j
 public class Application {
 
 	public static void main(String[] args) {
-		ApplicationContext context = SpringApplication.run(Application.class, args);
-		var user = context.getApplicationName();
-		System.out.println(user);
+		SpringApplication.run(Application.class, args);
 	}
-
 }

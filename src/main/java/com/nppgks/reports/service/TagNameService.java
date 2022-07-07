@@ -10,4 +10,5 @@ public interface TagNameService {
     public List<TagNameDto> getAllTagNames();
 
     Map<Long, Boolean> saveTagNames(List<TagNameDto> tagNames);
+    boolean deleteTagName(Long id);
 }

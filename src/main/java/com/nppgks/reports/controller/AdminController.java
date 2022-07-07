@@ -65,4 +65,11 @@ public class AdminController {
     public Map<Long, Boolean> updateTagNames(@RequestBody List<TagNameDto> tagNames){
         return tagNameService.saveTagNames(tagNames);
     }
+
+    @DeleteMapping("/tagName/{id}")
+    @ResponseBody
+    public Map<Long, Boolean> deleteTagName(@PathVariable Long id){
+        boolean isDeleted = tagNameService.deleteTagName(id);
+        return Map.of(id, isDeleted);
+    }
 }

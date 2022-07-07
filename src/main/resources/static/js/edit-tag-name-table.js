@@ -1,4 +1,5 @@
 var changedRows = new Set();
+var deletedRows = new Set();
 var initialValues = {};
 
 function writeInitialValue(element){
@@ -14,37 +15,63 @@ function writeInitialValue(element){
 }
 
 function tagNameIsChanged(element){
-    var tagName = element.parentElement.parentElement;
-    var id = tagName.id;
+    var tagNameRow = element.parentElement.parentElement;
+    var id = tagNameRow.id;
     changedRows.add(id);
 
     console.log(changedRows);
 }
 
-async function saveChangedTagName(){
+function saveChangedTagNames(){
 
-    var tagNameList = new Array();
-    let responseField = document.getElementById('responses');
-    for (const id of changedRows) {
-        var tagNameRow = document.getElementById(id);
-        var tagName = {};
-        tagName.id = id;
-        tagName.name = tagNameRow.getElementsByClassName("name")[0].value;;
-        tagName.description = tagNameRow.getElementsByClassName("description")[0].value;
-        tagName.reportType = tagNameRow.getElementsByClassName("report-type")[0].value;
-        tagNameList.push({...tagName});
-    }
-    var url = "/admin/tagName";
-    let response = await fetch(url, {
-                         method: "POST",
-                         body: JSON.stringify(tagNameList),
-                         headers: {'Content-Type': 'application/json'
-    }})
-    let responseJson = await response.json();
+    var changedTagNameList = new Array();
     var responsesTd = document.getElementsByClassName("response");
     for(let r of responsesTd){
         r.innerHTML = "";
     }
+
+    fillChangedTagNameList(changedTagNameList);
+    updateTagNamesInDB(changedTagNameList);
+
+    // delete strikeout rows from db
+    for(const id of deletedRows){
+        var tagNameRow = document.getElementById(id);
+        deleteTagNameFromDB(id, tagNameRow);
+    }
+
+    deletedRows.clear();
+    changedRows.clear();
+    initialValues = {};
+}
+
+function fillChangedTagNameList(changedTagNameList){
+    for (const id of changedRows) {
+        var tagNameRow = document.getElementById(id);
+        if(!tagNameRow.classList.contains("strikeout")){
+            var tagName = {};
+            var name = tagNameRow.getElementsByClassName("name")[0].value;
+            var description = tagNameRow.getElementsByClassName("description")[0].value;
+            var reportType = tagNameRow.getElementsByClassName("report-type")[0].value;
+            if(name!=initialValues[id].name ||
+                description!= initialValues[id].description ||
+                reportType!= initialValues[id].reportType){
+                tagName.id = id;
+                tagName.name = name;
+                tagName.description = description;
+                tagName.reportType = reportType;
+                changedTagNameList.push({...tagName});
+            }
+        }
+    }
+}
+async function updateTagNamesInDB(changedTagNameList){
+    var url = "/admin/tagName";
+    let response = await fetch(url, {
+                             method: "POST",
+                             body: JSON.stringify(changedTagNameList),
+                             headers: {'Content-Type': 'application/json'
+    }})
+    let responseJson = await response.json();
     for (var id in responseJson) {
         var tagNameRow = document.getElementById(id);
         var tagNameRowName = tagNameRow.getElementsByClassName('name')[0];
@@ -66,7 +93,38 @@ async function saveChangedTagName(){
         }
         responseTd.innerHTML = label;
     }
-    changedRows.clear();
-    initialValues = {};
 
+}
+function strikeoutRow(buttonX){
+    var tagNameRow = buttonX.parentElement.parentElement;
+    if(tagNameRow.classList.contains("strikeout")){
+        tagNameRow.classList.remove("strikeout");
+        deletedRows.delete(tagNameRow.id);
+    }
+    else{
+        tagNameRow.classList.add("strikeout");
+        deletedRows.add(tagNameRow.id);
+    }
+}
+
+async function deleteTagNameFromDB(id, tagNameRow){
+    var url = "/admin/tagName/"+id;
+        let response = await fetch(url, {
+                             method: "DELETE",
+                             body: JSON.stringify(tagNameRow),
+                             headers: {'Content-Type': 'application/json'
+        }})
+        let responseJson = await response.json();
+        if(responseJson[id]==true){
+            deleteTagNameRow(tagNameRow);
+        }
+        else{
+            tagNameRow.classList.remove("strikeout");
+            let responseTd = tagNameRow.getElementsByClassName('response')[0];
+            responseTd.style.color = "red";
+            responseTd.innerHTML = "can't be deleted";
+        }
+}
+function deleteTagNameRow(tagNameRow){
+    tagNameRow.remove();
 }
