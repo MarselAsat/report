@@ -16,7 +16,8 @@ public class TagDataDto {
         TagDataDto tagDataDto = new TagDataDto();
         tagDataDto.setData(tagData.getData());
         tagDataDto.setTagName(tagData.getTagName().getName());
-        tagDataDto.setDate(tagData.getDtCreation().toString());
+        int timeZone = tagData.getReportName().getReportType().getTimeZone();
+        tagDataDto.setDate(tagData.getDtCreation().plusHours(timeZone).toString());
         tagDataDto.setReportType(tagData.getReportName().getReportType().getName());
 
         return tagDataDto;

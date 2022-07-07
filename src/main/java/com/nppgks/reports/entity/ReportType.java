@@ -16,6 +16,8 @@ public class ReportType {
 
     private String description;
 
+    private Integer timeZone;
+
     private int active;
 
 }

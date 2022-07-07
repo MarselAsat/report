@@ -1,6 +1,3 @@
-drop table tag_data;
-drop table report_name;
-drop table tag_name;
 drop table if exists tag_data;
 drop table if exists report_name;
 drop table if exists tag_name;
@@ -10,6 +7,7 @@ create table report_type(
 id serial primary key,
 name varchar(256),
 description varchar(256),
+time_zone int;
 active int
 );
 
@@ -36,7 +34,28 @@ name_id bigint references tag_name(id),
 report_id bigint references report_name(id)
 );
 
+create table "user" (
+id serial primary key,
+username varchar(256),
+password varchar(256),
+role varchar(256)
+);
+
+insert into "user" (username, password, role)
+values
+('admin', '$2a$12$uNrGCD3abAGLrDySH2TTB.17nbxrHZrWZ6ZeuW52sOWQKUniq9hlG', 'ROLE_ADMIN'),
+('user', '$2a$12$C9C9MlJl/AOOp4UVYkujn.Lxld46KI4SOGXWG34tb0jBE52nKXMGa', 'ROLE_USER');
+
+
 --insert block
+insert into report_type (name, description, active)
+values
+('Часовой', 'Отчеты фомрируемые каждый час', 1),
+('Суточный', 'Отчеты фомрируемые за сутки', 1),
+('Сменный', 'Отчеты фомрируемые за смену', 1),
+('Месячный', 'Отчеты фомрируемые за месяц', 1),
+('Годовой', 'Отчеты формируемые за год', 1);
+
 insert into tag_name (name, description, report_type_id)
 values
 ('hour_mass_il1', 'масса за час ил1', 1),
@@ -46,28 +65,19 @@ values
 ('hour_sikn_mass', 'масса за час по сикн', 1),
 ('hour_sikn_vol', 'объем за час по сикн', 1);
 
-insert into report_type (name, description, active)
-values
-('Часовой', 'Отчеты фомрируемые каждый час', 1),
-('Суточный', 'Отчеты фомрируемые за сутки', 1),
-('Сменный', 'Отчеты фомрируемые за смену', 1),
-('Месячный', 'Отчеты фомрируемые за месяц', 1),
-('Годовой', 'Отчеты формируемые за год', 1);
-
-
-insert into report_name(report_type_id, report_name, date_creation)
+insert into report_name(report_type_id, name, date_creation)
 values
 (1, 'Часовой отчет за 12 часов', to_timestamp('2022-05-20 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
 (1, 'Часовой отчет за 13 часов', to_timestamp('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
 (1, 'Часовой отчет за 14 часов', to_timestamp('2022-05-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-insert into report_name(report_type_id, report_name, date_creation)
+insert into report_name(report_type_id, name, date_creation)
 values
 (2, 'Суточный отчет за 20 мая', to_timestamp('2022-05-20 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
 (2, 'Суточный отчет за 21 мая', to_timestamp('2022-05-21 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
 (2, 'Суточный отчет за 22 мая', to_timestamp('2022-05-22 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-insert into report_name(report_type_id, report_name, date_creation)
+insert into report_name(report_type_id, name, date_creation)
 values
 (4, 'Месячный отчет за май', to_timestamp('2022-05-20 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
 (4, 'Месячный отчет за июнь', to_timestamp('2022-06-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
@@ -87,6 +97,8 @@ values
 (80.0, to_timestamp('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 2),
 (120.0, to_timestamp('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2, 2),
 (160.0, to_timestamp('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3, 2);
+
+
 
 select * from tag_data;
 
