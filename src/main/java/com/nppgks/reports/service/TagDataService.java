@@ -2,6 +2,7 @@ package com.nppgks.reports.service;
 
 import com.nppgks.reports.dto.TagDataDto;
 import com.nppgks.reports.entity.ReportName;
+import com.nppgks.reports.entity.ReportType;
 import com.nppgks.reports.entity.TagData;
 import com.nppgks.reports.entity.TagName;
 
@@ -16,4 +17,6 @@ public interface TagDataService {
     public List<TagData> findAll();
 
     public TagData saveTagData(TagData tagData);
+
+    public void saveTagDataMapByReportName(Map<String, String> tagDataMap, ReportName reportName, LocalDateTime date);
 }
