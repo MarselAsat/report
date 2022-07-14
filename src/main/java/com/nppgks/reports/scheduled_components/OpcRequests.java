@@ -20,7 +20,7 @@ public class OpcRequests {
     private String host;
 
     private String port;
-    private final String path="/opc";
+    private final String path="/opc/read";
 
     private URI uri;
 
