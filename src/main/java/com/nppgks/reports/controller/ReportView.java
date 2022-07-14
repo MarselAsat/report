@@ -26,8 +26,7 @@ public class ReportView {
     @Autowired
     public ReportView(ReportNameService reportNameService,
                       TagDataService tagDataService,
-                      ReportTypeService reportTypeService,
-                      TagNameService tagNameService) {
+                      ReportTypeService reportTypeService) {
         this.reportNameService = reportNameService;
         this.reportTypeService = reportTypeService;
         this.tagDataService = tagDataService;

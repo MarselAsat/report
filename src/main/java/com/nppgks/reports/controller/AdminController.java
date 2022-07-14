@@ -20,14 +20,14 @@ public class AdminController {
     private final TagDataService tagDataService;
     private final ReportTypeService reportTypeService;
 
-    private final TagNameService tagNameService;
-    private final ManualTagNameService manualTagNameService;
+    private final TagNameService<TagNameDto, Long> tagNameService;
+    private final TagNameService<ManualTagNameDto, String> manualTagNameService;
 
     @Autowired
     public AdminController(ReportNameService reportNameService,
                            TagDataService tagDataService,
                            ReportTypeService reportTypeService,
-                           TagNameService tagNameService, ManualTagNameService manualTagNameService) {
+                           TagNameService<TagNameDto, Long> tagNameService, TagNameService<ManualTagNameDto, String> manualTagNameService) {
         this.reportNameService = reportNameService;
         this.reportTypeService = reportTypeService;
         this.tagDataService = tagDataService;
@@ -86,7 +86,7 @@ public class AdminController {
     }
     @GetMapping("/manualTagName")
     public String getAllManualTagNames(ModelMap modelMap){
-        List<ManualTagNameDto> tagNames = manualTagNameService.getAllManualTagNames();
+        List<ManualTagNameDto> tagNames = manualTagNameService.getAllTagNames();
         modelMap.put("tagNames", tagNames);
         return "edit-manual-tag-name-table";
     }

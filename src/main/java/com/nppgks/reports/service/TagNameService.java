@@ -5,10 +5,10 @@ import com.nppgks.reports.dto.TagNameDto;
 import java.util.List;
 import java.util.Map;
 
-public interface TagNameService {
-    public boolean saveTagName(TagNameDto tagname);
-    public List<TagNameDto> getAllTagNames();
+public interface TagNameService<E, K> {
+    public boolean saveTagName(E object);
+    public List<E> getAllTagNames();
 
-    Map<Long, Boolean> saveTagNames(List<TagNameDto> tagNames);
-    boolean deleteTagName(Long id);
+    Map<K, Boolean> saveTagNames(List<E> tagNames);
+    boolean deleteTagName(K id);
 }

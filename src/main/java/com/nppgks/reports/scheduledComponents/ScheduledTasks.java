@@ -1,5 +1,6 @@
 package com.nppgks.reports.scheduledComponents;
 
+import com.nppgks.reports.dto.TagNameDto;
 import com.nppgks.reports.dto.TagNameMapper;
 import com.nppgks.reports.entity.ReportName;
 import com.nppgks.reports.entity.ReportType;
@@ -29,8 +30,7 @@ import java.util.Random;
 public class ScheduledTasks {
     Random random = new Random();
 
-    private TagNameService tagNameService;
-
+    private TagNameService<TagNameDto, Long> tagNameService;
 
     private ReportNameService reportNameService;
 
@@ -39,7 +39,7 @@ public class ScheduledTasks {
     private TagDataService tagDataService;
 
     @Autowired
-    public ScheduledTasks(TagNameService tagNameService, ReportNameService reportNameService, ReportTypeService reportTypeService, TagDataService tagDataService) {
+    public ScheduledTasks(TagNameService<TagNameDto, Long> tagNameService, ReportNameService reportNameService, ReportTypeService reportTypeService, TagDataService tagDataService) {
         this.tagNameService = tagNameService;
         this.reportNameService = reportNameService;
         this.reportTypeService = reportTypeService;
@@ -51,7 +51,7 @@ public class ScheduledTasks {
     }
 
 //    @Scheduled(cron = "0 0 0/1 * * ?") // every hour
-    @Scheduled(cron = "0 0/1 * * * ?") // every minute
+//    @Scheduled(cron = "0 0/1 * * * ?") // every minute
     public void createTagDataEveryHour() {
         ReportType hourReportType = reportTypeService.getReportTypeById(1).get();
         List<TagName> tagNames = tagNameService.getAllTagNames()

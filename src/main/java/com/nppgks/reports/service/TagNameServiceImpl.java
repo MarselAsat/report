@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class TagNameServiceImpl implements TagNameService{
+public class TagNameServiceImpl implements TagNameService<TagNameDto, Long>{
 
     private TagNameRepository repository;
 
