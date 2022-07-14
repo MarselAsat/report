@@ -23,10 +23,10 @@ public class TagData {
     private LocalDateTime dtCreation;
 
     @ManyToOne
-    @JoinColumn(name = "name_id")
+    @JoinColumn(name = "tag_name_id")
     private TagName tagName;
 
     @ManyToOne
-    @JoinColumn(name = "report_id")
+    @JoinColumn(name = "report_name_id")
     private ReportName reportName;
 }

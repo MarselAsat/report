@@ -1,13 +1,15 @@
 drop table if exists tag_data;
 drop table if exists report_name;
 drop table if exists tag_name;
+drop table if exists manual_tag_name;
+drop table if exists "user";
 drop table if exists report_type;
 
 create table report_type(
 id serial primary key,
 name varchar(256),
 description varchar(256),
-time_zone int;
+time_zone int,
 active int
 );
 
@@ -36,8 +38,8 @@ create table tag_data(
 id bigserial primary key,
 data numeric,
 date_creation timestamp,
-name_id bigint references tag_name(id),
-report_id bigint references report_name(id)
+tag_name_id bigint references tag_name(id),
+report_name_id bigint references report_name(id)
 );
 
 create table "user" (
@@ -69,6 +71,9 @@ values
 ('hour_mass_il2', 'масса за час ил2', 1),
 ('hour_vol_il2', 'объем за час ил2’', 1),
 ('hour_sikn_mass', 'масса за час по сикн', 1),
+('WinCC_OA.report_redu.save', '', 1),
+('WinCC_OA.report_redu.main', '', 1),
+('WinCC_OA.CRC.Calc_crc', '', 1),
 ('hour_sikn_vol', 'объем за час по сикн', 1);
 
 insert into report_name(report_type_id, name, date_creation)
@@ -89,7 +94,7 @@ values
 (4, 'Месячный отчет за июнь', to_timestamp('2022-06-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
 (4, 'Месячный отчет за июль', to_timestamp('2022-07-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-insert into tag_data(data, date_creation, name_id, report_id)
+insert into tag_data(data, date_creation, tag_name_id, report_name_id)
 values
 (80.0, to_timestamp('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 1),
 (120.0, to_timestamp('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2, 1),
