@@ -19,6 +19,12 @@ report_type_id int references report_type(id),
 unique(name, report_type_id)
 );
 
+create table manual_tag_name(
+permanent_name varchar(256) primary key,
+name varchar(256),
+description varchar(256)
+);
+
 create table report_name(
 id bigserial primary key,
 report_type_id int references report_type(id),
