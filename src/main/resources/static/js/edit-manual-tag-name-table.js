@@ -8,8 +8,7 @@ function writeInitialValue(element){
     if(initialValues[id]==null){
             var name = tagName.getElementsByClassName("name")[0].value;
             var description = tagName.getElementsByClassName("description")[0].value;
-            var reportType = tagName.getElementsByClassName("report-type")[0].value;
-            var initialValue = { "name": name, "description":description, "reportType": reportType};
+            var initialValue = { "name": name, "description":description};
             initialValues[id] = initialValue;
     }
 }
@@ -18,7 +17,6 @@ function tagNameIsChanged(element){
     var tagNameRow = element.parentElement.parentElement;
     var id = tagNameRow.id;
     changedRows.add(id);
-
     console.log(changedRows);
 }
 
@@ -51,21 +49,18 @@ function fillChangedTagNameList(changedTagNameList){
             var tagName = {};
             var name = tagNameRow.getElementsByClassName("name")[0].value;
             var description = tagNameRow.getElementsByClassName("description")[0].value;
-            var reportType = tagNameRow.getElementsByClassName("report-type")[0].value;
             if(name!=initialValues[id].name ||
-                description!= initialValues[id].description ||
-                reportType!= initialValues[id].reportType){
-                tagName.id = id;
+                description!= initialValues[id].description){
+                tagName.permanentName = id;
                 tagName.name = name;
                 tagName.description = description;
-                tagName.reportType = reportType;
                 changedTagNameList.push({...tagName});
             }
         }
     }
 }
 async function updateTagNamesInDB(changedTagNameList){
-    var url = "/admin/tagName";
+    var url = "/admin/manualTagName";
     let response = await fetch(url, {
                              method: "POST",
                              body: JSON.stringify(changedTagNameList),
@@ -76,7 +71,6 @@ async function updateTagNamesInDB(changedTagNameList){
         var tagNameRow = document.getElementById(id);
         var tagNameRowName = tagNameRow.getElementsByClassName('name')[0];
         var tagNameRowDescription = tagNameRow.getElementsByClassName('description')[0];
-        var tagNameRowReportType = tagNameRow.getElementsByClassName('report-type')[0];
         var label = "";
         let responseTd = tagNameRow.getElementsByClassName('response')[0];
         if(responseJson[id]==true){
@@ -89,7 +83,6 @@ async function updateTagNamesInDB(changedTagNameList){
 
             tagNameRowName.value = initialValues[id].name;
             tagNameRowDescription.value = initialValues[id].description;
-            tagNameRowReportType.value = initialValues[id].reportType;
         }
         responseTd.innerHTML = label;
     }
@@ -108,9 +101,10 @@ function strikeoutRow(buttonX){
 }
 
 async function deleteTagNameFromDB(id, tagNameRow){
-    var url = "/admin/tagName/"+id;
+    var url = "/admin/manualTagName/"+id;
         let response = await fetch(url, {
                              method: "DELETE",
+                             body: JSON.stringify(tagNameRow),
                              headers: {'Content-Type': 'application/json'
         }})
         let responseJson = await response.json();
