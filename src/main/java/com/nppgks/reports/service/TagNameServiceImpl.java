@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,13 +27,13 @@ public class TagNameServiceImpl implements TagNameService<TagNameDto, Long>{
     }
 
     @Override
-    public boolean saveTagName(TagNameDto tagNameDto) {
+    public Long saveTagName(TagNameDto tagNameDto) {
         TagName tagName = new TagNameMapper(reportTypeService).toTagName(tagNameDto);
         try{
-            return repository.save(tagName).getId() != null;
+            return  repository.save(tagName).getId();
         }
         catch(Exception e){
-            return false;
+            return null;
         }
     }
 
@@ -47,7 +48,7 @@ public class TagNameServiceImpl implements TagNameService<TagNameDto, Long>{
     public Map<Long, Boolean> saveTagNames(List<TagNameDto> tagNames) {
         Map<Long, Boolean> responses = tagNames.stream()
                 .map(tagName -> {
-                    Boolean resp = saveTagName(tagName);
+                    Boolean resp = saveTagName(tagName)!=null;
                     return Map.entry(tagName.getId(), resp);
                 })
                 .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));

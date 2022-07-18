@@ -38,7 +38,7 @@ function saveChangedTagNames(){
         var tagNameRow = document.getElementById(id);
         deleteTagNameFromDB(id, tagNameRow);
     }
-
+    saveNewTagNames();
     deletedRows.clear();
     changedRows.clear();
     initialValues = {};
@@ -126,4 +126,53 @@ async function deleteTagNameFromDB(id, tagNameRow){
 }
 function deleteTagNameRow(tagNameRow){
     tagNameRow.remove();
+}
+
+function createNewRow(){
+    var tagNameTable = document.getElementById('tag-name-tbody');
+    var tagNameRow = tagNameTable.insertRow(0);
+    tagNameRow.innerHTML = document.getElementById('hidden-tag-name-row').innerHTML;
+    tagNameRow.className="new-tag-name";
+}
+
+async function saveNewTagNames(){
+    var newTagNameRows = document.getElementsByClassName("new-tag-name")
+    var rowsCount = newTagNameRows.length;
+
+    for (let i = 0; i < rowsCount; i++) {
+        var newTagNameRow =  newTagNameRows[i];
+        let name = newTagNameRow.getElementsByClassName('name')[0];
+        let description = newTagNameRow.getElementsByClassName('description')[0];
+        let reportType = newTagNameRow.getElementsByClassName('report-type')[0];
+        let url = "/admin/tagName/new";
+
+        // Converting JSON data to string
+        var data = JSON.stringify({ "name": name.value, "description": description.value, "reportType": reportType.value});
+        let response = await fetch(url, {
+                             method: "POST",
+                             body: data,
+                             headers: {'Content-Type': 'application/json'
+        }})
+
+        let text = await response.text();
+
+        let responseTd = newTagNameRow.getElementsByClassName('response')[0];
+        responseTd.style.color = "red";
+
+        if(text==""){
+            responseTd.style.color = "red";
+            responseTd.innerHTML = "isn't saved";
+
+        }
+        else{
+            responseTd.style.color = "green";
+            responseTd.innerHTML = "is saved";
+            newTagNameRow.id = text;
+            newTagNameRow.classList.remove("new-tag-name")
+            var deleteButton = newTagNameRow.getElementsByClassName("delete-button")[0];
+            deleteButton.onclick = function(){
+                strikeoutRow(deleteButton);
+            };
+        }
+    }
 }

@@ -20,12 +20,12 @@ public class ManualTagNameService implements TagNameService<ManualTagNameDto, St
     }
 
     @Override
-    public boolean saveTagName(ManualTagNameDto tagNameDto) {
+    public String saveTagName(ManualTagNameDto tagNameDto) {
         try{
-            return manualTagNameRepository.save(ManualTagNameDto.toManualTagName(tagNameDto)) != null;
+            return manualTagNameRepository.save(ManualTagNameDto.toManualTagName(tagNameDto)).getPermanentName();
         }
         catch(Exception e){
-            return false;
+            return null;
         }
     }
 
@@ -41,7 +41,7 @@ public class ManualTagNameService implements TagNameService<ManualTagNameDto, St
     public Map<String, Boolean> saveTagNames(List<ManualTagNameDto> tagNames) {
         Map<String, Boolean> responses = tagNames.stream()
                 .map(tagName -> {
-                    Boolean resp = saveTagName(tagName);
+                    Boolean resp = saveTagName(tagName)!=null;
                     return Map.entry(tagName.getPermanentName(), resp);
                 })
                 .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));

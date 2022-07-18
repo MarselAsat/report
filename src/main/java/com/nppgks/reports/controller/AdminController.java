@@ -44,12 +44,8 @@ public class AdminController {
 
     @PostMapping("/tagName/new")
     @ResponseBody
-    public String newTagName(@RequestBody TagNameDto tagName){
-        System.out.println(tagName.toString());
-        boolean isSaved = tagNameService.saveTagName(tagName);
-        String isSavedStr = isSaved ? "is saved":"isn't saved";
-        String response = "Tag "+tagName.getName()+" "+isSavedStr;
-        return isSaved+"";
+    public Long newTagName(@RequestBody TagNameDto tagName){
+        return tagNameService.saveTagName(tagName);
     }
 
     @GetMapping("/tagName")

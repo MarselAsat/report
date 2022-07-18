@@ -37,6 +37,8 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-9">
+                <button type="submit" class="btn btn-primary" onclick="saveChangedTagNames()">Save</button>
+                <button type="submit" class="btn btn-primary" onclick="createNewRow()">New tag</button>
             <!-- Post Content Column -->
                 <table id = "tag-name-table" class="table table-borderless">
                     <thead class="table-light" style="font-weight: bold">
@@ -47,12 +49,28 @@
                         </tr>
                     </thead>
 
-                    <tbody>
-                        <tr th:each="tagName: ${tagNames}" th:id="${tagName.id}">
+                    <tbody id="tag-name-tbody">
+                        <tr id="hidden-tag-name-row" class="tag-name-row" style="display: none;">
+                            <td class="align-middle"><input type="text" class="name" style="border: 0"/></td>
+                            <td class="align-middle"><input type="text" class="description" style="border: 0"/></td>
+                            <td class="align-middle">
+                                <select class = "report-type" style="border: 0">
+                                    <li th:each="reportType: ${reportTypes}">
+                                        <option th:value = "${reportType.id}" th:text = "${reportType.name}">
+                                        </option>
+                                    </li>
+                                </select>
+                            </td>
+                            <td class="align-middle">
+                                <button class="btn btn-danger delete-button" onclick="deleteTagNameRow(this.parentElement.parentElement)">X</button>
+                            </td>
+                            <td width="200"><p class = "response"></p></td>
+                        </tr>
+                        <tr th:each="tagName: ${tagNames}" th:id="${tagName.id}" class="tag-name-row">
                             <td class="align-middle"><input type="text" th:value = "${tagName.name}" onchange="tagNameIsChanged(this)" class="name" onfocus="writeInitialValue(this)" style="border: 0"/></td>
                             <td class="align-middle"><input type="text" th:value = "${tagName.description}" onchange="tagNameIsChanged(this)" class="description" onfocus="writeInitialValue(this)" style="border: 0"/></td>
                             <td class="align-middle">
-                                <select class = "report-type" id = "report-type-select"
+                                <select class = "report-type"
                                         onchange="tagNameIsChanged(this)" onfocus="writeInitialValue(this)" style="border: 0">
                                     <li th:each="reportType: ${reportTypes}">
                                         <option th:value = "${reportType.id}" th:text = "${reportType.name}"
@@ -64,11 +82,10 @@
                             <td class="align-middle">
                                 <button class="btn btn-danger" onclick="strikeoutRow(this)">X</button>
                             </td>
-                            <td class = "response" width="100"></td>
+                            <td width="200"><p class = "response"></p></td>
                         </tr>
                     </tbody>
                 </table>
-                <button type="submit" class="btn btn-primary" onclick="saveChangedTagNames()">Save</button>
             </div>
         </div>
     </div>
