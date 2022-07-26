@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,12 +56,15 @@ public class TagDataServiceImpl implements TagDataService {
     }
 
     @Override
-    public void saveTagDataMapByReportName(Map<String, String> tagDataMap, ReportName reportName, LocalDateTime date) {
+    public List<TagData> saveTagDataMapByReportName(Map<String, String> tagDataMap, ReportName reportName, LocalDateTime date) {
+        List<TagData> savedTagDataList = new ArrayList<>();
         for(Map.Entry<String, String> pair: tagDataMap.entrySet()){
             TagName tagName = tagNameRepository.findByName(pair.getKey());
             TagData tagData = new TagData(null, Double.parseDouble(pair.getValue()), date, tagName, reportName);
-            tagDataRepository.save(tagData);
+            TagData savedTagData = tagDataRepository.save(tagData);
+            savedTagDataList.add(savedTagData);
         }
+        return savedTagDataList;
     }
 
 //    private List<TagData> getSourceDataForReport(Long reportId, LocalDateTime start, LocalDateTime end){

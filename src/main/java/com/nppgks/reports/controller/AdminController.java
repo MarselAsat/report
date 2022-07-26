@@ -50,7 +50,7 @@ public class AdminController {
 
     @GetMapping("/tagName")
     public String getAllTagNames(ModelMap modelMap){
-        List<TagNameDto> tagNames = tagNameService.getAllTagNames();
+        List<TagNameDto> tagNames = tagNameService.getAllTagNamesDto();
         List<ReportTypeDto> reportTypes = reportTypeService.getAllReportTypes();
         modelMap.put("tagNames", tagNames);
         modelMap.put("reportTypes", reportTypes);
@@ -82,7 +82,7 @@ public class AdminController {
     }
     @GetMapping("/manualTagName")
     public String getAllManualTagNames(ModelMap modelMap){
-        List<ManualTagNameDto> tagNames = manualTagNameService.getAllTagNames();
+        List<ManualTagNameDto> tagNames = manualTagNameService.getAllTagNamesDto();
         modelMap.put("tagNames", tagNames);
         return "edit-manual-tag-name-table";
     }

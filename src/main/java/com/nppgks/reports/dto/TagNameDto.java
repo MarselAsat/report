@@ -4,6 +4,7 @@ import com.nppgks.reports.entity.ReportType;
 import com.nppgks.reports.entity.TagData;
 import com.nppgks.reports.entity.TagName;
 import com.nppgks.reports.service.ReportTypeService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class TagNameDto {
     private Long id;
     private String name;

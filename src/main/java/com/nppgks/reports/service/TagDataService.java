@@ -18,5 +18,5 @@ public interface TagDataService {
 
     public TagData saveTagData(TagData tagData);
 
-    public void saveTagDataMapByReportName(Map<String, String> tagDataMap, ReportName reportName, LocalDateTime date);
+    public List<TagData> saveTagDataMapByReportName(Map<String, String> tagDataMap, ReportName reportName, LocalDateTime date);
 }

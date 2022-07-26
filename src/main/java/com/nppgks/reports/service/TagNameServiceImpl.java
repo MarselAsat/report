@@ -5,10 +5,8 @@ import com.nppgks.reports.dto.TagNameMapper;
 import com.nppgks.reports.entity.TagName;
 import com.nppgks.reports.repository.TagNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,10 +36,13 @@ public class TagNameServiceImpl implements TagNameService<TagNameDto, Long>{
     }
 
     @Override
-    public List<TagNameDto> getAllTagNames() {
+    public List<TagNameDto> getAllTagNamesDto() {
         return repository.findAll().stream()
                 .map(new TagNameMapper(reportTypeService)::toTagNameDto)
                 .toList();
+    }
+    public List<TagName> getAllTagNames() {
+        return repository.findAll();
     }
 
     @Override

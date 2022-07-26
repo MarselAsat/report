@@ -30,7 +30,7 @@ public class ManualTagNameService implements TagNameService<ManualTagNameDto, St
     }
 
     @Override
-    public List<ManualTagNameDto> getAllTagNames() {
+    public List<ManualTagNameDto> getAllTagNamesDto() {
         return manualTagNameRepository.findAll()
                 .stream()
                 .map(tagName -> ManualTagNameDto.fromManualTagName(tagName))
