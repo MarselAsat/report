@@ -79,7 +79,7 @@ public class Poverka3622Test {
     }
 
     @Test
-    void checkMe_ijIsCorrect(){
+    void checkMe_ij(){
         double[][] Me_ij = poverka3622.calculateM_e_ij();
         double[][] Me_ijRef = new double[][]{
                 {145.7560, 145.804, 145.804, 145.8, 145.8},
@@ -97,14 +97,14 @@ public class Poverka3622Test {
     }
 
     @Test
-    void checkKnmIsCorrect(){
+    void checkKnm(){
         double Kpm = poverka3622.calculateKpm();
         double KpmRef = 226415.1;
         assertThat(Kpm).isCloseTo(KpmRef, within(0.05));
     }
 
     @Test
-    void checkMF_jIsCorrect(){
+    void checkMF_j(){
         double[] MF_j = poverka3622.calculateMF_j(null);
         double[] MF_jRef = {1, 1.00001, 1, 1, 0.99998};
         for(int j=0; j<MF_j.length; j++){
@@ -113,7 +113,7 @@ public class Poverka3622Test {
     }
 
     @Test
-    void checkf_ijIsCorrect(){
+    void checkf_ij(){
         double[][] f_ij = poverka3622.calculatef_ij();
         double[][] f_ijRef = new double[][]{
                 {5500.334, 6602.4, 6602.4, 6603.6, 6602.6},
@@ -131,7 +131,7 @@ public class Poverka3622Test {
     }
 
     @Test
-    void checkS_jIsCorrect(){
+    void checkS_j(){
         double[] S_j = poverka3622.calculateS_j();
         double[] S_jRef = new double[]{0.003, 0.001, 0.002, 0.004, 0.004};
         for(int j=0; j<S_j.length; j++){
@@ -140,7 +140,7 @@ public class Poverka3622Test {
     }
 
     @Test
-    void checkS_0_jIsCorrect(){
+    void checkS_0_j(){
         double[] S_0_j = poverka3622.calculateS_0j();
         double[] S_0_jRef = new double[]{0.001, 0.00, 0.001, 0.002, 0.002};
         for(int j=0; j< S_0_j.length; j++){
@@ -149,7 +149,7 @@ public class Poverka3622Test {
     }
 
     @Test
-    void checkEps_jIsCorrect(){
+    void checkEps_j(){
         double[] eps_j = poverka3622.calculateEps_j(null);
         double[] eps_jRef = new double[]{0.003, 0.00, 0.003, 0.005, 0.005};
         for(int j=0; j< eps_j.length; j++){
@@ -176,5 +176,4 @@ public class Poverka3622Test {
         }
         return transposeMatrix;
     }
-
 }
