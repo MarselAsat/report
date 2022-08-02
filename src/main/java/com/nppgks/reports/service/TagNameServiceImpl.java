@@ -2,6 +2,7 @@ package com.nppgks.reports.service;
 
 import com.nppgks.reports.dto.TagNameDto;
 import com.nppgks.reports.dto.TagNameMapper;
+import com.nppgks.reports.entity.ReportType;
 import com.nppgks.reports.entity.TagName;
 import com.nppgks.reports.repository.TagNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,11 @@ public class TagNameServiceImpl implements TagNameService<TagNameDto, Long>{
 
     @Override
     public List<TagNameDto> getAllTagNamesDto() {
-        return repository.findAll().stream()
-                .map(new TagNameMapper(reportTypeService)::toTagNameDto)
-                .toList();
+        return repository.findBy();
+    }
+
+    public List<TagNameDto> getAllTagNamesDtoByReportType(Integer id){
+        return repository.findAllByReportTypeId(id);
     }
     public List<TagName> getAllTagNames() {
         return repository.findAll();
@@ -54,6 +57,9 @@ public class TagNameServiceImpl implements TagNameService<TagNameDto, Long>{
                 })
                 .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
         return responses;
+    }
+    public List<TagName> getAllTagNamesByReportType(ReportType reportType){
+        return repository.findAllByReportType(reportType);
     }
 
     @Override

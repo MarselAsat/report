@@ -24,21 +24,9 @@ public class TagNameMapper {
         tagName.setId(tagNameDto.getId());
         tagName.setName(tagNameDto.getName());
         tagName.setDescription(tagNameDto.getDescription());
-        Optional<ReportType> reportType = reportTypeService.getReportTypeById(tagNameDto.getReportType());
-        tagName.setReportType(reportType.get());
+        ReportType reportType = new ReportType(tagNameDto.getReportTypeId());
+        tagName.setReportType(reportType);
 
         return tagName;
-    }
-    public TagNameDto toTagNameDto(TagName tagName){
-        TagNameDto tagNameDto = new TagNameDto();
-        tagNameDto.setName(tagName.getName());
-        tagNameDto.setDescription(tagName.getDescription());
-        if(tagName.getReportType()!=null){
-            tagNameDto.setReportType(tagName.getReportType().getId());
-        }
-        tagNameDto.setId(tagName.getId());
-
-
-        return tagNameDto;
     }
 }

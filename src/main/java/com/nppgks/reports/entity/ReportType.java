@@ -24,4 +24,7 @@ public class ReportType {
 
     private int active;
 
+    public ReportType(Integer id) {
+        this.id = id;
+    }
 }

@@ -7,17 +7,15 @@ import com.nppgks.reports.service.ReportTypeService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
 public class TagNameDto {
     private Long id;
     private String name;
     private String description;
-    private Integer reportType;
-
+    private Integer reportTypeId;
 }
