@@ -16,17 +16,11 @@ import java.util.Map;
 
 @Component
 public class OpcRequests {
-
-    private String host;
-
-    private String port;
     private final String path="/opc/read";
 
     private URI uri;
 
     public OpcRequests(@Value("${opc.host}") String host, @Value("${opc.port}") String port) {
-        this.host = host;
-        this.port = port;
         uri = UriComponentsBuilder.newInstance()
                 .scheme("http").host(host).port(port).path(path).build().toUri();
     }
