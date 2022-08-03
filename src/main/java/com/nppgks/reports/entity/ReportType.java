@@ -18,6 +18,6 @@ public class ReportType {
 
     private Integer timeZone;
 
-    private int active;
+    private Boolean active;
 
 }
