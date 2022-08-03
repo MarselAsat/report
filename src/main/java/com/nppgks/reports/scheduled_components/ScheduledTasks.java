@@ -23,13 +23,11 @@ public class ScheduledTasks {
 
     private final ReportNameService reportNameService;
 
-    private final ReportTypeService reportTypeService;
-
     private final TagDataService tagDataService;
 
     private final OpcRequests opcRequests;
 
-    @Scheduled(cron = "0 0 0/1 * * ?") // every hour
+//    @Scheduled(cron = "0 0 0/1 * * ?") // every hour
 //    @Scheduled(cron = "0 0/1 * * * ?") // every minute
     public List<TagData> generateTagDataEveryHour() {
         ReportType hourReportType = new ReportType(HOUR_REPORT_TYPE_ID);

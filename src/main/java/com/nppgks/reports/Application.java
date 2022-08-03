@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Arrays;
 
-@EnableScheduling
 @SpringBootApplication
 public class Application {
 
