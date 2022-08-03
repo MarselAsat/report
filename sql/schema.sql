@@ -11,7 +11,7 @@ id serial primary key,
 name varchar(256),
 description varchar(256),
 time_zone int,
-active int
+active boolean
 );
 
 create table tag_name(
@@ -67,12 +67,12 @@ values
 --insert block
 insert into report_type (name, description, active)
 values
-('Часовой', 'Отчеты фомрируемые каждый час', 1),
-('Суточный', 'Отчеты фомрируемые за сутки', 1),
-('Сменный', 'Отчеты фомрируемые за смену', 1),
-('Месячный', 'Отчеты фомрируемые за месяц', 1),
-('Годовой', 'Отчеты формируемые за год', 1),
-('Ручной', 'Для поверок', 1);
+('Часовой', 'Отчеты фомрируемые каждый час', true),
+('Суточный', 'Отчеты фомрируемые за сутки', true),
+('Сменный', 'Отчеты фомрируемые за смену', true),
+('Месячный', 'Отчеты фомрируемые за месяц', true),
+('Годовой', 'Отчеты формируемые за год', true),
+('Ручной', 'Для поверок', true);
 
 insert into tag_name (name, description, report_type_id)
 values
@@ -84,7 +84,11 @@ values
 ('hour_sikn_vol', 'объем за час по сикн', 1),
 ('WinCC_OA.report_redu.save', '', 1),
 ('WinCC_OA.report_redu.main', '', 1),
-('WinCC_OA.CRC.Calc_crc', '', 6),
+('WinCC_OA.CRC.Calc_crc', '', 1),
+('ns=2;s=Channel1.Device1.Tag3', '', 1),
+('ns=2;s=Channel1.Device1.Tag5', '', 1),
+('ns=2;s=Channel1.Device1.Tag4', '', 1),
+('ns=2;s=Channel1.Device1.Tag6', '', 1),
 ('factory_number', 'Заводской №', 6),
 ('owner', 'Владелец', 6),
 ('PR1', 'ПР1 (тип, модель)', 6),

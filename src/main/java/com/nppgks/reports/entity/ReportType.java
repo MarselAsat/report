@@ -22,7 +22,7 @@ public class ReportType {
 
     private Integer timeZone;
 
-    private int active;
+    private Boolean active;
 
     public ReportType(Integer id) {
         this.id = id;
