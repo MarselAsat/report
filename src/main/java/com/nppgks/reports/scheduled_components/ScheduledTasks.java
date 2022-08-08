@@ -4,6 +4,7 @@ import com.nppgks.reports.entity.ReportName;
 import com.nppgks.reports.entity.ReportType;
 import com.nppgks.reports.entity.TagData;
 import com.nppgks.reports.entity.TagName;
+import com.nppgks.reports.opc.OpcRequests;
 import com.nppgks.reports.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;

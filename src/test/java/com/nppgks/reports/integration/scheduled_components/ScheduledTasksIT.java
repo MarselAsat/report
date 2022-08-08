@@ -1,7 +1,7 @@
 package com.nppgks.reports.integration.scheduled_components;
 
 import com.nppgks.reports.entity.TagData;
-import com.nppgks.reports.scheduled_components.OpcRequests;
+import com.nppgks.reports.opc.OpcRequests;
 import com.nppgks.reports.scheduled_components.ScheduledTasks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 
