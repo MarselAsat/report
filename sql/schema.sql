@@ -28,6 +28,10 @@ name varchar(256),
 description varchar(256)
 );
 
+ALTER TABLE manual_tag_name
+ADD COLUMN initial boolean,
+ADD COLUMN type varchar(32);
+
 create table report_name(
 id bigserial primary key,
 report_type_id int references report_type(id),
@@ -63,7 +67,6 @@ values
 ('admin', '$2a$12$uNrGCD3abAGLrDySH2TTB.17nbxrHZrWZ6ZeuW52sOWQKUniq9hlG', 'ROLE_ADMIN'),
 ('user', '$2a$12$C9C9MlJl/AOOp4UVYkujn.Lxld46KI4SOGXWG34tb0jBE52nKXMGa', 'ROLE_USER');
 
-
 --insert block
 insert into report_type (name, description, active)
 values
@@ -96,17 +99,18 @@ values
 ('poverka_method', 'Методика поверки', 6),
 ('CPM', 'СРМ (тип, модель, изготовитель)', 6);
 
-insert into manual_tag_name (permanent_name, name, description)
+insert into manual_tag_name (permanent_name, name, initial, type)
 values
-('Q_ij', 'pov_Q', ''),
-('N_ij', 'pov_N', ''),
-('N_e_ij', 'pov_N_e', ''),
-('M_ij', 'pov_M', ''),
-('N_p_ij', 'pov_N_p', ''),
-('f_p_max', 'pov_f_p_max', ''),
-('Q_p_max', 'pov_Q_p', ''),
-('K_e_ij', 'pov_K_e', '');
-
+('Q_ij', 'pov_Q', true, '3622'),
+('N_ij', 'pov_N', true, '3622'),
+('N_e_ij', 'pov_N_e', true, '3622'),
+('M_ij', 'pov_M', true, '3622'),
+('N_p_ij', 'pov_N_p', true, '3622'),
+('f_p_max', 'pov_f_p_max', true, '3622'),
+('Q_p_max', 'pov_Q_p', true, '3622'),
+('MF_p', 'pov_MF_p', true, '3622'),
+('T_ij', 'pov_T_ij', true, '3622'),
+('K_e_ij', 'pov_K_e', true, '3622');
 
 insert into report_name(report_type_id, name, date_creation)
 values

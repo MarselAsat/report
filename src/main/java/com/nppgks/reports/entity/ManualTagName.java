@@ -1,6 +1,9 @@
 package com.nppgks.reports.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -14,4 +17,8 @@ public class ManualTagName {
     private String name;
 
     private String description;
+
+    private Boolean initial;
+
+    private String type;
 }
