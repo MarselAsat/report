@@ -47,11 +47,13 @@ function fillChangedTagNameList(changedTagNameList){
         var tagNameRow = document.getElementById(id);
         if(!tagNameRow.classList.contains("strikeout")){
             var tagName = {};
+            var permanentName = tagNameRow.getElementsByClassName("permanent-name")[0].textContent;
             var name = tagNameRow.getElementsByClassName("name")[0].value;
             var description = tagNameRow.getElementsByClassName("description")[0].value;
             if(name!=initialValues[id].name ||
                 description!= initialValues[id].description){
-                tagName.permanentName = id;
+                tagName.id = id;
+                tagName.permanentName = permanentName;
                 tagName.name = name;
                 tagName.description = description;
                 changedTagNameList.push({...tagName});

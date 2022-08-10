@@ -1,6 +1,7 @@
 package com.nppgks.reports.service;
 
 import com.nppgks.reports.dto.ManualTagNameDto;
+import com.nppgks.reports.dto.TagNameForOpc;
 import com.nppgks.reports.repository.ManualTagNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class ManualTagNameService implements TagNameService<ManualTagNameDto, String>{
+public class ManualTagNameService implements TagNameService<ManualTagNameDto, Integer>{
 
     private ManualTagNameRepository manualTagNameRepository;
 
@@ -19,10 +20,14 @@ public class ManualTagNameService implements TagNameService<ManualTagNameDto, St
         this.manualTagNameRepository = repository;
     }
 
+    public List<TagNameForOpc> getTagNamesByInitialAndType(Boolean initial, String type){
+        return manualTagNameRepository.findAllByInitialAndType(initial, type);
+    }
+
     @Override
-    public String saveTagName(ManualTagNameDto tagNameDto) {
+    public Integer saveTagName(ManualTagNameDto tagNameDto) {
         try{
-            return manualTagNameRepository.save(ManualTagNameDto.toManualTagName(tagNameDto)).getPermanentName();
+            return manualTagNameRepository.save(ManualTagNameDto.toManualTagName(tagNameDto)).getId();
         }
         catch(Exception e){
             return null;
@@ -38,20 +43,20 @@ public class ManualTagNameService implements TagNameService<ManualTagNameDto, St
     }
 
     @Override
-    public Map<String, Boolean> saveTagNames(List<ManualTagNameDto> tagNames) {
-        Map<String, Boolean> responses = tagNames.stream()
+    public Map<Integer, Boolean> saveTagNames(List<ManualTagNameDto> tagNames) {
+        Map<Integer, Boolean> responses = tagNames.stream()
                 .map(tagName -> {
                     Boolean resp = saveTagName(tagName)!=null;
-                    return Map.entry(tagName.getPermanentName(), resp);
+                    return Map.entry(tagName.getId(), resp);
                 })
                 .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
         return responses;
     }
 
     @Override
-    public boolean deleteTagName(String permanentName) {
+    public boolean deleteTagName(Integer id) {
         try{
-            manualTagNameRepository.deleteById(permanentName);
+            manualTagNameRepository.deleteById(id);
             return true;
         }
         catch(Exception e){

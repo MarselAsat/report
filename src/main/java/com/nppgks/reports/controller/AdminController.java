@@ -21,13 +21,13 @@ public class AdminController {
     private final ReportTypeService reportTypeService;
 
     private final TagNameService<TagNameDto, Long> tagNameService;
-    private final TagNameService<ManualTagNameDto, String> manualTagNameService;
+    private final TagNameService<ManualTagNameDto, Integer> manualTagNameService;
 
     @Autowired
     public AdminController(ReportNameService reportNameService,
                            TagDataService tagDataService,
                            ReportTypeService reportTypeService,
-                           TagNameService<TagNameDto, Long> tagNameService, TagNameService<ManualTagNameDto, String> manualTagNameService) {
+                           TagNameService<TagNameDto, Long> tagNameService, TagNameService<ManualTagNameDto, Integer> manualTagNameService) {
         this.reportNameService = reportNameService;
         this.reportTypeService = reportTypeService;
         this.tagDataService = tagDataService;
@@ -70,16 +70,17 @@ public class AdminController {
     }
     @PostMapping("/manualTagName")
     @ResponseBody
-    public Map<String, Boolean> updateManualTagNames(@RequestBody List<ManualTagNameDto> tagNames){
+    public Map<Integer, Boolean> updateManualTagNames(@RequestBody List<ManualTagNameDto> tagNames){
         return manualTagNameService.saveTagNames(tagNames);
     }
 
-    @DeleteMapping("/manualTagName/{permanentName}")
+    @DeleteMapping("/manualTagName/{id}")
     @ResponseBody
-    public Map<String, Boolean> deleteManualTagName(@PathVariable String permanentName){
-        boolean isDeleted = manualTagNameService.deleteTagName(permanentName);
-        return Map.of(permanentName, isDeleted);
+    public Map<Integer, Boolean> deleteManualTagName(@PathVariable Integer id){
+        boolean isDeleted = manualTagNameService.deleteTagName(id);
+        return Map.of(id, isDeleted);
     }
+
     @GetMapping("/manualTagName")
     public String getAllManualTagNames(ModelMap modelMap){
         List<ManualTagNameDto> tagNames = manualTagNameService.getAllTagNames();

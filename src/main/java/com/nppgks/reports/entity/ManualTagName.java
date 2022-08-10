@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class ManualTagName {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String permanentName;
