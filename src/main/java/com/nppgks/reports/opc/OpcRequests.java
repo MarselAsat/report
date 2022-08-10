@@ -15,13 +15,17 @@ import java.util.Map;
 
 @Component
 public class OpcRequests {
-    private final String path="/opc/read";
+    private final String pathRead ="/opc/read";
+    private final String pathWrite ="/opc/read";
 
-    private URI uri;
+    private URI uriRead;
+    private URI uriWrite;
 
     public OpcRequests(@Value("${opc.host}") String host, @Value("${opc.port}") String port) {
-        uri = UriComponentsBuilder.newInstance()
-                .scheme("http").host(host).port(port).path(path).build().toUri();
+        uriRead = UriComponentsBuilder.newInstance()
+                .scheme("http").host(host).port(port).path(pathRead).build().toUri();
+        uriWrite = UriComponentsBuilder.newInstance()
+                .scheme("http").host(host).port(port).path(pathWrite).build().toUri();
     }
 
     public Map<String, String> getTagDataFromOpc(List<String> tagNames){
@@ -32,7 +36,17 @@ public class OpcRequests {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<List<String>> entity = new HttpEntity<>(requestJson, headers);
-        Map<String, String> map = restTemplate.postForObject(uri, entity, HashMap.class);
+        Map<String, String> map = restTemplate.postForObject(uriRead, entity, HashMap.class);
         return map;
+    }
+
+    public void sendTagDataToOpc(Map<String, Object> finalData){
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(finalData, headers);
+        restTemplate.postForObject(uriWrite, entity, HashMap.class);
     }
 }

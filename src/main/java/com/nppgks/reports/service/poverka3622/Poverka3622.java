@@ -1,5 +1,6 @@
 package com.nppgks.reports.service.poverka3622;
 
+import com.nppgks.reports.service.poverka3622.data.FinalData;
 import com.nppgks.reports.service.poverka3622.data.InitialData;
 import lombok.extern.slf4j.Slf4j;
 
