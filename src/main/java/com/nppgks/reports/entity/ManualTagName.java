@@ -12,6 +12,8 @@ import javax.persistence.*;
 public class ManualTagName {
 
     @Id
+    private Integer id;
+
     private String permanentName;
 
     private String name;

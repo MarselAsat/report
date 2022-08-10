@@ -23,7 +23,8 @@ unique(name, report_type_id)
 );
 
 create table manual_tag_name(
-permanent_name varchar(256) primary key,
+id serial primary key,
+permanent_name varchar(256),
 name varchar(256),
 description varchar(256)
 );
@@ -51,7 +52,7 @@ create table text_tag_data(
 id bigserial primary key,
 data varchar(256),
 date_creation timestamp,
-tag_name_id bigint references tag_name(id),
+tag_name_id bigint references manual_tag_name(id),
 report_name_id bigint references report_name(id)
 );
 
@@ -112,6 +113,24 @@ values
 ('T_ij', 'pov_T_ij', true, '3622'),
 ('K_e_ij', 'pov_K_e', true, '3622');
 
+insert into manual_tag_name (permanent_name, name, initial, type)
+values
+('CPM_name', 'CPM_name', true, '3622'),
+('CPM_number', 'CPM_number', true, '3622'),
+('CPM_owner', 'CPM_owner', true, '3622'),
+('poverka_method', 'poverka_method', true, '3622'),
+('poverka_place', 'poverka_place', true, '3622'),
+('PR_name', 'PR_name', true, '3622'),
+('PR_number', 'PR_number', true, '3622'),
+('check_leakproofness', 'check_leakproofness', true, '3622'),
+('check_inspection', 'check_inspection', true, '3622'),
+('check_software', 'check_software', true, '3622'),
+('check_testing', 'check_testing', true, '3622'),
+('inspector_position', 'inspector_position', true, '3622'),
+('inspector_full_name', 'inspector_full_name', true, '3622'),
+('date', 'date', true, '3622');
+
+
 insert into report_name(report_type_id, name, date_creation)
 values
 (1, 'Часовой отчет за 12 часов', to_timestamp('2022-05-20 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -151,12 +170,12 @@ values
 
 insert into text_tag_data(data, date_creation, tag_name_id, report_name_id)
 values
-('Micro Motion', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 15, 10),
+('Micro Motion', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 11, 10),
 ('МИ 3622-2020', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 14, 10),
-('УКУ ДТ, ИЛ-2', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 13, 10),
-('Micro Motion', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 12, 10),
-('ЯМАЛ СПГ', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 11, 10),
-('144780098097', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 10, 10);
+('УКУ ДТ, ИЛ-2', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 15, 10),
+('Micro Motion', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 16, 10),
+('ЯМАЛ СПГ', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 13, 10),
+('144780098097', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 17, 10);
 
 select * from tag_data;
 
