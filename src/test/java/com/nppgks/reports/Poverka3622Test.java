@@ -1,6 +1,6 @@
 package com.nppgks.reports;
 
-import com.nppgks.reports.service.poverka3622.InitialData;
+import com.nppgks.reports.service.poverka3622.data.InitialData;
 import com.nppgks.reports.service.poverka3622.Poverka3622;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
@@ -66,15 +66,21 @@ public class Poverka3622Test {
         double f_p_max = 10000;
         double Q_p_max = 159;
         double MF_prev = 1;
-        initialData.setQ(Q);
-        initialData.setN_e(N_e);
-        initialData.setN_p(N_p);
-        initialData.setT(T);
-        initialData.setM(M);
+        double theta_e = 0.11;
+        double theta_N = 0.02;
+        double ZS = 0.041;
+        initialData.setQ_ij(Q);
+        initialData.setN_e_ij(N_e);
+        initialData.setN_p_ij(N_p);
+        initialData.setT_ij(T);
+        initialData.setM_ij(M);
         initialData.setF_p_max(f_p_max);
         initialData.setQ_p_max(Q_p_max);
-        initialData.setMF_prev(MF_prev);
-        initialData.setK_e(K_e_ij);
+        initialData.setMF_p(MF_prev);
+        initialData.setK_e_ij(K_e_ij);
+        initialData.setTheta_e(theta_e);
+        initialData.setTheta_N(theta_N);
+        initialData.setZS(ZS);
         poverka3622 = new Poverka3622(initialData);
     }
 
@@ -159,7 +165,7 @@ public class Poverka3622Test {
 
     @Test
     void checkDelta_j(){
-        double[] delta_j = poverka3622.calculateDelta_j(0.041, 0.11, 0, 0, 0.02, false);
+        double[] delta_j = poverka3622.calculateDelta_j(false);
         double[] delta_jRef = new double[]{0.12446, 0.12446, 0.12446, 0.12446, 0.12446};
         for(int j=0; j< delta_j.length; j++){
             assertThat(delta_j[j]).isCloseTo(delta_jRef[j], within(0.1));
