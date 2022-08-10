@@ -18,7 +18,7 @@ public class ManualTagName {
 
     private String description;
 
-    private boolean initial;
+    private Boolean initial;
 
     private String type;
 }
