@@ -9,11 +9,13 @@ import com.nppgks.reports.service.poverka3622.data.InitialData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.nppgks.reports.opc.ArrayParser.to2dimArray;
+import static com.nppgks.reports.service.poverka3622.data.FinalData.Fields.*;
 import static com.nppgks.reports.service.poverka3622.data.InitialData.Fields.*;
 import static com.nppgks.reports.service.poverka3622.data.InitialData.Fields.ZS;
 import static java.lang.Double.parseDouble;
@@ -26,22 +28,60 @@ public class PoverkaService {
     private final ManualTagNameService manualTagNameService;
 
     public void doPoverka3622(){
-        List<TagNameForOpc> tagNamesForOpc = manualTagNameService.getTagNamesByInitialAndType(true, PoverkaType._3622.name());
-        List<String> tagNamesStr = tagNamesForOpc
+        List<TagNameForOpc> initialTagNamesForOpc = manualTagNameService.getTagNamesByInitialAndType(true, PoverkaType._3622.name());
+        List<String> initialTagNamesStr = initialTagNamesForOpc
                 .stream()
                 .map(TagNameForOpc::name)
                 .toList();
 
-        Map<String, String> tagNamesMap = tagNamesForOpc.stream()
+        Map<String, String> initialTagNamesMap = initialTagNamesForOpc.stream()
                 .collect(Collectors.toMap(TagNameForOpc::name, TagNameForOpc::permanentName));
-        Map<String, String> initialDataFromOpc = opcRequests.getTagDataFromOpc(tagNamesStr);
-        InitialData initialData = opcDataToInitialData(initialDataFromOpc, tagNamesMap);
+
+        Map<String, String> initialDataFromOpc = opcRequests.getTagDataFromOpc(initialTagNamesStr);
+        InitialData initialData = convertMapToInitialData(initialDataFromOpc, initialTagNamesMap);
         PoverkaRunner poverkaRunner = new PoverkaRunner(initialData);
         FinalData finalData = poverkaRunner.run();
+        Map<String, Object> finalDataForOpc = convertFinalDataToMap(finalData, initialTagNamesMap);
+        opcRequests.sendTagDataToOpc(finalDataForOpc);
 
     }
 
-    private InitialData opcDataToInitialData(Map<String, String> dataFromOpc, Map<String, String> tagNamesMap){
+    private Map<String, Object> convertFinalDataToMap(FinalData finalData,Map<String, String> tagNamesMap) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(tagNamesMap.get(delta_j), finalData.getDelta_j());
+        map.put(tagNamesMap.get(f_ij), finalData.getF_ij());
+        map.put(tagNamesMap.get(M_e_ij), finalData.getM_e_ij());
+        map.put(tagNamesMap.get(K_ij), finalData.getK_ij());
+        map.put(tagNamesMap.get(MF_ij), finalData.getMF_ij());
+        map.put(tagNamesMap.get(Q_j), finalData.getQ_j());
+        map.put(tagNamesMap.get(f_j), finalData.getF_j());
+        map.put(tagNamesMap.get(K_j), finalData.getK_j());
+        map.put(tagNamesMap.get(MF_j), finalData.getMF_j());
+        map.put(tagNamesMap.get(S_j), finalData.getS_j());
+        map.put(tagNamesMap.get(S_0j), finalData.getS_0j());
+        map.put(tagNamesMap.get(t_095), finalData.getT_095());
+        map.put(tagNamesMap.get(eps_j), finalData.getEps_j());
+        map.put(tagNamesMap.get(theta_zj), finalData.getTheta_zj());
+        map.put(tagNamesMap.get(theta_sigma_j), finalData.getTheta_sigma_j());
+        map.put(tagNamesMap.get(S_theta_j), finalData.getS_theta_j());
+        map.put(tagNamesMap.get(S_sigma_j), finalData.getS_sigma_j());
+        map.put(tagNamesMap.get(t_sigma_j), finalData.getT_sigma_j());
+        map.put(tagNamesMap.get(Q_min), finalData.getQ_min());
+        map.put(tagNamesMap.get(Q_max), finalData.getQ_max());
+        map.put(tagNamesMap.get(eps_PDk), finalData.getEps_PDk());
+        map.put(tagNamesMap.get(S_PDk), finalData.getS_PDk());
+        map.put(tagNamesMap.get(theta_PDk), finalData.getTheta_PDk());
+        map.put(tagNamesMap.get(theta_PDz), finalData.getTheta_PDz());
+        map.put(tagNamesMap.get(theta_sigma_PDk), finalData.getTheta_sigma_PDk());
+        map.put(tagNamesMap.get(S_theta_PDk), finalData.getS_theta_PDk());
+        map.put(tagNamesMap.get(S_sigma_PDk), finalData.getS_sigma_PDk());
+        map.put(tagNamesMap.get(t_sigma_PDk), finalData.getT_sigma_PDk());
+        map.put(tagNamesMap.get(delta_PDk), finalData.getDelta_PDk());
+
+        return map;
+    }
+
+    private InitialData convertMapToInitialData(Map<String, String> dataFromOpc, Map<String, String> tagNamesMap){
         InitialData initialData = new InitialData();
         initialData.setF_p_max(parseDouble(dataFromOpc.get(tagNamesMap.get(f_p_max))));
         initialData.setK_e_ij(to2dimArray(dataFromOpc.get(tagNamesMap.get(K_e_ij))));

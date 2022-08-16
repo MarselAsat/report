@@ -40,13 +40,13 @@ public class OpcRequests {
         return map;
     }
 
-    public void sendTagDataToOpc(Map<String, Object> finalData){
+    public void sendTagDataToOpc(Map<String, Object> data){
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(finalData, headers);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(data, headers);
         restTemplate.postForObject(uriWrite, entity, HashMap.class);
     }
 }
