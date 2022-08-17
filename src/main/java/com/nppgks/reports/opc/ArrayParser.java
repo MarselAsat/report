@@ -9,6 +9,7 @@ public class ArrayParser {
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
     public static double[] toArray(String json){
+        if (json == null) return null;
         try {
             return objectMapper.readValue(json, double[].class);
         } catch (JsonProcessingException e) {
@@ -17,6 +18,7 @@ public class ArrayParser {
     }
 
     public static double[][] to2dimArray(String json){
+        if (json == null) return null;
         try {
             return objectMapper.readValue(json, double[][].class);
         } catch (JsonProcessingException e) {

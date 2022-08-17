@@ -17,4 +17,12 @@ public class ArrayParserTest {
         Assertions.assertThat(result1).isDeepEqualTo(new double[][]{{1, 2, 3},{4, 5, 6}});
         Assertions.assertThat(result2).isDeepEqualTo(new double[][]{{1, 2, 3},{4, 5, 6}});
     }
+
+    @Test
+    void returnNulIfStringIsNull(){
+        double[][] actual2DimArr = ArrayParser.to2dimArray(null);
+        double[] actualArr = ArrayParser.toArray(null);
+        Assertions.assertThat(actual2DimArr).isNull();
+        Assertions.assertThat(actualArr).isNull();
+    }
 }
