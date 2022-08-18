@@ -111,7 +111,7 @@ public class Poverka3622Test {
 
     @Test
     void checkMF_j(){
-        double[] MF_j = poverka3622.calculateMF_j(null);
+        double[] MF_j = poverka3622.calculateMF_j();
         double[] MF_jRef = {1, 1.00001, 1, 1, 0.99998};
         for(int j=0; j<MF_j.length; j++){
             assertThat(MF_j[j]).isCloseTo(MF_jRef[j], within(0.0002));
@@ -156,7 +156,7 @@ public class Poverka3622Test {
 
     @Test
     void checkEps_j(){
-        double[] eps_j = poverka3622.calculateEps_j(null);
+        double[] eps_j = poverka3622.calculateEps_j();
         double[] eps_jRef = new double[]{0.003, 0.00, 0.003, 0.005, 0.005};
         for(int j=0; j< eps_j.length; j++){
             assertThat(eps_j[j]).isCloseTo(eps_jRef[j], within(0.002) );
