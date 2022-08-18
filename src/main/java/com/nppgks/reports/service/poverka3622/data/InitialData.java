@@ -23,4 +23,6 @@ public class InitialData {
     private double theta_N;
     private double theta_PDt;
     private double theta_PDp;
+    private double theta_Dt;
+    private double theta_Dp;
 }

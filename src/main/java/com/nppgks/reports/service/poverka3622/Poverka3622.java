@@ -1,6 +1,5 @@
 package com.nppgks.reports.service.poverka3622;
 
-import com.nppgks.reports.service.poverka3622.data.FinalData;
 import com.nppgks.reports.service.poverka3622.data.InitialData;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +23,8 @@ public class Poverka3622 {
     private double theta_t;
     private double theta_p;
     private double theta_N;
+    private double theta_Dt;
+    private double theta_Dp;
     private double theta_PDt;
     private double theta_PDp;
 
@@ -43,6 +44,8 @@ public class Poverka3622 {
         this.theta_N = data.getTheta_N();
         this.theta_PDt = data.getTheta_PDt();
         this.theta_PDp = data.getTheta_PDp();
+        this.theta_Dt = data.getTheta_Dt();
+        this.theta_Dp = data.getTheta_Dp();
         measureCount = Q.length;
         pointsCount = Q[0].length;
     }
@@ -128,13 +131,18 @@ public class Poverka3622 {
     }
 
     public double calculateK() {
-        double[][] K_ij = new double[measureCount][pointsCount];
-        double[][] M_e_ij = calculateM_e_ij();
-        for (int i = 0; i < measureCount; i++) {
-            for (int j = 0; j < pointsCount; j++) {
-                K_ij[i][j] = N_p[i][j] / M_e_ij[i][j];
-            }
+        double[][] K_ij = calculateK_ij();
+        double[] Kj = calculateK_j(K_ij);
+        double K = 0;
+        for (int j = 0; j < pointsCount; j++) {
+            K = K + Kj[j];
         }
+        K = K / pointsCount;
+
+        return K;
+    }
+
+    private double[] calculateK_j(double[][] K_ij) {
         double[] Kj = new double[pointsCount];
         for (int j = 0; j < pointsCount; j++) {
             double sum = 0;
@@ -143,14 +151,18 @@ public class Poverka3622 {
             }
             Kj[j] = sum / measureCount;
         }
+        return Kj;
+    }
 
-        double K = 0;
-        for (int j = 0; j < pointsCount; j++) {
-            K = K + Kj[j];
+    private double[][] calculateK_ij() {
+        double[][] K_ij = new double[measureCount][pointsCount];
+        double[][] M_e_ij = calculateM_e_ij();
+        for (int i = 0; i < measureCount; i++) {
+            for (int j = 0; j < pointsCount; j++) {
+                K_ij[i][j] = N_p[i][j] / M_e_ij[i][j];
+            }
         }
-        K = K / pointsCount;
-
-        return K;
+        return K_ij;
     }
 
     public double calculateMF_p() {
@@ -222,7 +234,7 @@ public class Poverka3622 {
     }
 
     public double[] calculateEps_j(double[] S_0j) {
-        double[] t095Arr = new double[]{2.776, 2.571, 2.447, 2.365, 2.306, 2.262};
+        double[] t095Arr = calculateT_095();
         double t095 = t095Arr[pointsCount - 5];
         if (S_0j == null) {
             S_0j = calculateS_0j();
@@ -239,7 +251,11 @@ public class Poverka3622 {
         return eps_j;
     }
 
-    public double calculateEps_d() {
+    private static double[] calculateT_095() {
+        return new double[]{2.776, 2.571, 2.447, 2.365, 2.306, 2.262};
+    }
+
+    public double calculateEps_D() {
         double[] eps_j = calculateEps_j(null);
         log.info("Рассчет границы случайной составляющей погрешности СРМ в диапазоне измерений (E_d) согласно п.7.14 по формуле (18) МИ3622-2020");
         log.debug("Значения границ случайной составляющей погрешности СРМ (eps_j) {}", eps_j);
@@ -264,7 +280,7 @@ public class Poverka3622 {
         double[] theta_sigma_j = new double[pointsCount];
         double[] theta_zj = new double[pointsCount];
         if (theta_zjIsRequired) {
-            theta_zj = calculateTheta_jz(ZS);
+            theta_zj = calculateTheta_zj(ZS);
         }
         log.info("Рассчет границы неисключенной систематической погрешности в j-й точке (Theta_sigma_j) согласно п.7.16 по формуле (20) МИ3622-2020");
         log.debug("Граница составляющей неисключенной систематической погрешности, обусловленной нестабильностью нуля СРМ в j-ой точке (Theta_jz, %) {}", Arrays.toString(theta_zj));
@@ -294,7 +310,7 @@ public class Poverka3622 {
         return eps_pdk;
     }
 
-    public double calculateTheta_sigma_D(double ZS, double theta_e, double theta_Dt, double theta_Dp, double theta_N) {
+    public double calculateTheta_sigma_D() {
         double theta_Dz = calculateTheta_Dz(ZS);
         double theta_D = calculateTheta_D();
         log.info("Рассчет границы неисключенной систематической погрешности (Theta_sigma_D, %) согласно п.7.17 по формуле (22) МИ3622-2020");
@@ -315,18 +331,18 @@ public class Poverka3622 {
     public double[] calculateTheta_sigma_PDk() {
         int subrangeCount = pointsCount - 1;
         double[] theta_sigma_PDk = new double[subrangeCount];
+        double[] theta_PDz = calculateTheta_PDz(ZS);
+        double[] theta_PDk = calculateThetaPDk();
         log.info("Рассчет границы неисключенной систематической погрешности в к-м поддиапазоне (theta_sigma_PDk) согласно п.7.17 по формуле (22) МИ3622-2020");
         log.debug("Используемые данные: ZS = {}, theta_e = {}, theta_PDt = {}, theta_PDp = {}, theta_N = {}", ZS, theta_e, theta_PDt, theta_PDp, theta_N);
         for (int k = 0; k < subrangeCount; k++) {
-            double theta_PDz = calculateTheta_PDz(ZS, k);
-            double theta_PDk = calculateThetaPDk(k);
             theta_sigma_PDk[k] = 1.1 * Math.sqrt(
                     Math.pow(theta_e, 2) +
                     Math.pow(theta_PDt, 2) +
                     Math.pow(theta_PDp, 2) +
                     Math.pow(theta_N, 2) +
-                    Math.pow(theta_PDz, 2) +
-                    Math.pow(theta_PDk, 2));
+                    Math.pow(theta_PDz[k], 2) +
+                    Math.pow(theta_PDk[k], 2));
         }
         log.info("theta_sigma_PDk = {}", Arrays.toString(theta_sigma_PDk));
         return theta_sigma_PDk;
@@ -336,25 +352,20 @@ public class Poverka3622 {
         double[] delta_j = new double[pointsCount];
         double[] theta_sigma_j = calculateTheta_sigma_j(theta_zjIsRequired);
         double[] S_0j = calculateS_0j();
-        double[] S_theta_j = new double[pointsCount];
         double[] eps_j = calculateEps_j(S_0j);
-        double[] theta_jz = calculateTheta_jz(ZS);
+        double[] theta_zj = calculateTheta_zj(ZS);
+
         log.info("Рассчет относительной погрешности СРМ (контрольного) в j-й точке диапазона измерений (delta_j) согласно п.7.21 по формуле (28) МИ3622-2020");
         log.debug("Данные: theta_sigma_j = {}, S_0j = {}", Arrays.toString(theta_sigma_j), Arrays.toString(S_0j));
+        double[] S_theta_j = calculateS_theta_j(theta_zj);
+        double[] S_sigma_j = calculateS_sigma_j(S_0j, S_theta_j);
+        double[] t_sigma_j = calculateT_sigma_j(theta_sigma_j, S_0j, eps_j, S_theta_j);
+
         for (int j = 0; j < pointsCount; j++) {
-            S_theta_j[j] = Math.sqrt(
-                    Math.pow(theta_e, 2) +
-                    Math.pow(theta_t, 2) +
-                    Math.pow(theta_p, 2) +
-                    Math.pow(theta_N, 2) +
-                    Math.pow(theta_jz[j], 2));
             double ratio = theta_sigma_j[j] / S_0j[j];
             if (ratio <= 8 && ratio >= 0.8) {
-                double t_sigma_j = (eps_j[j] + theta_sigma_j[j]) / (S_theta_j[j] + S_0j[j]);
-                double S_sigma_j = Math.sqrt(
-                        Math.pow(S_theta_j[j], 2) +
-                                Math.pow(S_0j[j], 2));
-                delta_j[j] = t_sigma_j * S_sigma_j;
+                t_sigma_j[j] = (eps_j[j] + theta_sigma_j[j]) / (S_theta_j[j] + S_0j[j]);
+                delta_j[j] = t_sigma_j[j] * S_sigma_j[j];
             } else if (ratio > 8) {
                 delta_j[j] = theta_sigma_j[j];
             }
@@ -363,9 +374,41 @@ public class Poverka3622 {
         return delta_j;
     }
 
-    public double calculateDelta_D(double ZS, double theta_e, double theta_Dt, double theta_Dp, double theta_N) {
+    private double[] calculateT_sigma_j(double[] theta_sigma_j, double[] S_0j, double[] eps_j, double[] S_theta_j) {
+        double[] t_sigma_j = new double[pointsCount];
+
+        for (int j = 0; j < pointsCount; j++) {
+            t_sigma_j[j] = (eps_j[j] + theta_sigma_j[j]) / (S_theta_j[j] + S_0j[j]);
+        }
+        return t_sigma_j;
+    }
+
+    private double[] calculateS_sigma_j(double[] S_0j, double[] S_theta_j) {
+        double[] S_sigma_j = new double[pointsCount];
+        for (int j = 0; j < pointsCount; j++) {
+            S_sigma_j[j] = Math.sqrt(
+                    Math.pow(S_theta_j[j], 2) +
+                            Math.pow(S_0j[j], 2));
+        }
+        return S_sigma_j;
+    }
+
+    private double[] calculateS_theta_j(double[] theta_jz) {
+        double[] S_theta_j = new double[pointsCount];
+        for (int j = 0; j < pointsCount; j++) {
+            S_theta_j[j] = Math.sqrt(
+                    Math.pow(theta_e, 2) +
+                            Math.pow(theta_t, 2) +
+                            Math.pow(theta_p, 2) +
+                            Math.pow(theta_N, 2) +
+                            Math.pow(theta_jz[j], 2));
+        }
+        return S_theta_j;
+    }
+
+    public double calculateDelta_D() {
         double delta_D = 0;
-        double theta_sigma_D = calculateTheta_sigma_D(ZS, theta_e, theta_Dt, theta_Dp, theta_N);
+        double theta_sigma_D = calculateTheta_sigma_D();
         double S_D = Arrays.stream(calculateS_0j()).max().getAsDouble();
         double ratio = theta_sigma_D / S_D;
         if (ratio <= 8 && ratio >= 0.8) {
@@ -378,7 +421,7 @@ public class Poverka3622 {
                     Math.pow(theta_N, 2) +
                     Math.pow(theta_Dz, 2) +
                     Math.pow(theta_D, 2));
-            double t_sigma_D = (calculateEps_d() + theta_sigma_D) / (S_D + S_theta_D);
+            double t_sigma_D = (calculateEps_D() + theta_sigma_D) / (S_D + S_theta_D);
             double S_sigma_D = Math.sqrt(
                     Math.pow(S_theta_D, 2) +
                             Math.pow(S_D, 2));
@@ -391,43 +434,89 @@ public class Poverka3622 {
         return delta_D;
     }
 
-    public double[] calculateDelta_PDk(double ZS, double theta_e, double theta_PDt, double theta_PDp, double theta_N) {
+    public double[] calculateDelta_PDk() {
         int subrangeCount = pointsCount - 1;
         double[] delta_PDk = new double[subrangeCount];
         double[] theta_sigma_PDk = calculateTheta_sigma_PDk();
         double[] S_0_j = calculateS_0j();
-        double[] S_theta_PDk = new double[pointsCount];
         double[] eps_PDk = calculateEps_pdk();
+        double[] S_PDk = calculateS_PDk(subrangeCount, S_0_j);
+        double[] theta_PDk = calculateThetaPDk();
+        double[] theta_PDz = calculateTheta_PDz(ZS);
+        double[] S_theta_PDk = calculateS_theta_PDk(theta_PDk, theta_PDz);
+        double[] S_sigma_PDk = calculateS_sigma_PDk(S_PDk, S_theta_PDk);
+
+        double[] t_sigma_PDk = calculateT_sigma_PDk(theta_sigma_PDk, eps_PDk, S_PDk, S_theta_PDk);
+
         for (int k = 0; k < subrangeCount; k++) {
-            double theta_PDk = calculateThetaPDk(k);
-            double theta_PDz = calculateTheta_PDz(ZS, k);
             S_theta_PDk[k] = Math.sqrt(
                     Math.pow(theta_e, 2) +
                     Math.pow(theta_PDt, 2) +
                     Math.pow(theta_PDp, 2) +
                     Math.pow(theta_N, 2) +
-                    Math.pow(theta_PDz, 2) +
-                    Math.pow(theta_PDk, 2));
-            double S_PDk = Math.max(S_0_j[k], S_0_j[k + 1]);
-            double ratio = theta_sigma_PDk[k] / S_PDk;
+                    Math.pow(theta_PDz[k], 2) +
+                    Math.pow(theta_PDk[k], 2));
+            S_PDk[k] = Math.max(S_0_j[k], S_0_j[k + 1]);
+            double ratio = theta_sigma_PDk[k] / S_PDk[k];
             if (ratio <= 8 && ratio >= 0.8) {
-                double t_sigma_PDk = (eps_PDk[k] + theta_sigma_PDk[k]) / (S_theta_PDk[k] + S_PDk);
-                double S_sigma_PDk = Math.sqrt(
-                        Math.pow(S_theta_PDk[k], 2) +
-                                Math.pow(S_PDk, 2));
-                delta_PDk[k] = t_sigma_PDk * S_sigma_PDk;
+                delta_PDk[k] = t_sigma_PDk[k] * S_sigma_PDk[k];
             } else if (ratio > 8) {
                 delta_PDk[k] = theta_sigma_PDk[k];
             }
         }
+
         log.info("Рассчет относительной погрешности СРМ (рабочего) в к-м поддиапазоне рабочего диапазона измерений (delta_PDk, %) согласно п.7.23 по формуле (36) МИ3622-2020");
         log.info("delta_PDk = ", Arrays.toString(delta_PDk));
         return delta_PDk;
     }
 
+    private double[] calculateT_sigma_PDk(double[] theta_sigma_PDk, double[] eps_PDk, double[] S_PDk, double[] S_theta_PDk) {
+        int subrangeCount = pointsCount-1;
+        double[] t_sigma_PDk = new double[subrangeCount];
+        for (int k = 0; k < subrangeCount; k++) {
+            t_sigma_PDk[k] = (eps_PDk[k] + theta_sigma_PDk[k]) / (S_theta_PDk[k] + S_PDk[k]);
+        }
+        return t_sigma_PDk;
+    }
+
+    private double[] calculateS_sigma_PDk(double[] S_PDk, double[] S_theta_PDk) {
+        int subrangeCount = pointsCount-1;
+        double[] S_sigma_PDk =  new double[subrangeCount];
+        for (int k = 0; k < subrangeCount; k++) {
+            S_sigma_PDk[k] = Math.sqrt(
+                        Math.pow(S_theta_PDk[k], 2) +
+                                Math.pow(S_PDk[k], 2));
+        }
+        return S_sigma_PDk;
+    }
+
+    private double[] calculateS_theta_PDk(double[] theta_PDk, double[] theta_PDz) {
+        int subrangeCount = pointsCount -1;
+        double[] S_theta_PDk = new double[subrangeCount];
+
+        for (int k = 0; k < subrangeCount; k++) {
+            S_theta_PDk[k] = Math.sqrt(
+                    Math.pow(theta_e, 2) +
+                            Math.pow(theta_PDt, 2) +
+                            Math.pow(theta_PDp, 2) +
+                            Math.pow(theta_N, 2) +
+                            Math.pow(theta_PDz[k], 2) +
+                            Math.pow(theta_PDk[k], 2));
+        }
+        return S_theta_PDk;
+    }
+
+    private static double[] calculateS_PDk(int subrangeCount, double[] S_0_j) {
+        double[] S_PDk =  new double[subrangeCount];
+        for (int k = 0; k < subrangeCount; k++) {
+            S_PDk[k] = Math.max(S_0_j[k], S_0_j[k + 1]);
+        }
+        return S_PDk;
+    }
+
     public boolean checkIfWorkingSRMIsFit(double ZS, double theta_e, double theta_dt, double theta_Dp, double theta_N) {
-        double delta_D = calculateDelta_D(ZS, theta_e, theta_dt, theta_Dp, theta_N);
-        double[] delta_Pdk = calculateDelta_PDk(ZS, theta_e, theta_dt, theta_Dp, theta_N);
+        double delta_D = calculateDelta_D();
+        double[] delta_Pdk = calculateDelta_PDk();
         return Math.max(Arrays.stream(delta_Pdk).max().getAsDouble(), delta_D) <= 0.25;
     }
 
@@ -436,7 +525,7 @@ public class Poverka3622 {
         return Arrays.stream(delta_j).max().getAsDouble() <= 0.2;
     }
 
-    public double[] calculateTheta_jz(double ZS) {
+    public double[] calculateTheta_zj(double ZS) {
         double[] Q_j = calculateQ_j();
         double[] theta_zj = new double[pointsCount];
         for (int j = 0; j < pointsCount; j++) {
@@ -447,8 +536,17 @@ public class Poverka3622 {
 
     public double calculateTheta_Dz(double ZS) {
         double[] Q_j = calculateQ_j();
-        double Q_min = Arrays.stream(Q_j).min().getAsDouble();
+        double Q_min = calculateQ_min(Q_j);
         return ZS / Q_min * 100;
+    }
+
+    private static double calculateQ_min(double[] Q_j) {
+        double Q_min = Arrays.stream(Q_j).min().getAsDouble();
+        return Q_min;
+    }
+    private static double calculateQ_max(double[] Q_j) {
+        double Q_max = Arrays.stream(Q_j).max().getAsDouble();
+        return Q_max;
     }
 
     public double calculateTheta_D() {
@@ -460,15 +558,24 @@ public class Poverka3622 {
         return theta_D;
     }
 
-    public double calculateTheta_PDz(double ZS, int k) {
+    public double[] calculateTheta_PDz(double ZS) {
+        int subrangeCount = pointsCount-1;
+        double[] theta_PDz = new double[subrangeCount];
         double[] Q_j = calculateQ_j();
-        double Q_PDmin = Math.min(Q_j[k], Q_j[k + 1]);
-        double theta_PDz = ZS / Q_PDmin * 100;
+        for (int k = 0; k < subrangeCount; k++) {
+            double Q_PDmin = Math.min(Q_j[k], Q_j[k + 1]);
+            theta_PDz[k] = ZS / Q_PDmin * 100;
+        }
         return theta_PDz;
     }
 
-    public double calculateThetaPDk(int k) {
+    public double[] calculateThetaPDk() {
+        int subrangeCount = pointsCount-1;
+        double[] theta_PDk = new double[subrangeCount];
         double[] MF_j = calculateMF_j(null);
-        return 0.5 * Math.abs((MF_j[k] - MF_j[k + 1]) / (MF_j[k] + MF_j[k + 1])) * 100;
+        for (int k = 0; k < subrangeCount; k++) {
+            theta_PDk[k] = 0.5 * Math.abs((MF_j[k] - MF_j[k + 1]) / (MF_j[k] + MF_j[k + 1])) * 100;
+        }
+        return theta_PDk;
     }
 }
