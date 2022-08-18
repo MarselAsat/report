@@ -5,12 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.nppgks.reports.opc.ArrayParser.to2dimArray;
 import static com.nppgks.reports.opc.ArrayParser.toArray;
-import static com.nppgks.reports.service.poverka3622.data.InitialData.Fields.*;
-import static com.nppgks.reports.service.poverka3622.data.InitialData.Fields.ZS;
 import static java.lang.Double.parseDouble;
 
 @Slf4j
@@ -59,12 +56,13 @@ public class DataConverter {
                         }
                     }
                     else{
-                        log.error("В полученных данных нет имя тега {}", tagName);
+                        log.warn("В полученных данных от OPC нет имя тега {}", declaredField.getName());
                     }
 
                 }
                 else{
-                    log.error("Для поля {} в классе InitialData не нашлось соответствия по permanent name", declaredField.getName());
+                    log.error("В переданной tagNamesMap не нашлось соответствия с полем {} в InitialData ", declaredField.getName());
+                    log.error("Возможно, в таблице manual_tag_name нет нужной записи с permanent_name = {} и initial = true", declaredField.getName());
                 }
 
             } catch (IllegalAccessException e) {
