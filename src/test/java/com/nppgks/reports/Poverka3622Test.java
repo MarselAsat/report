@@ -104,7 +104,7 @@ public class Poverka3622Test {
 
     @Test
     void checkKnm(){
-        double Kpm = poverka3622.calculateKpm();
+        double Kpm = poverka3622.calculateK_pm();
         double KpmRef = 226415.1;
         assertThat(Kpm).isCloseTo(KpmRef, within(0.05));
     }
@@ -120,7 +120,7 @@ public class Poverka3622Test {
 
     @Test
     void checkf_ij(){
-        double[][] f_ij = poverka3622.calculatef_ij();
+        double[][] f_ij = poverka3622.calculateF_ij();
         double[][] f_ijRef = new double[][]{
                 {5500.334, 6602.4, 6602.4, 6603.6, 6602.6},
                 {4715.286, 4714, 4715.286, 4715.286, 4715.286},

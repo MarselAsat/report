@@ -50,7 +50,7 @@ public class Poverka3622 {
         pointsCount = Q[0].length;
     }
 
-    public double calculateKpm() {
+    public double calculateK_pm() {
         log.info("Рассчет коэффициента преобразования поверяемого СРМ (K_pm, имп/т) согласно п.7.1 по формуле (1) МИ3622-2020");
         log.debug("Максимальное значение частоты, установленное в СРМ (f_r_max, Гц) {}", f_r_max);
         log.debug("Максимальное значение расхода (Q_r_max, т/ч) {}", Q_r_max);
@@ -75,7 +75,7 @@ public class Poverka3622 {
     }
 
     public double[][] calculateMF_ij() {
-        double Kpm = calculateKpm();
+        double Kpm = calculateK_pm();
         double[][] M_e = calculateM_e_ij();
         double[][] M = new double[measureCount][pointsCount];
         for (int i = 0; i < measureCount; i++) {
@@ -169,7 +169,7 @@ public class Poverka3622 {
         return MF_p * calculateMF();
     }
 
-    public double[][] calculatef_ij() {
+    public double[][] calculateF_ij() {
         log.info("Рассчет частоты выходного сигнала поверяемого СРМ (f, Гц) согласно п.7.9 по формуле (12) МИ3622-2020");
         log.debug("кол-во импульсов, поступившее с поверяемого СРМ (N_r, имп) {}", Arrays.deepToString(N_p));
         log.debug("время измерения (T, с) {}", Arrays.deepToString(T));
@@ -184,7 +184,7 @@ public class Poverka3622 {
     }
 
     public double[] calculatef_j() {
-        double[][] fij = calculatef_ij();
+        double[][] fij = calculateF_ij();
         double[] fj = new double[pointsCount];
         for (int j = 0; j < pointsCount; j++) {
             double sum = 0;
