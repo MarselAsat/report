@@ -11,6 +11,8 @@ public class FinalData {
     private double[][] M_e_ij;
     private double[][] K_ij;
     private double[][] MF_ij;
+    private double K_pm;
+    private double MF_p;
     private double[] Q_j;
     private double[] f_j;
     private double[] K_j;
@@ -19,12 +21,17 @@ public class FinalData {
     private double[] S_0j;
     private double[] t_095;
     private double[] eps_j;
+    private double eps_D;
     private double[] theta_zj;
+    private double theta_Dz;
+    private double theta_D;
     private double[] theta_sigma_j;
+    private double[] theta_sigma_D;
     private double[] S_theta_j;
     private double[] S_sigma_j;
     private double[] t_sigma_j;
     private double[] delta_j;
+    private double delta_D;
     private double[] Q_min;
     private double[] Q_max;
     private double[] eps_PDk;
