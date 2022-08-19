@@ -3,6 +3,7 @@ package com.nppgks.reports.service.poverka3622;
 import com.nppgks.reports.service.poverka3622.data.InitialData;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 @Slf4j
@@ -41,7 +42,7 @@ public class Poverka3622 {
         this.ZS = data.getZS();
         this.theta_e = data.getTheta_e();
         this.theta_t = data.getTheta_t();
-        this.theta_p =  data.getTheta_p();
+        this.theta_p = data.getTheta_p();
         this.theta_N = data.getTheta_N();
         this.theta_PDt = data.getTheta_PDt();
         this.theta_PDp = data.getTheta_PDp();
@@ -290,11 +291,11 @@ public class Poverka3622 {
         log.debug("Другие параметры: ZS = {}, theta_e = {}, theta_t = {}, theta_P = {}, theta_N = {}", ZS, theta_e, theta_t, theta_p, theta_N);
         for (int j = 0; j < pointsCount; j++) {
             theta_sigma_j[j] = 1.1 * Math.sqrt(
-                    Math.pow(theta_e, 2) +
-                    Math.pow(theta_t, 2) +
-                    Math.pow(theta_p, 2) +
-                    Math.pow(theta_N, 2) +
-                    Math.pow(theta_zj[j], 2));
+                            Math.pow(theta_e, 2) +
+                            Math.pow(theta_t, 2) +
+                            Math.pow(theta_p, 2) +
+                            Math.pow(theta_N, 2) +
+                            Math.pow(theta_zj[j], 2));
         }
         log.info("theta_sigma_j = {}", Arrays.toString(theta_sigma_j));
         return theta_sigma_j;
@@ -321,12 +322,12 @@ public class Poverka3622 {
         log.debug("Граница составляющей неисключенной систематической погрешности, обусловленной погрешностью аппроксимации градуировочной характеристики (theta_D, %) {}", theta_D);
         log.debug("Дргуие параметры: ZS = {}, theta_e = {}, theta_Dt = {}, theta_Dp ={}, theta_N = {}", ZS, theta_e, theta_Dt, theta_Dp, theta_N);
         double theta_sigma_D = 1.1 * Math.sqrt(
-                Math.pow(theta_e, 2) +
-                Math.pow(theta_Dt, 2) +
-                Math.pow(theta_Dp, 2) +
-                Math.pow(theta_N, 2) +
-                Math.pow(theta_Dz, 2) +
-                Math.pow(theta_D, 2));
+                        Math.pow(theta_e, 2) +
+                        Math.pow(theta_Dt, 2) +
+                        Math.pow(theta_Dp, 2) +
+                        Math.pow(theta_N, 2) +
+                        Math.pow(theta_Dz, 2) +
+                        Math.pow(theta_D, 2));
         log.info("theta_sigma_D = {}", theta_sigma_D);
         return theta_sigma_D;
     }
@@ -340,12 +341,12 @@ public class Poverka3622 {
         log.debug("Используемые данные: ZS = {}, theta_e = {}, theta_PDt = {}, theta_PDp = {}, theta_N = {}", ZS, theta_e, theta_PDt, theta_PDp, theta_N);
         for (int k = 0; k < subrangeCount; k++) {
             theta_sigma_PDk[k] = 1.1 * Math.sqrt(
-                    Math.pow(theta_e, 2) +
-                    Math.pow(theta_PDt, 2) +
-                    Math.pow(theta_PDp, 2) +
-                    Math.pow(theta_N, 2) +
-                    Math.pow(theta_PDz[k], 2) +
-                    Math.pow(theta_PDk[k], 2));
+                            Math.pow(theta_e, 2) +
+                            Math.pow(theta_PDt, 2) +
+                            Math.pow(theta_PDp, 2) +
+                            Math.pow(theta_N, 2) +
+                            Math.pow(theta_PDz[k], 2) +
+                            Math.pow(theta_PDk[k], 2));
         }
         log.info("theta_sigma_PDk = {}", Arrays.toString(theta_sigma_PDk));
         return theta_sigma_PDk;
@@ -424,12 +425,12 @@ public class Poverka3622 {
             double theta_Dz = calculateTheta_Dz();
             double theta_D = calculateTheta_D();
             double S_theta_D = Math.sqrt(
-                    Math.pow(theta_e, 2) +
-                    Math.pow(theta_Dt, 2) +
-                    Math.pow(theta_Dp, 2) +
-                    Math.pow(theta_N, 2) +
-                    Math.pow(theta_Dz, 2) +
-                    Math.pow(theta_D, 2));
+                            Math.pow(theta_e, 2) +
+                            Math.pow(theta_Dt, 2) +
+                            Math.pow(theta_Dp, 2) +
+                            Math.pow(theta_N, 2) +
+                            Math.pow(theta_Dz, 2) +
+                            Math.pow(theta_D, 2));
             double t_sigma_D = (calculateEps_D() + theta_sigma_D) / (S_D + S_theta_D);
             double S_sigma_D = Math.sqrt(
                     Math.pow(S_theta_D, 2) +
@@ -458,12 +459,12 @@ public class Poverka3622 {
 
         for (int k = 0; k < subrangeCount; k++) {
             S_theta_PDk[k] = Math.sqrt(
-                    Math.pow(theta_e, 2) +
-                    Math.pow(theta_PDt, 2) +
-                    Math.pow(theta_PDp, 2) +
-                    Math.pow(theta_N, 2) +
-                    Math.pow(theta_PDz[k], 2) +
-                    Math.pow(theta_PDk[k], 2));
+                            Math.pow(theta_e, 2) +
+                            Math.pow(theta_PDt, 2) +
+                            Math.pow(theta_PDp, 2) +
+                            Math.pow(theta_N, 2) +
+                            Math.pow(theta_PDz[k], 2) +
+                            Math.pow(theta_PDk[k], 2));
             S_PDk[k] = Math.max(S_0_j[k], S_0_j[k + 1]);
             double ratio = theta_sigma_PDk[k] / S_PDk[k];
             if (ratio <= 8 && ratio >= 0.8) {
@@ -483,7 +484,7 @@ public class Poverka3622 {
         double[] eps_PDk = calculateEps_pdk();
         double[] S_PDk = calculateS_PDk();
         double[] S_theta_PDk = calculateS_theta_PDk();
-        int subrangeCount = pointsCount-1;
+        int subrangeCount = pointsCount - 1;
         double[] t_sigma_PDk = new double[subrangeCount];
         for (int k = 0; k < subrangeCount; k++) {
             t_sigma_PDk[k] = (eps_PDk[k] + theta_sigma_PDk[k]) / (S_theta_PDk[k] + S_PDk[k]);
@@ -494,12 +495,12 @@ public class Poverka3622 {
     private double[] calculateS_sigma_PDk() {
         double[] S_PDk = calculateS_PDk();
         double[] S_theta_PDk = calculateS_theta_PDk();
-        int subrangeCount = pointsCount-1;
-        double[] S_sigma_PDk =  new double[subrangeCount];
+        int subrangeCount = pointsCount - 1;
+        double[] S_sigma_PDk = new double[subrangeCount];
         for (int k = 0; k < subrangeCount; k++) {
             S_sigma_PDk[k] = Math.sqrt(
-                        Math.pow(S_theta_PDk[k], 2) +
-                                Math.pow(S_PDk[k], 2));
+                                Math.pow(S_theta_PDk[k], 2) +
+                            Math.pow(S_PDk[k], 2));
         }
         return S_sigma_PDk;
     }
@@ -507,7 +508,7 @@ public class Poverka3622 {
     private double[] calculateS_theta_PDk() {
         double[] theta_PDk = calculateThetaPDk();
         double[] theta_PDz = calculateTheta_PDz();
-        int subrangeCount = pointsCount -1;
+        int subrangeCount = pointsCount - 1;
         double[] S_theta_PDk = new double[subrangeCount];
 
         for (int k = 0; k < subrangeCount; k++) {
@@ -524,8 +525,8 @@ public class Poverka3622 {
 
     private double[] calculateS_PDk() {
         double[] S_0_j = calculateS_0j();
-        int subrangeCount = pointsCount-1;
-        double[] S_PDk =  new double[subrangeCount];
+        int subrangeCount = pointsCount - 1;
+        double[] S_PDk = new double[subrangeCount];
         for (int k = 0; k < subrangeCount; k++) {
             S_PDk[k] = Math.max(S_0_j[k], S_0_j[k + 1]);
         }
@@ -561,6 +562,7 @@ public class Poverka3622 {
         double[] Q_j = calculateQ_j();
         return Arrays.stream(Q_j).min().getAsDouble();
     }
+
     private double calculateQ_max() {
         double[] Q_j = calculateQ_j();
         return Arrays.stream(Q_j).max().getAsDouble();
@@ -575,7 +577,7 @@ public class Poverka3622 {
     }
 
     public double[] calculateTheta_PDz() {
-        int subrangeCount = pointsCount-1;
+        int subrangeCount = pointsCount - 1;
         double[] theta_PDz = new double[subrangeCount];
         double[] Q_j = calculateQ_j();
         for (int k = 0; k < subrangeCount; k++) {
@@ -586,7 +588,7 @@ public class Poverka3622 {
     }
 
     public double[] calculateThetaPDk() {
-        int subrangeCount = pointsCount-1;
+        int subrangeCount = pointsCount - 1;
         double[] theta_PDk = new double[subrangeCount];
         double[] MF_j = calculateMF_j();
         for (int k = 0; k < subrangeCount; k++) {
