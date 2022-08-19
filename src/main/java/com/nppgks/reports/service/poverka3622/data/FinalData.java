@@ -26,7 +26,7 @@ public class FinalData {
     private double[] Q_j;
     private double[] theta_sigma_j;
     private double[] eps_PDk;
-    private double[] theta_sigma_D;
+    private double theta_sigma_D;
     private double[] theta_sigma_PDk;
     private double[] delta_j;
     private double[] t_sigma_j;
@@ -40,8 +40,10 @@ public class FinalData {
     private double[] S_PDk;
     private double[] theta_zj;
     private double theta_Dz;
-    private double[] Q_min;
-    private double[] Q_max;
+    private double Q_min;
+    private double Q_max;
+    private double[] Q_min_k;
+    private double[] Q_max_k;
     private double theta_D;
     private double[] theta_PDz;
     private double[] theta_PDk;

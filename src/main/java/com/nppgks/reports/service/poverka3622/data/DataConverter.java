@@ -1,8 +1,11 @@
 package com.nppgks.reports.service.poverka3622.data;
 
+import com.nppgks.reports.service.poverka3622.Poverka3622;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +15,22 @@ import static java.lang.Double.parseDouble;
 
 @Slf4j
 public class DataConverter {
+
+    public static void setFinalDataFieldsFromPoverka(FinalData finalData, Poverka3622 poverka){
+        Field[] declaredFields = FinalData.class.getDeclaredFields();
+        Class<? extends Poverka3622> poverkaClass = poverka.getClass();
+        for(Field field : declaredFields){
+            try{
+                field.setAccessible(true);
+                String methodName = "calculate"+ StringUtils.capitalize(field.getName());
+                var value = poverkaClass.getMethod(methodName).invoke(poverka);
+                field.set(finalData, value);
+            }
+            catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException e){
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public static Map<String, Object> convertFinalDataToMap(FinalData finalData, Map<String, String> tagNamesMap){
 

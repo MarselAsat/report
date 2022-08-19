@@ -165,7 +165,7 @@ public class Poverka3622Test {
 
     @Test
     void checkDelta_j(){
-        double[] delta_j = poverka3622.calculateDelta_j(false);
+        double[] delta_j = poverka3622.calculateDelta_j();
         double[] delta_jRef = new double[]{0.12446, 0.12446, 0.12446, 0.12446, 0.12446};
         for(int j=0; j< delta_j.length; j++){
             assertThat(delta_j[j]).isCloseTo(delta_jRef[j], within(0.1));
