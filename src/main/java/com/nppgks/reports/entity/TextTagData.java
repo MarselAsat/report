@@ -18,7 +18,7 @@ public class TextTagData {
     private LocalDateTime dtCreation;
 
     @ManyToOne
-    @JoinColumn(name = "tag_name_id")
+    @JoinColumn(name = "manual_tag_name_id")
     private TagName tagName;
 
     @ManyToOne

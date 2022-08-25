@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity(name = "report_name")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
