@@ -19,7 +19,7 @@ public class TextTagData {
 
     @ManyToOne
     @JoinColumn(name = "manual_tag_name_id")
-    private TagName tagName;
+    private ManualTagName tagName;
 
     @ManyToOne
     @JoinColumn(name = "report_name_id")
