@@ -18,8 +18,8 @@ public class TextTagData {
     private LocalDateTime dtCreation;
 
     @ManyToOne
-    @JoinColumn(name = "tag_name_id")
-    private ManualTagName manualTagName;
+    @JoinColumn(name = "manual_tag_name_id")
+    private ManualTagName tagName;
 
     @ManyToOne
     @JoinColumn(name = "report_name_id")
