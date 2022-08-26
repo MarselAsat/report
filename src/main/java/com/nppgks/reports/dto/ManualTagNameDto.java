@@ -9,6 +9,7 @@ public class ManualTagNameDto {
     private String permanentName;
     private String name;
     private String description;
+    private String type;
 
     public static ManualTagNameDto fromManualTagName(ManualTagName tagName){
         ManualTagNameDto manualTagNameDto = new ManualTagNameDto();
@@ -16,6 +17,7 @@ public class ManualTagNameDto {
         manualTagNameDto.setPermanentName(tagName.getPermanentName());
         manualTagNameDto.setName(tagName.getName());
         manualTagNameDto.setDescription(tagName.getDescription());
+        manualTagNameDto.setType(tagName.getType());
         return manualTagNameDto;
     }
 
@@ -25,6 +27,7 @@ public class ManualTagNameDto {
         manualTagName.setPermanentName(tagNameDto.getPermanentName());
         manualTagName.setName(tagNameDto.getName());
         manualTagName.setDescription(tagNameDto.getDescription());
+        manualTagName.setType(tagNameDto.getType());
         return manualTagName;
     }
 }

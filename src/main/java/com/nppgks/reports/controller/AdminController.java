@@ -21,13 +21,13 @@ public class AdminController {
     private final ReportTypeService reportTypeService;
 
     private final TagNameService<TagNameDto, Long> tagNameService;
-    private final TagNameService<ManualTagNameDto, Integer> manualTagNameService;
+    private final ManualTagNameService manualTagNameService;
 
     @Autowired
     public AdminController(ReportNameService reportNameService,
                            TagDataService tagDataService,
                            ReportTypeService reportTypeService,
-                           TagNameService<TagNameDto, Long> tagNameService, TagNameService<ManualTagNameDto, Integer> manualTagNameService) {
+                           TagNameService<TagNameDto, Long> tagNameService, ManualTagNameService manualTagNameService) {
         this.reportNameService = reportNameService;
         this.reportTypeService = reportTypeService;
         this.tagDataService = tagDataService;
@@ -71,7 +71,7 @@ public class AdminController {
     @PostMapping("/manualTagName")
     @ResponseBody
     public Map<Integer, Boolean> updateManualTagNames(@RequestBody List<ManualTagNameDto> tagNames){
-        return manualTagNameService.saveTagNames(tagNames);
+        return manualTagNameService.updateTagNames(tagNames);
     }
 
     @DeleteMapping("/manualTagName/{id}")

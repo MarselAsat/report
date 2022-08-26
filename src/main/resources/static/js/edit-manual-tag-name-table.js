@@ -36,10 +36,6 @@ function saveChangedTagNames(){
         var tagNameRow = document.getElementById(id);
         deleteTagNameFromDB(id, tagNameRow);
     }
-
-    deletedRows.clear();
-    changedRows.clear();
-    initialValues = {};
 }
 
 function fillChangedTagNameList(changedTagNameList){
@@ -88,6 +84,10 @@ async function updateTagNamesInDB(changedTagNameList){
         }
         responseTd.innerHTML = label;
     }
+
+    deletedRows.clear();
+    changedRows.clear();
+    initialValues = {};
 
 }
 function strikeoutRow(buttonX){
