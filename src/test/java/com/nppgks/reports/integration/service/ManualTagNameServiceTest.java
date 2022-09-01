@@ -1,19 +1,20 @@
-package com.nppgks.reports.service;
+package com.nppgks.reports.integration.service;
 
 import com.nppgks.reports.dto.ManualTagNameDto;
+import com.nppgks.reports.integration.IntegrationBaseTest;
+import com.nppgks.reports.integration.annotation.ServiceIT;
+import com.nppgks.reports.service.ManualTagNameService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
-@Transactional
-class ManualTagNameServiceTest {
+@ServiceIT
+class ManualTagNameServiceTest extends IntegrationBaseTest {
 
     private final ManualTagNameService manualTagNameService;
 
@@ -22,11 +23,10 @@ class ManualTagNameServiceTest {
         this.manualTagNameService = manualTagNameService;
     }
 
-
     @Test
     void getAllTagNames() {
         List<ManualTagNameDto> allTagNames = manualTagNameService.getAllTagNames();
-        assertThat(allTagNames).hasSize(18);
+        assertThat(allTagNames).hasSize(32);
     }
 
     @Test
@@ -43,7 +43,23 @@ class ManualTagNameServiceTest {
 
         List<ManualTagNameDto> tagNames = List.of(tn1, tn2);
         Map<Integer, Boolean> responses = manualTagNameService.updateTagNames(tagNames);
-        assertThat(responses.get(1)).isTrue();
-        assertThat(responses.get(2)).isTrue();
+        assertTrue(responses.get(1));
+        assertTrue(responses.get(2));
+    }
+
+    @Test
+    void deleteTagName(){
+        boolean deleted = manualTagNameService.deleteTagName(1);
+        assertTrue(deleted);
+    }
+
+    @Test
+    void saveTagName(){
+        ManualTagNameDto tagNameDto = new ManualTagNameDto();
+        tagNameDto.setPermanentName("newTagName");
+        tagNameDto.setName("tag name");
+        tagNameDto.setType("3622");
+        Integer newId = manualTagNameService.saveTagName(tagNameDto);
+        assertEquals(33, newId);
     }
 }
