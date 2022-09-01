@@ -1,7 +1,8 @@
 package com.nppgks.reports.integration.repository;
 
 import com.nppgks.reports.entity.ReportName;
-import com.nppgks.reports.integration.RepositoryBaseTest;
+import com.nppgks.reports.integration.IntegrationBaseTest;
+import com.nppgks.reports.integration.annotation.RepositoryIT;
 import com.nppgks.reports.repository.ReportNameRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import java.util.List;
 
-class ReportNameRepositoryTest extends RepositoryBaseTest {
+@RepositoryIT
+class ReportNameRepositoryTest extends IntegrationBaseTest {
 
     private final ReportNameRepository reportNameRepository;
 

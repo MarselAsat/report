@@ -1,14 +1,15 @@
 package com.nppgks.reports.integration.repository;
 
-import com.nppgks.reports.integration.RepositoryBaseTest;
+import com.nppgks.reports.integration.IntegrationBaseTest;
+import com.nppgks.reports.integration.annotation.RepositoryIT;
 import com.nppgks.reports.repository.ManualTagNameRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-class ManualTagNameRepositoryTest extends RepositoryBaseTest {
+@RepositoryIT
+class ManualTagNameRepositoryTest extends IntegrationBaseTest {
 
     private final ManualTagNameRepository manualTagNameRepository;
 
