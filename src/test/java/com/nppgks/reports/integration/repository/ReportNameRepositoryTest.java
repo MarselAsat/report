@@ -35,7 +35,7 @@ class ReportNameRepositoryTest extends IntegrationBaseTest {
     void findByReportTypeId() {
         List<ReportName> reportNames = reportNameRepository
                 .findByReportTypeId(1);
-        assertThat(reportNames).hasSize(3);
+        assertThat(reportNames).hasSize(9);
     }
 
     @Test
@@ -44,7 +44,7 @@ class ReportNameRepositoryTest extends IntegrationBaseTest {
         LocalDateTime end = LocalDateTime.of(2022, 5, 31, 0, 0);
         List<ReportName> reportNames = reportNameRepository
                 .findByDtCreationBetween(start, end);
-        assertThat(reportNames).hasSize(7);
+        assertThat(reportNames).hasSize(6);
     }
 
     @Test

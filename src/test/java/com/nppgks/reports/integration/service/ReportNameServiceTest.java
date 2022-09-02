@@ -39,5 +39,11 @@ class ReportNameServiceTest extends IntegrationBaseTest {
 
     @Test
     void findByDate() {
+        List<ReportName> reportNames20May = reportNameService.findByDate("2022-05-20");
+        assertThat(reportNames20May).hasSize(6);
+        List<ReportName> reportNames21May = reportNameService.findByDate("2022-05-21");
+        assertThat(reportNames21May).hasSize(3);
+        List<ReportName> reportNames20Aug = reportNameService.findByDate("2022-08-20");
+        assertThat(reportNames20Aug).hasSize(3);
     }
 }
