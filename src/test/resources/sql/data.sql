@@ -66,39 +66,95 @@ SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
 
 INSERT INTO report_name(id, report_type_id, name, date_creation)
 VALUES (1, (SELECT id FROM report_type WHERE name = 'Часовой'),
-        'Часовой отчет за 12 часов',
-        TO_TIMESTAMP('2022-05-20 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
+        'Часовой отчет за 12 часов 20.05.2022',
+        TO_TIMESTAMP('2022-05-20 13:00:50', 'YYYY-MM-DD HH24:MI:SS')),
        (2, (SELECT id FROM report_type WHERE name = 'Часовой'),
-        'Часовой отчет за 13 часов',
-        TO_TIMESTAMP('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+        'Часовой отчет за 13 часов 20.05.2022',
+        TO_TIMESTAMP('2022-05-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS')),
        (3, (SELECT id FROM report_type WHERE name = 'Часовой'),
-        'Часовой отчет за 14 часов',
-        TO_TIMESTAMP('2022-05-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+        'Часовой отчет за 10 часов 1.06.2022',
+        TO_TIMESTAMP('2022-06-01 11:10:50', 'YYYY-MM-DD HH24:MI:SS')),
+       (4, (SELECT id FROM report_type WHERE name = 'Часовой'),
+        'Часовой отчет за 17 часов 01.06.2022',
+        TO_TIMESTAMP('2022-06-01 18:01:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (5, (SELECT id FROM report_type WHERE name = 'Часовой'),
+        'Часовой отчет за 14 часов 20.05.2022',
+        TO_TIMESTAMP('2022-05-20 15:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (6, (SELECT id FROM report_type WHERE name = 'Часовой'),
+        'Часовой отчет за 17 часов 02.01.2021',
+        TO_TIMESTAMP('2021-01-02 18:01:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (7, (SELECT id FROM report_type WHERE name = 'Часовой'),
+        'Часовой отчет за 14 часов 02.01.2021',
+        TO_TIMESTAMP('2021-01-02 15:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (8, (SELECT id FROM report_type WHERE name = 'Часовой'),
+        'Часовой отчет за 15 часов 02.01.2021',
+        TO_TIMESTAMP('2021-01-02 16:01:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (9, (SELECT id FROM report_type WHERE name = 'Часовой'),
+        'Часовой отчет за 14 часов 02.01.2021',
+        TO_TIMESTAMP('2021-01-02 15:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
 
 INSERT INTO report_name(id, report_type_id, name, date_creation)
-VALUES (4, (SELECT id FROM report_type WHERE name = 'Суточный'),
-        'Суточный отчет за 20 мая',
-        to_timestamp('2022-05-20 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
-       (5, (SELECT id FROM report_type WHERE name = 'Суточный'),
-        'Суточный отчет за 21 мая',
-        to_timestamp('2022-05-21 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
-       (6, (SELECT id FROM report_type WHERE name = 'Суточный'),
-        'Суточный отчет за 22 мая',
-        to_timestamp('2022-05-22 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+VALUES (10, (SELECT id FROM report_type WHERE name = 'Суточный'),
+        'Суточный отчет за 20.05.2022',
+        to_timestamp('2022-05-21 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
+       (11, (SELECT id FROM report_type WHERE name = 'Суточный'),
+        'Суточный отчет за 21.05.2022',
+        to_timestamp('2022-05-22 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (12, (SELECT id FROM report_type WHERE name = 'Суточный'),
+        'Суточный отчет за 22.05.2022',
+        to_timestamp('2022-05-23 14:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (13, (SELECT id FROM report_type WHERE name = 'Суточный'),
+        'Суточный отчет за 20.01.2021',
+        to_timestamp('2021-01-21 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
+       (14, (SELECT id FROM report_type WHERE name = 'Суточный'),
+        'Суточный отчет за 21.01.2021',
+        to_timestamp('2021-01-22 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (15, (SELECT id FROM report_type WHERE name = 'Суточный'),
+        'Суточный отчет за 22.01.2021',
+        to_timestamp('2021-01-23 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 INSERT INTO report_name(id, report_type_id, name, date_creation)
-VALUES (7, (SELECT id FROM report_type WHERE name = 'Месячный'),
-        'Месячный отчет за май',
-        to_timestamp('2022-05-20 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
-       (8, (SELECT id FROM report_type WHERE name = 'Месячный'),
-        'Месячный отчет за июнь',
-        to_timestamp('2022-06-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
-       (9, (SELECT id FROM report_type WHERE name = 'Месячный'),
-        'Месячный отчет за июль',
-        to_timestamp('2022-07-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+VALUES (16, (SELECT id FROM report_type WHERE name = 'Месячный'),
+        'Месячный отчет за май 2022',
+        to_timestamp('2022-06-01 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
+       (17, (SELECT id FROM report_type WHERE name = 'Месячный'),
+        'Месячный отчет за июнь 2022',
+        to_timestamp('2022-07-01 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (18, (SELECT id FROM report_type WHERE name = 'Месячный'),
+        'Месячный отчет за июль 2022',
+        to_timestamp('2022-08-01 14:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (19, (SELECT id FROM report_type WHERE name = 'Месячный'),
+        'Месячный отчет за январь 2021',
+        to_timestamp('2021-02-01 13:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (20, (SELECT id FROM report_type WHERE name = 'Месячный'),
+        'Месячный отчет за февраль 2021',
+        to_timestamp('2021-03-01 14:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (21, (SELECT id FROM report_type WHERE name = 'Месячный'),
+        'Месячный отчет за декабрь 2021',
+        TO_TIMESTAMP('2022-01-01 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 INSERT INTO report_name(id, report_type_id, name, date_creation)
-VALUES (10, (SELECT id FROM report_type WHERE name = 'Ручной'),
+VALUES (22, (SELECT id FROM report_type WHERE name = 'Сменный'),
+        'Сменный отчет за I смену 20.08.2022',
+        to_timestamp('2022-08-20 22:00:50', 'YYYY-MM-DD HH24:MI:SS')),
+       (23, (SELECT id FROM report_type WHERE name = 'Сменный'),
+        'Сменный отчет за II смену 20.08.2022',
+        to_timestamp('2022-08-21 10:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (24, (SELECT id FROM report_type WHERE name = 'Сменный'),
+        'Сменный отчет за I смену 20.08.2021',
+        to_timestamp('2021-08-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT INTO report_name(id, report_type_id, name, date_creation)
+VALUES (25, (SELECT id FROM report_type WHERE name = 'Годовой'),
+        'Годовой отчет за 2022',
+        to_timestamp('2023-01-01 10:00:50', 'YYYY-MM-DD HH24:MI:SS')),
+       (26, (SELECT id FROM report_type WHERE name = 'Годовой'),
+        'Годовой отчет за 2021',
+        to_timestamp('2022-01-01 22:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
+INSERT INTO report_name(id, report_type_id, name, date_creation)
+VALUES (27, (SELECT id FROM report_type WHERE name = 'Ручной'),
         'Поверка 3622',
         to_timestamp('2022-07-14 12:00:50', 'YYYY-MM-DD HH24:MI:SS'));
 
