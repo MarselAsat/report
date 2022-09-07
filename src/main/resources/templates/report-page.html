@@ -18,7 +18,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-9">
-                <table id = "tag-name-table" class="table table-borderless">
+                <table id = "tag-name-table" class="table table-bordered table-striped">
                     <thead class="table-light" style="font-weight: bold">
                         <tr>
                             <td>Параметр</td>
@@ -33,13 +33,13 @@
 
                     <tbody id="tag-name-tbody">
                         <tr th:each="tagData: ${reportViewTagData}">
-                            <td class="align-middle"><span th:text = "${tagData.description}" style="border: 0"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.sikn} ?: '-'" style="border: 0"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.il1} ?: '-'" style="border: 0"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.il2} ?: '-'" style="border: 0"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.il3} ?: '-'" style="border: 0"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.il4} ?: '-'" style="border: 0"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.bik} ?: '-'" style="border: 0"/></td>
+                            <td class="align-middle"><span th:text = "${tagData.description}"/></td>
+                            <td class="align-middle"><span th:text = "${tagData.sikn} ?: '-'"/></td>
+                            <td class="align-middle"><span th:text = "${tagData.il1} ?: '-'"/></td>
+                            <td class="align-middle"><span th:text = "${tagData.il2} ?: '-'"/></td>
+                            <td class="align-middle"><span th:text = "${tagData.il3} ?: '-'"/></td>
+                            <td class="align-middle"><span th:text = "${tagData.il4} ?: '-'"/></td>
+                            <td class="align-middle"><span th:text = "${tagData.bik} ?: '-'"/></td>
                         </tr>
                     </tbody>
                 </table>
