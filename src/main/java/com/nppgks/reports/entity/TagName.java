@@ -16,6 +16,9 @@ public class TagName {
 
     private String description;
 
+    @Column(name = "\"order\"")
+    private Integer order;
+
     @OneToOne
     private ReportType reportType;
 }
