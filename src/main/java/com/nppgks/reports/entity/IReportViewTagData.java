@@ -3,15 +3,15 @@ package com.nppgks.reports.entity;
 public interface IReportViewTagData {
     String getDescription();
 
-    Integer getSikn();
+    Double getSikn();
 
-    Integer getIl1();
+    Double getIl1();
 
-    Integer getIl2();
+    Double getIl2();
 
-    Integer getIl3();
+    Double getIl3();
 
-    Integer getIl4();
+    Double getIl4();
 
-    Integer getBik();
+    Double getBik();
 }

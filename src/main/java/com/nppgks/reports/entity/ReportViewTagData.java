@@ -5,12 +5,12 @@ import lombok.Value;
 @Value
 public class ReportViewTagData {
     String description;
-    Integer sikn;
-    Integer il1;
-    Integer il2;
-    Integer il3;
-    Integer il4;
-    Integer bik;
+    Double sikn;
+    Double il1;
+    Double il2;
+    Double il3;
+    Double il4;
+    Double bik;
 
     public static ReportViewTagData fromIReportViewTagData(IReportViewTagData interfaceObject){
         return new ReportViewTagData(
