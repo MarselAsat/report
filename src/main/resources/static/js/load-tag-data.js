@@ -13,4 +13,8 @@ function getTagData(id) {
                 tagDataDiv.appendChild(li);
             }
         })
+
+    const showReportRef = document.getElementById("show-report-ref");
+    showReportRef.setAttribute("href", "/report/"+id);
+
 }

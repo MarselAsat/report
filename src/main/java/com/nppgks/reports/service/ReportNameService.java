@@ -1,13 +1,14 @@
 package com.nppgks.reports.service;
 
 import com.nppgks.reports.entity.ReportName;
-
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReportNameService {
 
     List<ReportName> getReportNameByDateAndReportId(Integer reportTypeId, String dtCreationStart);
+
+    Optional<ReportName> getById(Long reportNameId);
 
     List<ReportName> findAll();
 

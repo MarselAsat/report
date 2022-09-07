@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -50,6 +51,11 @@ public class ReportNameServiceImpl implements ReportNameService{
     private List<ReportName> getShiftReportNamesByDate(String dtCreationStr) {
         String formattedDate = LocalDate.parse(dtCreationStr).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         return repository.findByNameLikeAndReportTypeId("%" + formattedDate + "%", 3);
+    }
+
+    @Override
+    public Optional<ReportName> getById(Long reportNameId){
+        return repository.findById(reportNameId);
     }
 
     @Override

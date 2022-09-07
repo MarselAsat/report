@@ -2,12 +2,11 @@ package com.nppgks.reports.controller;
 
 import com.nppgks.reports.dto.TagDataDto;
 import com.nppgks.reports.entity.ReportName;
+import com.nppgks.reports.entity.ReportViewTagData;
 import com.nppgks.reports.service.ReportNameService;
 import com.nppgks.reports.service.ReportTypeService;
 import com.nppgks.reports.service.TagDataService;
-import com.nppgks.reports.service.TagNameService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;
@@ -15,18 +14,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Controller
-public class ReportView {
+public class ReportViewController {
 
     private final ReportNameService reportNameService;
     private final TagDataService tagDataService;
     private final ReportTypeService reportTypeService;
 
     @Autowired
-    public ReportView(ReportNameService reportNameService,
-                      TagDataService tagDataService,
-                      ReportTypeService reportTypeService) {
+    public ReportViewController(ReportNameService reportNameService,
+                                TagDataService tagDataService,
+                                ReportTypeService reportTypeService) {
         this.reportNameService = reportNameService;
         this.reportTypeService = reportTypeService;
         this.tagDataService = tagDataService;
@@ -56,6 +56,16 @@ public class ReportView {
     public List<TagDataDto> getTagData(@PathVariable Long reportNameId){
         List<TagDataDto> tagDataDto = tagDataService.getDataForReport(reportNameId);
         return tagDataDto;
+    }
+
+    @GetMapping(value = "/report/{reportNameId}")
+    public String getReport(ModelMap modelMap,
+                            @PathVariable Long reportNameId){
+        Optional<ReportName> reportName = reportNameService.getById(reportNameId);
+        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
+        modelMap.put("reportViewTagData", reportViewTagData);
+        modelMap.put("reportName", reportName);
+        return "report-page";
     }
 
     void setCommonParams(ModelMap model, boolean defaultView){

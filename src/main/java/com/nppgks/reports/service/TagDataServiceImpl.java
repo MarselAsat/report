@@ -1,9 +1,7 @@
 package com.nppgks.reports.service;
 
 import com.nppgks.reports.dto.TagDataDto;
-import com.nppgks.reports.entity.ReportName;
-import com.nppgks.reports.entity.TagData;
-import com.nppgks.reports.entity.TagName;
+import com.nppgks.reports.entity.*;
 import com.nppgks.reports.repository.TagDataRepository;
 import com.nppgks.reports.repository.TagNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +25,6 @@ public class TagDataServiceImpl implements TagDataService {
         this.tagDataRepository = tagDataRepository;
         this.tagNameRepository = tagNameRepository;
     }
-
-//    public Map<TagName, Double> getDataForReport(Long reportId, LocalDateTime start, LocalDateTime end){
-//        List<TagData> result = getSourceDataForReport(reportId, start, end);
-//
-//        return result.stream().collect(Collectors.toMap(TagData::getTagName, TagData::getData));
-//
-//    }
 
     @Override
     public List<TagDataDto> getDataForReport(Long reportNameId) {
@@ -63,15 +54,11 @@ public class TagDataServiceImpl implements TagDataService {
         }
     }
 
-//    private List<TagData> getSourceDataForReport(Long reportId, LocalDateTime start, LocalDateTime end){
-//        List<TagData> resultData =  tagDataRepository.findByReportTypeAndDtCreationBetween(reportId, start, end);
-//        for (TagData tagData: resultData) {
-//            tagData.getTagName().getName();
-//        }
-//        return resultData;
-//    }
-
-
-
-
+    @Override
+    public List<ReportViewTagData> getReportViewTagData(Long reportNameId) {
+        List<IReportViewTagData> tagDataViewInterface = tagDataRepository.getTagDataView(reportNameId);
+        return tagDataViewInterface.stream()
+                .map(ReportViewTagData::fromIReportViewTagData)
+                .toList();
+    }
 }

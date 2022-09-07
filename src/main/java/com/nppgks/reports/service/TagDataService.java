@@ -1,10 +1,7 @@
 package com.nppgks.reports.service;
 
 import com.nppgks.reports.dto.TagDataDto;
-import com.nppgks.reports.entity.ReportName;
-import com.nppgks.reports.entity.ReportType;
-import com.nppgks.reports.entity.TagData;
-import com.nppgks.reports.entity.TagName;
+import com.nppgks.reports.entity.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,11 +9,13 @@ import java.util.Map;
 
 public interface TagDataService {
 
-    public List<TagDataDto> getDataForReport(Long reportNameId);
+    List<TagDataDto> getDataForReport(Long reportNameId);
 
-    public List<TagData> findAll();
+    List<TagData> findAll();
 
-    public TagData saveTagData(TagData tagData);
+    TagData saveTagData(TagData tagData);
 
-    public void saveTagDataMapByReportName(Map<String, String> tagDataMap, ReportName reportName, LocalDateTime date);
+    void saveTagDataMapByReportName(Map<String, String> tagDataMap, ReportName reportName, LocalDateTime date);
+
+    List<ReportViewTagData> getReportViewTagData(Long reportNameId);
 }
