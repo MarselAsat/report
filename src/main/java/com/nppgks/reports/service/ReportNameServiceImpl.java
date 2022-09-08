@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,13 +34,13 @@ public class ReportNameServiceImpl implements ReportNameService{
         else{
             DateTimeRange dateTimeRange;
             switch (reportTypeId) {
-                case 1 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForHourReport(dtCreationStr);
-                case 2 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForDailyReport(dtCreationStr);
+                case 1 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingHourReport(dtCreationStr);
+                case 2 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingDailyReport(dtCreationStr);
                 case 3 -> {
                     return getShiftReportNamesByDate(dtCreationStr);
                 }
-                case 4 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForMonthReport(dtCreationStr);
-                case 5 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForYearReport(dtCreationStr);
+                case 4 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingMonthReport(dtCreationStr);
+                case 5 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingYearReport(dtCreationStr);
                 default -> throw new RuntimeException("Invalid report type id");
             }
             return repository.findByReportTypeIdAndDtCreationBetween(reportTypeId, dateTimeRange.getStartDateTime(), dateTimeRange.getEndDateTime());
@@ -54,8 +53,9 @@ public class ReportNameServiceImpl implements ReportNameService{
     }
 
     @Override
-    public Optional<ReportName> getById(Long reportNameId){
-        return repository.findById(reportNameId);
+    public ReportName getById(Long reportNameId){
+        return repository.findById(reportNameId)
+                .orElseThrow();
     }
 
     @Override
@@ -75,10 +75,10 @@ public class ReportNameServiceImpl implements ReportNameService{
 
     @Override
     public List<ReportName> findByDate(String date) {
-        DateTimeRange dtRangeForHourReport = DateTimeRangeBuilder.buildDateRangeForHourReport(date);
-        DateTimeRange dtRangeForDailyReport = DateTimeRangeBuilder.buildDateRangeForDailyReport(date);
-        DateTimeRange dtRangeForMonthReport = DateTimeRangeBuilder.buildDateRangeForMonthReport(date);
-        DateTimeRange dtRangeForYearReport = DateTimeRangeBuilder.buildDateRangeForYearReport(date);
+        DateTimeRange dtRangeForHourReport = DateTimeRangeBuilder.buildDateRangeForSearchingHourReport(date);
+        DateTimeRange dtRangeForDailyReport = DateTimeRangeBuilder.buildDateRangeForSearchingDailyReport(date);
+        DateTimeRange dtRangeForMonthReport = DateTimeRangeBuilder.buildDateRangeForSearchingMonthReport(date);
+        DateTimeRange dtRangeForYearReport = DateTimeRangeBuilder.buildDateRangeForSearchingYearReport(date);
 
         List<ReportName> hourReportNames = repository.findByReportTypeIdAndDtCreationBetween(
                 1,

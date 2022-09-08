@@ -17,7 +17,11 @@
 <body>
     <div class="container">
         <div class="row">
+            <h2 style="text-align: center;">Суточный отчет</h2>
             <div class="col-sm-9">
+                <p>Дата и время начала отчета: <u th:text="${startReportDate}"></u></p>
+                <p>Дата и время окончания отчета: <u th:text="${endReportDate}"></u></p>
+                <p>Дата и время формирования отчета: <u th:text="${reportNameDtCreation}"></u></p>
                 <table id = "tag-name-table" class="table table-bordered table-striped">
                     <thead class="table-light" style="font-weight: bold">
                         <tr>
@@ -43,6 +47,8 @@
                         </tr>
                     </tbody>
                 </table>
+                <p>Сдал: ________________________________ /(ФИО) Подпись _____________ </p>
+                <p>Принял: ________________________________ /(ФИО) Подпись _____________ </p>
             </div>
         </div>
     </div>

@@ -3,9 +3,7 @@ package com.nppgks.reports.controller;
 import com.nppgks.reports.dto.TagDataDto;
 import com.nppgks.reports.entity.ReportName;
 import com.nppgks.reports.entity.ReportViewTagData;
-import com.nppgks.reports.service.ReportNameService;
-import com.nppgks.reports.service.ReportTypeService;
-import com.nppgks.reports.service.TagDataService;
+import com.nppgks.reports.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Controller
 public class ReportViewController {
@@ -54,18 +51,24 @@ public class ReportViewController {
     @GetMapping("/tagData/{reportNameId}")
     @ResponseBody
     public List<TagDataDto> getTagData(@PathVariable Long reportNameId){
-        List<TagDataDto> tagDataDto = tagDataService.getDataForReport(reportNameId);
-        return tagDataDto;
+        return tagDataService.getDataForReport(reportNameId);
     }
 
     @GetMapping(value = "/report/{reportNameId}")
     public String getReport(ModelMap modelMap,
                             @PathVariable Long reportNameId){
-        Optional<ReportName> reportName = reportNameService.getById(reportNameId);
+        ReportName reportName = reportNameService.getById(reportNameId);
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
+        DateTimeRange dateTimeRange = DateTimeRangeBuilder
+                .buildStartEndDateForDailyReport(reportName.getDtCreation());
         modelMap.put("reportViewTagData", reportViewTagData);
-        modelMap.put("reportName", reportName);
-        return "report-page";
+        modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
+                .formatToSinglePattern(reportName.getDtCreation()));
+        modelMap.put("startReportDate", SingleDateTimeFormatter
+                .formatToSinglePattern(dateTimeRange.getStartDateTime()));
+        modelMap.put("endReportDate", SingleDateTimeFormatter
+                .formatToSinglePattern(dateTimeRange.getEndDateTime()));
+        return "daily-report-page";
     }
 
     void setCommonParams(ModelMap model, boolean defaultView){
