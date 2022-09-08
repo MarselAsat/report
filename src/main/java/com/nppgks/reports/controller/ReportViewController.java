@@ -19,14 +19,16 @@ public class ReportViewController {
     private final ReportNameService reportNameService;
     private final TagDataService tagDataService;
     private final ReportTypeService reportTypeService;
+    private final SettingsService settingsService;
 
     @Autowired
     public ReportViewController(ReportNameService reportNameService,
                                 TagDataService tagDataService,
-                                ReportTypeService reportTypeService) {
+                                ReportTypeService reportTypeService, SettingsService settingsService) {
         this.reportNameService = reportNameService;
         this.reportTypeService = reportTypeService;
         this.tagDataService = tagDataService;
+        this.settingsService = settingsService;
     }
 
     @GetMapping("/startPage")
@@ -62,12 +64,16 @@ public class ReportViewController {
         DateTimeRange dateTimeRange = DateTimeRangeBuilder
                 .buildStartEndDateForDailyReport(reportName.getDtCreation());
         modelMap.put("reportViewTagData", reportViewTagData);
+
+        List<String> dailyColumns = settingsService.getListValuesBySettingName("Суточный отчет: столбцы");
+
         modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
                 .formatToSinglePattern(reportName.getDtCreation()));
         modelMap.put("startReportDate", SingleDateTimeFormatter
                 .formatToSinglePattern(dateTimeRange.getStartDateTime()));
         modelMap.put("endReportDate", SingleDateTimeFormatter
                 .formatToSinglePattern(dateTimeRange.getEndDateTime()));
+        modelMap.put("columns", dailyColumns);
         return "daily-report-page";
     }
 

@@ -26,24 +26,36 @@
                     <thead class="table-light" style="font-weight: bold">
                         <tr>
                             <td>Параметр</td>
-                            <td>СИКН</td>
-                            <td>ИЛ №1</td>
-                            <td>ИЛ №2</td>
-                            <td>ИЛ №3</td>
-                            <td>ИЛ №4</td>
-                            <td>БИК</td>
+                            <td th:hidden = "${!columns.contains('sikn')}">СИКН</td>
+                            <td th:hidden = "${!columns.contains('il1')}">ИЛ №1</td>
+                            <td th:hidden = "${!columns.contains('il2')}">ИЛ №2</td>
+                            <td th:hidden = "${!columns.contains('il3')}">ИЛ №3</td>
+                            <td th:hidden = "${!columns.contains('il4')}">ИЛ №4</td>
+                            <td th:hidden = "${!columns.contains('bik')}">БИК</td>
                         </tr>
                     </thead>
 
                     <tbody id="tag-name-tbody">
                         <tr th:each="tagData: ${reportViewTagData}">
                             <td class="align-middle"><span th:text = "${tagData.description}"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.sikn} ?: '-'"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.il1} ?: '-'"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.il2} ?: '-'"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.il3} ?: '-'"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.il4} ?: '-'"/></td>
-                            <td class="align-middle"><span th:text = "${tagData.bik} ?: '-'"/></td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('sikn')}">
+                                <span th:text = "${tagData.sikn} ?: '-'"/>
+                            </td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('il1')}">
+                                <span th:text = "${tagData.il1} ?: '-'"/>
+                            </td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('il2')}">
+                                <span th:text = "${tagData.il2} ?: '-'"/>
+                            </td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('il3')}">
+                                <span th:text = "${tagData.il3} ?: '-'"/>
+                            </td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('il4')}">
+                                <span th:text = "${tagData.il4} ?: '-'"/>
+                            </td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('bik')}">
+                                <span th:text = "${tagData.bik} ?: '-'"/>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
