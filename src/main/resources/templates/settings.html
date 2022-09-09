@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title id="pageTitle">Edit manual tag name table</title>
+        <!-- Latest compiled and minified CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script type="text/javascript" th:src="@{/js/settings.js}"></script>
+    </head>
+    <body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+                <div class="my-4">
+                    <h5 class="mb-0 mt-5">Report View Settings</h5>
+                    <div class="list-group mb-5 shadow">
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в часовом отчете</p>
+                                </div>
+                                <div class="col-auto" id="hour-columns">
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="sikn" class="form-check-input" th:checked="${hourColumns.contains('sikn')}" autocomplete="off">
+                                        <label class="form-check-label">СИКН</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il1" class="form-check-input" th:checked="${hourColumns.contains('il1')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №1</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il2" class="form-check-input" th:checked="${hourColumns.contains('il2')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №2</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il3" class="form-check-input" th:checked="${hourColumns.contains('il3')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №3</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il4" class="form-check-input" th:checked="${hourColumns.contains('il4')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №4</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="bik" class="form-check-input" th:checked="${hourColumns.contains('bik')}" autocomplete="off">
+                                        <label class="form-check-label">БИК</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в суточном отчете</p>
+                                </div>
+                                <div class="col-auto" id="daily-columns">
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="sikn" class="form-check-input" th:checked="${dailyColumns.contains('sikn')}" autocomplete="off">
+                                        <label class="form-check-label">СИКН</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il1" class="form-check-input" th:checked="${dailyColumns.contains('il1')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №1</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il2" class="form-check-input" th:checked="${dailyColumns.contains('il2')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №2</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il3" class="form-check-input" th:checked="${dailyColumns.contains('il3')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №3</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il4" class="form-check-input" th:checked="${dailyColumns.contains('il4')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №4</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="bik" class="form-check-input" th:checked="${dailyColumns.contains('bik')}" autocomplete="off">
+                                        <label class="form-check-label">БИК</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в сменном отчете</p>
+                                </div>
+                                <div class="col-auto" id="shift-columns">
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="sikn" class="form-check-input" th:checked="${shiftColumns.contains('sikn')}" autocomplete="off">
+                                        <label class="form-check-label">СИКН</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il1" class="form-check-input" th:checked="${shiftColumns.contains('il1')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №1</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il2" class="form-check-input" th:checked="${shiftColumns.contains('il2')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №2</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il3" class="form-check-input" th:checked="${shiftColumns.contains('il3')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №3</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il4" class="form-check-input" th:checked="${shiftColumns.contains('il4')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №4</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="bik" class="form-check-input" th:checked="${shiftColumns.contains('bik')}" autocomplete="off">
+                                        <label class="form-check-label">БИК</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в месячном отчете</p>
+                                </div>
+                                <div class="col-auto" id="month-columns">
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="sikn" class="form-check-input" th:checked="${monthColumns.contains('sikn')}" autocomplete="off">
+                                        <label class="form-check-label">СИКН</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il1" class="form-check-input" th:checked="${monthColumns.contains('il1')}" autocomplete="off">
+                                        <label class="form-check-label" >ИЛ №1</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il2" class="form-check-input" th:checked="${monthColumns.contains('il2')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №2</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il3" class="form-check-input" th:checked="${monthColumns.contains('il3')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №3</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il4" class="form-check-input" th:checked="${monthColumns.contains('il4')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №4</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="bik" class="form-check-input" th:checked="${monthColumns.contains('bik')}" autocomplete="off">
+                                        <label class="form-check-label">БИК</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в годовом отчете</p>
+                                </div>
+                                <div class="col-auto" id="year-columns">
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="sikn" class="form-check-input" th:checked="${yearColumns.contains('sikn')}" autocomplete="off">
+                                        <label class="form-check-label">СИКН</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il1" class="form-check-input" th:checked="${yearColumns.contains('il1')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №1</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il2" class="form-check-input" th:checked="${yearColumns.contains('il2')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №2</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il3" class="form-check-input" th:checked="${yearColumns.contains('il3')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №3</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il4" class="form-check-input" th:checked="${yearColumns.contains('il4')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №4</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="bik" class="form-check-input" th:checked="${yearColumns.contains('bik')}" autocomplete="off">
+                                        <label class="form-check-label">БИК</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" onclick="save()" class="btn btn-primary">Сохранить</button>
+                    <label id="response"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

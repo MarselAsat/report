@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS settings
 );
 
 INSERT INTO settings ("group", name,value)
-VALUES ('report view', 'Часовой отчет: столбцы', 'sikn,il1,il2,il3,il4,bik'),
-       ('report view', 'Суточный отчет: столбцы', 'sikn,il1,il2,bik'),
-       ('report view', 'Сменный отчет: столбцы', 'sikn,il1,il2,il3,il4,bik'),
-       ('report view', 'Месячный отчет: столбцы', 'sikn,il1,il2,il3,il4,bik'),
-       ('report view', 'Годовой отчет: столбцы', 'sikn,il1,il2,il3,il4,bik');
+VALUES ('report view', 'hour report columns', 'sikn,il1,il2,il3,il4,bik'),
+       ('report view', 'daily report columns', 'sikn,il1,il2,bik'),
+       ('report view', 'shift report columns', 'sikn,il1,il2,il3,il4,bik'),
+       ('report view', 'month report columns', 'sikn,il1,il2,il3,il4,bik'),
+       ('report view', 'year report columns', 'sikn,il1,il2,il3,il4,bik');

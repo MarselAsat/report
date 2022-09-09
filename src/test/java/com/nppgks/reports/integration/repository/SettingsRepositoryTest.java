@@ -26,4 +26,10 @@ class SettingsRepositoryTest extends IntegrationBaseTest {
         Assertions.assertEquals(settings.getValue(), "sikn,il1,il2,il3,il4,bik");
     }
 
+    @Test
+    void update(){
+        settingsRepository.update("", "bik");
+        System.out.println();
+    }
+
 }

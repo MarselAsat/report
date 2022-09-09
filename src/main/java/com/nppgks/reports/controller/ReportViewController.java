@@ -2,6 +2,7 @@ package com.nppgks.reports.controller;
 
 import com.nppgks.reports.dto.TagDataDto;
 import com.nppgks.reports.entity.ReportName;
+import com.nppgks.reports.entity.ReportTypesEnum;
 import com.nppgks.reports.entity.ReportViewTagData;
 import com.nppgks.reports.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -63,10 +65,9 @@ public class ReportViewController {
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
         DateTimeRange dateTimeRange = DateTimeRangeBuilder
                 .buildStartEndDateForDailyReport(reportName.getDtCreation());
+
+        List<String> dailyColumns = settingsService.getListValuesBySettingName("daily report columns");
         modelMap.put("reportViewTagData", reportViewTagData);
-
-        List<String> dailyColumns = settingsService.getListValuesBySettingName("Суточный отчет: столбцы");
-
         modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
                 .formatToSinglePattern(reportName.getDtCreation()));
         modelMap.put("startReportDate", SingleDateTimeFormatter
@@ -75,6 +76,25 @@ public class ReportViewController {
                 .formatToSinglePattern(dateTimeRange.getEndDateTime()));
         modelMap.put("columns", dailyColumns);
         return "daily-report-page";
+    }
+
+    @GetMapping("/settings")
+    public String getSettingsPage(ModelMap modelMap){
+
+        for(ReportTypesEnum reportType: ReportTypesEnum.values()){
+            String reportTypeName = reportType.name();
+            List<String> columns = settingsService.getListValuesBySettingName(reportTypeName+" report columns");
+            modelMap.put(reportTypeName+"Columns", columns);
+        }
+
+        return "settings";
+    }
+
+    @PostMapping("/settings/update")
+    @ResponseBody
+    public boolean updateSettings(@RequestBody Map<String, String> settings){
+        boolean isUpdated = settingsService.updateSettingsList(settings);
+        return isUpdated;
     }
 
     void setCommonParams(ModelMap model, boolean defaultView){
