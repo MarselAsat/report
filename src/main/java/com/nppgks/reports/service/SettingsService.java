@@ -23,6 +23,11 @@ public class SettingsService {
         return Arrays.stream(value.split(",")).toList();
     }
 
+    public String getStringValueBySettingName(String name){
+        Settings setting = settingsRepository.findByName(name);
+        return setting.getValue();
+    }
+
     public boolean updateSettingsList(Map<String, String> settings){
         try{
             for(Map.Entry<String, String> setting: settings.entrySet()){

@@ -12,6 +12,7 @@ function save(){
         var columnsStr = columnNames.join(",");
         settings.set(reportType+' report columns', columnsStr);
     }
+    settings.set("metering station name", document.getElementById("metering-station-name").value)
     updateSettingsInDB(settings);
 
 }

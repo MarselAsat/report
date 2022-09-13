@@ -67,6 +67,7 @@ public class ReportViewController {
                 .buildStartEndDateForDailyReport(reportName.getDtCreation());
 
         List<String> dailyColumns = settingsService.getListValuesBySettingName("daily report columns");
+        String meteringStationName = settingsService.getStringValueBySettingName("metering station name");
         modelMap.put("reportViewTagData", reportViewTagData);
         modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
                 .formatToSinglePattern(reportName.getDtCreation()));
@@ -75,6 +76,7 @@ public class ReportViewController {
         modelMap.put("endReportDate", SingleDateTimeFormatter
                 .formatToSinglePattern(dateTimeRange.getEndDateTime()));
         modelMap.put("columns", dailyColumns);
+        modelMap.put("meteringStationName", meteringStationName);
         return "daily-report-page";
     }
 
@@ -86,6 +88,8 @@ public class ReportViewController {
             List<String> columns = settingsService.getListValuesBySettingName(reportTypeName+" report columns");
             modelMap.put(reportTypeName+"Columns", columns);
         }
+        String meteringStationName = settingsService.getStringValueBySettingName("metering station name");
+        modelMap.put("meteringStationName", meteringStationName);
 
         return "settings";
     }
@@ -93,8 +97,7 @@ public class ReportViewController {
     @PostMapping("/settings/update")
     @ResponseBody
     public boolean updateSettings(@RequestBody Map<String, String> settings){
-        boolean isUpdated = settingsService.updateSettingsList(settings);
-        return isUpdated;
+        return settingsService.updateSettingsList(settings);
     }
 
     void setCommonParams(ModelMap model, boolean defaultView){

@@ -184,6 +184,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Название узла учета</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="text" id="metering-station-name" th:value="${meteringStationName}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" onclick="save()" class="btn btn-primary">Сохранить</button>
                     <label id="response"></label>
