@@ -17,7 +17,7 @@ public interface TagDataRepository extends JpaRepository<TagData, Long> {
        max(case when type = 'il1' then value end) il1,
        max(case when type = 'il2' then value end) il2,
        max(case when type = 'il3' then value end) il3,
-       max(case when type = 'il3' then value end) il4,
+       max(case when type = 'il4' then value end) il4,
        max(case when type = 'bik' then value end) bik
        from
         (
