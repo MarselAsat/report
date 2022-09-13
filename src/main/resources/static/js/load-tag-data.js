@@ -14,7 +14,32 @@ function getTagData(id) {
             }
         })
 
+    path = window.location.search;
+    const urlParams = new URLSearchParams(path);
+    let reportTypeId = urlParams.get("reportTypeId");
     const showReportRef = document.getElementById("show-report-ref");
-    showReportRef.setAttribute("href", "/report/"+id);
+
+    switch(reportTypeId) {
+        case '1':
+            showReportRef.setAttribute("href", "/hourReport/"+id);
+            break
+        case '2':
+            showReportRef.setAttribute("href", "/dailyReport/"+id);
+            break
+        case '3':
+            showReportRef.setAttribute("href", "/shiftReport/"+id);
+            break
+        case '4':
+            showReportRef.setAttribute("href", "/monthReport/"+id);
+            break
+        case '5':
+            showReportRef.setAttribute("href", "/yearReport/"+id);
+            break
+        case '6':
+            showReportRef.setAttribute("href", "/manualReport/"+id);
+            break
+        default:
+            break
+    }
 
 }

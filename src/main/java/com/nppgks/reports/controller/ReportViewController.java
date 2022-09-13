@@ -58,8 +58,8 @@ public class ReportViewController {
         return tagDataService.getDataForReport(reportNameId);
     }
 
-    @GetMapping(value = "/report/{reportNameId}")
-    public String getReport(ModelMap modelMap,
+    @GetMapping(value = "/dailyReport/{reportNameId}")
+    public String getDailyReport(ModelMap modelMap,
                             @PathVariable Long reportNameId){
         ReportName reportName = reportNameService.getById(reportNameId);
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
@@ -78,6 +78,28 @@ public class ReportViewController {
         modelMap.put("columns", dailyColumns);
         modelMap.put("meteringStationName", meteringStationName);
         return "daily-report-page";
+    }
+
+    @GetMapping(value = "/hourReport/{reportNameId}")
+    public String getHourReport(ModelMap modelMap,
+                            @PathVariable Long reportNameId){
+        ReportName reportName = reportNameService.getById(reportNameId);
+        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
+        DateTimeRange dateTimeRange = DateTimeRangeBuilder
+                .buildStartEndDateForHourReport(reportName.getDtCreation());
+
+        List<String> dailyColumns = settingsService.getListValuesBySettingName("hour report columns");
+        String meteringStationName = settingsService.getStringValueBySettingName("metering station name");
+        modelMap.put("reportViewTagData", reportViewTagData);
+        modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
+                .formatToSinglePattern(reportName.getDtCreation()));
+        modelMap.put("startReportDate", SingleDateTimeFormatter
+                .formatToSinglePattern(dateTimeRange.getStartDateTime()));
+        modelMap.put("endReportDate", SingleDateTimeFormatter
+                .formatToSinglePattern(dateTimeRange.getEndDateTime()));
+        modelMap.put("columns", dailyColumns);
+        modelMap.put("meteringStationName", meteringStationName);
+        return "hour-report-page";
     }
 
     @GetMapping("/settings")

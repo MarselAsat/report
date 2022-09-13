@@ -10,6 +10,7 @@ VALUES (1, 'Часовой', 'Отчеты фомируемые каждый ч�
        (5, 'Годовой', 'Отчеты формируемые за год', TRUE),
        (6, 'Ручной', 'Для поверок', TRUE);
 
+-- Для суточного отчета
 INSERT INTO tag_name (id, "order", name, description, report_type_id)
 VALUES (1, 1, 'daily_mass_il1', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Суточный')),
        (2, 2, 'daily_temp_il1', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Суточный')),
@@ -107,3 +108,118 @@ VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 35, 
        (815, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 38, 1),
        (818.8, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 39, 1),
        (0.01, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 40, 1);
+
+-- Для часового отчета
+INSERT INTO tag_name (id, "order", name, description, report_type_id)
+VALUES (45, 1, 'hour_mass_il1', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (46, 2, 'hour_temp_il1', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (47, 3, 'hour_pressure_il1', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (48, 4, 'hour_density_il1', 'Средняя плотность при текущих t и P', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (49, 5, 'hour_density20_il1', 'Средняя плотность при 20 °C', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (50, 6, 'hour_density15_il1', 'Средняя плотность при 15 °C', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (51, 7, 'hour_moisture_il1', 'Среднее влагосодержание', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (52, 8, 'hour_mass_gross_il1', 'Масса брутто за сутки', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (53, 9, 'hour_mass_gross_increasing_il1', 'Масса брутто нарастающая', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (54, 10, 'hour_vol_il1', 'Объем за сутки', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (55, 11, 'hour_vol_increasing_il1', 'Объем нарастающий', (SELECT id FROM report_type WHERE name = 'Часовой'));
+
+INSERT INTO tag_name (id, "order", name, description, report_type_id)
+VALUES (56, 1, 'hour_mass_il2', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (57, 2, 'hour_temp_il2', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (58, 3, 'hour_pressure_il2', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (59, 4, 'hour_density_il2', 'Средняя плотность при текущих t и P', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (60, 5, 'hour_density20_il2', 'Средняя плотность при 20 °C', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (61, 6, 'hour_density15_il2', 'Средняя плотность при 15 °C', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (62, 7, 'hour_moisture_il2', 'Среднее влагосодержание', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (63, 8, 'hour_mass_gross_il2', 'Масса брутто за сутки', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (64, 9, 'hour_mass_gross_increasing_il2', 'Масса брутто нарастающая', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (65, 10, 'hour_vol_il2', 'Объем за сутки', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (66, 11, 'hour_vol_increasing_il2', 'Объем нарастающий', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (67, 12, 'hour_vol_decreasing_il2', 'Объем убывающий', (SELECT id FROM report_type WHERE name = 'Часовой'));
+
+INSERT INTO tag_name (id, "order", name, description, report_type_id)
+VALUES (68, 1, 'hour_mass_sikn', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (69, 2, 'hour_temp_sikn', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (70, 3, 'hour_pressure_sikn', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (71, 4, 'hour_density_sikn', 'Средняя плотность при текущих t и P', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (72, 5, 'hour_density20_sikn', 'Средняя плотность при 20 °C', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (73, 6, 'hour_density15_sikn', 'Средняя плотность при 15 °C', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (74, 7, 'hour_moisture_sikn', 'Среднее влагосодержание', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (75, 8, 'hour_mass_gross_sikn', 'Масса брутто за сутки', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (76, 9, 'hour_mass_gross_increasing_sikn', 'Масса брутто нарастающая', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (77, 10, 'hour_vol_sikn', 'Объем за сутки', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (78, 11, 'hour_vol_increasing_sikn', 'Объем нарастающий', (SELECT id FROM report_type WHERE name = 'Часовой'));
+
+INSERT INTO tag_name (id, "order", name, description, report_type_id)
+VALUES (79, 1, 'hour_mass_bik', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (80, 2, 'hour_temp_bik', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (81, 3, 'hour_pressure_bik', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (82, 4, 'hour_density_bik', 'Средняя плотность при текущих t и P', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (83, 5, 'hour_density20_bik', 'Средняя плотность при 20 °C', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (84, 6, 'hour_density15_bik', 'Средняя плотность при 15 °C', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (85, 7, 'hour_moisture_bik', 'Среднее влагосодержание', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (86, 8, 'hour_mass_gross_bik', 'Масса брутто за сутки', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (87, 9, 'hour_mass_gross_increasing_bik', 'Масса брутто нарастающая', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (88, 10, 'hour_vol_bik', 'Объем за сутки', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (89, 11, 'hour_vol_increasing_bik', 'Объем нарастающий', (SELECT id FROM report_type WHERE name = 'Часовой'));
+
+INSERT INTO tag_name (id, "order", name, description, report_type_id)
+VALUES (90, 1, 'hour_mass_il4', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (91, 2, 'hour_temp_il4', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Часовой')),
+       (92, 3, 'hour_pressure_il4', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Часовой'));
+
+INSERT INTO report_name(id, report_type_id, name, date_creation)
+VALUES (2, (SELECT id FROM report_type WHERE name = 'Часовой'),
+        'Часовой отчет за 12 часов 20.04.2022',
+        TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'));
+
+-- СИКН
+INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 68, 2),
+       (36.4, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 69, 2),
+       (5.39, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 70, 2),
+       (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 71, 2),
+       (815, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 72, 2),
+       (818.8, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 73, 2),
+       (0.01, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 74, 2),
+       (225, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 75, 2),
+       (80353, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 76, 2),
+       (279, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 77, 2),
+       (86360, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 78, 2);
+
+-- ИЛ1
+INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+VALUES (815.0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 45, 2),
+       (818.8, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 50, 2),
+       (0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 51, 2),
+       (1787, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 52, 2),
+       (0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 53, 2),
+       (1978, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 55, 2);
+
+-- ИЛ2
+INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 60, 2),
+       (36.4, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 61, 2),
+       (5.39, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 62, 2),
+       (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 63, 2),
+       (815, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 64, 2),
+       (818.8, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 65, 2),
+       (225, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 66, 2),
+       (78566, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 67, 2),
+       (279, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 59, 2),
+       (84382, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 58, 2);
+
+-- БИК
+INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 80, 2),
+       (5.33, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 81, 2),
+       (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 82, 2),
+       (815, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 83, 2),
+       (818.8, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 84, 2),
+       (0.01, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 85, 2);
+
+-- ИЛ4
+INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 90, 2),
+       (5.33, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 91, 2),
+       (0.01, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 92, 2);

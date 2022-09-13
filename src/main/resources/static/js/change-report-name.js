@@ -18,11 +18,11 @@ function dateIsChanged(dateElement){
     const urlParams = new URLSearchParams(path);
     if(!urlParams.has('date')){
         urlParams.append('date', dateValue);
-        window.location.href = "http://localhost:8080/startPage/filter?"+urlParams.toString();
+        window.location.href = "/startPage/filter?"+urlParams.toString();
     }
     else{
         urlParams.set('date', dateValue);
-        window.location.href = "http://localhost:8080/startPage/filter?"+urlParams.toString();
+        window.location.href = "/startPage/filter?"+urlParams.toString();
     }
 }
 
@@ -32,10 +32,10 @@ function reportTypeIsChanged(reportTypeElement){
     const urlParams = new URLSearchParams(path);
     if(!urlParams.has('reportTypeId')){
         urlParams.append('reportTypeId', reportTypeId);
-        window.location.href = "http://localhost:8080/startPage/filter?"+urlParams.toString();
+        window.location.href = "/startPage/filter?"+urlParams.toString();
     }
     else{
         urlParams.set('reportTypeId', reportTypeId);
-        window.location.href = "http://localhost:8080/startPage/filter?"+urlParams.toString();
+        window.location.href = "/startPage/filter?"+urlParams.toString();
     }
 }
