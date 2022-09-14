@@ -4,6 +4,7 @@ import com.nppgks.reports.dto.TagDataDto;
 import com.nppgks.reports.entity.ReportName;
 import com.nppgks.reports.entity.ReportTypesEnum;
 import com.nppgks.reports.entity.ReportViewTagData;
+import com.nppgks.reports.entity.SettingsConstants;
 import com.nppgks.reports.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,8 +67,13 @@ public class ReportViewController {
         DateTimeRange dateTimeRange = DateTimeRangeBuilder
                 .buildStartEndDateForDailyReport(reportName.getDtCreation());
 
-        List<String> dailyColumns = settingsService.getListValuesBySettingName("daily report columns");
-        String meteringStationName = settingsService.getStringValueBySettingName("metering station name");
+        List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.DAILY_REPORT_COLUMNS);
+        fillModelMapForReportView(modelMap, reportName, reportViewTagData, dateTimeRange, dailyColumns);
+        return "daily-report-page";
+    }
+
+    private void fillModelMapForReportView(ModelMap modelMap, ReportName reportName, List<ReportViewTagData> reportViewTagData, DateTimeRange dateTimeRange, List<String> columnNames) {
+        String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
         modelMap.put("reportViewTagData", reportViewTagData);
         modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
                 .formatToSinglePattern(reportName.getDtCreation()));
@@ -75,9 +81,8 @@ public class ReportViewController {
                 .formatToSinglePattern(dateTimeRange.getStartDateTime()));
         modelMap.put("endReportDate", SingleDateTimeFormatter
                 .formatToSinglePattern(dateTimeRange.getEndDateTime()));
-        modelMap.put("columns", dailyColumns);
+        modelMap.put("columns", columnNames);
         modelMap.put("meteringStationName", meteringStationName);
-        return "daily-report-page";
     }
 
     @GetMapping(value = "/hourReport/{reportNameId}")
@@ -88,29 +93,20 @@ public class ReportViewController {
         DateTimeRange dateTimeRange = DateTimeRangeBuilder
                 .buildStartEndDateForHourReport(reportName.getDtCreation());
 
-        List<String> dailyColumns = settingsService.getListValuesBySettingName("hour report columns");
-        String meteringStationName = settingsService.getStringValueBySettingName("metering station name");
-        modelMap.put("reportViewTagData", reportViewTagData);
-        modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
-                .formatToSinglePattern(reportName.getDtCreation()));
-        modelMap.put("startReportDate", SingleDateTimeFormatter
-                .formatToSinglePattern(dateTimeRange.getStartDateTime()));
-        modelMap.put("endReportDate", SingleDateTimeFormatter
-                .formatToSinglePattern(dateTimeRange.getEndDateTime()));
-        modelMap.put("columns", dailyColumns);
-        modelMap.put("meteringStationName", meteringStationName);
+        List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.HOUR_REPORT_COLUMNS);
+        fillModelMapForReportView(modelMap, reportName, reportViewTagData, dateTimeRange, dailyColumns);
         return "hour-report-page";
     }
 
     @GetMapping("/settings")
-    public String getSettingsPage(ModelMap modelMap){
+    public String getSettingsPage(ModelMap modelMap) {
 
-        for(ReportTypesEnum reportType: ReportTypesEnum.values()){
+        for (ReportTypesEnum reportType : ReportTypesEnum.values()) {
             String reportTypeName = reportType.name();
-            List<String> columns = settingsService.getListValuesBySettingName(reportTypeName+" report columns");
-            modelMap.put(reportTypeName+"Columns", columns);
+            List<String> columns = settingsService.getListValuesBySettingName(reportTypeName + " " + SettingsConstants.REPORT_COLUMNS);
+            modelMap.put(reportTypeName + "Columns", columns);
         }
-        String meteringStationName = settingsService.getStringValueBySettingName("metering station name");
+        String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
         modelMap.put("meteringStationName", meteringStationName);
 
         return "settings";

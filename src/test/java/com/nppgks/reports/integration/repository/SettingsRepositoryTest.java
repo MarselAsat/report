@@ -1,6 +1,7 @@
 package com.nppgks.reports.integration.repository;
 
 import com.nppgks.reports.entity.Settings;
+import com.nppgks.reports.entity.SettingsConstants;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.RepositoryIT;
 import com.nppgks.reports.repository.SettingsRepository;
@@ -22,7 +23,7 @@ class SettingsRepositoryTest extends IntegrationBaseTest {
 
     @Test
     void findByName(){
-        Settings settings = settingsRepository.findByName("Часовой отчет: столбцы");
+        Settings settings = settingsRepository.findByName(SettingsConstants.HOUR_REPORT_COLUMNS);
         Assertions.assertEquals(settings.getValue(), "sikn,il1,il2,il3,il4,bik");
     }
 

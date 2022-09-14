@@ -1,5 +1,6 @@
 package com.nppgks.reports.integration.service;
 
+import com.nppgks.reports.entity.SettingsConstants;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.ServiceIT;
 import com.nppgks.reports.service.SettingsService;
@@ -24,10 +25,10 @@ class SettingsServiceTest extends IntegrationBaseTest {
 
     @Test
     void getListValuesBySettingName() {
-        List<String> hourColumns = settingsService.getListValuesBySettingName("Часовой отчет: столбцы");
+        List<String> hourColumns = settingsService.getListValuesBySettingName(SettingsConstants.HOUR_REPORT_COLUMNS);
         assertThat(hourColumns).hasSize(6);
 
-        List<String> dailyColumns = settingsService.getListValuesBySettingName("Суточный отчет: столбцы");
+        List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.DAILY_REPORT_COLUMNS);
         assertThat(dailyColumns).hasSize(4);
     }
 }
