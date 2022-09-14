@@ -2,7 +2,11 @@ package com.nppgks.reports.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Month;
+import java.util.LinkedHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DateTimeRangeBuilder {
     public static DateTimeRange buildDateRangeForSearchingHourReport(String dtCreationStr){
@@ -57,5 +61,35 @@ public class DateTimeRangeBuilder {
         LocalDateTime startDt = dateTime.minusYears(1).withMinute(0).withSecond(0);
         LocalDateTime endDt = dateTime.withMinute(0).withSecond(0);
         return new DateTimeRange(startDt, endDt);
+    }
+
+    public static DateTimeRange buildStartEndDateForShiftReport(LinkedHashMap<String, String> shiftNumAndStartTime, String reportName, LocalDateTime reportDtCreation) {
+
+        Pattern pattern = Pattern.compile("\\d смен");
+        Matcher matcher = pattern.matcher(reportName);
+        matcher.find();
+        String shiftNum = matcher.group(0).substring(0, 1);
+        String startTimeStr = shiftNumAndStartTime.get(shiftNum);
+        LocalTime startTime = LocalTime.parse(startTimeStr);
+        LocalTime reportTimeCreation = reportDtCreation.toLocalTime();
+        LocalDate startDate;
+        LocalDate endDate = reportDtCreation.toLocalDate();
+        if(startTime.isAfter(reportTimeCreation)){
+            startDate = endDate.minusDays(1);
+        }
+        else{
+            startDate = reportDtCreation.toLocalDate();
+        }
+
+        int shiftNumInt = Integer.parseInt(shiftNum);
+
+        String nextShiftNum = shiftNumInt == shiftNumAndStartTime.size() ? 1 + "" : ++shiftNumInt + "";
+
+        LocalTime endTime = LocalTime.parse(shiftNumAndStartTime.get(nextShiftNum));
+
+        return new DateTimeRange(
+                LocalDateTime.of(startDate, startTime),
+                LocalDateTime.of(endDate, endTime)
+        );
     }
 }

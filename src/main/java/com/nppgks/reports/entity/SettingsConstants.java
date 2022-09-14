@@ -8,4 +8,5 @@ final public class SettingsConstants {
     public static final String MONTH_REPORT_COLUMNS = ReportTypesEnum.month + " " + REPORT_COLUMNS;
     public static final String YEAR_REPORT_COLUMNS = ReportTypesEnum.year + " " + REPORT_COLUMNS;
     public static final String METERING_STATION_NAME = "metering station name";
+    public static final String START_SHIFT_REPORT = "start shift report";
 }

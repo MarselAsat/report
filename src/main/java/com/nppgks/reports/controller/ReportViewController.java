@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -96,6 +97,20 @@ public class ReportViewController {
         List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.HOUR_REPORT_COLUMNS);
         fillModelMapForReportView(modelMap, reportName, reportViewTagData, dateTimeRange, dailyColumns);
         return "hour-report-page";
+    }
+
+    @GetMapping(value = "/shiftReport/{reportNameId}")
+    public String getShiftReport(ModelMap modelMap,
+                                 @PathVariable Long reportNameId){
+        ReportName reportName = reportNameService.getById(reportNameId);
+        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
+        LinkedHashMap<String, String> shiftNumAndTime = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
+        DateTimeRange dateTimeRange = DateTimeRangeBuilder
+                .buildStartEndDateForShiftReport(shiftNumAndTime, reportName.getName(), reportName.getDtCreation());
+
+        List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.SHIFT_REPORT_COLUMNS);
+        fillModelMapForReportView(modelMap, reportName, reportViewTagData, dateTimeRange, columnNames);
+        return "shift-report-page";
     }
 
     @GetMapping("/settings")

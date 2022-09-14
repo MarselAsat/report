@@ -223,3 +223,69 @@ INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
 VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 90, 2),
        (5.33, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 91, 2),
        (0.01, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 92, 2);
+
+--Для сменного отчета
+INSERT INTO tag_name (id, "order", name, description, report_type_id)
+VALUES (93, 1, 'hour_mass_il1', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (94, 2, 'hour_temp_il1', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (95, 3, 'hour_pressure_il1', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (96, 4, 'hour_density_il1', 'Средняя плотность при текущих t и P', (SELECT id FROM report_type WHERE name = 'Сменный'));
+
+INSERT INTO tag_name (id, "order", name, description, report_type_id)
+VALUES (97, 1, 'hour_mass_il2', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (98, 2, 'hour_temp_il2', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (99, 3, 'hour_pressure_il2', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (100, 4, 'hour_density_il2', 'Средняя плотность при текущих t и P', (SELECT id FROM report_type WHERE name = 'Сменный'));
+
+INSERT INTO tag_name (id, "order", name, description, report_type_id)
+VALUES (101, 1, 'hour_mass_sikn', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (102, 2, 'hour_temp_sikn', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (103, 3, 'hour_pressure_sikn', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Сменный'));
+
+INSERT INTO tag_name (id, "order", name, description, report_type_id)
+VALUES (104, 1, 'hour_mass_bik', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (105, 2, 'hour_temp_bik', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (106, 3, 'hour_pressure_bik', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Сменный'));
+
+INSERT INTO tag_name (id, "order", name, description, report_type_id)
+VALUES (107, 1, 'hour_mass_il4', 'Средний массовый расход', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (108, 2, 'hour_temp_il4', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Сменный')),
+       (109, 3, 'hour_pressure_il4', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Сменный'));
+
+INSERT INTO report_name(id, report_type_id, name, date_creation)
+VALUES (3, (SELECT id FROM report_type WHERE name = 'Сменный'),
+        'Сменный отчет за 1 смену 20.04.2022',
+        TO_TIMESTAMP('2022-04-20 22:00:50', 'YYYY-MM-DD HH24:MI:SS'));
+
+-- СИКН
+INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 101, 3),
+       (36.4, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 102, 3),
+       (5.39, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 103, 3),
+       (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 71, 3);
+
+-- ИЛ1
+INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+VALUES (815.0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 93, 3),
+       (818.8, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 94, 3),
+       (0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 95, 3),
+       (1787, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 96, 3);
+
+-- ИЛ2
+INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 97, 3),
+       (36.4, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 98, 3),
+       (5.39, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 99, 3),
+       (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 100, 3);
+
+-- БИК
+INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 104, 3),
+       (5.33, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 105, 3),
+       (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 106, 3);
+
+-- ИЛ4
+INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 107, 3),
+       (5.33, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 108, 3),
+       (0.01, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 109, 3);
