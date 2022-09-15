@@ -1,10 +1,10 @@
 package com.nppgks.reports.integration.service;
 
-import com.nppgks.reports.entity.ReportName;
-import com.nppgks.reports.entity.ReportTypesEnum;
+import com.nppgks.reports.db.entity.ReportName;
+import com.nppgks.reports.constants.ReportTypesEnum;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.ServiceIT;
-import com.nppgks.reports.service.ReportNameService;
+import com.nppgks.reports.service.db_services.ReportNameService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

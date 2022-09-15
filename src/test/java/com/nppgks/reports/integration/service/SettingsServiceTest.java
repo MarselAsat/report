@@ -1,9 +1,9 @@
 package com.nppgks.reports.integration.service;
 
-import com.nppgks.reports.entity.SettingsConstants;
+import com.nppgks.reports.constants.SettingsConstants;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.ServiceIT;
-import com.nppgks.reports.service.SettingsService;
+import com.nppgks.reports.service.db_services.SettingsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;

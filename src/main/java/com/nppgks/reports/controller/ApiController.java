@@ -1,7 +1,7 @@
 package com.nppgks.reports.controller;
 
 import com.nppgks.reports.dto.TagDataDto;
-import com.nppgks.reports.service.TagDataService;
+import com.nppgks.reports.service.db_services.TagDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,6 @@ public class ApiController {
 
     @GetMapping("/tagData/{reportNameId}")
     public List<TagDataDto> getTagData(@PathVariable Long reportNameId){
-        List<TagDataDto> tagDataDto = tagDataService.getDataForReport(reportNameId);
-        return tagDataDto;
+        return tagDataService.getDataForReport(reportNameId);
     }
 }

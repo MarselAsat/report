@@ -1,11 +1,15 @@
 package com.nppgks.reports.controller;
 
 import com.nppgks.reports.dto.TagDataDto;
-import com.nppgks.reports.entity.ReportName;
-import com.nppgks.reports.entity.ReportTypesEnum;
-import com.nppgks.reports.entity.ReportViewTagData;
-import com.nppgks.reports.entity.SettingsConstants;
-import com.nppgks.reports.service.*;
+import com.nppgks.reports.db.entity.ReportName;
+import com.nppgks.reports.constants.ReportTypesEnum;
+import com.nppgks.reports.dto.ReportViewTagData;
+import com.nppgks.reports.constants.SettingsConstants;
+import com.nppgks.reports.service.db_services.ReportNameService;
+import com.nppgks.reports.service.db_services.ReportTypeService;
+import com.nppgks.reports.service.db_services.SettingsService;
+import com.nppgks.reports.service.db_services.TagDataService;
+import com.nppgks.reports.service.time_services.SingleDateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 

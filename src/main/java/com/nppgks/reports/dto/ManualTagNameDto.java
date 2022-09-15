@@ -1,6 +1,6 @@
 package com.nppgks.reports.dto;
 
-import com.nppgks.reports.entity.ManualTagName;
+import com.nppgks.reports.db.entity.ManualTagName;
 import lombok.Data;
 
 @Data

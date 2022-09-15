@@ -1,9 +1,9 @@
 package com.nppgks.reports.integration.repository;
 
-import com.nppgks.reports.entity.TagName;
+import com.nppgks.reports.db.entity.TagName;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.RepositoryIT;
-import com.nppgks.reports.repository.TagNameRepository;
+import com.nppgks.reports.db.repository.TagNameRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

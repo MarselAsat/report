@@ -3,7 +3,7 @@ package com.nppgks.reports.integration.service;
 import com.nppgks.reports.dto.ManualTagNameDto;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.ServiceIT;
-import com.nppgks.reports.service.ManualTagNameService;
+import com.nppgks.reports.service.db_services.ManualTagNameService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;

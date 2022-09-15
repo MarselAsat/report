@@ -1,9 +1,9 @@
 package com.nppgks.reports.controller;
 
 import com.nppgks.reports.dto.TagDataDto;
-import com.nppgks.reports.entity.ReportName;
-import com.nppgks.reports.service.ReportNameService;
-import com.nppgks.reports.service.TagDataService;
+import com.nppgks.reports.db.entity.ReportName;
+import com.nppgks.reports.service.db_services.ReportNameService;
+import com.nppgks.reports.service.db_services.TagDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

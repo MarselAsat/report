@@ -3,7 +3,7 @@ package com.nppgks.reports.controller;
 import com.nppgks.reports.dto.ManualTagNameDto;
 import com.nppgks.reports.dto.ReportTypeDto;
 import com.nppgks.reports.dto.TagNameDto;
-import com.nppgks.reports.service.*;
+import com.nppgks.reports.service.db_services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,21 +16,14 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final ReportNameService reportNameService;
-    private final TagDataService tagDataService;
     private final ReportTypeService reportTypeService;
-
     private final TagNameService<TagNameDto, Long> tagNameService;
     private final ManualTagNameService manualTagNameService;
 
     @Autowired
-    public AdminController(ReportNameService reportNameService,
-                           TagDataService tagDataService,
-                           ReportTypeService reportTypeService,
+    public AdminController(ReportTypeService reportTypeService,
                            TagNameService<TagNameDto, Long> tagNameService, ManualTagNameService manualTagNameService) {
-        this.reportNameService = reportNameService;
         this.reportTypeService = reportTypeService;
-        this.tagDataService = tagDataService;
         this.tagNameService = tagNameService;
         this.manualTagNameService = manualTagNameService;
     }
