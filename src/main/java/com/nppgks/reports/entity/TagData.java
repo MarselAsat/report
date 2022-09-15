@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity(name = "tag_data")
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,8 +19,8 @@ public class TagData {
 
     private double data;
 
-    @Column(name = "date_creation")
-    private LocalDateTime dtCreation;
+    @Column(name = "creation_dt")
+    private LocalDateTime creationDt;
 
     @ManyToOne
     @JoinColumn(name = "tag_name_id")

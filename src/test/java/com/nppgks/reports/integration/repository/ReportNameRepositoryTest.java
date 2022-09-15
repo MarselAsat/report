@@ -27,7 +27,7 @@ class ReportNameRepositoryTest extends IntegrationBaseTest {
         LocalDateTime start = LocalDateTime.of(2022, 5, 20, 13, 0);
         LocalDateTime end = LocalDateTime.of(2022, 5, 20, 14, 0);
         List<ReportName> reportNames = reportNameRepository
-                .findByReportTypeIdAndDtCreationBetween(1, start, end);
+                .findByReportTypeIdAndCreationDtBetween(1, start, end);
         assertThat(reportNames).hasSize(2);
     }
 
@@ -43,7 +43,7 @@ class ReportNameRepositoryTest extends IntegrationBaseTest {
         LocalDateTime start = LocalDateTime.of(2022, 5, 1, 0, 0);
         LocalDateTime end = LocalDateTime.of(2022, 5, 31, 0, 0);
         List<ReportName> reportNames = reportNameRepository
-                .findByDtCreationBetween(start, end);
+                .findByCreationDtBetween(start, end);
         assertThat(reportNames).hasSize(6);
     }
 

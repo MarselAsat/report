@@ -66,7 +66,7 @@ public class ReportViewController {
         ReportName reportName = reportNameService.getById(reportNameId);
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
         DateTimeRange dateTimeRange = DateTimeRangeBuilder
-                .buildStartEndDateForDailyReport(reportName.getDtCreation());
+                .buildStartEndDateForDailyReport(reportName.getCreationDt());
 
         List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.DAILY_REPORT_COLUMNS);
         fillModelMapForReportView(modelMap, reportName, reportViewTagData, dateTimeRange, dailyColumns);
@@ -77,7 +77,7 @@ public class ReportViewController {
         String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
         modelMap.put("reportViewTagData", reportViewTagData);
         modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
-                .formatToSinglePattern(reportName.getDtCreation()));
+                .formatToSinglePattern(reportName.getCreationDt()));
         modelMap.put("startReportDate", SingleDateTimeFormatter
                 .formatToSinglePattern(dateTimeRange.getStartDateTime()));
         modelMap.put("endReportDate", SingleDateTimeFormatter
@@ -92,7 +92,7 @@ public class ReportViewController {
         ReportName reportName = reportNameService.getById(reportNameId);
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
         DateTimeRange dateTimeRange = DateTimeRangeBuilder
-                .buildStartEndDateForHourReport(reportName.getDtCreation());
+                .buildStartEndDateForHourReport(reportName.getCreationDt());
 
         List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.HOUR_REPORT_COLUMNS);
         fillModelMapForReportView(modelMap, reportName, reportViewTagData, dateTimeRange, dailyColumns);
@@ -106,7 +106,7 @@ public class ReportViewController {
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
         LinkedHashMap<String, String> shiftNumAndTime = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
         DateTimeRange dateTimeRange = DateTimeRangeBuilder
-                .buildStartEndDateForShiftReport(shiftNumAndTime, reportName.getName(), reportName.getDtCreation());
+                .buildStartEndDateForShiftReport(shiftNumAndTime, reportName.getName(), reportName.getCreationDt());
 
         List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.SHIFT_REPORT_COLUMNS);
         fillModelMapForReportView(modelMap, reportName, reportViewTagData, dateTimeRange, columnNames);

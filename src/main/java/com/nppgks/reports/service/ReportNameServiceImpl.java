@@ -43,7 +43,7 @@ public class ReportNameServiceImpl implements ReportNameService{
                 case 5 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingYearReport(dtCreationStr);
                 default -> throw new RuntimeException("Invalid report type id");
             }
-            return repository.findByReportTypeIdAndDtCreationBetween(reportTypeId, dateTimeRange.getStartDateTime(), dateTimeRange.getEndDateTime());
+            return repository.findByReportTypeIdAndCreationDtBetween(reportTypeId, dateTimeRange.getStartDateTime(), dateTimeRange.getEndDateTime());
         }
     }
 
@@ -80,19 +80,19 @@ public class ReportNameServiceImpl implements ReportNameService{
         DateTimeRange dtRangeForMonthReport = DateTimeRangeBuilder.buildDateRangeForSearchingMonthReport(date);
         DateTimeRange dtRangeForYearReport = DateTimeRangeBuilder.buildDateRangeForSearchingYearReport(date);
 
-        List<ReportName> hourReportNames = repository.findByReportTypeIdAndDtCreationBetween(
+        List<ReportName> hourReportNames = repository.findByReportTypeIdAndCreationDtBetween(
                 1,
                 dtRangeForHourReport.getStartDateTime(),
                 dtRangeForHourReport.getEndDateTime());
-        List<ReportName> dailyReportNames = repository.findByReportTypeIdAndDtCreationBetween(
+        List<ReportName> dailyReportNames = repository.findByReportTypeIdAndCreationDtBetween(
                 2,
                 dtRangeForDailyReport.getStartDateTime(),
                 dtRangeForDailyReport.getEndDateTime());
-        List<ReportName> monthReportNames = repository.findByReportTypeIdAndDtCreationBetween(
+        List<ReportName> monthReportNames = repository.findByReportTypeIdAndCreationDtBetween(
                 4,
                 dtRangeForMonthReport.getStartDateTime(),
                 dtRangeForMonthReport.getEndDateTime());
-        List<ReportName> yearReportNames = repository.findByReportTypeIdAndDtCreationBetween(
+        List<ReportName> yearReportNames = repository.findByReportTypeIdAndCreationDtBetween(
                 5,
                 dtRangeForYearReport.getStartDateTime(),
                 dtRangeForYearReport.getEndDateTime());

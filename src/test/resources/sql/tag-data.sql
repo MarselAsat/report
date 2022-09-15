@@ -63,12 +63,12 @@ VALUES (34, 1, 'daily_mass_bik', 'Средний массовый расход',
        (43, 10, 'daily_vol_bik', 'Объем за сутки', (SELECT id FROM report_type WHERE name = 'Суточный')),
        (44, 11, 'daily_vol_increasing_bik', 'Объем нарастающий', (SELECT id FROM report_type WHERE name = 'Суточный'));
 
-INSERT INTO report_name(id, report_type_id, name, date_creation)
+INSERT INTO report_name(id, report_type_id, name, creation_dt)
 VALUES (1, (SELECT id FROM report_type WHERE name = 'Суточный'),
         'Суточный отчет за 12 часов 20.04.2022',
         TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 23, 1),
        (36.4, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 24, 1),
        (5.39, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 25, 1),
@@ -81,7 +81,7 @@ VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 23, 
        (279, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 32, 1),
        (86360, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 33, 1);
 
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (815.0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 5, 1),
        (818.8, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 6, 1),
        (0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 8, 1),
@@ -89,7 +89,7 @@ VALUES (815.0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 5, 
        (0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 10, 1),
        (1978, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 11, 1);
 
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 12, 1),
        (36.4, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 13, 1),
        (5.39, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 14, 1),
@@ -101,7 +101,7 @@ VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 12, 
        (279, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 21, 1),
        (84382, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 22, 1);
 
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 35, 1),
        (5.33, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 36, 1),
        (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 37, 1),
@@ -168,13 +168,13 @@ VALUES (90, 1, 'hour_mass_il4', 'Средний массовый расход', 
        (91, 2, 'hour_temp_il4', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Часовой')),
        (92, 3, 'hour_pressure_il4', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Часовой'));
 
-INSERT INTO report_name(id, report_type_id, name, date_creation)
+INSERT INTO report_name(id, report_type_id, name, creation_dt)
 VALUES (2, (SELECT id FROM report_type WHERE name = 'Часовой'),
         'Часовой отчет за 12 часов 20.04.2022',
         TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- СИКН
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 68, 2),
        (36.4, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 69, 2),
        (5.39, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 70, 2),
@@ -188,7 +188,7 @@ VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 68, 
        (86360, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 78, 2);
 
 -- ИЛ1
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (815.0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 45, 2),
        (818.8, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 50, 2),
        (0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 51, 2),
@@ -197,7 +197,7 @@ VALUES (815.0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 45,
        (1978, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 55, 2);
 
 -- ИЛ2
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 60, 2),
        (36.4, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 61, 2),
        (5.39, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 62, 2),
@@ -210,7 +210,7 @@ VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 60, 
        (84382, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 58, 2);
 
 -- БИК
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 80, 2),
        (5.33, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 81, 2),
        (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 82, 2),
@@ -219,7 +219,7 @@ VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 80, 
        (0.01, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 85, 2);
 
 -- ИЛ4
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 90, 2),
        (5.33, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 91, 2),
        (0.01, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 92, 2);
@@ -252,40 +252,40 @@ VALUES (107, 1, 'hour_mass_il4', 'Средний массовый расход',
        (108, 2, 'hour_temp_il4', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Сменный')),
        (109, 3, 'hour_pressure_il4', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Сменный'));
 
-INSERT INTO report_name(id, report_type_id, name, date_creation)
+INSERT INTO report_name(id, report_type_id, name, creation_dt)
 VALUES (3, (SELECT id FROM report_type WHERE name = 'Сменный'),
         'Сменный отчет за 1 смену 20.04.2022',
         TO_TIMESTAMP('2022-04-20 22:00:50', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- СИКН
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 101, 3),
        (36.4, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 102, 3),
        (5.39, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 103, 3),
        (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 71, 3);
 
 -- ИЛ1
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (815.0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 93, 3),
        (818.8, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 94, 3),
        (0, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 95, 3),
        (1787, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 96, 3);
 
 -- ИЛ2
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (45.9, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 97, 3),
        (36.4, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 98, 3),
        (5.39, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 99, 3),
        (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 100, 3);
 
 -- БИК
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 104, 3),
        (5.33, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 105, 3),
        (807.1, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 106, 3);
 
 -- ИЛ4
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (35.7, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 107, 3),
        (5.33, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 108, 3),
        (0.01, to_timestamp('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 109, 3);

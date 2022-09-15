@@ -64,7 +64,7 @@ VALUES (1, 'hour_mass_il1', 'масса за час ил1', (SELECT id FROM repo
        (13, 'ns=2;s=Channel1.Device1.Tag6', '', (SELECT id FROM report_type WHERE name = 'Ручной'));
 SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
 
-INSERT INTO report_name(id, report_type_id, name, date_creation)
+INSERT INTO report_name(id, report_type_id, name, creation_dt)
 VALUES (1, (SELECT id FROM report_type WHERE name = 'Часовой'),
         'Часовой отчет за 12 часов 20.05.2022',
         TO_TIMESTAMP('2022-05-20 13:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -94,7 +94,7 @@ VALUES (1, (SELECT id FROM report_type WHERE name = 'Часовой'),
         TO_TIMESTAMP('2021-01-02 15:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 
-INSERT INTO report_name(id, report_type_id, name, date_creation)
+INSERT INTO report_name(id, report_type_id, name, creation_dt)
 VALUES (10, (SELECT id FROM report_type WHERE name = 'Суточный'),
         'Суточный отчет за 20.05.2022',
         to_timestamp('2022-05-21 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -114,7 +114,7 @@ VALUES (10, (SELECT id FROM report_type WHERE name = 'Суточный'),
         'Суточный отчет за 22.01.2021',
         to_timestamp('2021-01-23 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report_name(id, report_type_id, name, date_creation)
+INSERT INTO report_name(id, report_type_id, name, creation_dt)
 VALUES (16, (SELECT id FROM report_type WHERE name = 'Месячный'),
         'Месячный отчет за май 2022',
         to_timestamp('2022-06-01 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -134,7 +134,7 @@ VALUES (16, (SELECT id FROM report_type WHERE name = 'Месячный'),
         'Месячный отчет за декабрь 2021',
         TO_TIMESTAMP('2022-01-01 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report_name(id, report_type_id, name, date_creation)
+INSERT INTO report_name(id, report_type_id, name, creation_dt)
 VALUES (22, (SELECT id FROM report_type WHERE name = 'Сменный'),
         'Сменный отчет за I смену 20.08.2022',
         to_timestamp('2022-08-20 22:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -145,7 +145,7 @@ VALUES (22, (SELECT id FROM report_type WHERE name = 'Сменный'),
         'Сменный отчет за I смену 20.08.2021',
         to_timestamp('2021-08-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report_name(id, report_type_id, name, date_creation)
+INSERT INTO report_name(id, report_type_id, name, creation_dt)
 VALUES (25, (SELECT id FROM report_type WHERE name = 'Годовой'),
         'Годовой отчет за 2022',
         to_timestamp('2023-01-01 10:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -153,14 +153,14 @@ VALUES (25, (SELECT id FROM report_type WHERE name = 'Годовой'),
         'Годовой отчет за 2021',
         to_timestamp('2022-01-01 22:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report_name(id, report_type_id, name, date_creation)
+INSERT INTO report_name(id, report_type_id, name, creation_dt)
 VALUES (27, (SELECT id FROM report_type WHERE name = 'Ручной'),
         'Поверка 3622',
         to_timestamp('2022-07-14 12:00:50', 'YYYY-MM-DD HH24:MI:SS'));
 
 SELECT SETVAL('report_name_id_seq', (SELECT MAX(id) FROM report_name));
 
-INSERT INTO tag_data(data, date_creation, tag_name_id, report_name_id)
+INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (80.0, to_timestamp('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 1),
        (120.0, to_timestamp('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2, 1),
        (160.0, to_timestamp('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3, 1),
@@ -174,7 +174,7 @@ VALUES (80.0, to_timestamp('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 1
        (123.0, to_timestamp('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2, 2),
        (163.0, to_timestamp('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3, 2);
 
-INSERT INTO text_tag_data(data, date_creation, manual_tag_name_id, report_name_id)
+INSERT INTO text_tag_data(data, creation_dt, manual_tag_name_id, report_name_id)
 VALUES ('Micro Motion', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
         (SELECT id FROM manual_tag_name WHERE name = 'CRM_name'), 10),
        ('МИ 3622-2020', to_timestamp('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),

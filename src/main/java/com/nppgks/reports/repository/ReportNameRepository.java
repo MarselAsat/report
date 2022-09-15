@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface ReportNameRepository extends JpaRepository<ReportName, Long> {
 
-    List<ReportName> findByReportTypeIdAndDtCreationBetween(Integer reportTypeId, LocalDateTime dtCreationStart, LocalDateTime dtCreationEnd);
+    List<ReportName> findByReportTypeIdAndCreationDtBetween(Integer reportTypeId, LocalDateTime dtCreationStart, LocalDateTime dtCreationEnd);
 
     List<ReportName> findByReportTypeId(Integer reportTypeId);
 
-    List<ReportName> findByDtCreationBetween(LocalDateTime dateStart, LocalDateTime dateEnd);
+    List<ReportName> findByCreationDtBetween(LocalDateTime dateStart, LocalDateTime dateEnd);
 
     List<ReportName> findByNameLikeAndReportTypeId(String name, Integer reportTypeId);
 

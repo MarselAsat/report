@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "report_name")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,8 +21,14 @@ public class ReportName {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "date_creation")
-    private LocalDateTime dtCreation;
+    @Column(name = "creation_dt")
+    private LocalDateTime creationDt;
+
+    @Column(name = "start_dt")
+    private LocalDateTime startDt;
+
+    @Column(name = "end_dt")
+    private LocalDateTime endDt;
 
     @ManyToOne
     @JoinColumn(name = "report_type_id")
