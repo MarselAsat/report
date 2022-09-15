@@ -90,6 +90,26 @@ public class ReportViewController {
         return "shift-report-page";
     }
 
+    @GetMapping(value = "/monthReport/{reportNameId}")
+    public String getMonthReport(ModelMap modelMap,
+                                 @PathVariable Long reportNameId){
+        ReportName reportName = reportNameService.getById(reportNameId);
+        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
+        List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.MONTH_REPORT_COLUMNS);
+        fillModelMapForReportView(modelMap, reportName, reportViewTagData, columnNames);
+        return "month-report-page";
+    }
+
+    @GetMapping(value = "/yearReport/{reportNameId}")
+    public String getYearReport(ModelMap modelMap,
+                                 @PathVariable Long reportNameId){
+        ReportName reportName = reportNameService.getById(reportNameId);
+        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
+        List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.YEAR_REPORT_COLUMNS);
+        fillModelMapForReportView(modelMap, reportName, reportViewTagData, columnNames);
+        return "year-report-page";
+    }
+
     @GetMapping("/settings")
     public String getSettingsPage(ModelMap modelMap) {
 
