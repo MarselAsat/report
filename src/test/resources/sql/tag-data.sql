@@ -63,9 +63,11 @@ VALUES (34, 1, 'daily_mass_bik', 'Средний массовый расход',
        (43, 10, 'daily_vol_bik', 'Объем за сутки', (SELECT id FROM report_type WHERE name = 'Суточный')),
        (44, 11, 'daily_vol_increasing_bik', 'Объем нарастающий', (SELECT id FROM report_type WHERE name = 'Суточный'));
 
-INSERT INTO report_name(id, report_type_id, name, creation_dt)
+INSERT INTO report_name(id, report_type_id, name, start_dt, end_dt, creation_dt)
 VALUES (1, (SELECT id FROM report_type WHERE name = 'Суточный'),
-        'Суточный отчет за 12 часов 20.04.2022',
+        'Суточный отчет за 20.04.2022',
+        TO_TIMESTAMP('2022-04-20 10:00', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_TIMESTAMP('2022-04-21 10:00', 'YYYY-MM-DD HH24:MI:SS'),
         TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'));
 
 INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
@@ -168,10 +170,12 @@ VALUES (90, 1, 'hour_mass_il4', 'Средний массовый расход', 
        (91, 2, 'hour_temp_il4', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Часовой')),
        (92, 3, 'hour_pressure_il4', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Часовой'));
 
-INSERT INTO report_name(id, report_type_id, name, creation_dt)
+INSERT INTO report_name(id, report_type_id, name, start_dt, end_dt, creation_dt)
 VALUES (2, (SELECT id FROM report_type WHERE name = 'Часовой'),
         'Часовой отчет за 12 часов 20.04.2022',
-        TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'));
+        TO_TIMESTAMP('2022-04-20 12:00:50', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_TIMESTAMP('2022-04-20 13:00:50', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_TIMESTAMP('2022-04-20 13:01:50', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- СИКН
 INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
@@ -252,9 +256,11 @@ VALUES (107, 1, 'hour_mass_il4', 'Средний массовый расход',
        (108, 2, 'hour_temp_il4', 'Средняя температура', (SELECT id FROM report_type WHERE name = 'Сменный')),
        (109, 3, 'hour_pressure_il4', 'Среднее давление', (SELECT id FROM report_type WHERE name = 'Сменный'));
 
-INSERT INTO report_name(id, report_type_id, name, creation_dt)
+INSERT INTO report_name(id, report_type_id, name, start_dt, end_dt, creation_dt)
 VALUES (3, (SELECT id FROM report_type WHERE name = 'Сменный'),
         'Сменный отчет за 1 смену 20.04.2022',
+        TO_TIMESTAMP('2022-04-20 10:00', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_TIMESTAMP('2022-04-20 22:00', 'YYYY-MM-DD HH24:MI:SS'),
         TO_TIMESTAMP('2022-04-20 22:00:50', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- СИКН
