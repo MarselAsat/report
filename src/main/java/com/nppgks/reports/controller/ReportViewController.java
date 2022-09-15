@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -65,25 +65,9 @@ public class ReportViewController {
                             @PathVariable Long reportNameId){
         ReportName reportName = reportNameService.getById(reportNameId);
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
-        DateTimeRange dateTimeRange = DateTimeRangeBuilder
-                .buildStartEndDateForDailyReport(reportName.getCreationDt());
-
         List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.DAILY_REPORT_COLUMNS);
-        fillModelMapForReportView(modelMap, reportName, reportViewTagData, dateTimeRange, dailyColumns);
+        fillModelMapForReportView(modelMap, reportName, reportViewTagData, dailyColumns);
         return "daily-report-page";
-    }
-
-    private void fillModelMapForReportView(ModelMap modelMap, ReportName reportName, List<ReportViewTagData> reportViewTagData, DateTimeRange dateTimeRange, List<String> columnNames) {
-        String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
-        modelMap.put("reportViewTagData", reportViewTagData);
-        modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
-                .formatToSinglePattern(reportName.getCreationDt()));
-        modelMap.put("startReportDate", SingleDateTimeFormatter
-                .formatToSinglePattern(dateTimeRange.getStartDateTime()));
-        modelMap.put("endReportDate", SingleDateTimeFormatter
-                .formatToSinglePattern(dateTimeRange.getEndDateTime()));
-        modelMap.put("columns", columnNames);
-        modelMap.put("meteringStationName", meteringStationName);
     }
 
     @GetMapping(value = "/hourReport/{reportNameId}")
@@ -91,11 +75,8 @@ public class ReportViewController {
                             @PathVariable Long reportNameId){
         ReportName reportName = reportNameService.getById(reportNameId);
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
-        DateTimeRange dateTimeRange = DateTimeRangeBuilder
-                .buildStartEndDateForHourReport(reportName.getCreationDt());
-
         List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.HOUR_REPORT_COLUMNS);
-        fillModelMapForReportView(modelMap, reportName, reportViewTagData, dateTimeRange, dailyColumns);
+        fillModelMapForReportView(modelMap, reportName, reportViewTagData, dailyColumns);
         return "hour-report-page";
     }
 
@@ -104,12 +85,8 @@ public class ReportViewController {
                                  @PathVariable Long reportNameId){
         ReportName reportName = reportNameService.getById(reportNameId);
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
-        LinkedHashMap<String, String> shiftNumAndTime = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
-        DateTimeRange dateTimeRange = DateTimeRangeBuilder
-                .buildStartEndDateForShiftReport(shiftNumAndTime, reportName.getName(), reportName.getCreationDt());
-
         List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.SHIFT_REPORT_COLUMNS);
-        fillModelMapForReportView(modelMap, reportName, reportViewTagData, dateTimeRange, columnNames);
+        fillModelMapForReportView(modelMap, reportName, reportViewTagData, columnNames);
         return "shift-report-page";
     }
 
@@ -141,5 +118,20 @@ public class ReportViewController {
         else{
             model.put("reportTypes", reportTypeService.getAllReportTypes());
         }
+    }
+
+    private void fillModelMapForReportView(ModelMap modelMap, ReportName reportName, List<ReportViewTagData> reportViewTagData, List<String> columnNames) {
+        String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
+        LocalDateTime reportStartDt = reportName.getStartDt();
+        LocalDateTime reportEndDt = reportName.getEndDt();
+        modelMap.put("reportViewTagData", reportViewTagData);
+        modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
+                .formatToSinglePattern(reportName.getCreationDt()));
+        modelMap.put("startReportDate", SingleDateTimeFormatter
+                .formatToSinglePattern(reportStartDt));
+        modelMap.put("endReportDate", SingleDateTimeFormatter
+                .formatToSinglePattern(reportEndDt));
+        modelMap.put("columns", columnNames);
+        modelMap.put("meteringStationName", meteringStationName);
     }
 }
