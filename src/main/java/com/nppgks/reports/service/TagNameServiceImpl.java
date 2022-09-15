@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 @Service
 public class TagNameServiceImpl implements TagNameService<TagNameDto, Long>{
 
-    private TagNameRepository repository;
+    private final TagNameRepository repository;
 
-    private ReportTypeService reportTypeService;
+    private final ReportTypeService reportTypeService;
 
     @Autowired
     public TagNameServiceImpl(TagNameRepository tagNameRepository, ReportTypeService reportTypeService){
@@ -31,7 +31,8 @@ public class TagNameServiceImpl implements TagNameService<TagNameDto, Long>{
             return  repository.save(tagName).getId();
         }
         catch(Exception e){
-            return null;
+            e.printStackTrace();
+            return -1L;
         }
     }
 
@@ -44,13 +45,12 @@ public class TagNameServiceImpl implements TagNameService<TagNameDto, Long>{
 
     @Override
     public Map<Long, Boolean> saveTagNames(List<TagNameDto> tagNames) {
-        Map<Long, Boolean> responses = tagNames.stream()
+        return tagNames.stream()
                 .map(tagName -> {
-                    Boolean resp = saveTagName(tagName)!=null;
+                    Boolean resp = saveTagName(tagName)!=-1L;
                     return Map.entry(tagName.getId(), resp);
                 })
-                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
-        return responses;
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     @Override

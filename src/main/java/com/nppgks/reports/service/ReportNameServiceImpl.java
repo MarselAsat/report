@@ -1,6 +1,7 @@
 package com.nppgks.reports.service;
 
 import com.nppgks.reports.entity.ReportName;
+import com.nppgks.reports.entity.ReportTypesEnum;
 import com.nppgks.reports.repository.ReportNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class ReportNameServiceImpl implements ReportNameService{
     }
 
     @Override
-    public List<ReportName> getReportNameByDateAndReportId(Integer reportTypeId, String dtCreationStr) {
+    public List<ReportName> getReportNameByDateAndReportId(String reportTypeId, String dtCreationStr) {
         if(reportTypeId==null){
             return findByDate(dtCreationStr);
         }
@@ -33,14 +34,14 @@ public class ReportNameServiceImpl implements ReportNameService{
         }
         else{
             DateTimeRange dateTimeRange;
-            switch (reportTypeId) {
-                case 1 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingHourReport(dtCreationStr);
-                case 2 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingDailyReport(dtCreationStr);
-                case 3 -> {
+            switch (ReportTypesEnum.valueOf(reportTypeId)) {
+                case hour -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingHourReport(dtCreationStr);
+                case daily -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingDailyReport(dtCreationStr);
+                case shift -> {
                     return getShiftReportNamesByDate(dtCreationStr);
                 }
-                case 4 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingMonthReport(dtCreationStr);
-                case 5 -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingYearReport(dtCreationStr);
+                case month -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingMonthReport(dtCreationStr);
+                case year -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingYearReport(dtCreationStr);
                 default -> throw new RuntimeException("Invalid report type id");
             }
             return repository.findByReportTypeIdAndCreationDtBetween(reportTypeId, dateTimeRange.getStartDateTime(), dateTimeRange.getEndDateTime());
@@ -49,7 +50,7 @@ public class ReportNameServiceImpl implements ReportNameService{
 
     private List<ReportName> getShiftReportNamesByDate(String dtCreationStr) {
         String formattedDate = LocalDate.parse(dtCreationStr).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        return repository.findByNameLikeAndReportTypeId("%" + formattedDate + "%", 3);
+        return repository.findByNameLikeAndReportTypeId("%" + formattedDate + "%", ReportTypesEnum.shift.name());
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ReportNameServiceImpl implements ReportNameService{
     }
 
     @Override
-    public List<ReportName> findByReportTypeId(Integer reportTypeId) {
+    public List<ReportName> findByReportTypeId(String reportTypeId) {
         return repository.findByReportTypeId(reportTypeId);
     }
 
@@ -81,19 +82,19 @@ public class ReportNameServiceImpl implements ReportNameService{
         DateTimeRange dtRangeForYearReport = DateTimeRangeBuilder.buildDateRangeForSearchingYearReport(date);
 
         List<ReportName> hourReportNames = repository.findByReportTypeIdAndCreationDtBetween(
-                1,
+                ReportTypesEnum.hour.name(),
                 dtRangeForHourReport.getStartDateTime(),
                 dtRangeForHourReport.getEndDateTime());
         List<ReportName> dailyReportNames = repository.findByReportTypeIdAndCreationDtBetween(
-                2,
+                ReportTypesEnum.daily.name(),
                 dtRangeForDailyReport.getStartDateTime(),
                 dtRangeForDailyReport.getEndDateTime());
         List<ReportName> monthReportNames = repository.findByReportTypeIdAndCreationDtBetween(
-                4,
+                ReportTypesEnum.month.name(),
                 dtRangeForMonthReport.getStartDateTime(),
                 dtRangeForMonthReport.getEndDateTime());
         List<ReportName> yearReportNames = repository.findByReportTypeIdAndCreationDtBetween(
-                5,
+                ReportTypesEnum.year.name(),
                 dtRangeForYearReport.getStartDateTime(),
                 dtRangeForYearReport.getEndDateTime());
 

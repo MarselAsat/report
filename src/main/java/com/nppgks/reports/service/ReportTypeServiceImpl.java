@@ -29,7 +29,7 @@ public class ReportTypeServiceImpl implements ReportTypeService {
     }
 
     @Override
-    public Optional<ReportType> getReportTypeById(int id) {
+    public Optional<ReportType> getReportTypeById(String id) {
         return repository.findById(id);
     }
 

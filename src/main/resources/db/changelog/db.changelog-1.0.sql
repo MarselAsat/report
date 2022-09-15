@@ -3,7 +3,7 @@
 --changeset alina.parfenteva:1
 CREATE TABLE IF NOT EXISTS report_type
 (
-    id          SERIAL PRIMARY KEY,
+    id          VARCHAR(32) PRIMARY KEY,
     name        VARCHAR(256),
     description VARCHAR(256),
     time_zone   INT,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS tag_name
     id             BIGSERIAL PRIMARY KEY,
     name           VARCHAR(256),
     description    VARCHAR(256),
-    report_type_id INT REFERENCES report_type (id),
+    report_type_id VARCHAR(32) REFERENCES report_type (id),
     UNIQUE (name, report_type_id)
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS manual_tag_name
 CREATE TABLE IF NOT EXISTS report_name
 (
     id             BIGSERIAL PRIMARY KEY,
-    report_type_id INT REFERENCES report_type (id),
+    report_type_id VARCHAR(32) REFERENCES report_type (id),
     name           VARCHAR(256),
     date_creation  TIMESTAMP
 );

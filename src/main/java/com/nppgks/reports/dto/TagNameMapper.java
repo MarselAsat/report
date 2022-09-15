@@ -4,7 +4,6 @@ import com.nppgks.reports.entity.ReportType;
 import com.nppgks.reports.entity.TagName;
 import com.nppgks.reports.service.ReportTypeService;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -24,7 +23,7 @@ public class TagNameMapper {
         tagName.setId(tagNameDto.getId());
         tagName.setName(tagNameDto.getName());
         tagName.setDescription(tagNameDto.getDescription());
-        Optional<ReportType> reportType = reportTypeService.getReportTypeById(tagNameDto.getReportType());
+        Optional<ReportType> reportType = reportTypeService.getReportTypeById(tagNameDto.getReportTypeId());
         tagName.setReportType(reportType.get());
 
         return tagName;
@@ -34,7 +33,7 @@ public class TagNameMapper {
         tagNameDto.setName(tagName.getName());
         tagNameDto.setDescription(tagName.getDescription());
         if(tagName.getReportType()!=null){
-            tagNameDto.setReportType(tagName.getReportType().getId());
+            tagNameDto.setReportTypeId(tagName.getReportType().getId());
         }
         tagNameDto.setId(tagName.getId());
 

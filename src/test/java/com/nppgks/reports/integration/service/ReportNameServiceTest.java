@@ -1,6 +1,7 @@
 package com.nppgks.reports.integration.service;
 
 import com.nppgks.reports.entity.ReportName;
+import com.nppgks.reports.entity.ReportTypesEnum;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.ServiceIT;
 import com.nppgks.reports.service.ReportNameService;
@@ -24,15 +25,15 @@ class ReportNameServiceTest extends IntegrationBaseTest {
 
     @Test
     void getReportNameByDateAndReportId() {
-        List<ReportName> hourReportNames = reportNameService.getReportNameByDateAndReportId(1, "2022-05-20");
+        List<ReportName> hourReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.hour.name(), "2022-05-20");
         assertThat(hourReportNames).hasSize(3);
-        List<ReportName> dailyReportNames = reportNameService.getReportNameByDateAndReportId(2, "2022-05-20");
+        List<ReportName> dailyReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.daily.name(), "2022-05-20");
         assertThat(dailyReportNames).hasSize(1);
-        List<ReportName> shiftReportNames = reportNameService.getReportNameByDateAndReportId(3, "2021-08-20");
+        List<ReportName> shiftReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.shift.name(), "2021-08-20");
         assertThat(shiftReportNames).hasSize(1);
-        List<ReportName> monthReportNames = reportNameService.getReportNameByDateAndReportId(4, "2021-12-10");
+        List<ReportName> monthReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.month.name(), "2021-12-10");
         assertThat(monthReportNames).hasSize(1);
-        List<ReportName> yearReportName = reportNameService.getReportNameByDateAndReportId(5, "2022-01-01");
+        List<ReportName> yearReportName = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.year.name(), "2022-01-01");
         Pattern pattern = Pattern.compile(".*2022.*");
         assertThat(yearReportName.get(0).getName()).matches(pattern);
     }

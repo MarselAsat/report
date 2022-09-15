@@ -19,6 +19,7 @@ public class TagName {
     @Column(name = "\"order\"")
     private Integer order;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "report_type_id")
     private ReportType reportType;
 }

@@ -44,7 +44,7 @@ public class ReportViewController {
     @GetMapping(value = "/startPage/filter")
     public String getReportNameByDateAndReportType(ModelMap modelMap,
                                       @RequestParam(required = false) String date,
-                                      @RequestParam(required = false) Integer reportTypeId){
+                                      @RequestParam(required = false) String reportTypeId){
         if(Objects.equals(date, "")&&reportTypeId==null){
             return "redirect:/startPage";
         }
