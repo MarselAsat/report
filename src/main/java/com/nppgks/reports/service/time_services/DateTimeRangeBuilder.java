@@ -40,26 +40,26 @@ public class DateTimeRangeBuilder {
     }
 
     public static DateTimeRange buildStartEndDateForHourReport(LocalDateTime dateTime){
-        LocalDateTime startDt = dateTime.minusHours(1).withMinute(0).withSecond(0);
-        LocalDateTime endDt = dateTime.withMinute(0).withSecond(0);
+        LocalDateTime startDt = dateTime.minusHours(1).withMinute(0);
+        LocalDateTime endDt = dateTime.withMinute(0);
         return new DateTimeRange(startDt, endDt);
     }
 
     public static DateTimeRange buildStartEndDateForDailyReport(LocalDateTime dateTime){
-        LocalDateTime startDt = dateTime.minusDays(1).withMinute(0).withSecond(0);
-        LocalDateTime endDt = dateTime.withMinute(0).withSecond(0);
+        LocalDateTime startDt = dateTime.minusDays(1).withMinute(0);
+        LocalDateTime endDt = dateTime.withMinute(0);
         return new DateTimeRange(startDt, endDt);
     }
 
     public static DateTimeRange buildStartEndDateForMonthReport(LocalDateTime dateTime){
-        LocalDateTime startDt = dateTime.minusMonths(1).withMinute(0).withSecond(0);
-        LocalDateTime endDt = dateTime.withMinute(0).withSecond(0);
+        LocalDateTime startDt = dateTime.minusMonths(1).withMinute(0);
+        LocalDateTime endDt = dateTime.withMinute(0);
         return new DateTimeRange(startDt, endDt);
     }
 
     public static DateTimeRange buildStartEndDateForYearReport(LocalDateTime dateTime){
-        LocalDateTime startDt = dateTime.minusYears(1).withMinute(0).withSecond(0);
-        LocalDateTime endDt = dateTime.withMinute(0).withSecond(0);
+        LocalDateTime startDt = dateTime.minusYears(1).withMinute(0);
+        LocalDateTime endDt = dateTime.withMinute(0);
         return new DateTimeRange(startDt, endDt);
     }
 
