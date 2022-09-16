@@ -1,5 +1,5 @@
-function getTagData(id) {
-    fetch(contextPath + "api/tagData/"+id, {method: 'GET'})
+function getTagData(reportNameId) {
+    fetch(contextPath + "api/tagData/"+reportNameId, {method: 'GET'})
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -13,4 +13,11 @@ function getTagData(id) {
                 tagDataDiv.appendChild(li);
             }
         })
+
+    path = window.location.search;
+    const urlParams = new URLSearchParams(path);
+    let reportTypeId = urlParams.get("reportTypeId");
+    const showReportRef = document.getElementById("show-report-ref");
+    showReportRef.setAttribute("href", "/"+reportTypeId+"Report/"+reportNameId);
+
 }

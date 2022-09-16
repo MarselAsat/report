@@ -1,6 +1,8 @@
 package com.nppgks.reports.integration.scheduled_components;
 
-import com.nppgks.reports.entity.TagData;
+import com.nppgks.reports.db.entity.TagData;
+import com.nppgks.reports.integration.IntegrationBaseTest;
+import com.nppgks.reports.integration.annotation.ServiceIT;
 import com.nppgks.reports.opc.OpcRequests;
 import com.nppgks.reports.scheduled_components.ScheduledTasks;
 import org.assertj.core.api.Assertions;
@@ -10,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-@SpringBootTest
 @Transactional
 @ExtendWith(MockitoExtension.class)
-public class ScheduledTasksIT {
+@ServiceIT
+public class ScheduledTasksIT extends IntegrationBaseTest {
 
     @InjectMocks
     private final ScheduledTasks scheduledTasks;

@@ -37,21 +37,23 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-            <!-- Post Content Column -->
+            <button type="submit" class="btn btn-primary" onclick="saveChangedTagNames()">Save</button>
             <table id = "tag-name-table" class="table table-borderless">
                 <thead class="table-light" style="font-weight: bold">
                 <tr>
                     <td>Permanent name</td>
                     <td>Tag name</td>
                     <td>Description</td>
+                    <td>Type</td>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr th:each="tagName: ${tagNames}" th:id="${tagName.permanentName}">
-                    <td class="align-middle"><span th:text = "${tagName.permanentName}"></span></td>
+                <tr th:each="tagName: ${tagNames}" th:id="${tagName.id}">
+                    <td class="align-middle"><span th:text = "${tagName.permanentName}" class="permanent-name"></span></td>
                     <td class="align-middle"><input type="text" th:value = "${tagName.name}" onchange="tagNameIsChanged(this)" class="name" onfocus="writeInitialValue(this)" style="border: 0"/></td>
                     <td class="align-middle"><input type="text" th:value = "${tagName.description}" onchange="tagNameIsChanged(this)" class="description" onfocus="writeInitialValue(this)" style="border: 0"/></td>
+                    <td class="align-middle"><span th:text = "${tagName.type}" class="type"></span></td>
                     <td class="align-middle">
                         <button class="btn btn-danger" onclick="strikeoutRow(this)">X</button>
                     </td>
@@ -59,7 +61,6 @@
                 </tr>
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-primary" onclick="saveChangedTagNames()">Save</button>
         </div>
     </div>
 </div>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title id="pageTitle">Edit tag name table</title>
@@ -74,7 +73,7 @@
                                         onchange="tagNameIsChanged(this)" onfocus="writeInitialValue(this)" style="border: 0">
                                     <li th:each="reportType: ${reportTypes}">
                                         <option th:value = "${reportType.id}" th:text = "${reportType.name}"
-                                                th:selected="${reportType.id} == ${tagName.reportType}">
+                                                th:selected="${reportType.id} == ${tagName.reportTypeId}">
                                         </option>
                                     </li>
                                 </select>

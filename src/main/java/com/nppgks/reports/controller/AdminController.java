@@ -3,7 +3,8 @@ package com.nppgks.reports.controller;
 import com.nppgks.reports.dto.ManualTagNameDto;
 import com.nppgks.reports.dto.ReportTypeDto;
 import com.nppgks.reports.dto.TagNameDto;
-import com.nppgks.reports.service.*;
+import com.nppgks.reports.service.TagNameService;
+import com.nppgks.reports.service.db_services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,21 +17,14 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final ReportNameService reportNameService;
-    private final TagDataService tagDataService;
     private final ReportTypeService reportTypeService;
-
     private final TagNameService<TagNameDto, Long> tagNameService;
-    private final TagNameService<ManualTagNameDto, String> manualTagNameService;
+    private final ManualTagNameService manualTagNameService;
 
     @Autowired
-    public AdminController(ReportNameService reportNameService,
-                           TagDataService tagDataService,
-                           ReportTypeService reportTypeService,
-                           TagNameService<TagNameDto, Long> tagNameService, TagNameService<ManualTagNameDto, String> manualTagNameService) {
-        this.reportNameService = reportNameService;
+    public AdminController(ReportTypeService reportTypeService,
+                           TagNameService<TagNameDto, Long> tagNameService, ManualTagNameService manualTagNameService) {
         this.reportTypeService = reportTypeService;
-        this.tagDataService = tagDataService;
         this.tagNameService = tagNameService;
         this.manualTagNameService = manualTagNameService;
     }
@@ -70,19 +64,20 @@ public class AdminController {
     }
     @PostMapping("/manualTagName")
     @ResponseBody
-    public Map<String, Boolean> updateManualTagNames(@RequestBody List<ManualTagNameDto> tagNames){
-        return manualTagNameService.saveTagNames(tagNames);
+    public Map<Integer, Boolean> updateManualTagNames(@RequestBody List<ManualTagNameDto> tagNames){
+        return manualTagNameService.updateTagNames(tagNames);
     }
 
-    @DeleteMapping("/manualTagName/{permanentName}")
+    @DeleteMapping("/manualTagName/{id}")
     @ResponseBody
-    public Map<String, Boolean> deleteManualTagName(@PathVariable String permanentName){
-        boolean isDeleted = manualTagNameService.deleteTagName(permanentName);
-        return Map.of(permanentName, isDeleted);
+    public Map<Integer, Boolean> deleteManualTagName(@PathVariable Integer id){
+        boolean isDeleted = manualTagNameService.deleteTagName(id);
+        return Map.of(id, isDeleted);
     }
+
     @GetMapping("/manualTagName")
     public String getAllManualTagNames(ModelMap modelMap){
-        List<ManualTagNameDto> tagNames = manualTagNameService.getAllTagNamesDto();
+        List<ManualTagNameDto> tagNames = manualTagNameService.getAllTagNames();
         modelMap.put("tagNames", tagNames);
         return "edit-manual-tag-name-table";
     }

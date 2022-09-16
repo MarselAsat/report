@@ -36,10 +36,6 @@ function saveChangedTagNames(){
         var tagNameRow = document.getElementById(id);
         deleteTagNameFromDB(id, tagNameRow);
     }
-
-    deletedRows.clear();
-    changedRows.clear();
-    initialValues = {};
 }
 
 function fillChangedTagNameList(changedTagNameList){
@@ -47,11 +43,13 @@ function fillChangedTagNameList(changedTagNameList){
         var tagNameRow = document.getElementById(id);
         if(!tagNameRow.classList.contains("strikeout")){
             var tagName = {};
+            var permanentName = tagNameRow.getElementsByClassName("permanent-name")[0].textContent;
             var name = tagNameRow.getElementsByClassName("name")[0].value;
             var description = tagNameRow.getElementsByClassName("description")[0].value;
             if(name!=initialValues[id].name ||
                 description!= initialValues[id].description){
-                tagName.permanentName = id;
+                tagName.id = id;
+                tagName.permanentName = permanentName;
                 tagName.name = name;
                 tagName.description = description;
                 changedTagNameList.push({...tagName});
@@ -86,6 +84,10 @@ async function updateTagNamesInDB(changedTagNameList){
         }
         responseTd.innerHTML = label;
     }
+
+    deletedRows.clear();
+    changedRows.clear();
+    initialValues = {};
 
 }
 function strikeoutRow(buttonX){

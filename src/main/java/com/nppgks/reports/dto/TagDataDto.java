@@ -1,7 +1,6 @@
 package com.nppgks.reports.dto;
 
-import com.nppgks.reports.entity.TagData;
-import com.nppgks.reports.entity.TagName;
+import com.nppgks.reports.db.entity.TagData;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -19,9 +18,9 @@ public class TagDataDto {
         tagDataDto.setData(tagData.getData());
         tagDataDto.setTagName(tagData.getTagName().getName());
         Integer timeZone = tagData.getReportName().getReportType().getTimeZone();
-        LocalDateTime date = tagData.getDtCreation();
+        LocalDateTime date = tagData.getCreationDt();
         if (timeZone != null) {
-            date.plusHours(timeZone);
+            date = date.plusHours(timeZone);
         }
         tagDataDto.setDate(date.toString());
         tagDataDto.setReportType(tagData.getReportName().getReportType().getName());

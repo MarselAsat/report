@@ -1,10 +1,9 @@
 package com.nppgks.reports.dto;
 
-import com.nppgks.reports.entity.ReportType;
-import com.nppgks.reports.entity.TagName;
-import com.nppgks.reports.service.ReportTypeService;
+import com.nppgks.reports.db.entity.ReportType;
+import com.nppgks.reports.db.entity.TagName;
+import com.nppgks.reports.service.db_services.ReportTypeService;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -24,9 +23,17 @@ public class TagNameMapper {
         tagName.setId(tagNameDto.getId());
         tagName.setName(tagNameDto.getName());
         tagName.setDescription(tagNameDto.getDescription());
-        ReportType reportType = new ReportType(tagNameDto.getReportTypeId());
-        tagName.setReportType(reportType);
+        Optional<ReportType> reportType = reportTypeService.getReportTypeById(tagNameDto.getReportTypeId());
+        tagName.setReportType(reportType.get());
 
         return tagName;
+    }
+    public TagNameDto toTagNameDto(TagName tagName){
+        String reportTypeId = tagName.getReportType()!=null?tagName.getReportType().getId(): null;
+        return new TagNameDto(
+                tagName.getId(),
+                tagName.getName(),
+                tagName.getDescription(),
+                reportTypeId);
     }
 }

@@ -1,9 +1,9 @@
 package com.nppgks.reports.controller;
 
 import com.nppgks.reports.dto.TagDataDto;
-import com.nppgks.reports.entity.ReportName;
-import com.nppgks.reports.service.ReportNameService;
-import com.nppgks.reports.service.TagDataService;
+import com.nppgks.reports.db.entity.ReportName;
+import com.nppgks.reports.service.db_services.ReportNameService;
+import com.nppgks.reports.service.db_services.TagDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,20 +25,17 @@ public class TestController {
     }
 
     @GetMapping("reportName/{reportTypeId}")
-    public List<ReportName> getReportNameByReportTypeId(@PathVariable(name = "reportTypeId") Integer id){
-        List<ReportName> reportNames = reportService.findByReportTypeId(id);
-        reportNames.get(0).getReportType();
-        return reportNames;
+    public List<ReportName> getReportNameByReportTypeId(@PathVariable(name = "reportTypeId") String reportTypeId){
+        return reportService.findByReportTypeId(reportTypeId);
     }
 
     @GetMapping("/tagData/{reportNameId}")
     public List<TagDataDto> getTegData(@PathVariable(name = "reportNameId") Long id){
-        List<TagDataDto> tagDataDto = tagDataService.getDataForReport(id);
-        return tagDataDto;
+        return tagDataService.getDataForReport(id);
     }
 
     @GetMapping("/reportName/{date}/{reportTypeId}")
-    public List<ReportName> getReportNameByDateAndReportId(@PathVariable Integer reportTypeId,
+    public List<ReportName> getReportNameByDateAndReportId(@PathVariable String reportTypeId,
                                                            @PathVariable String date){
         return reportService.getReportNameByDateAndReportId(reportTypeId, date);
     }

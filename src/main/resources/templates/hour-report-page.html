@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title id="pageTitle">Report page</title>
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/edit-tag-name-table.js}"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h2 style="text-align: center;" >Часовой отчет</h2>
+            <h5 style="text-align: center; padding-bottom: 3%;" th:text="${meteringStationName}"></h5>
+            <div class="col-sm-9">
+                <p>Дата и время начала отчета: <u th:text="${startReportDate}"></u></p>
+                <p>Дата и время окончания отчета: <u th:text="${endReportDate}"></u></p>
+                <p>Дата и время формирования отчета: <u th:text="${reportNameDtCreation}"></u></p>
+                <table id = "tag-name-table" class="table table-bordered table-striped">
+                    <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td>Параметр</td>
+                            <td th:hidden = "${!columns.contains('sikn')}">СИКН</td>
+                            <td th:hidden = "${!columns.contains('il1')}">ИЛ №1</td>
+                            <td th:hidden = "${!columns.contains('il2')}">ИЛ №2</td>
+                            <td th:hidden = "${!columns.contains('il3')}">ИЛ №3</td>
+                            <td th:hidden = "${!columns.contains('il4')}">ИЛ №4</td>
+                            <td th:hidden = "${!columns.contains('bik')}">БИК</td>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tag-name-tbody">
+                        <tr th:each="tagData: ${reportViewTagData}">
+                            <td class="align-middle"><span th:text = "${tagData.description}"/></td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('sikn')}">
+                                <span th:text = "${tagData.sikn} ?: '-'"/>
+                            </td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('il1')}">
+                                <span th:text = "${tagData.il1} ?: '-'"/>
+                            </td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('il2')}">
+                                <span th:text = "${tagData.il2} ?: '-'"/>
+                            </td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('il3')}">
+                                <span th:text = "${tagData.il3} ?: '-'"/>
+                            </td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('il4')}">
+                                <span th:text = "${tagData.il4} ?: '-'"/>
+                            </td>
+                            <td class="align-middle" th:hidden = "${!columns.contains('bik')}">
+                                <span th:text = "${tagData.bik} ?: '-'"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="padding-top: 3%;">Сдал: ________________________________ /(ФИО) Подпись _____________ </p>
+                <p>Принял: ________________________________ /(ФИО) Подпись _____________ </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
