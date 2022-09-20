@@ -34,7 +34,7 @@ public class ScheduledReports {
 
     private final OpcRequests opcRequests;
 
-//    @Scheduled(cron = "0 0 0/1 * * ?") // every hour
+//    @Scheduled(cron = "0 0 0/1 * * ?") // every hour at 00 minutes
 //    @Scheduled(cron = "0 0/1 * * * ?") // every minute
     public List<TagData> generateTagDataEveryHour() {
         ReportType hourReportType = reportTypeService.getReportTypeById(HOUR_REPORT_TYPE_ID).get();
