@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class ScheduledTasks {
+public class ScheduledReports {
     private static final String HOUR_REPORT_TYPE_ID = "hour";
 
     private final TagNameServiceImpl tagNameService;
