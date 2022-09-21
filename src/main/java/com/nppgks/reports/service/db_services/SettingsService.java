@@ -20,21 +20,28 @@ public class SettingsService {
     private final SettingsRepository settingsRepository;
 
     public List<String> getListValuesBySettingName(String name){
-        Settings setting = settingsRepository.findByName(name);
-        String value = setting.getValue();
-        return Arrays.stream(value.split(",")).toList();
+        return settingsRepository.findByName(name)
+                .map(settings -> {
+                    String value = settings.getValue();
+                    return Arrays.stream(value.split(",")).toList();
+                })
+                .orElseThrow(() -> new RuntimeException("No setting with name \""+name+"\""));
+
     }
 
     public String getStringValueBySettingName(String name){
-        Settings setting = settingsRepository.findByName(name);
-        return setting.getValue();
+        return settingsRepository.findByName(name)
+                .map(Settings::getValue)
+                .orElseThrow(() -> new RuntimeException("No setting with name \""+name+"\""));
+
     }
 
     public LinkedHashMap<String, String> getMapValuesBySettingName(String name){
-        Settings setting = settingsRepository.findByName(name);
+        Settings setting = settingsRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("No setting with name \""+name+"\""));
         return Arrays.stream(setting.getValue().split(","))
-                .map(shiftStr -> {
-                    String[] settingKeyValue = shiftStr.split("-");
+                .map(keyVal -> {
+                    String[] settingKeyValue = keyVal.split("-");
                     String key = settingKeyValue[0];
                     String value = settingKeyValue[1];
                     return Map.entry(key, value);

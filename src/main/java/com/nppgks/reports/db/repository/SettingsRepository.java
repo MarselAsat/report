@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface SettingsRepository extends JpaRepository<Settings, Integer> {
 
-    Settings findByName(String name);
+    Optional<Settings> findByName(String name);
 
     @Modifying
     @Query("update Settings u " +

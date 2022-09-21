@@ -2,9 +2,10 @@ package com.nppgks.reports.controller;
 
 import com.nppgks.reports.dto.TagDataDto;
 import com.nppgks.reports.db.entity.ReportName;
+import com.nppgks.reports.scheduled_components.ScheduledReports;
 import com.nppgks.reports.service.db_services.ReportNameService;
 import com.nppgks.reports.service.db_services.TagDataService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,16 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/test")
+@RequiredArgsConstructor
 public class TestController {
 
     private final ReportNameService reportService;
     private final TagDataService tagDataService;
 
-    @Autowired
-    public TestController(ReportNameService reportService, TagDataService tagDataService) {
-        this.reportService = reportService;
-        this.tagDataService = tagDataService;
-    }
+    private final ScheduledReports scheduledReports;
 
     @GetMapping("reportName/{reportTypeId}")
     public List<ReportName> getReportNameByReportTypeId(@PathVariable(name = "reportTypeId") String reportTypeId){
@@ -38,5 +36,10 @@ public class TestController {
     public List<ReportName> getReportNameByDateAndReportId(@PathVariable String reportTypeId,
                                                            @PathVariable String date){
         return reportService.getReportNameByDateAndReportId(reportTypeId, date);
+    }
+
+    @GetMapping("/reschedule")
+    public void reschedule(){
+        scheduledReports.rescheduleReports();
     }
 }

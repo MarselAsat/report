@@ -9,4 +9,7 @@ final public class SettingsConstants {
     public static final String YEAR_REPORT_COLUMNS = ReportTypesEnum.year + " " + REPORT_COLUMNS;
     public static final String METERING_STATION_NAME = "metering station name";
     public static final String START_SHIFT_REPORT = "start shift report";
+    public static final String START_DAILY_REPORT = "start daily report";
+    public static final String START_MONTH_REPORT = "start month report";
+    public static final String START_YEAR_REPORT = "start year report";
 }

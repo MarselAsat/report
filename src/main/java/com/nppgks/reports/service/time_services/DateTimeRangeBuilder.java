@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,26 +41,34 @@ public class DateTimeRangeBuilder {
     }
 
     public static DateTimeRange buildStartEndDateForHourReport(LocalDateTime dateTime){
-        LocalDateTime startDt = dateTime.minusHours(1).withMinute(0);
-        LocalDateTime endDt = dateTime.withMinute(0);
+        LocalDateTime startDt = dateTime.minusHours(1).withMinute(0)
+                .truncatedTo(ChronoUnit.MINUTES);
+        LocalDateTime endDt = dateTime.withMinute(0)
+                .truncatedTo(ChronoUnit.MINUTES);
         return new DateTimeRange(startDt, endDt);
     }
 
     public static DateTimeRange buildStartEndDateForDailyReport(LocalDateTime dateTime){
-        LocalDateTime startDt = dateTime.minusDays(1).withMinute(0);
-        LocalDateTime endDt = dateTime.withMinute(0);
+        LocalDateTime startDt = dateTime.minusDays(1).withMinute(0)
+                .truncatedTo(ChronoUnit.MINUTES);
+        LocalDateTime endDt = dateTime.withMinute(0)
+                .truncatedTo(ChronoUnit.MINUTES);
         return new DateTimeRange(startDt, endDt);
     }
 
     public static DateTimeRange buildStartEndDateForMonthReport(LocalDateTime dateTime){
-        LocalDateTime startDt = dateTime.minusMonths(1).withMinute(0);
-        LocalDateTime endDt = dateTime.withMinute(0);
+        LocalDateTime startDt = dateTime.minusMonths(1).withMinute(0)
+                .truncatedTo(ChronoUnit.MINUTES);
+        LocalDateTime endDt = dateTime.withMinute(0)
+                .truncatedTo(ChronoUnit.MINUTES);
         return new DateTimeRange(startDt, endDt);
     }
 
     public static DateTimeRange buildStartEndDateForYearReport(LocalDateTime dateTime){
-        LocalDateTime startDt = dateTime.minusYears(1).withMinute(0);
-        LocalDateTime endDt = dateTime.withMinute(0);
+        LocalDateTime startDt = dateTime.minusYears(1).withMinute(0)
+                .truncatedTo(ChronoUnit.MINUTES);
+        LocalDateTime endDt = dateTime.withMinute(0)
+                .truncatedTo(ChronoUnit.MINUTES);
         return new DateTimeRange(startDt, endDt);
     }
 

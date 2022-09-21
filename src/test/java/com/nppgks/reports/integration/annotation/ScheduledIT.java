@@ -1,6 +1,6 @@
 package com.nppgks.reports.integration.annotation;
 
-import com.nppgks.reports.integration.service.ServiceTestConfig;
+import com.nppgks.reports.integration.scheduled_components.ScheduledTestConfig;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
@@ -9,9 +9,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@SpringBootTest(classes = ServiceTestConfig.class)
+@SpringBootTest(classes = ScheduledTestConfig.class)
 @Transactional
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ServiceIT {
+public @interface ScheduledIT {
 }
