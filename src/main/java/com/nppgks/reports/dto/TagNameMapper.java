@@ -6,8 +6,6 @@ import com.nppgks.reports.service.db_services.ReportTypeService;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @NoArgsConstructor
 @Component
 public class TagNameMapper {
@@ -23,8 +21,8 @@ public class TagNameMapper {
         tagName.setId(tagNameDto.getId());
         tagName.setName(tagNameDto.getName());
         tagName.setDescription(tagNameDto.getDescription());
-        Optional<ReportType> reportType = reportTypeService.getReportTypeById(tagNameDto.getReportTypeId());
-        tagName.setReportType(reportType.get());
+        ReportType reportType = reportTypeService.getReportTypeById(tagNameDto.getReportTypeId());
+        tagName.setReportType(reportType);
 
         return tagName;
     }

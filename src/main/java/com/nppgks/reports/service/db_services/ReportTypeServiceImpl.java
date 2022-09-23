@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,8 +28,9 @@ public class ReportTypeServiceImpl implements ReportTypeService {
     }
 
     @Override
-    public Optional<ReportType> getReportTypeById(String id) {
-        return repository.findById(id);
+    public ReportType getReportTypeById(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("no %s report type in database", id)));
     }
 
 }

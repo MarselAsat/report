@@ -16,11 +16,13 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
@@ -31,6 +33,9 @@ import java.util.concurrent.ScheduledFuture;
 public class ScheduledReports {
 
     ScheduledFuture<?> scheduledDailyReport;
+    List<ScheduledFuture<?>> scheduledShiftReportList;
+    ScheduledFuture<?> scheduledMonthReport;
+    ScheduledFuture<?> scheduledYearReport;
     private final TaskScheduler taskScheduler;
 
     private final TagNameServiceImpl tagNameService;
@@ -48,13 +53,27 @@ public class ScheduledReports {
     @PostConstruct
     public void initSchedule() {
         scheduledDailyReport = scheduleDailyReport(this::generateTagDataForDailyReport);
+
+        //scheduleAllShiftReports();
+    }
+
+    private void scheduleAllShiftReports() {
+        ReportType shiftReportType = reportTypeService.getReportTypeById(ReportTypesEnum.shift.name());
+        if(shiftReportType.getActive()){
+            LinkedHashMap<String, String> startShiftReportMap = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
+            for(Map.Entry<String, String> entry: startShiftReportMap.entrySet()){
+                ScheduledFuture<?> scheduledShiftReport = scheduleShiftReport(
+                        () -> generateTagDataForShiftReport(shiftReportType, entry.getKey()),
+                        entry.getValue());
+                scheduledShiftReportList.add(scheduledShiftReport);
+            }
+        }
     }
 
     @Scheduled(cron = "0 0 * * * ?") // every hour at 00 minutes
-//    @Scheduled(cron = "0 0/1 * * * ?") // every minute
+    @Transactional
     public List<TagData> generateTagDataEveryHour() {
-        ReportType hourReportType = reportTypeService.getReportTypeById(ReportTypesEnum.hour.name())
-                .orElseThrow(() -> new RuntimeException("no hour report type in database"));
+        ReportType hourReportType = reportTypeService.getReportTypeById(ReportTypesEnum.hour.name());
         if(hourReportType.getActive()){
             LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
             DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForHourReport(currentDt);
@@ -65,10 +84,10 @@ public class ScheduledReports {
         return List.of();
     }
 
+    @Transactional
     public List<TagData> generateTagDataForDailyReport() {
         log.info("Создание суточного отчета...");
-        ReportType dailyReportType = reportTypeService.getReportTypeById(ReportTypesEnum.daily.name())
-                .orElseThrow(() -> new RuntimeException("no daily report type in database"));;
+        ReportType dailyReportType = reportTypeService.getReportTypeById(ReportTypesEnum.daily.name());
         if(dailyReportType.getActive()){
             LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
             DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForDailyReport(currentDt);
@@ -77,6 +96,19 @@ public class ScheduledReports {
             return createAndSaveTagData(dailyReportType, currentDt, startEndDt, reportName);
         }
         return List.of();
+    }
+
+    @Transactional
+    public List<TagData> generateTagDataForShiftReport(ReportType reportType, String shiftNum) {
+        log.info("Создание сменного отчета...");
+        LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        LinkedHashMap<String, String> startShiftReportMap = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
+
+        DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForShiftReport(startShiftReportMap, shiftNum, currentDt);
+        LocalDateTime startDt = startEndDt.getStartDateTime();
+        String reportNameStr = String.format("Сменный отчет за %s смену %s", shiftNum, startDt.toLocalDate());
+
+        return createAndSaveTagData(reportType, currentDt, startEndDt, reportNameStr);
     }
 
     private List<TagData> createAndSaveTagData(ReportType reportType, LocalDateTime currentDt, DateTimeRange startEndDt, String reportNameStr) {
@@ -108,11 +140,33 @@ public class ScheduledReports {
         return taskScheduler.schedule(task, new CronTrigger(cron));
     }
 
-    public void rescheduleReports(){
+    public ScheduledFuture<?> scheduleShiftReport(final Runnable task, String startTimeStr) {
+            LocalTime startTime = LocalTime.parse(startTimeStr);
+            int hour = startTime.getHour();
+            int minute = startTime.getMinute();
+            String cron = String.format("0 %s %s * * *", minute, hour);
+            return taskScheduler.schedule(task, new CronTrigger(cron));
+    }
+
+    public void rescheduleReports(List<String> reportTypes){
+        for(String reportType:reportTypes){
+            switch(reportType){
+                case "daily" -> rescheduleDailyReport();
+                case "shift" -> rescheduleShiftReport();
+            }
+        }
+    }
+
+    public void rescheduleDailyReport(){
         log.info("Изменение расписания создания суточных отчетов...");
         scheduledDailyReport.cancel(false);
         scheduledDailyReport = scheduleDailyReport(this::generateTagDataForDailyReport);
     }
-
-
+    public void rescheduleShiftReport(){
+        log.info("Изменение расписания создания сменных отчетов...");
+        for(ScheduledFuture<?> scheduledShiftReport:scheduledShiftReportList){
+            scheduledShiftReport.cancel(false);
+        }
+        scheduleAllShiftReports();
+    }
 }

@@ -40,6 +40,6 @@ public class TestController {
 
     @GetMapping("/reschedule")
     public void reschedule(){
-        scheduledReports.rescheduleReports();
+        scheduledReports.rescheduleReports(List.of("hour", "shift"));
     }
 }

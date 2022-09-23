@@ -6,8 +6,6 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class DateTimeRangeBuilder {
     public static DateTimeRange buildDateRangeForSearchingHourReport(String dtCreationStr){
@@ -72,12 +70,12 @@ public class DateTimeRangeBuilder {
         return new DateTimeRange(startDt, endDt);
     }
 
-    public static DateTimeRange buildStartEndDateForShiftReport(LinkedHashMap<String, String> shiftNumAndStartTime, String reportName, LocalDateTime reportDtCreation) {
+    public static DateTimeRange buildStartEndDateForShiftReport(LinkedHashMap<String, String> shiftNumAndStartTime, String shiftNum, LocalDateTime reportDtCreation) {
 
-        Pattern pattern = Pattern.compile("\\d смен");
-        Matcher matcher = pattern.matcher(reportName);
-        matcher.find();
-        String shiftNum = matcher.group(0).substring(0, 1);
+//        Pattern pattern = Pattern.compile("\\d смен");
+//        Matcher matcher = pattern.matcher(reportName);
+//        matcher.find();
+//        String shiftNum = matcher.group(0).substring(0, 1);
         String startTimeStr = shiftNumAndStartTime.get(shiftNum);
         LocalTime startTime = LocalTime.parse(startTimeStr);
         LocalTime reportTimeCreation = reportDtCreation.toLocalTime();
