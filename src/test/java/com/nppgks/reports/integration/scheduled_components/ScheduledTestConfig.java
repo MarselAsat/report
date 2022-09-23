@@ -27,6 +27,12 @@ public class ScheduledTestConfig {
         doReturn("10:00").when(settingsService)
                 .getStringValueBySettingName(SettingsConstants.START_DAILY_REPORT);
 
+        doReturn("12:00").when(settingsService)
+                .getStringValueBySettingName(SettingsConstants.START_MONTH_REPORT);
+
+        doReturn("11:00").when(settingsService)
+                .getStringValueBySettingName(SettingsConstants.START_YEAR_REPORT);
+
         LinkedHashMap<String, String> shiftNumAndStartTime = new LinkedHashMap<>();
         shiftNumAndStartTime.put("1", "10:00");
         shiftNumAndStartTime.put("2", "22:00");

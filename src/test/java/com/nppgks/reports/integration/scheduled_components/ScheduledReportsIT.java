@@ -74,14 +74,52 @@ public class ScheduledReportsIT extends IntegrationBaseTest {
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
 
             List<TagData> tagDataList = scheduledReports.generateTagDataForDailyReport();
-            String reportName = tagDataList.get(0).getReportName().getName();
-            assertThat(reportName).isEqualTo("Суточный отчет за 2022-09-19");
+            ReportName reportName = tagDataList.get(0).getReportName();
+            assertThat(reportName.getName()).isEqualTo("Суточный отчет за 2022-09-19");
             assertThat(tagDataList).hasSize(3);
-            assertThat(tagDataList.get(0).getReportName().getStartDt())
+            assertThat(reportName.getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-19T10:00"));
 
-            assertThat(tagDataList.get(0).getReportName().getEndDt())
+            assertThat(reportName.getEndDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-20T10:00"));
+        }
+    }
+
+    @Test
+    void generateTagDataForMonthReport(){
+        LocalDateTime currentDt = LocalDateTime.parse("2022-09-01T12:10:50");
+
+        try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
+            mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
+
+            List<TagData> tagDataList = scheduledReports.generateTagDataForMonthReport();
+            ReportName reportName = tagDataList.get(0).getReportName();
+            assertThat(reportName.getName()).isEqualTo("Месячный отчет за 2022-08");
+            assertThat(tagDataList).hasSize(3);
+            assertThat(reportName.getStartDt())
+                    .isEqualTo(LocalDateTime.parse("2022-08-01T12:00"));
+
+            assertThat(reportName.getEndDt())
+                    .isEqualTo(LocalDateTime.parse("2022-09-01T12:00"));
+        }
+    }
+
+    @Test
+    void generateTagDataForYearReport(){
+        LocalDateTime currentDt = LocalDateTime.parse("2022-01-01T11:10:50");
+
+        try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
+            mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
+
+            List<TagData> tagDataList = scheduledReports.generateTagDataForYearReport();
+            ReportName reportName = tagDataList.get(0).getReportName();
+            assertThat(reportName.getName()).isEqualTo("Годовой отчет за 2021 год");
+            assertThat(tagDataList).hasSize(3);
+            assertThat(reportName.getStartDt())
+                    .isEqualTo(LocalDateTime.parse("2021-01-01T11:00"));
+
+            assertThat(reportName.getEndDt())
+                    .isEqualTo(LocalDateTime.parse("2022-01-01T11:00"));
         }
     }
 
