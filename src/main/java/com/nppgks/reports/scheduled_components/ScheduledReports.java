@@ -12,6 +12,7 @@ import com.nppgks.reports.service.time_services.DateTimeRange;
 import com.nppgks.reports.service.time_services.DateTimeRangeBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,7 +25,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,10 +36,8 @@ import java.util.concurrent.ScheduledFuture;
 @DependsOn("liquibase") //let this class run @PostConstruct after liquibase
 public class ScheduledReports {
 
-    ScheduledFuture<?> scheduledDailyReport;
-    List<ScheduledFuture<?>> scheduledShiftReportList = new ArrayList<>();
-    ScheduledFuture<?> scheduledMonthReport;
-    ScheduledFuture<?> scheduledYearReport;
+    private RescheduleService rescheduleService;
+
     private final TaskScheduler taskScheduler;
 
     private final TagNameServiceImpl tagNameService;
@@ -54,15 +52,20 @@ public class ScheduledReports {
 
     private final OpcRequests opcRequests;
 
+    @Autowired
+    public void setRescheduleService(RescheduleService rescheduleService){
+        this.rescheduleService = rescheduleService;
+    }
+
     @PostConstruct
     public void initSchedule() {
-        scheduledDailyReport = scheduleDailyReport(this::generateTagDataForDailyReport);
-        scheduledMonthReport = scheduleMonthReport(this::generateTagDataForMonthReport);
-        scheduledYearReport = scheduleYearReport(this::generateTagDataForYearReport);
+        rescheduleService.scheduledDailyReport = scheduleDailyReport(this::generateTagDataForDailyReport);
+        rescheduleService.scheduledMonthReport = scheduleMonthReport(this::generateTagDataForMonthReport);
+        rescheduleService.scheduledYearReport = scheduleYearReport(this::generateTagDataForYearReport);
         scheduleAllShiftReports();
     }
 
-    private void scheduleAllShiftReports() {
+    public void scheduleAllShiftReports() {
         ReportType shiftReportType = reportTypeService.getReportTypeById(ReportTypesEnum.shift.name());
         if (shiftReportType.getActive()) {
             LinkedHashMap<String, String> startShiftReportMap = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
@@ -70,7 +73,7 @@ public class ScheduledReports {
                 ScheduledFuture<?> scheduledShiftReport = scheduleShiftReport(
                         () -> generateTagDataForShiftReport(shiftReportType, entry.getKey()),
                         entry.getValue());
-                scheduledShiftReportList.add(scheduledShiftReport);
+                rescheduleService.scheduledShiftReportList.add(scheduledShiftReport);
             }
         }
     }
@@ -199,42 +202,5 @@ public class ScheduledReports {
         int minute = startTime.getMinute();
         String cron = String.format("0 %s %s * * *", minute, hour);
         return taskScheduler.schedule(task, new CronTrigger(cron));
-    }
-
-    public void rescheduleReports(List<String> reportTypes) {
-        for (String reportTypeId : reportTypes) {
-            switch (ReportTypesEnum.valueOf(reportTypeId)) {
-                case daily -> rescheduleDailyReport();
-                case shift -> rescheduleShiftReport();
-                case month -> rescheduleMonthReport();
-                case year -> rescheduleYearReport();
-            }
-        }
-    }
-
-    public void rescheduleDailyReport() {
-        log.info("Изменение расписания создания суточных отчетов...");
-        scheduledDailyReport.cancel(false);
-        scheduledDailyReport = scheduleDailyReport(this::generateTagDataForDailyReport);
-    }
-
-    public void rescheduleMonthReport() {
-        log.info("Изменение расписания создания месячных отчетов...");
-        scheduledMonthReport.cancel(false);
-        scheduledMonthReport = scheduleMonthReport(this::generateTagDataForMonthReport);
-    }
-
-    public void rescheduleYearReport() {
-        log.info("Изменение расписания создания годовых отчетов...");
-        scheduledYearReport.cancel(false);
-        scheduledYearReport = scheduleYearReport(this::generateTagDataForYearReport);
-    }
-
-    public void rescheduleShiftReport() {
-        log.info("Изменение расписания создания сменных отчетов...");
-        for (ScheduledFuture<?> scheduledShiftReport : scheduledShiftReportList) {
-            scheduledShiftReport.cancel(false);
-        }
-        scheduleAllShiftReports();
     }
 }

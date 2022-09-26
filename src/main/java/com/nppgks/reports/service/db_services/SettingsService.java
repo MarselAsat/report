@@ -1,23 +1,24 @@
 package com.nppgks.reports.service.db_services;
 
+import com.nppgks.reports.constants.ReportTypesEnum;
+import com.nppgks.reports.constants.SettingsConstants;
 import com.nppgks.reports.db.entity.Settings;
 import com.nppgks.reports.db.repository.SettingsRepository;
-import lombok.AllArgsConstructor;
+import com.nppgks.reports.scheduled_components.RescheduleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class SettingsService {
 
     private final SettingsRepository settingsRepository;
+    private final RescheduleService rescheduleService;
 
     public List<String> getListValuesBySettingName(String name){
         return settingsRepository.findByName(name)
@@ -51,9 +52,31 @@ public class SettingsService {
 
     public boolean updateSettingsList(Map<String, String> settings){
         try{
-            for(Map.Entry<String, String> setting: settings.entrySet()){
-                settingsRepository.update(setting.getKey(), setting.getValue());
+            List<String> changedScheduledReports = new ArrayList<>();
+            for(Map.Entry<String, String> settingEntry : settings.entrySet()){
+                String settingName = settingEntry.getKey();
+                String settingNewValue = settingEntry.getValue();
+                Settings setting = settingsRepository.findByName(settingName)
+                        .orElseThrow(() -> new RuntimeException("No setting with name "+settingName));
+                String settingDbValue = setting.getValue();
+                if(!settingNewValue.equals(settingDbValue)){
+                    if(SettingsConstants.START_DAILY_REPORT.equals(settingName)){
+                        changedScheduledReports.add(ReportTypesEnum.daily.name());
+                    }
+                    else if(SettingsConstants.START_SHIFT_REPORT.equals(settingName)){
+                        changedScheduledReports.add(ReportTypesEnum.shift.name());
+                    }
+                    else if(SettingsConstants.START_MONTH_REPORT.equals(settingName)){
+                        changedScheduledReports.add(ReportTypesEnum.month.name());
+                    }
+                    else if(SettingsConstants.START_YEAR_REPORT.equals(settingName)){
+                        changedScheduledReports.add(ReportTypesEnum.year.name());
+                    }
+                    setting.setValue(settingNewValue);
+                    settingsRepository.save(setting);
+                }
             }
+            rescheduleService.rescheduleReports(changedScheduledReports);
             return true;
         }
         catch(Exception e){
