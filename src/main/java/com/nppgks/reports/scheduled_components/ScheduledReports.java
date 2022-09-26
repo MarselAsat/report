@@ -65,20 +65,8 @@ public class ScheduledReports {
         scheduleAllShiftReports();
     }
 
-    public void scheduleAllShiftReports() {
-        ReportType shiftReportType = reportTypeService.getReportTypeById(ReportTypesEnum.shift.name());
-        if (shiftReportType.getActive()) {
-            LinkedHashMap<String, String> startShiftReportMap = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
-            for (Map.Entry<String, String> entry : startShiftReportMap.entrySet()) {
-                ScheduledFuture<?> scheduledShiftReport = scheduleShiftReport(
-                        () -> generateTagDataForShiftReport(shiftReportType, entry.getKey()),
-                        entry.getValue());
-                rescheduleService.scheduledShiftReportList.add(scheduledShiftReport);
-            }
-        }
-    }
-
-    @Scheduled(cron = "0 0 * * * ?") // every hour at 00 minutes
+    // every hour at 00 minutes
+    @Scheduled(cron = "0 0 * * * ?")
     @Transactional
     public List<TagData> generateTagDataEveryHour() {
         ReportType hourReportType = reportTypeService.getReportTypeById(ReportTypesEnum.hour.name());
@@ -178,6 +166,7 @@ public class ScheduledReports {
         return taskScheduler.schedule(task, new CronTrigger(cron));
     }
 
+    // every first day of month at hour:minute
     public ScheduledFuture<?> scheduleMonthReport(final Runnable task) {
         String startMonthReportStr = settingsService.getStringValueBySettingName(SettingsConstants.START_MONTH_REPORT);
         LocalTime startMonthReport = LocalTime.parse(startMonthReportStr);
@@ -187,6 +176,7 @@ public class ScheduledReports {
         return taskScheduler.schedule(task, new CronTrigger(cron));
     }
 
+    // every first January at hour:minute
     public ScheduledFuture<?> scheduleYearReport(final Runnable task) {
         String startYearReportStr = settingsService.getStringValueBySettingName(SettingsConstants.START_YEAR_REPORT);
         LocalTime startYearReport = LocalTime.parse(startYearReportStr);
@@ -196,7 +186,21 @@ public class ScheduledReports {
         return taskScheduler.schedule(task, new CronTrigger(cron));
     }
 
-    public ScheduledFuture<?> scheduleShiftReport(final Runnable task, String startTimeStr) {
+    public void scheduleAllShiftReports() {
+        ReportType shiftReportType = reportTypeService.getReportTypeById(ReportTypesEnum.shift.name());
+        if (shiftReportType.getActive()) {
+            LinkedHashMap<String, String> startShiftReportMap = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
+            for (Map.Entry<String, String> entry : startShiftReportMap.entrySet()) {
+                ScheduledFuture<?> scheduledShiftReport = scheduleShiftReport(
+                        () -> generateTagDataForShiftReport(shiftReportType, entry.getKey()),
+                        entry.getValue());
+                rescheduleService.scheduledShiftReportList.add(scheduledShiftReport);
+            }
+        }
+    }
+
+    // every day at hour:minute (hour and minute change depending on shift)
+    private ScheduledFuture<?> scheduleShiftReport(final Runnable task, String startTimeStr) {
         LocalTime startTime = LocalTime.parse(startTimeStr);
         int hour = startTime.getHour();
         int minute = startTime.getMinute();
