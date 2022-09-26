@@ -196,6 +196,64 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Начало формирования суточного отчета</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="time" id="start-daily-report" th:value="${dailyStartTime}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Начало формирования месячного отчета</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="time" id="start-month-report" th:value="${monthStartTime}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Начало формирования годового отчета</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="time" id="start-year-report" th:value="${yearStartTime}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Количество смен</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="number" onchange="shiftNumsHasChanged(this)" onfocus="savePrevValue(this)" id="start-shift-report" th:value="${shiftStartTime.size()}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:each="entry : ${shiftStartTime}" class="row align-items-center shift-start-time" th:id="|shift-start-time-${entry.key}|">
+                                <div class="col">
+                                    <p class="mb-0 shift-name" th:text="|Начало смены ${entry.key}|"></p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="time" th:value="${entry.value}" class="shift-time">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" onclick="save()" class="btn btn-primary">Сохранить</button>
                     <label id="response"></label>

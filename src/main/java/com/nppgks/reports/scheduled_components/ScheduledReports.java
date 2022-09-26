@@ -12,6 +12,7 @@ import com.nppgks.reports.service.time_services.DateTimeRange;
 import com.nppgks.reports.service.time_services.DateTimeRangeBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.support.CronTrigger;
@@ -32,6 +33,7 @@ import java.util.concurrent.ScheduledFuture;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@DependsOn("liquibase") //let this class run @PostConstruct after liquibase
 public class ScheduledReports {
 
     ScheduledFuture<?> scheduledDailyReport;

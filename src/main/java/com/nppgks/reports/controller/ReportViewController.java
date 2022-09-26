@@ -119,8 +119,17 @@ public class ReportViewController {
 
         for (ReportTypesEnum reportType : ReportTypesEnum.values()) {
             String reportTypeName = reportType.name();
-            List<String> columns = settingsService.getListValuesBySettingName(reportTypeName + " " + SettingsConstants.REPORT_COLUMNS);
+            List<String> columns = settingsService.getListValuesBySettingName(reportTypeName + SettingsConstants.REPORT_COLUMNS_POSTFIX);
             modelMap.put(reportTypeName + "Columns", columns);
+
+            if(reportType.equals(ReportTypesEnum.shift)){
+                modelMap.put(reportTypeName+"StartTime",
+                        settingsService.getMapValuesBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
+            }
+            else if(!reportType.equals(ReportTypesEnum.hour)){
+                modelMap.put(reportTypeName+"StartTime",
+                        settingsService.getStringValueBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
+            }
         }
         String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
         modelMap.put("meteringStationName", meteringStationName);
