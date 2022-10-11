@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.support.CronTrigger;
@@ -33,8 +34,10 @@ import java.util.concurrent.ScheduledFuture;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@DependsOn("liquibase") //let this class run @PostConstruct after liquibase
+//@DependsOn("liquibase") //let this class run @PostConstruct after liquibase
 public class ScheduledReports {
+
+    private ScheduledReports scheduledReports;
 
     private RescheduleService rescheduleService;
 
@@ -57,11 +60,18 @@ public class ScheduledReports {
         this.rescheduleService = rescheduleService;
     }
 
+    // self-injection to make @Transactional work
+    @Autowired
+    public void setScheduledReports(@Lazy ScheduledReports scheduledReports) {
+        this.scheduledReports = scheduledReports;
+    }
+
+
     @PostConstruct
     public void initSchedule() {
-        rescheduleService.scheduledDailyReport = scheduleDailyReport(this::generateTagDataForDailyReport);
-        rescheduleService.scheduledMonthReport = scheduleMonthReport(this::generateTagDataForMonthReport);
-        rescheduleService.scheduledYearReport = scheduleYearReport(this::generateTagDataForYearReport);
+        rescheduleService.scheduledDailyReport = scheduleDailyReport(scheduledReports::generateTagDataForDailyReport);
+        rescheduleService.scheduledMonthReport = scheduleMonthReport(scheduledReports::generateTagDataForMonthReport);
+        rescheduleService.scheduledYearReport = scheduleYearReport(scheduledReports::generateTagDataForYearReport);
         scheduleAllShiftReports();
     }
 
@@ -192,7 +202,7 @@ public class ScheduledReports {
             LinkedHashMap<String, String> startShiftReportMap = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
             for (Map.Entry<String, String> entry : startShiftReportMap.entrySet()) {
                 ScheduledFuture<?> scheduledShiftReport = scheduleShiftReport(
-                        () -> generateTagDataForShiftReport(shiftReportType, entry.getKey()),
+                        () -> scheduledReports.generateTagDataForShiftReport(shiftReportType, entry.getKey()),
                         entry.getValue());
                 rescheduleService.scheduledShiftReportList.add(scheduledShiftReport);
             }

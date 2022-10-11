@@ -47,7 +47,6 @@ public class ScheduledReportsIT extends IntegrationBaseTest {
                 .when(opcRequests).getTagDataFromOpc(Mockito.anyList());
     }
     @Test
-    //@Commit
     void generateTagDataForHourReport(){
         LocalDateTime currentDt = LocalDateTime.parse("2022-09-20T10:10:50");
 
