@@ -45,5 +45,11 @@
     <logger name="org.hibernate.SQL">
         <level value="DEBUG" />
     </logger>
+    <logger name="org.springframework.orm.jpa">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="org.springframework.transaction">
+        <level value="DEBUG" />
+    </logger>
 
 </configuration>
