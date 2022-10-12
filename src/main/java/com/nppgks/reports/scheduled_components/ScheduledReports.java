@@ -13,10 +13,9 @@ import com.nppgks.reports.service.time_services.DateTimeRangeBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +33,7 @@ import java.util.concurrent.ScheduledFuture;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Profile("scheduling")
 //@DependsOn("liquibase") //let this class run @PostConstruct after liquibase
 public class ScheduledReports {
 
@@ -69,6 +69,7 @@ public class ScheduledReports {
 
     @PostConstruct
     public void initSchedule() {
+        rescheduleService.scheduledHourReport = scheduleHourReport(scheduledReports::generateTagDataForHourReport);
         rescheduleService.scheduledDailyReport = scheduleDailyReport(scheduledReports::generateTagDataForDailyReport);
         rescheduleService.scheduledMonthReport = scheduleMonthReport(scheduledReports::generateTagDataForMonthReport);
         rescheduleService.scheduledYearReport = scheduleYearReport(scheduledReports::generateTagDataForYearReport);
@@ -76,9 +77,8 @@ public class ScheduledReports {
     }
 
     // every hour at 00 minutes
-    @Scheduled(cron = "0 0 * * * ?")
     @Transactional
-    public List<TagData> generateTagDataEveryHour() {
+    public List<TagData> generateTagDataForHourReport() {
         ReportType hourReportType = reportTypeService.getReportTypeById(ReportTypesEnum.hour.name());
         if (hourReportType.getActive()) {
             LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
@@ -174,6 +174,10 @@ public class ScheduledReports {
         int minute = startDailyReport.getMinute();
         String cron = String.format("0 %s %s * * *", minute, hour);
         return taskScheduler.schedule(task, new CronTrigger(cron));
+    }
+
+    public ScheduledFuture<?> scheduleHourReport(final Runnable task) {
+        return taskScheduler.schedule(task, new CronTrigger("0 0 * * * ?"));
     }
 
     // every first day of month at hour:minute

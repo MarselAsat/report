@@ -13,6 +13,8 @@ import java.util.concurrent.ScheduledFuture;
 @Service
 @Slf4j
 public class RescheduleService {
+
+    ScheduledFuture<?> scheduledHourReport;
     ScheduledFuture<?> scheduledDailyReport;
     List<ScheduledFuture<?>> scheduledShiftReportList = new ArrayList<>();
     ScheduledFuture<?> scheduledMonthReport;

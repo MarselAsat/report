@@ -53,7 +53,7 @@ public class ScheduledReportsIT extends IntegrationBaseTest {
         try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
 
-            List<TagData> tagDataList = scheduledReports.generateTagDataEveryHour();
+            List<TagData> tagDataList = scheduledReports.generateTagDataForHourReport();
             String reportName = tagDataList.get(0).getReportName().getName();
             assertThat(reportName).isEqualTo("Часовой отчет за 09:00 2022-09-20");
             assertThat(tagDataList).hasSize(3);
