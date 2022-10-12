@@ -15,11 +15,11 @@ import java.util.Map;
 
 @Component
 public class OpcRequests {
-    private final String path="/opc/read";
 
-    private URI uri;
+    private final URI uri;
 
     public OpcRequests(@Value("${opc.host}") String host, @Value("${opc.port}") String port) {
+        String path = "/opc/read";
         uri = UriComponentsBuilder.newInstance()
                 .scheme("http").host(host).port(port).path(path).build().toUri();
     }
@@ -27,12 +27,10 @@ public class OpcRequests {
     public Map<String, String> getTagDataFromOpc(List<String> tagNames){
         RestTemplate restTemplate = new RestTemplate();
 
-        List<String> requestJson = tagNames;
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<List<String>> entity = new HttpEntity<>(requestJson, headers);
-        Map<String, String> map = restTemplate.postForObject(uri, entity, HashMap.class);
-        return map;
+        HttpEntity<List<String>> entity = new HttpEntity<>(tagNames, headers);
+        return restTemplate.postForObject(uri, entity, HashMap.class);
     }
 }
