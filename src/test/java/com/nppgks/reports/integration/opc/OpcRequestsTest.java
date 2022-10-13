@@ -2,6 +2,7 @@ package com.nppgks.reports.integration.opc;
 
 import com.nppgks.reports.opc.OpcRequests;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -21,6 +22,7 @@ class OpcRequestsTest {
         this.opcRequests = opcRequests;
     }
 
+    @Disabled("OPC server is not available now")
     @Test
     void getTagDataFromOpc() {
         Map<String, String> tagDataFromOpc = opcRequests.getTagDataFromOpc(
