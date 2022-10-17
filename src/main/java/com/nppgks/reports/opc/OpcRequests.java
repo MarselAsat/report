@@ -15,22 +15,38 @@ import java.util.Map;
 
 @Component
 public class OpcRequests {
+    private final String pathRead ="/opc/read";
+    private final String pathWrite ="/opc/read";
 
-    private final URI uri;
+    private URI uriRead;
+    private URI uriWrite;
 
     public OpcRequests(@Value("${opc.host}") String host, @Value("${opc.port}") String port) {
-        String path = "/opc/read";
-        uri = UriComponentsBuilder.newInstance()
-                .scheme("http").host(host).port(port).path(path).build().toUri();
+        uriRead = UriComponentsBuilder.newInstance()
+                .scheme("http").host(host).port(port).path(pathRead).build().toUri();
+        uriWrite = UriComponentsBuilder.newInstance()
+                .scheme("http").host(host).port(port).path(pathWrite).build().toUri();
     }
 
     public Map<String, String> getTagDataFromOpc(List<String> tagNames){
         RestTemplate restTemplate = new RestTemplate();
 
+        List<String> requestJson = tagNames;
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<List<String>> entity = new HttpEntity<>(tagNames, headers);
-        return restTemplate.postForObject(uri, entity, HashMap.class);
+        HttpEntity<List<String>> entity = new HttpEntity<>(requestJson, headers);
+        Map<String, String> map = restTemplate.postForObject(uriRead, entity, HashMap.class);
+        return map;
+    }
+
+    public void sendTagDataToOpc(Map<String, Object> data){
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(data, headers);
+        restTemplate.postForObject(uriWrite, entity, HashMap.class);
     }
 }

@@ -2,6 +2,7 @@ package com.nppgks.reports.service.db_services;
 
 import com.nppgks.reports.dto.ManualTagNameDto;
 import com.nppgks.reports.db.repository.ManualTagNameRepository;
+import com.nppgks.reports.dto.TagNameForOpc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,10 @@ public class ManualTagNameService{
     @Autowired
     public ManualTagNameService(ManualTagNameRepository repository){
         this.manualTagNameRepository = repository;
+    }
+
+    public List<TagNameForOpc> getTagNamesByInitialAndType(Boolean initial, String type){
+        return manualTagNameRepository.findAllByInitialAndType(initial, type);
     }
 
     public Integer saveTagName(ManualTagNameDto tagNameDto) {
