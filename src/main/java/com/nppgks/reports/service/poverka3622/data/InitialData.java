@@ -25,4 +25,6 @@ public class InitialData {
     private double theta_PDp;
     private double theta_Dt;
     private double theta_Dp;
+    private int measureCount;
+    private int pointsCount;
 }

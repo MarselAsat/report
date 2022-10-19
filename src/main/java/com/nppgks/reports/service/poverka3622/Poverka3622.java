@@ -47,8 +47,8 @@ public class Poverka3622 {
         this.theta_PDp = data.getTheta_PDp();
         this.theta_Dt = data.getTheta_Dt();
         this.theta_Dp = data.getTheta_Dp();
-        measureCount = Q.length;
-        pointsCount = Q[0].length;
+        measureCount = data.getMeasureCount();
+        pointsCount = data.getPointsCount();
     }
 
     public double calculateK_pm() {

@@ -11,24 +11,24 @@ VALUES ('hour', 'Часовой', 'Отчеты фомируемые кажды�
        ('manual', 'Ручной', 'Для поверок', TRUE);
 
 INSERT INTO manual_tag_name (id, permanent_name, name, description, initial, type)
-VALUES (1, 'Q_ij', 'tag_' || 'Q_ij', '', TRUE, '3622'),
-       (2, 'N_e_ij', 'tag_' || 'N_e_ij', '', TRUE, '3622'),
-       (3, 'N_p_ij', 'tag_' || 'N_p_ij', '', TRUE, '3622'),
-       (4, 'T_ij', 'tag_' || 'T_ij', '', TRUE, '3622'),
-       (5, 'M_ij', 'tag_' || 'M_ij', '', TRUE, '3622'),
-       (6, 'f_p_max', 'tag_' || 'f_p_max', '', TRUE, '3622'),
-       (7, 'Q_p_max', 'tag_' || 'Q_p_max', '', TRUE, '3622'),
-       (8, 'MF_p', 'tag_' || 'MF_p', '', TRUE, '3622'),
-       (9, 'K_e_ij', 'tag_' || 'K_e_ij', '', TRUE, '3622'),
-       (10, 'ZS', 'tag_' || 'ZS', '', TRUE, '3622'),
-       (11, 'theta_e', 'tag_' || 'theta_e', '', TRUE, '3622'),
-       (12, 'theta_t', 'tag_' || 'theta_t', '', TRUE, '3622'),
-       (13, 'theta_p', 'tag_' || 'theta_p', '', TRUE, '3622'),
-       (14, 'theta_N', 'tag_' || 'theta_N', '', TRUE, '3622'),
-       (15, 'theta_PDt', 'tag_' || 'theta_PDt', '', TRUE, '3622'),
-       (16, 'theta_PDp', 'tag_' || 'theta_PDp', '', TRUE, '3622'),
-       (17, 'theta_Dt', 'tag_' || 'theta_Dt', '', TRUE, '3622'),
-       (18, 'theta_Dp', 'tag_' || 'theta_Dp', '', TRUE, '3622');
+VALUES (1, 'Q_ij', 'WinCC_OA.rep_test.' || 'Q_ij', '', TRUE, '3622'),
+       (2, 'N_e_ij', 'WinCC_OA.rep_test.' || 'N_e_ij', '', TRUE, '3622'),
+       (3, 'N_p_ij', 'WinCC_OA.rep_test.' || 'N_p_ij', '', TRUE, '3622'),
+       (4, 'T_ij', 'WinCC_OA.rep_test.' || 'T_ij', '', TRUE, '3622'),
+       (5, 'M_ij', 'WinCC_OA.rep_test.' || 'M_ij', '', TRUE, '3622'),
+       (6, 'f_p_max', 'WinCC_OA.rep_test.' || 'f_p_max', '', TRUE, '3622'),
+       (7, 'Q_p_max', 'WinCC_OA.rep_test.' || 'Q_p_max', '', TRUE, '3622'),
+       (8, 'MF_p', 'WinCC_OA.rep_test.' || 'MF_p', '', TRUE, '3622'),
+       (9, 'K_e_ij', 'WinCC_OA.rep_test.' || 'K_e_ij', '', TRUE, '3622'),
+       (10, 'ZS', 'WinCC_OA.rep_test.' || 'ZS', '', TRUE, '3622'),
+       (11, 'theta_e', 'WinCC_OA.rep_test.' || 'theta_e', '', TRUE, '3622'),
+       (12, 'theta_t', 'WinCC_OA.rep_test.' || 'theta_t', '', TRUE, '3622'),
+       (13, 'theta_p', 'WinCC_OA.rep_test.' || 'theta_p', '', TRUE, '3622'),
+       (14, 'theta_N', 'WinCC_OA.rep_test.' || 'theta_N', '', TRUE, '3622'),
+       (15, 'theta_PDt', 'WinCC_OA.rep_test.' || 'theta_PDt', '', TRUE, '3622'),
+       (16, 'theta_PDp', 'WinCC_OA.rep_test.' || 'theta_PDp', '', TRUE, '3622'),
+       (17, 'theta_Dt', 'WinCC_OA.rep_test.' || 'theta_Dt', '', TRUE, '3622'),
+       (18, 'theta_Dp', 'WinCC_OA.rep_test.' || 'theta_Dp', '', TRUE, '3622');
 
 INSERT INTO manual_tag_name (id, permanent_name, name, initial, type)
 VALUES (19, 'CPM_name', 'CPM_name', TRUE, '3622'),
@@ -44,7 +44,9 @@ VALUES (19, 'CPM_name', 'CPM_name', TRUE, '3622'),
        (29, 'check_testing', 'check_testing', TRUE, '3622'),
        (30, 'inspector_position', 'inspector_position', TRUE, '3622'),
        (31, 'inspector_full_name', 'inspector_full_name', TRUE, '3622'),
-       (32, 'date', 'date', TRUE, '3622');
+       (32, 'date', 'date', TRUE, '3622'),
+       (33, 'measureCount', 'WinCC_OA.rep_test.' || 'measureCount', TRUE, '3622'),
+       (34, 'pointsCount', 'WinCC_OA.rep_test.' || 'pointsCount', TRUE, '3622');
 SELECT SETVAL('manual_tag_name_id_seq', (SELECT MAX(id) FROM manual_tag_name));
 
 

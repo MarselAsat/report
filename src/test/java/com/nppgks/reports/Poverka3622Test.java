@@ -15,46 +15,46 @@ public class Poverka3622Test {
     @BeforeAll
     void prepareData(){
         InitialData initialData = new InitialData();
-        double[][] Q = new double[][]{
+        double[][] Q_ij = new double[][]{
                 {87.5, 87.5, 87.5, 87.5, 87.6},
                 {65.7, 64.4, 65.7, 65.5, 65.5},
                 {43.9, 43.7, 43.7, 43.7, 43.7},
                 {21.9, 21.9, 21.9, 21.9, 21.9},
                 {11.1, 11.1, 11.1, 11.1, 11.1}
         };
-        Q = transpose(Q);
-        double[][] N_e = new double[][]{
+        Q_ij = transpose(Q_ij);
+        double[][] N_e_ij = new double[][]{
                 {33002, 33013, 33013, 33012, 33012},
                 {33007, 32999, 33007, 33007, 33007},
                 {30262, 30262, 30261, 30256, 30262},
                 {20626, 20623, 20626, 20625, 20623},
                 {10501, 10501, 10499, 10500, 10500}
         };
-        N_e = transpose(N_e);
-        double[][] N_p = new double[][]{
+        N_e_ij = transpose(N_e_ij);
+        double[][] N_p_ij = new double[][]{
                 {33002, 33012, 33012, 33013, 33013},
                 {33007, 32998, 33007, 33007, 33007},
                 {30262, 30262, 30261, 30257, 30261},
                 {20625, 20623, 20626, 20625, 20624},
                 {10501, 10501, 10499, 10501, 10500}
         };
-        N_p = transpose(N_p);
-        double[][] T = new double[][]{
+        N_p_ij = transpose(N_p_ij);
+        double[][] T_ij = new double[][]{
                 {5.7, 5.3, 5.3, 5.3, 5.3},
                 {6.9, 7.3, 7.3, 7.2, 7.3},
                 {10, 10.3, 10.3, 10.3, 10.3},
                 {14.4, 14.3, 14.3, 14.2, 14.3},
                 {14.1, 14.3, 14.2, 14.3, 14.3}
         };
-        T = transpose(T);
-        double[][] M = new double[][]{
+        T_ij = transpose(T_ij);
+        double[][] M_ij = new double[][]{
                 {145.756, 145.8, 145.8, 145.8040, 145.8040},
                 {145.778, 145.738, 145.778, 145.778, 145.778},
                 {133.654, 133.6540, 133.65, 133.6320, 133.65},
                 {91.0918, 91.0829, 91.0962, 91.0918, 91.0974},
                 {46.3784, 46.3784, 46.3696, 46.3784, 46.3740}
         };
-        M = transpose(M);
+        M_ij = transpose(M_ij);
 
         double[][] K_e_ij = new double[][]{
                 {226.4151, 226.4151, 226.4151, 226.4151, 226.4151},
@@ -65,18 +65,20 @@ public class Poverka3622Test {
         };
         double f_p_max = 10000;
         double Q_p_max = 159;
-        double MF_prev = 1;
+        double MF_p = 1;
         double theta_e = 0.11;
         double theta_N = 0.02;
         double ZS = 0.041;
-        initialData.setQ_ij(Q);
-        initialData.setN_e_ij(N_e);
-        initialData.setN_p_ij(N_p);
-        initialData.setT_ij(T);
-        initialData.setM_ij(M);
+        initialData.setMeasureCount(Q_ij.length);
+        initialData.setPointsCount(Q_ij[0].length);
+        initialData.setQ_ij(Q_ij);
+        initialData.setN_e_ij(N_e_ij);
+        initialData.setN_p_ij(N_p_ij);
+        initialData.setT_ij(T_ij);
+        initialData.setM_ij(M_ij);
         initialData.setF_p_max(f_p_max);
         initialData.setQ_p_max(Q_p_max);
-        initialData.setMF_p(MF_prev);
+        initialData.setMF_p(MF_p);
         initialData.setK_e_ij(K_e_ij);
         initialData.setTheta_e(theta_e);
         initialData.setTheta_N(theta_N);
