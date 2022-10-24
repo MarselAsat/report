@@ -13,9 +13,9 @@ public class FinalData {
     private Double MF;
     private double[] MF_j;
     private Double K;
-    private Double[] K_j;
+    private double[] K_j;
     private double[][] K_ij;
-    private Double MF_p;
+    private Double MF_prime;
     private double[][] f_ij;
     private double[] f_j;
     private double[] S_j;
@@ -42,7 +42,7 @@ public class FinalData {
     private Double theta_Dz;
     private Double Q_min;
     private Double Q_max;
-    private Double[] Q_min_k;
+    private double[] Q_min_k;
     private double[] Q_max_k;
     private Double theta_D;
     private double[] theta_PDz;

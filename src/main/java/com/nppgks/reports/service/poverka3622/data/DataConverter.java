@@ -9,8 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.nppgks.reports.opc.ArrayParser.to2dimArray;
-import static com.nppgks.reports.opc.ArrayParser.toArray;
+import static com.nppgks.reports.opc.ArrayParser.*;
 import static java.lang.Double.parseDouble;
 
 @Slf4j
@@ -68,10 +67,25 @@ public class DataConverter {
                             declaredField.set(initialData, to2dimArray(value));
                         }
                         else if(value.matches("\\[.*")){
-                            declaredField.set(initialData, toArray(value));
+                            double[] array = toArray(value);
+                            String pointsCountTagName = tagNamesMap.get("pointsCount");
+                            String measureCountTagName = tagNamesMap.get("measureCount");
+                            int pointsCount = Integer.parseInt(dataFromOpc.get(pointsCountTagName));
+                            int measureCount = Integer.parseInt(dataFromOpc.get(measureCountTagName));
+                            if(array.length == pointsCount){
+                                declaredField.set(initialData, array);
+                            }
+                            else if(array.length == pointsCount*measureCount){
+                                declaredField.set(initialData, fromArrayTo2DimArray(array, measureCount, pointsCount));
+                            }
                         }
                         else{
-                            declaredField.set(initialData, parseDouble(value));
+                            if(declaredField.getType().equals(int.class)){
+                                declaredField.set(initialData, Integer.parseInt(value));
+                            }
+                            else{
+                                declaredField.set(initialData, parseDouble(value));
+                            }
                         }
                     }
                     else{

@@ -1,5 +1,5 @@
 package com.nppgks.reports.service;
 
 public enum PoverkaType {
-    _3622, _3272
+    MI_3622, MI_3272
 }

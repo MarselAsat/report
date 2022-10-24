@@ -1,7 +1,6 @@
 package com.nppgks.reports.service.poverka3622.data;
 
 import com.nppgks.reports.service.poverka3622.Poverka3622;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -9,7 +8,6 @@ import java.util.Arrays;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class DataConverterTest {
 
@@ -51,14 +49,24 @@ class DataConverterTest {
     @Test
     void convertMapToInitialData() {
         String array2Dim = "[[1.0, 1.0, 1.0, 1.0, 1.0], [2.0, 2.0, 2.0, 2.0, 2.0], [3.0, 3.0, 3.0, 3.0, 3.0]]";
+        String array2DimIn1Dim = "[1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0, 3.0, 3.0]";
         String singleValue = "45.89";
-        Map<String, String> valuesMap = Map.of("tagQij", array2Dim, "tagNeij", array2Dim, "tagFPMAx", singleValue);
-        Map<String, String> tagNamesMap = Map.of("Q_ij","tagQij", "N_e_ij", "tagNeij", "f_p_max", "tagFPMAx");
+        Map<String, String> valuesMap = Map.of("tagNp", array2Dim, "tagNeij", array2Dim, "tagFPMAx", singleValue,
+                "WinCC_pointsCount", "5",
+                "WinCC_measureCount", "3",
+                "WinCC_Q", array2DimIn1Dim);
+        Map<String, String> tagNamesMap = Map.of("N_p_ij","tagNp", "N_e_ij", "tagNeij", "f_p_max", "tagFPMAx",
+                "pointsCount", "WinCC_pointsCount",
+                "measureCount", "WinCC_measureCount",
+                "Q_ij", "WinCC_Q");
         InitialData initialData = DataConverter.convertMapToInitialData(valuesMap, tagNamesMap);
         InitialData expectedInitialData = new InitialData();
 
         double[][] arr2Dim =  new double[][]{{1, 1, 1, 1, 1}, {2, 2, 2, 2, 2}, {3, 3, 3, 3, 3}};
         double value = 45.89;
+        expectedInitialData.setPointsCount(5);
+        expectedInitialData.setMeasureCount(3);
+        expectedInitialData.setN_p_ij(arr2Dim);
         expectedInitialData.setQ_ij(arr2Dim);
         expectedInitialData.setN_e_ij(arr2Dim);
         expectedInitialData.setF_p_max(value);

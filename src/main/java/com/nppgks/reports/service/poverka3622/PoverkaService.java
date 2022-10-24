@@ -22,21 +22,29 @@ public class PoverkaService {
     private final ManualTagNameService manualTagNameService;
 
     public void doPoverka3622(){
-        List<TagNameForOpc> initialTagNamesForOpc = manualTagNameService.getTagNamesByInitialAndType(true, PoverkaType._3622.name());
+        List<TagNameForOpc> initialTagNamesForOpc = manualTagNameService.getTagNamesByInitialAndType(true, PoverkaType.MI_3622.name());
+        Map<String, String> initialTagNamesMap = createTagNamesMap(initialTagNamesForOpc);
+
         List<String> initialTagNamesStr = initialTagNamesForOpc
                 .stream()
                 .map(TagNameForOpc::name)
                 .toList();
 
-        Map<String, String> initialTagNamesMap = initialTagNamesForOpc.stream()
-                .collect(Collectors.toMap(TagNameForOpc::name, TagNameForOpc::permanentName));
-
         Map<String, String> initialDataFromOpc = opcRequests.getTagDataFromOpc(initialTagNamesStr);
+
         InitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagNamesMap);
         PoverkaRunner poverkaRunner = new PoverkaRunner(initialData);
         FinalData finalData = poverkaRunner.run();
-        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(finalData, initialTagNamesMap);
+
+        Map<String, String> finalTagNamesMap = createTagNamesMap(
+                manualTagNameService.getTagNamesByInitialAndType(false, PoverkaType.MI_3622.name()));
+
+        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(finalData, finalTagNamesMap);
         opcRequests.sendTagDataToOpc(finalDataForOpc);
 
+    }
+    private Map<String, String> createTagNamesMap(List<TagNameForOpc> tagNamesForOpc){
+        return tagNamesForOpc.stream()
+                .collect(Collectors.toMap(TagNameForOpc::permanentName, TagNameForOpc::name));
     }
 }

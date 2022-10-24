@@ -7,6 +7,8 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 public class InitialData {
 
+    private int measureCount;
+    private int pointsCount;
     private double[][] Q_ij;
     private double[][] N_e_ij;
     private double[][] N_p_ij;
@@ -25,6 +27,4 @@ public class InitialData {
     private double theta_PDp;
     private double theta_Dt;
     private double theta_Dp;
-    private int measureCount;
-    private int pointsCount;
 }

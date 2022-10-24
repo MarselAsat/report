@@ -167,7 +167,7 @@ public class Poverka3622 {
         return K_ij;
     }
 
-    public double calculateMF_p() {
+    public double calculateMF_prime() {
         return MF_p * calculateMF();
     }
 
