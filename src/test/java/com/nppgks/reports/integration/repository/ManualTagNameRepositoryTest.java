@@ -1,5 +1,6 @@
 package com.nppgks.reports.integration.repository;
 
+import com.nppgks.reports.constants.PoverkaType;
 import com.nppgks.reports.dto.TagNameForOpc;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.RepositoryIT;
@@ -37,7 +38,7 @@ class ManualTagNameRepositoryTest extends IntegrationBaseTest {
 
     @Test
     public void findAllByInitialAndType(){
-        List<TagNameForOpc> tagNames = manualTagNameRepository.findAllByInitialAndType(true, "3622");
-        Assertions.assertThat(tagNames).hasSize(32);
+        List<TagNameForOpc> tagNames = manualTagNameRepository.findAllByInitialAndType(true, PoverkaType.MI_3622.name());
+        Assertions.assertThat(tagNames).hasSize(34);
     }
 }

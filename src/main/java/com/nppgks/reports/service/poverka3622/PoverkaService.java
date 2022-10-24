@@ -2,7 +2,7 @@ package com.nppgks.reports.service.poverka3622;
 
 import com.nppgks.reports.dto.TagNameForOpc;
 import com.nppgks.reports.opc.OpcRequests;
-import com.nppgks.reports.service.PoverkaType;
+import com.nppgks.reports.constants.PoverkaType;
 import com.nppgks.reports.service.db_services.ManualTagNameService;
 import com.nppgks.reports.service.poverka3622.data.DataConverter;
 import com.nppgks.reports.service.poverka3622.data.FinalData;

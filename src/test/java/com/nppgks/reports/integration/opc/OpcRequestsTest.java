@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Map;
 
-//@Disabled("OPC server is not available now")
+@Disabled("OPC server is not available now")
 @SpringBootTest(properties="spring.main.lazy-initialization=true")
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 class OpcRequestsTest {

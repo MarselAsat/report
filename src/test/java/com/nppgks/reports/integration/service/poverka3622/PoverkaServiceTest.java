@@ -3,6 +3,7 @@ package com.nppgks.reports.integration.service.poverka3622;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.ServiceIT;
 import com.nppgks.reports.service.poverka3622.PoverkaService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,6 +21,7 @@ class PoverkaServiceTest extends IntegrationBaseTest {
     }
 
     @Test
+    @Disabled
     void doPoverka3622() {
         poverkaService.doPoverka3622();
     }
