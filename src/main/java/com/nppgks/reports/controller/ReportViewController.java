@@ -71,7 +71,7 @@ public class ReportViewController {
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
         List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.DAILY_REPORT_COLUMNS);
         fillModelMapForReportView(modelMap, reportName, reportViewTagData, dailyColumns);
-        return "daily-report-page";
+        return "report_pages/daily-report-page";
     }
 
     @GetMapping(value = "/hourReport/{reportNameId}")
@@ -81,7 +81,7 @@ public class ReportViewController {
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
         List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.HOUR_REPORT_COLUMNS);
         fillModelMapForReportView(modelMap, reportName, reportViewTagData, dailyColumns);
-        return "hour-report-page";
+        return "report_pages/hour-report-page";
     }
 
     @GetMapping(value = "/shiftReport/{reportNameId}")
@@ -91,7 +91,7 @@ public class ReportViewController {
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
         List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.SHIFT_REPORT_COLUMNS);
         fillModelMapForReportView(modelMap, reportName, reportViewTagData, columnNames);
-        return "shift-report-page";
+        return "report_pages/shift-report-page";
     }
 
     @GetMapping(value = "/monthReport/{reportNameId}")
@@ -101,7 +101,7 @@ public class ReportViewController {
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
         List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.MONTH_REPORT_COLUMNS);
         fillModelMapForReportView(modelMap, reportName, reportViewTagData, columnNames);
-        return "month-report-page";
+        return "report_pages/month-report-page";
     }
 
     @GetMapping(value = "/yearReport/{reportNameId}")
@@ -111,7 +111,7 @@ public class ReportViewController {
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
         List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.YEAR_REPORT_COLUMNS);
         fillModelMapForReportView(modelMap, reportName, reportViewTagData, columnNames);
-        return "year-report-page";
+        return "report_pages/year-report-page";
     }
 
     @GetMapping("/settings")
