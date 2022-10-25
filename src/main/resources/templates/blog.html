@@ -13,82 +13,49 @@
   </style>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand">Navbar</a>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a th:href="@{/settings}" class="nav-link">Settings</a>
-        </li>
-        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a th:href="@{/admin/tagName/new}" class="nav-link">Create new tag</a>
-        </li>
-        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a th:href="@{/admin/tagName}" class="nav-link">Edit tag_name table</a>
-        </li>
-        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a th:href="@{/admin/manualTagName}" class="nav-link">Edit manual_tag_name table</a>
-        </li>
-      </ul>
-      <ul class="navbar-nav navbar-right">
-        <li class="nav-item"><a sec:authorize="isAuthenticated()" th:href="@{/user/updatePassword}" class="nav-link"> Change password</a></li>
-        <li class="nav-item"><a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="nav-link"> Log out</a></li>
-        <li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link"> Log in</a></li>
-      </ul>
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand">Navbar</a>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a th:href="@{/settings}" class="nav-link">Settings</a>
+          </li>
+          <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/admin/tagName/new}" class="nav-link">Create new tag</a>
+          </li>
+          <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/admin/tagName}" class="nav-link">Edit tag_name table</a>
+          </li>
+          <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/admin/manualTagName}" class="nav-link">Edit manual_tag_name table</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+          <li class="nav-item"><a sec:authorize="isAuthenticated()" th:href="@{/user/updatePassword}" class="nav-link"> Change password</a></li>
+          <li class="nav-item"><a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="nav-link"> Log out</a></li>
+          <li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link"> Log in</a></li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
-
-<!--<nav class="navbar navbar-dark bg-dark">-->
-<!--  <div class="container-fluid">-->
-<!--    <div class="navbar-header">-->
-<!--      <a class="navbar-brand" href="#">WebSiteName</a>-->
-<!--    </div>-->
-<!--    <div class="collapse navbar-collapse" id="navbarNav">-->
-<!--      <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
-<!--        <li class="nav-item">-->
-<!--          <a href="#" class="nav-link active">Home</a>-->
-<!--        </li>-->
-<!--        <li class="nav-item">-->
-<!--          <a th:href="@{/admin/tagName/new}" sec:authorize="hasRole('ADMIN')" class="nav-link">Create new tag</a>-->
-<!--        </li>-->
-<!--        <li class="nav-item">-->
-<!--          <a th:href="@{/admin/tagName}" sec:authorize="hasRole('ADMIN')" class="nav-link">Edit tag_name table</a>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </div>-->
-<!--    <ul class="navbar-nav navbar-right">-->
-<!--      <li class="nav-item"><a sec:authorize="isAuthenticated()" th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>-->
-<!--      <li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>-->
-<!--    </ul>-->
-<!--  </div>-->
-<!--</nav>-->
-
-<!-- Page Content -->
+  </nav>
   <div class="container-fluid">
     <div class="row content">
       <div th:insert="fragments.html :: widget" class="col-sm-3 sidenav">
       </div>
       <div class="col-sm-9">
         <div class="card my-4">
-          <a id = "show-report-ref">Show report</a>
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th scope="col">Tag</th>
-              <th scope="col">Data</th>
-              <th scope="col">Date</th>
-              <th scope="col">Report type</th>
-            </tr>
-            </thead>
-            <tbody id ="tagData">
-            </tbody>
-          </table>
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col">
+                <button type="button" onclick="printReport()" class="btn btn-primary">Печать</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body" id="includedContent"></div>
         </div>
       </div>
     </div>
