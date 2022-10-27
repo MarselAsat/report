@@ -21,7 +21,7 @@ class PoverkaServiceTest extends IntegrationBaseTest {
     }
 
     @Test
-    @Disabled
+    //@Disabled
     void doPoverka3622() {
         poverkaService.doPoverka3622();
     }

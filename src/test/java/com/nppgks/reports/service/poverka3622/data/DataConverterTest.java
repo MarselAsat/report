@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -71,5 +72,20 @@ class DataConverterTest {
         expectedInitialData.setN_e_ij(arr2Dim);
         expectedInitialData.setF_p_max(value);
         assertThat(initialData).isEqualTo(expectedInitialData);
+    }
+
+    @Test
+    void putInOrder2DArray() {
+        Map<String, String> dataFromOpc = new HashMap<>();
+        dataFromOpc.put("tag.pointsCount", "2");
+        dataFromOpc.put("tag.measureCount", "3");
+        dataFromOpc.put("tag.Q_ij", "[1, 2, 3, 4, 5, 6]");
+
+        Map<String, String> tagNamesMap = new HashMap<>();
+        tagNamesMap.put("pointsCount", "tag.pointsCount");
+        tagNamesMap.put("measureCount", "tag.measureCount");
+        tagNamesMap.put("Q_ij", "tag.Q_ij");
+        DataConverter.putInOrder2DArraysInOpcData(dataFromOpc, tagNamesMap);
+        assertThat(dataFromOpc.get("tag.Q_ij")).isEqualTo("[[1.0,2.0,3.0],[4.0,5.0,6.0]]");
     }
 }

@@ -10,6 +10,7 @@ VALUES ('hour', 'Часовой', 'Отчеты фомируемые кажды�
        ('year', 'Годовой', 'Отчеты формируемые за год', TRUE),
        ('manual', 'Ручной', 'Для поверок', TRUE);
 
+-- InitialData
 INSERT INTO manual_tag_name (id, permanent_name, name, description, initial, type)
 VALUES (1, 'Q_ij', 'WinCC_OA.rep_test.' || 'Q_ij', '', TRUE, 'MI_3622'),
        (2, 'N_e_ij', 'WinCC_OA.rep_test.' || 'N_e_ij', '', TRUE, 'MI_3622'),
@@ -30,6 +31,7 @@ VALUES (1, 'Q_ij', 'WinCC_OA.rep_test.' || 'Q_ij', '', TRUE, 'MI_3622'),
        (17, 'theta_Dt', 'WinCC_OA.rep_test.' || 'theta_Dt', '', TRUE, 'MI_3622'),
        (18, 'theta_Dp', 'WinCC_OA.rep_test.' || 'theta_Dp', '', TRUE, 'MI_3622');
 
+-- InitialTextData
 INSERT INTO manual_tag_name (id, permanent_name, name, initial, type)
 VALUES (19, 'CPM_name', 'CPM_name', TRUE, 'MI_3622'),
        (20, 'CPM_number', 'CPM_number', TRUE, 'MI_3622'),
@@ -48,6 +50,7 @@ VALUES (19, 'CPM_name', 'CPM_name', TRUE, 'MI_3622'),
        (33, 'measureCount', 'WinCC_OA.rep_test.' || 'measureCount', TRUE, 'MI_3622'),
        (34, 'pointsCount', 'WinCC_OA.rep_test.' || 'pointsCount', TRUE, 'MI_3622');
 
+-- FinalData
 INSERT INTO manual_tag_name (id, permanent_name, name, description, initial, type)
 VALUES (35, 'K_pm', 'WinCC_OA.rep_test.' || 'K_pm', '', FALSE, 'MI_3622'),
        (36, 'M_e_ij', 'WinCC_OA.rep_test.' || 'M_e_ij', '', FALSE, 'MI_3622'),
@@ -89,6 +92,20 @@ VALUES (35, 'K_pm', 'WinCC_OA.rep_test.' || 'K_pm', '', FALSE, 'MI_3622'),
        (72, 'theta_D', 'WinCC_OA.rep_test.' || 'theta_D', '', FALSE, 'MI_3622'),
        (73, 'theta_PDz', 'WinCC_OA.rep_test.' || 'theta_PDz', '', FALSE, 'MI_3622'),
        (74, 'theta_PDk', 'WinCC_OA.rep_test.' || 'theta_PDk', '', FALSE, 'MI_3622');
+
+-- InitialUnusedData
+INSERT INTO manual_tag_name (id, permanent_name, name, description, initial, type)
+VALUES (75, 'delta_t_dop', 'WinCC_OA.rep_test.' || 'delta_t_dop', '', TRUE, 'MI_3622'),
+       (76, 'delta_P_dop', 'WinCC_OA.rep_test.' || 'delta_P_dop', '', TRUE, 'MI_3622'),
+       (77, 't_min', 'WinCC_OA.rep_test.' || 't_min', '', TRUE, 'MI_3622'),
+       (78, 't_max', 'WinCC_OA.rep_test.' || 't_max', '', TRUE, 'MI_3622'),
+       (79, 'P_min', 'WinCC_OA.rep_test.' || 'P_min', '', TRUE, 'MI_3622'),
+       (80, 'P_max', 'WinCC_OA.rep_test.' || 'P_max', '', TRUE, 'MI_3622'),
+       (81, 't_ih', 'WinCC_OA.rep_test.' || 't_ih', '', TRUE, 'MI_3622'),
+       (82, 'P_ij', 'WinCC_OA.rep_test.' || 'P_ij', '', TRUE, 'MI_3622'),
+       (83, 'Q_p', 'WinCC_OA.rep_test.' || 'Q_p', '', TRUE, 'MI_3622'),
+       (84, 'f_p', 'WinCC_OA.rep_test.' || 'f_p', '', TRUE, 'MI_3622'),
+       (85, 'K_y', 'WinCC_OA.rep_test.' || 'K_y', '', TRUE, 'MI_3622');
 
 SELECT SETVAL('manual_tag_name_id_seq', (SELECT MAX(id) FROM manual_tag_name));
 
@@ -232,3 +249,10 @@ VALUES ('Micro Motion', TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:
         (SELECT id FROM manual_tag_name WHERE name = 'CRM_owner'), 10),
        ('144780098097', TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
         (SELECT id FROM manual_tag_name WHERE name = 'CRM_number'), 10);
+
+INSERT INTO report_name_poverka(id, name, creation_dt, poverka_type)
+VALUES (1, 'Поверка 3622 за 2022-07-14',
+        TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
+        'MI_3622');
+
+SELECT SETVAL('report_name_poverka_id_seq', (SELECT MAX(id) FROM report_name_poverka));

@@ -11,15 +11,15 @@ public class ArrayParserTest {
     void to2DimArray(){
         String jsonArray1 = "[[\"1\", \"2\", \"3\"], [\"4\", \"5\", \"6\"]]";
         String jsonArray2 = "[[1, 2, 3], [4, 5, 6]]";
-        double[][] result1 = ArrayParser.to2dimArray(jsonArray1);
-        double[][] result2 = ArrayParser.to2dimArray(jsonArray2);
+        double[][] result1 = ArrayParser.to2DArray(jsonArray1);
+        double[][] result2 = ArrayParser.to2DArray(jsonArray2);
         assertThat(result1).isDeepEqualTo(new double[][]{{1, 2, 3},{4, 5, 6}});
         assertThat(result2).isDeepEqualTo(new double[][]{{1, 2, 3},{4, 5, 6}});
     }
 
     @Test
     void returnNulIfStringIsNull(){
-        double[][] actual2DimArr = ArrayParser.to2dimArray(null);
+        double[][] actual2DimArr = ArrayParser.to2DArray(null);
         double[] actualArr = ArrayParser.toArray(null);
         assertThat(actual2DimArr).isNull();
         assertThat(actualArr).isNull();
@@ -28,12 +28,22 @@ public class ArrayParserTest {
     @Test
     void fromArrayTo2DimArray(){
         double[] array1Dim = new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-        double[][] array2Dim = ArrayParser.fromArrayTo2DimArray(array1Dim, 3, 5);
+        double[][] array2Dim = ArrayParser.fromArrayTo2DArray(array1Dim, 3, 5);
         assertThat(array2Dim).isDeepEqualTo(new double[][]
                 {{1, 2, 3, 4, 5},
                 {6, 7, 8, 9, 10},
                 {11, 12, 13, 14, 15}});
+    }
 
+    @Test
+    void from2DArrayToJson(){
+        String json1 = ArrayParser.fromObjectToJson(new double[][]{{1.0, 2.0, 3.0}, {1.0, 2.0, 3.0}});
+        assertThat(json1).isEqualTo("[[1.0,2.0,3.0],[1.0,2.0,3.0]]");
 
+        String json2 = ArrayParser.fromObjectToJson(1);
+        assertThat(json2).isEqualTo("1");
+
+        String json3 = ArrayParser.fromObjectToJson(new double[]{1, 2, 3, 7.0});
+        assertThat(json3).isEqualTo("[1.0,2.0,3.0,7.0]");
     }
 }

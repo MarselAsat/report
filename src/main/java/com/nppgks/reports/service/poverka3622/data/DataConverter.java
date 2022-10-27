@@ -64,20 +64,10 @@ public class DataConverter {
                     String value = dataFromOpc.get(tagNamesMap.get(declaredField.getName()));
                     if(value != null){
                         if(value.matches("\\[\\[.*")){
-                            declaredField.set(initialData, to2dimArray(value));
+                            declaredField.set(initialData, to2DArray(value));
                         }
                         else if(value.matches("\\[.*")){
-                            double[] array = toArray(value);
-                            String pointsCountTagName = tagNamesMap.get("pointsCount");
-                            String measureCountTagName = tagNamesMap.get("measureCount");
-                            int pointsCount = Integer.parseInt(dataFromOpc.get(pointsCountTagName));
-                            int measureCount = Integer.parseInt(dataFromOpc.get(measureCountTagName));
-                            if(array.length == pointsCount){
-                                declaredField.set(initialData, array);
-                            }
-                            else if(array.length == pointsCount*measureCount){
-                                declaredField.set(initialData, fromArrayTo2DimArray(array, measureCount, pointsCount));
-                            }
+                            declaredField.set(initialData, toArray(value));
                         }
                         else{
                             if(declaredField.getType().equals(int.class)){
@@ -103,5 +93,21 @@ public class DataConverter {
             }
         }
         return initialData;
+    }
+
+    public static void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, Map<String, String> tagNamesMap) {
+        int pointsCount = Integer.parseInt(dataFromOpc.get(tagNamesMap.get("pointsCount")));
+        int measureCount = Integer.parseInt(dataFromOpc.get(tagNamesMap.get("measureCount")));
+        for(Map.Entry<String, String> entry: dataFromOpc.entrySet()){
+            String value = entry.getValue();
+            if(value.matches("\\[.*")){
+                double[] valueArr = toArray(value);
+                if(valueArr.length == pointsCount*measureCount){
+                    double[][] array2D = fromArrayTo2DArray(valueArr, pointsCount, measureCount);
+                    String newValue = fromObjectToJson(array2D);
+                    dataFromOpc.put(entry.getKey(), newValue);
+                }
+            }
+        }
     }
 }

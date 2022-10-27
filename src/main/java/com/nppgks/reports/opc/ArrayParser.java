@@ -3,6 +3,8 @@ package com.nppgks.reports.opc;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class ArrayParser {
@@ -18,7 +20,7 @@ public class ArrayParser {
         }
     }
 
-    public static double[][] to2dimArray(String json){
+    public static double[][] to2DArray(String json){
         if (json == null) return null;
         try {
             return objectMapper.readValue(json, double[][].class);
@@ -27,7 +29,7 @@ public class ArrayParser {
         }
     }
 
-    public static double[][] fromArrayTo2DimArray(double[] array, int rowsCount, int columnsCount){
+    public static double[][] fromArrayTo2DArray(double[] array, int rowsCount, int columnsCount){
         double[][] resultArr = new double[rowsCount][columnsCount];
         try{
             for(int i = 0; i < rowsCount; i++){
@@ -38,6 +40,16 @@ public class ArrayParser {
         catch (Exception e){
             throw new RuntimeException(e);
         }
+    }
 
+    public static String fromObjectToJson(Object object){
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(out, object);
+            return out.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

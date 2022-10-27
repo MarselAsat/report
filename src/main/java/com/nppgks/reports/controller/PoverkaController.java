@@ -12,7 +12,12 @@ public class PoverkaController {
     private final String POVERKA_3622 = "3622";
 
     @GetMapping("/poverka"+ POVERKA_3622)
-    public void poverka3622(){
+    public void doPoverka3622(){
         poverkaService.doPoverka3622();
+    }
+
+    @GetMapping("/poverka"+ POVERKA_3622+"/save")
+    public void saveDataPoverka3622(){
+        poverkaService.saveInDb();
     }
 }
