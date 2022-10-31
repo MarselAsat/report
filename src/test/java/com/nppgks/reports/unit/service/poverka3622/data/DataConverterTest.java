@@ -1,6 +1,9 @@
-package com.nppgks.reports.service.poverka3622.data;
+package com.nppgks.reports.unit.service.poverka3622.data;
 
 import com.nppgks.reports.service.poverka3622.Poverka3622;
+import com.nppgks.reports.service.poverka3622.data.DataConverter;
+import com.nppgks.reports.service.poverka3622.data.FinalData;
+import com.nppgks.reports.service.poverka3622.data.InitialData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

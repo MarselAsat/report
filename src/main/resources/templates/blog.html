@@ -28,10 +28,10 @@
             <a th:href="@{/admin/tagName/new}" class="nav-link">Create new tag</a>
           </li>
           <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-            <a th:href="@{/admin/tagName}" class="nav-link">Edit tag_name table</a>
+            <a th:href="@{/admin/tagName}" class="nav-link">Редактировать теги для периодических отчетов</a>
           </li>
           <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-            <a th:href="@{/admin/tagName}" class="nav-link">Edit manual_tag_name table</a>
+            <a th:href="@{/admin/manualTagName}" class="nav-link">Редактировать теги для поверок</a>
           </li>
         </ul>
         <ul class="navbar-nav navbar-right">

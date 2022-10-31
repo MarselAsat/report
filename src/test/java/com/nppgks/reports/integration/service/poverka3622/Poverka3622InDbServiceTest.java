@@ -6,11 +6,13 @@ import com.nppgks.reports.integration.annotation.ServiceIT;
 import com.nppgks.reports.service.poverka3622.Poverka3622InDbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.Map;
 
 @ServiceIT
+@Sql({"classpath:sql/poverka/poverka3622.sql"})
 class Poverka3622InDbServiceTest extends IntegrationBaseTest {
 
     private final Poverka3622InDbService poverka3622InDbService;

@@ -8,12 +8,14 @@ import com.nppgks.reports.db.poverka.repository.TagNameRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @RepositoryIT
+@Sql({"classpath:sql/poverka/poverka3622.sql"})
 class TagNameRepositoryTest extends IntegrationBaseTest {
 
     private final TagNameRepository tagNameRepository;
@@ -39,6 +41,6 @@ class TagNameRepositoryTest extends IntegrationBaseTest {
     @Test
     public void findAllByInitialAndType(){
         List<TagNameForOpc> tagNames = tagNameRepository.findAllByInitialAndType(true, PoverkaType.MI_3622.name());
-        Assertions.assertThat(tagNames).hasSize(34);
+        Assertions.assertThat(tagNames).hasSize(45);
     }
 }

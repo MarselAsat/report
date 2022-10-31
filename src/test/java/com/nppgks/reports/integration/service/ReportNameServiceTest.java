@@ -7,6 +7,7 @@ import com.nppgks.reports.integration.annotation.ServiceIT;
 import com.nppgks.reports.service.db_services.ReportNameService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -14,6 +15,7 @@ import java.util.regex.Pattern;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ServiceIT
+@Sql({"classpath:sql/recurring_reports/various_reports.sql"})
 class ReportNameServiceTest extends IntegrationBaseTest {
 
     private final ReportNameService reportNameService;

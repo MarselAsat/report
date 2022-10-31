@@ -1,4 +1,4 @@
-package com.nppgks.reports.integration.repository;
+package com.nppgks.reports.integration.repository.recurring_reports;
 
 import com.nppgks.reports.db.recurring_reports.entity.ReportName;
 import com.nppgks.reports.constants.ReportTypesEnum;
@@ -7,6 +7,7 @@ import com.nppgks.reports.integration.annotation.RepositoryIT;
 import com.nppgks.reports.db.recurring_reports.repository.ReportNameRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RepositoryIT
+@Sql({"classpath:sql/recurring_reports/various_reports.sql"})
 class ReportNameRepositoryTest extends IntegrationBaseTest {
 
     private final ReportNameRepository reportNameRepository;

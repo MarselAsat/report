@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
-@Entity(name = "poverka.tag_data")
+@Entity(name = "poverka_tag_data")
 @Getter
 @Setter
 @ToString

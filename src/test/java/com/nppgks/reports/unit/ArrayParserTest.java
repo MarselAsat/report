@@ -1,4 +1,4 @@
-package com.nppgks.reports;
+package com.nppgks.reports.unit;
 
 import com.nppgks.reports.opc.ArrayParser;
 import org.junit.jupiter.api.Test;

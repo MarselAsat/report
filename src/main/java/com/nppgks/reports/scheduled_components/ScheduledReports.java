@@ -43,7 +43,7 @@ public class ScheduledReports {
 
     private final TaskScheduler taskScheduler;
 
-    private final TagNameServiceImpl tagNameService;
+    private final TagNameService tagNameService;
 
     private final ReportTypeService reportTypeService;
 

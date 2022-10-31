@@ -13,7 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ServiceIT
-@Sql({"classpath:sql/settings.sql"})
+@Sql({"classpath:sql/common/settings.sql"})
 class SettingsServiceTest extends IntegrationBaseTest {
 
     private final SettingsService settingsService;

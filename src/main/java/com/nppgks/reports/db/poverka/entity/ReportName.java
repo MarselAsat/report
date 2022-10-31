@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity(name = "poverka.report_name")
+@Entity(name = "poverka_report_name")
 @Getter
 @Setter
 @ToString

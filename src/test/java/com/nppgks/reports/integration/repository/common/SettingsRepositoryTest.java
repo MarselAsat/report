@@ -1,4 +1,4 @@
-package com.nppgks.reports.integration.repository;
+package com.nppgks.reports.integration.repository.common;
 
 import com.nppgks.reports.constants.SettingsConstants;
 import com.nppgks.reports.integration.IntegrationBaseTest;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 @RepositoryIT
-@Sql({"classpath:sql/settings.sql"})
+@Sql({"classpath:sql/common/settings.sql"})
 class SettingsRepositoryTest extends IntegrationBaseTest {
 
     private final SettingsRepository settingsRepository;

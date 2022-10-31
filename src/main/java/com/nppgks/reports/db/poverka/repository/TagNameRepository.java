@@ -14,9 +14,9 @@ import java.util.List;
 public interface TagNameRepository extends JpaRepository<TagName, Integer> {
 
     @Modifying
-    @Query("update TagName u " +
-            "set u.name = :name, " +
-            "u.description = :description where u.id = :id")
+    @Query("update poverka_tag_name tn " +
+            "set tn.name = :name, " +
+            "tn.description = :description where tn.id = :id")
     int updateManualTagName(@Param("id") Integer id, @Param("name") String name, @Param("description") String description);
 
     List<TagNameForOpc> findAllByInitialAndType(Boolean initial, String type);

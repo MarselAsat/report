@@ -1,4 +1,4 @@
-package com.nppgks.reports.integration.repository;
+package com.nppgks.reports.integration.repository.recurring_reports;
 
 import com.nppgks.reports.dto.IReportViewTagData;
 import com.nppgks.reports.dto.ReportViewTagData;
@@ -15,6 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RepositoryIT
+@Sql({"classpath:sql/recurring_reports/various_reports.sql"})
 class TagDataRepositoryTest extends IntegrationBaseTest {
 
     private final TagDataRepository tagDataRepository;
@@ -25,14 +26,14 @@ class TagDataRepositoryTest extends IntegrationBaseTest {
     }
 
     @Test
-    void findByReportName_Id() {
-        List<TagData> tagData = tagDataRepository.findByReportName_Id(1L);
+    void findByReportNameId() {
+        List<TagData> tagData = tagDataRepository.findByReportNameId(1L);
         assertThat(tagData).hasSize(3);
     }
 
-    @Sql("classpath:sql/tag-data.sql")
     @Test
-    void getTagDataView(){
+    @Sql("classpath:sql/recurring_reports/daily.sql")
+    void getTagDataView() {
         List<IReportViewTagData> resultQuery = tagDataRepository.getTagDataView(1L);
         List<ReportViewTagData> reportViewTagDataList = resultQuery.stream()
                 .map(ReportViewTagData::fromIReportViewTagData)

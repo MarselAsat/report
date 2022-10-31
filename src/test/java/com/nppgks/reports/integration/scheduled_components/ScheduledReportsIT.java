@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ import static org.mockito.Mockito.doReturn;
 @Transactional
 @ExtendWith(MockitoExtension.class)
 @ScheduledIT
+@Sql({"classpath:sql/recurring_reports/various_reports.sql"})
 public class ScheduledReportsIT extends IntegrationBaseTest {
 
     @InjectMocks
@@ -39,7 +41,6 @@ public class ScheduledReportsIT extends IntegrationBaseTest {
     public ScheduledReportsIT(ScheduledReports scheduledReports) {
         this.scheduledReports = scheduledReports;
     }
-
 
     @BeforeEach
     void init(){

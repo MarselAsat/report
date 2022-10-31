@@ -3,7 +3,7 @@ package com.nppgks.reports.service.poverka3622;
 import com.nppgks.reports.dto.TagNameForOpc;
 import com.nppgks.reports.opc.OpcRequests;
 import com.nppgks.reports.constants.PoverkaType;
-import com.nppgks.reports.service.db_services.ManualTagNameService;
+import com.nppgks.reports.service.db_services.poverka.PoverkaTagNameService;
 import com.nppgks.reports.service.poverka3622.data.DataConverter;
 import com.nppgks.reports.service.poverka3622.data.FinalData;
 import com.nppgks.reports.service.poverka3622.data.InitialData;
@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 public class PoverkaService {
 
     private final OpcRequests opcRequests;
-    private final ManualTagNameService manualTagNameService;
+    private final PoverkaTagNameService poverkaTagNameService;
 
     private final Poverka3622InDbService poverka3622InDbService;
 
     public void doPoverka3622() {
-        List<TagNameForOpc> initialTagNames = manualTagNameService.getTagNamesByInitialAndType(true, PoverkaType.MI_3622.name());
+        List<TagNameForOpc> initialTagNames = poverkaTagNameService.getTagNamesByInitialAndType(true, PoverkaType.MI_3622.name());
         Map<String, String> initialTagNamesMap = createTagNamesMap(initialTagNames);
 
         List<String> initialTagNamesForOpc = initialTagNames
@@ -40,7 +40,7 @@ public class PoverkaService {
         PoverkaRunner poverkaRunner = new PoverkaRunner(initialData);
         FinalData finalData = poverkaRunner.run();
 
-        List<TagNameForOpc> finalTagNames = manualTagNameService.getTagNamesByInitialAndType(false, PoverkaType.MI_3622.name());
+        List<TagNameForOpc> finalTagNames = poverkaTagNameService.getTagNamesByInitialAndType(false, PoverkaType.MI_3622.name());
 
         Map<String, String> finalTagNamesMap = createTagNamesMap(finalTagNames);
 

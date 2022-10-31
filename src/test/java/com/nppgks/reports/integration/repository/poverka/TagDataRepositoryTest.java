@@ -9,19 +9,18 @@ import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.RepositoryIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Commit;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @RepositoryIT
-class TagDataPoverka3622RepositoryTest extends IntegrationBaseTest {
+class TagDataRepositoryTest extends IntegrationBaseTest {
     private final TagDataRepository tagDataRepository;
     private final TagNameRepository tagNameRepository;
 
     @Autowired
-    TagDataPoverka3622RepositoryTest(TagDataRepository tagDataRepository, TagNameRepository tagNameRepository) {
+    TagDataRepositoryTest(TagDataRepository tagDataRepository, TagNameRepository tagNameRepository) {
         this.tagDataRepository = tagDataRepository;
         this.tagNameRepository = tagNameRepository;
     }

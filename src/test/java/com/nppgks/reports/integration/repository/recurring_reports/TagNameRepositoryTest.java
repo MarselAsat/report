@@ -1,4 +1,4 @@
-package com.nppgks.reports.integration.repository;
+package com.nppgks.reports.integration.repository.recurring_reports;
 
 import com.nppgks.reports.db.recurring_reports.entity.TagName;
 import com.nppgks.reports.integration.IntegrationBaseTest;
@@ -6,10 +6,12 @@ import com.nppgks.reports.integration.annotation.RepositoryIT;
 import com.nppgks.reports.db.recurring_reports.repository.TagNameRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RepositoryIT
+@Sql({"classpath:sql/recurring_reports/various_reports.sql"})
 class TagNameRepositoryTest extends IntegrationBaseTest {
 
     private final TagNameRepository tagNameRepository;

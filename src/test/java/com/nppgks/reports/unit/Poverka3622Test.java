@@ -1,4 +1,4 @@
-package com.nppgks.reports;
+package com.nppgks.reports.unit;
 
 import com.nppgks.reports.service.poverka3622.data.InitialData;
 import com.nppgks.reports.service.poverka3622.Poverka3622;

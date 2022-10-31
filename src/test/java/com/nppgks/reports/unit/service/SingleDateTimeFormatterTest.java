@@ -1,4 +1,4 @@
-package com.nppgks.reports.service;
+package com.nppgks.reports.unit.service;
 
 import com.nppgks.reports.service.time_services.SingleDateTimeFormatter;
 import org.junit.jupiter.api.Assertions;

@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface TagDataRepository extends JpaRepository<TagData, Long> {
 
-    List<TagData> findByReportName_Id(Long reportNameId);
+    List<TagData> findByReportNameId(Long reportNameId);
 
     @Query(value = """
        select d.description as description,
@@ -24,9 +24,9 @@ public interface TagDataRepository extends JpaRepository<TagData, Long> {
        from
         (
         select tn.name, tn.order as "order", data as value, tn.description as description, split_part(tn.name, '_', array_length(regexp_split_to_array(tn.name, '_'), 1)) as type
-        from tag_data
-                 INNER JOIN tag_name tn ON tn.id = tag_data.tag_name_id
-        where tag_data.report_name_id = :reportNameId
+        from recurring_reports.tag_data td
+                 INNER JOIN recurring_reports.tag_name tn ON tn.id = td.tag_name_id
+        where td.report_name_id = :reportNameId
     ) d
     group by d.description
     ORDER BY max(d.order);
