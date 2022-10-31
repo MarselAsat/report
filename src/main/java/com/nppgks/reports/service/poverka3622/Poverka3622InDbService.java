@@ -2,16 +2,17 @@ package com.nppgks.reports.service.poverka3622;
 
 import com.nppgks.reports.constants.DataType;
 import com.nppgks.reports.constants.PoverkaType;
-import com.nppgks.reports.db.entity.ReportNamePoverka;
-import com.nppgks.reports.db.entity.TagDataPoverka3622;
-import com.nppgks.reports.db.repository.ReportNamePoverkaRepository;
-import com.nppgks.reports.db.repository.TagDataPoverka3622Repository;
+import com.nppgks.reports.db.poverka.entity.ReportName;
+import com.nppgks.reports.db.poverka.entity.TagData;
+import com.nppgks.reports.db.poverka.repository.ReportNameRepository;
+import com.nppgks.reports.db.poverka.repository.TagDataRepository;
 import com.nppgks.reports.dto.TagNameForOpc;
 import com.nppgks.reports.opc.ArrayParser;
 import com.nppgks.reports.service.time_services.SingleDateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,21 +28,22 @@ public class Poverka3622InDbService {
     private Map<String, String> initialDataFromOpc; // (tag name, tag data)
     private Map<String, Object> finalDataForOpc;
     private List<TagNameForOpc> finalTagNames;
-    private final ReportNamePoverkaRepository reportNamePoverkaRepository;
-    private final TagDataPoverka3622Repository tagDataPoverka3622Repository;
+    private final ReportNameRepository reportNameRepository;
+    private final TagDataRepository tagDataRepository;
 
+    @Transactional
     public void savePoverka(){
-        ReportNamePoverka reportName = createReportNamePoverka();
+        ReportName reportName = createReportNamePoverka();
 
         Map<String, TagNameForOpc> initialTagNamesMap = convertListToMap(initialTagNames);
         Map<String, TagNameForOpc> finalTagNamesMap = convertListToMap(finalTagNames);
-        List<TagDataPoverka3622> tagDataList = createListOfTagDataPoverka3622(
+        List<TagData> tagDataList = createListOfTagDataPoverka3622(
                 reportName,
                 initialTagNamesMap,
                 finalTagNamesMap);
 
-        reportNamePoverkaRepository.save(reportName);
-        tagDataPoverka3622Repository.saveAll(tagDataList);
+        reportNameRepository.save(reportName);
+        tagDataRepository.saveAll(tagDataList);
     }
 
     private Map<String, TagNameForOpc> convertListToMap(List<TagNameForOpc> initialTagNames) {
@@ -50,36 +52,36 @@ public class Poverka3622InDbService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(e1, e2) -> e1));
     }
 
-    private List<TagDataPoverka3622> createListOfTagDataPoverka3622(
-            ReportNamePoverka reportName,
+    private List<TagData> createListOfTagDataPoverka3622(
+            ReportName reportName,
             Map<String, TagNameForOpc> initialTagNamesMap,
             Map<String, TagNameForOpc> finalTagNamesMap) {
-        List<TagDataPoverka3622> tagDataPoverka3622List = new ArrayList<>();
+        List<TagData> tagDataList = new ArrayList<>();
         for (Map.Entry<String, String> entry : initialDataFromOpc.entrySet()) {
             String value = entry.getValue();
-            TagDataPoverka3622 tagDataPoverka3622 = new TagDataPoverka3622(
+            TagData tagData = new TagData(
                     null,
                     value,
                     getDataType(value),
                     TagNameForOpc.toManualTagName(initialTagNamesMap.get(entry.getKey())),
                     reportName
             );
-            tagDataPoverka3622List.add(tagDataPoverka3622);
+            tagDataList.add(tagData);
         }
 
         for (Map.Entry<String, Object> entry : finalDataForOpc.entrySet()) {
             String value = ArrayParser.fromObjectToJson(entry.getValue());
 
-            TagDataPoverka3622 tagDataPoverka3622 = new TagDataPoverka3622(
+            TagData tagData = new TagData(
                     null,
                     value,
                     getDataType(value),
                     TagNameForOpc.toManualTagName(finalTagNamesMap.get(entry.getKey())),
                     reportName
             );
-            tagDataPoverka3622List.add(tagDataPoverka3622);
+            tagDataList.add(tagData);
         }
-        return tagDataPoverka3622List;
+        return tagDataList;
     }
 
     private String getDataType(String value) {
@@ -92,13 +94,12 @@ public class Poverka3622InDbService {
         }
     }
 
-    private ReportNamePoverka createReportNamePoverka() {
+    private ReportName createReportNamePoverka() {
         LocalDateTime dt = LocalDateTime.now();
-        return new ReportNamePoverka(
+        return new ReportName(
                 null,
                 "Поверка МИ3622 от "+ SingleDateTimeFormatter.formatToSinglePattern(dt),
                 dt,
                 PoverkaType.MI_3622.name());
     }
-
 }

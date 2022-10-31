@@ -1,6 +1,6 @@
 package com.nppgks.reports.dto;
 
-import com.nppgks.reports.db.entity.ManualTagName;
+import com.nppgks.reports.db.poverka.entity.TagName;
 import lombok.Data;
 
 @Data
@@ -11,7 +11,7 @@ public class ManualTagNameDto {
     private String description;
     private String type;
 
-    public static ManualTagNameDto fromManualTagName(ManualTagName tagName){
+    public static ManualTagNameDto fromManualTagName(TagName tagName){
         ManualTagNameDto manualTagNameDto = new ManualTagNameDto();
         manualTagNameDto.setId(tagName.getId());
         manualTagNameDto.setPermanentName(tagName.getPermanentName());
@@ -21,13 +21,13 @@ public class ManualTagNameDto {
         return manualTagNameDto;
     }
 
-    public static ManualTagName toManualTagName(ManualTagNameDto tagNameDto){
-        ManualTagName manualTagName = new ManualTagName();
-        manualTagName.setId(tagNameDto.getId());
-        manualTagName.setPermanentName(tagNameDto.getPermanentName());
-        manualTagName.setName(tagNameDto.getName());
-        manualTagName.setDescription(tagNameDto.getDescription());
-        manualTagName.setType(tagNameDto.getType());
-        return manualTagName;
+    public static TagName toManualTagName(ManualTagNameDto tagNameDto){
+        TagName tagName = new TagName();
+        tagName.setId(tagNameDto.getId());
+        tagName.setPermanentName(tagNameDto.getPermanentName());
+        tagName.setName(tagNameDto.getName());
+        tagName.setDescription(tagNameDto.getDescription());
+        tagName.setType(tagNameDto.getType());
+        return tagName;
     }
 }

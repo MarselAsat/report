@@ -2,8 +2,8 @@ package com.nppgks.reports.service.db_services;
 
 import com.nppgks.reports.constants.ReportTypesEnum;
 import com.nppgks.reports.constants.SettingsConstants;
-import com.nppgks.reports.db.entity.Settings;
-import com.nppgks.reports.db.repository.SettingsRepository;
+import com.nppgks.reports.db.common.entity.Settings;
+import com.nppgks.reports.db.common.repository.SettingsRepository;
 import com.nppgks.reports.scheduled_components.RescheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

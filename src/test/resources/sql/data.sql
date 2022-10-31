@@ -2,7 +2,7 @@ INSERT INTO "user" (username, password, role)
 VALUES ('admin', '$2a$12$uNrGCD3abAGLrDySH2TTB.17nbxrHZrWZ6ZeuW52sOWQKUniq9hlG', 'ROLE_ADMIN'),
        ('user', '$2a$12$C9C9MlJl/AOOp4UVYkujn.Lxld46KI4SOGXWG34tb0jBE52nKXMGa', 'ROLE_USER');
 
-INSERT INTO report_type (id, name, description, active)
+INSERT INTO recurring_reports.report_type (id, name, description, active)
 VALUES ('hour', 'Часовой', 'Отчеты фомируемые каждый час', TRUE),
        ('daily', 'Суточный', 'Отчеты фомируемые за сутки', TRUE),
        ('shift', 'Сменный', 'Отчеты фомируемые за смену', TRUE),
@@ -11,7 +11,7 @@ VALUES ('hour', 'Часовой', 'Отчеты фомируемые кажды�
        ('manual', 'Ручной', 'Для поверок', TRUE);
 
 -- InitialData
-INSERT INTO manual_tag_name (id, permanent_name, name, description, initial, type)
+INSERT INTO poverka.tag_name (id, permanent_name, name, description, initial, type)
 VALUES (1, 'Q_ij', 'WinCC_OA.rep_test.' || 'Q_ij', '', TRUE, 'MI_3622'),
        (2, 'N_e_ij', 'WinCC_OA.rep_test.' || 'N_e_ij', '', TRUE, 'MI_3622'),
        (3, 'N_p_ij', 'WinCC_OA.rep_test.' || 'N_p_ij', '', TRUE, 'MI_3622'),
@@ -32,7 +32,7 @@ VALUES (1, 'Q_ij', 'WinCC_OA.rep_test.' || 'Q_ij', '', TRUE, 'MI_3622'),
        (18, 'theta_Dp', 'WinCC_OA.rep_test.' || 'theta_Dp', '', TRUE, 'MI_3622');
 
 -- InitialTextData
-INSERT INTO manual_tag_name (id, permanent_name, name, initial, type)
+INSERT INTO poverka.tag_name (id, permanent_name, name, initial, type)
 VALUES (19, 'CPM_name', 'CPM_name', TRUE, 'MI_3622'),
        (20, 'CPM_number', 'CPM_number', TRUE, 'MI_3622'),
        (21, 'CPM_owner', 'CPM_owner', TRUE, 'MI_3622'),
@@ -51,7 +51,7 @@ VALUES (19, 'CPM_name', 'CPM_name', TRUE, 'MI_3622'),
        (34, 'pointsCount', 'WinCC_OA.rep_test.' || 'pointsCount', TRUE, 'MI_3622');
 
 -- FinalData
-INSERT INTO manual_tag_name (id, permanent_name, name, description, initial, type)
+INSERT INTO poverka.tag_name (id, permanent_name, name, description, initial, type)
 VALUES (35, 'K_pm', 'WinCC_OA.rep_test.' || 'K_pm', '', FALSE, 'MI_3622'),
        (36, 'M_e_ij', 'WinCC_OA.rep_test.' || 'M_e_ij', '', FALSE, 'MI_3622'),
        (37, 'MF_ij', 'WinCC_OA.rep_test.' || 'MF_ij', '', FALSE, 'MI_3622'),
@@ -94,7 +94,7 @@ VALUES (35, 'K_pm', 'WinCC_OA.rep_test.' || 'K_pm', '', FALSE, 'MI_3622'),
        (74, 'theta_PDk', 'WinCC_OA.rep_test.' || 'theta_PDk', '', FALSE, 'MI_3622');
 
 -- InitialUnusedData
-INSERT INTO manual_tag_name (id, permanent_name, name, description, initial, type)
+INSERT INTO poverka.tag_name (id, permanent_name, name, description, initial, type)
 VALUES (75, 'delta_t_dop', 'WinCC_OA.rep_test.' || 'delta_t_dop', '', TRUE, 'MI_3622'),
        (76, 'delta_P_dop', 'WinCC_OA.rep_test.' || 'delta_P_dop', '', TRUE, 'MI_3622'),
        (77, 't_min', 'WinCC_OA.rep_test.' || 't_min', '', TRUE, 'MI_3622'),
@@ -107,10 +107,10 @@ VALUES (75, 'delta_t_dop', 'WinCC_OA.rep_test.' || 'delta_t_dop', '', TRUE, 'MI_
        (84, 'f_p', 'WinCC_OA.rep_test.' || 'f_p', '', TRUE, 'MI_3622'),
        (85, 'K_y', 'WinCC_OA.rep_test.' || 'K_y', '', TRUE, 'MI_3622');
 
-SELECT SETVAL('manual_tag_name_id_seq', (SELECT MAX(id) FROM manual_tag_name));
+SELECT SETVAL('poverka.tag_name_id_seq', (SELECT MAX(id) FROM poverka.tag_name));
 
 
-INSERT INTO tag_name (id, name, description, report_type_id)
+INSERT INTO recurring_reports.tag_name (id, name, description, report_type_id)
 VALUES (1, 'hour_mass_il1', 'масса за час ил1', 'hour'),
        (2, 'hour_vol_il1', 'объем за час ил1', 'hour'),
        (3, 'hour_mass_il2', 'масса за час ил2', 'hour'),
@@ -124,9 +124,9 @@ VALUES (1, 'hour_mass_il1', 'масса за час ил1', 'hour'),
        (11, 'ns=2;s=Channel1.Device1.Tag5', '', 'manual'),
        (12, 'ns=2;s=Channel1.Device1.Tag4', '', 'manual'),
        (13, 'ns=2;s=Channel1.Device1.Tag6', '', 'manual');
-SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
+SELECT SETVAL('recurring_reports.tag_name_id_seq', (SELECT MAX(id) FROM recurring_reports.tag_name));
 
-INSERT INTO report_name(id, report_type_id, name, creation_dt)
+INSERT INTO recurring_reports.report_name(id, report_type_id, name, creation_dt)
 VALUES (1, 'hour',
         'Часовой отчет за 12 часов 20.05.2022',
         TO_TIMESTAMP('2022-05-20 13:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -156,7 +156,7 @@ VALUES (1, 'hour',
         TO_TIMESTAMP('2021-01-02 15:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 
-INSERT INTO report_name(id, report_type_id, name, creation_dt)
+INSERT INTO recurring_reports.report_name(id, report_type_id, name, creation_dt)
 VALUES (10, 'daily',
         'Суточный отчет за 20.05.2022',
         TO_TIMESTAMP('2022-05-21 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -176,7 +176,7 @@ VALUES (10, 'daily',
         'Суточный отчет за 22.01.2021',
         TO_TIMESTAMP('2021-01-23 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report_name(id, report_type_id, name, creation_dt)
+INSERT INTO recurring_reports.report_name(id, report_type_id, name, creation_dt)
 VALUES (16, 'month',
         'Месячный отчет за май 2022',
         TO_TIMESTAMP('2022-06-01 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -196,7 +196,7 @@ VALUES (16, 'month',
         'Месячный отчет за декабрь 2021',
         TO_TIMESTAMP('2022-01-01 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report_name(id, report_type_id, name, creation_dt)
+INSERT INTO recurring_reports.report_name(id, report_type_id, name, creation_dt)
 VALUES (22, 'shift',
         'Сменный отчет за I смену 20.08.2022',
         TO_TIMESTAMP('2022-08-20 22:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -207,7 +207,7 @@ VALUES (22, 'shift',
         'Сменный отчет за I смену 20.08.2021',
         TO_TIMESTAMP('2021-08-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report_name(id, report_type_id, name, creation_dt)
+INSERT INTO recurring_reports.report_name(id, report_type_id, name, creation_dt)
 VALUES (25, 'year',
         'Годовой отчет за 2022',
         TO_TIMESTAMP('2023-01-01 10:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -215,14 +215,14 @@ VALUES (25, 'year',
         'Годовой отчет за 2021',
         TO_TIMESTAMP('2022-01-01 22:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report_name(id, report_type_id, name, creation_dt)
+INSERT INTO recurring_reports.report_name(id, report_type_id, name, creation_dt)
 VALUES (27, 'manual',
         'Поверка MI_3622',
         TO_TIMESTAMP('2022-07-14 12:00:50', 'YYYY-MM-DD HH24:MI:SS'));
 
-SELECT SETVAL('report_name_id_seq', (SELECT MAX(id) FROM report_name));
+SELECT SETVAL('recurring_reports.report_name_id_seq', (SELECT MAX(id) FROM recurring_reports.report_name));
 
-INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
+INSERT INTO recurring_reports.tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (80.0, TO_TIMESTAMP('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 1),
        (120.0, TO_TIMESTAMP('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2, 1),
        (160.0, TO_TIMESTAMP('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3, 1),
@@ -236,23 +236,9 @@ VALUES (80.0, TO_TIMESTAMP('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 1
        (123.0, TO_TIMESTAMP('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2, 2),
        (163.0, TO_TIMESTAMP('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3, 2);
 
-INSERT INTO text_tag_data(data, creation_dt, manual_tag_name_id, report_name_id)
-VALUES ('Micro Motion', TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
-        (SELECT id FROM manual_tag_name WHERE name = 'CRM_name'), 10),
-       ('МИ MI_3622-2020', TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
-        (SELECT id FROM manual_tag_name WHERE name = 'poverka_method'), 10),
-       ('УКУ ДТ, ИЛ-2', TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
-        (SELECT id FROM manual_tag_name WHERE name = 'poverka_place'), 10),
-       ('Micro Motion', TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
-        (SELECT id FROM manual_tag_name WHERE name = 'PR_name'), 10),
-       ('ЯМАЛ СПГ', TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
-        (SELECT id FROM manual_tag_name WHERE name = 'CRM_owner'), 10),
-       ('144780098097', TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
-        (SELECT id FROM manual_tag_name WHERE name = 'CRM_number'), 10);
-
-INSERT INTO report_name_poverka(id, name, creation_dt, poverka_type)
+INSERT INTO poverka.report_name(id, name, creation_dt, poverka_type)
 VALUES (1, 'Поверка 3622 за 2022-07-14',
         TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
         'MI_3622');
 
-SELECT SETVAL('report_name_poverka_id_seq', (SELECT MAX(id) FROM report_name_poverka));
+SELECT SETVAL('poverka.report_name_id_seq', (SELECT MAX(id) FROM poverka.report_name));

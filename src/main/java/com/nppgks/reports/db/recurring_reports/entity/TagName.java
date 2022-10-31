@@ -1,4 +1,4 @@
-package com.nppgks.reports.db.entity;
+package com.nppgks.reports.db.recurring_reports.entity;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "tag_name")
+@Table(name = "tag_name", schema = "recurring_reports")
 public class TagName {
 
     @Id

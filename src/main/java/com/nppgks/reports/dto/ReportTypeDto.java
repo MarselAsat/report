@@ -1,6 +1,6 @@
 package com.nppgks.reports.dto;
 
-import com.nppgks.reports.db.entity.ReportType;
+import com.nppgks.reports.db.recurring_reports.entity.ReportType;
 import lombok.Data;
 
 @Data

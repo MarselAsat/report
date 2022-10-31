@@ -1,5 +1,7 @@
 package com.nppgks.reports.security;
 
+import com.nppgks.reports.db.common.entity.User;
+import com.nppgks.reports.db.common.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

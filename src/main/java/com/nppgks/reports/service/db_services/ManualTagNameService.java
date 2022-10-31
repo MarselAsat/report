@@ -1,7 +1,7 @@
 package com.nppgks.reports.service.db_services;
 
 import com.nppgks.reports.dto.ManualTagNameDto;
-import com.nppgks.reports.db.repository.ManualTagNameRepository;
+import com.nppgks.reports.db.poverka.repository.TagNameRepository;
 import com.nppgks.reports.dto.TagNameForOpc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ import java.util.stream.Collectors;
 @Transactional
 public class ManualTagNameService{
 
-    private final ManualTagNameRepository manualTagNameRepository;
+    private final TagNameRepository tagNameRepository;
 
     @Autowired
-    public ManualTagNameService(ManualTagNameRepository repository){
-        this.manualTagNameRepository = repository;
+    public ManualTagNameService(TagNameRepository repository){
+        this.tagNameRepository = repository;
     }
 
     public List<TagNameForOpc> getTagNamesByInitialAndType(Boolean initial, String type){
-        return manualTagNameRepository.findAllByInitialAndType(initial, type);
+        return tagNameRepository.findAllByInitialAndType(initial, type);
     }
 
     public Integer saveTagName(ManualTagNameDto tagNameDto) {
         try{
-            return manualTagNameRepository.save(ManualTagNameDto.toManualTagName(tagNameDto)).getId();
+            return tagNameRepository.save(ManualTagNameDto.toManualTagName(tagNameDto)).getId();
         }
         catch(Exception e){
             return null;
@@ -36,7 +36,7 @@ public class ManualTagNameService{
     }
 
     public List<ManualTagNameDto> getAllTagNames() {
-        return manualTagNameRepository.findAll()
+        return tagNameRepository.findAll()
                 .stream()
                 .map(ManualTagNameDto::fromManualTagName)
                 .toList();
@@ -53,7 +53,7 @@ public class ManualTagNameService{
 
     public Integer updateTagName(ManualTagNameDto tagNameDto) {
         try{
-            manualTagNameRepository.updateManualTagName(
+            tagNameRepository.updateManualTagName(
                     tagNameDto.getId(),
                     tagNameDto.getName(),
                     tagNameDto.getDescription());
@@ -67,7 +67,7 @@ public class ManualTagNameService{
 
     public boolean deleteTagName(Integer id) {
         try{
-            manualTagNameRepository.deleteById(id);
+            tagNameRepository.deleteById(id);
             return true;
         }
         catch(Exception e){

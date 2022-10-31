@@ -1,7 +1,7 @@
 package com.nppgks.reports.dto;
 
-import com.nppgks.reports.db.entity.ReportType;
-import com.nppgks.reports.db.entity.TagName;
+import com.nppgks.reports.db.recurring_reports.entity.ReportType;
+import com.nppgks.reports.db.recurring_reports.entity.TagName;
 import com.nppgks.reports.service.db_services.ReportTypeService;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;

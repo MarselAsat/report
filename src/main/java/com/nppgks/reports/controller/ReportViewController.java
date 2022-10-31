@@ -1,7 +1,7 @@
 package com.nppgks.reports.controller;
 
 import com.nppgks.reports.dto.TagDataDto;
-import com.nppgks.reports.db.entity.ReportName;
+import com.nppgks.reports.db.recurring_reports.entity.ReportName;
 import com.nppgks.reports.constants.ReportTypesEnum;
 import com.nppgks.reports.dto.ReportViewTagData;
 import com.nppgks.reports.constants.SettingsConstants;

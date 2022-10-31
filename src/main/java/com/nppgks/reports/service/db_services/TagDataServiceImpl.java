@@ -1,13 +1,13 @@
 package com.nppgks.reports.service.db_services;
 
-import com.nppgks.reports.db.entity.ReportName;
-import com.nppgks.reports.db.entity.TagData;
-import com.nppgks.reports.db.entity.TagName;
+import com.nppgks.reports.db.recurring_reports.entity.ReportName;
+import com.nppgks.reports.db.recurring_reports.entity.TagData;
+import com.nppgks.reports.db.recurring_reports.entity.TagName;
 import com.nppgks.reports.dto.IReportViewTagData;
 import com.nppgks.reports.dto.ReportViewTagData;
 import com.nppgks.reports.dto.TagDataDto;
-import com.nppgks.reports.db.repository.TagDataRepository;
-import com.nppgks.reports.db.repository.TagNameRepository;
+import com.nppgks.reports.db.recurring_reports.repository.TagDataRepository;
+import com.nppgks.reports.db.recurring_reports.repository.TagNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

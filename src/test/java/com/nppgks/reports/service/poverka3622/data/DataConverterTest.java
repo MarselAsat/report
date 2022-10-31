@@ -50,12 +50,11 @@ class DataConverterTest {
     @Test
     void convertMapToInitialData() {
         String array2Dim = "[[1.0, 1.0, 1.0, 1.0, 1.0], [2.0, 2.0, 2.0, 2.0, 2.0], [3.0, 3.0, 3.0, 3.0, 3.0]]";
-        String array2DimIn1Dim = "[1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0, 3.0, 3.0]";
         String singleValue = "45.89";
         Map<String, String> valuesMap = Map.of("tagNp", array2Dim, "tagNeij", array2Dim, "tagFPMAx", singleValue,
                 "WinCC_pointsCount", "5",
                 "WinCC_measureCount", "3",
-                "WinCC_Q", array2DimIn1Dim);
+                "WinCC_Q", array2Dim);
         Map<String, String> tagNamesMap = Map.of("N_p_ij","tagNp", "N_e_ij", "tagNeij", "f_p_max", "tagFPMAx",
                 "pointsCount", "WinCC_pointsCount",
                 "measureCount", "WinCC_measureCount",

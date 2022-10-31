@@ -1,12 +1,14 @@
-package com.nppgks.reports.db.repository;
+package com.nppgks.reports.db.recurring_reports.repository;
 
 import com.nppgks.reports.dto.IReportViewTagData;
-import com.nppgks.reports.db.entity.TagData;
+import com.nppgks.reports.db.recurring_reports.entity.TagData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface TagDataRepository extends JpaRepository<TagData, Long> {
 
     List<TagData> findByReportName_Id(Long reportNameId);

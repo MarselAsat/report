@@ -1,8 +1,8 @@
 package com.nppgks.reports.integration.scheduled_components;
 
-import com.nppgks.reports.db.entity.ReportName;
-import com.nppgks.reports.db.entity.ReportType;
-import com.nppgks.reports.db.entity.TagData;
+import com.nppgks.reports.db.recurring_reports.entity.ReportName;
+import com.nppgks.reports.db.recurring_reports.entity.ReportType;
+import com.nppgks.reports.db.recurring_reports.entity.TagData;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.ScheduledIT;
 import com.nppgks.reports.opc.OpcRequests;

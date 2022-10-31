@@ -1,4 +1,4 @@
-package com.nppgks.reports.db.entity;
+package com.nppgks.reports.db.recurring_reports.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "report_name")
+@Table(name = "report_name", schema = "recurring_reports")
 public class ReportName {
 
     @Id

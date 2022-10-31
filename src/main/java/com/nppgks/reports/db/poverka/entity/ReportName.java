@@ -1,4 +1,4 @@
-package com.nppgks.reports.db.entity;
+package com.nppgks.reports.db.poverka.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -8,14 +8,14 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "poverka.report_name")
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "report_name_poverka")
-public class ReportNamePoverka {
+@Table(name = "report_name", schema = "poverka")
+public class ReportName {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +37,7 @@ public class ReportNamePoverka {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        ReportNamePoverka that = (ReportNamePoverka) o;
+        ReportName that = (ReportName) o;
         return id != null && Objects.equals(id, that.id);
     }
 

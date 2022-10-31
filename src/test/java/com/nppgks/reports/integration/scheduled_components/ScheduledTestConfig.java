@@ -2,7 +2,7 @@ package com.nppgks.reports.integration.scheduled_components;
 
 import com.nppgks.reports.constants.ReportTypesEnum;
 import com.nppgks.reports.constants.SettingsConstants;
-import com.nppgks.reports.db.entity.ReportType;
+import com.nppgks.reports.db.recurring_reports.entity.ReportType;
 import com.nppgks.reports.service.db_services.ReportTypeService;
 import com.nppgks.reports.service.db_services.SettingsService;
 import org.springframework.boot.test.context.TestConfiguration;

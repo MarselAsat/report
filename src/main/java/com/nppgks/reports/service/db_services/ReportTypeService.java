@@ -1,7 +1,7 @@
 package com.nppgks.reports.service.db_services;
 
 import com.nppgks.reports.dto.ReportTypeDto;
-import com.nppgks.reports.db.entity.ReportType;
+import com.nppgks.reports.db.recurring_reports.entity.ReportType;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.nppgks.reports.db.entity;
+package com.nppgks.reports.db.common.entity;
 
 import lombok.Data;
 

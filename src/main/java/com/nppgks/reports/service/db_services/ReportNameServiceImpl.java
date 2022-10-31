@@ -1,8 +1,8 @@
 package com.nppgks.reports.service.db_services;
 
-import com.nppgks.reports.db.entity.ReportName;
+import com.nppgks.reports.db.recurring_reports.entity.ReportName;
 import com.nppgks.reports.constants.ReportTypesEnum;
-import com.nppgks.reports.db.repository.ReportNameRepository;
+import com.nppgks.reports.db.recurring_reports.repository.ReportNameRepository;
 import com.nppgks.reports.service.time_services.DateTimeRange;
 import com.nppgks.reports.service.time_services.DateTimeRangeBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

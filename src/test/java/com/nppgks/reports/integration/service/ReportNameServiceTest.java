@@ -1,6 +1,6 @@
 package com.nppgks.reports.integration.service;
 
-import com.nppgks.reports.db.entity.ReportName;
+import com.nppgks.reports.db.recurring_reports.entity.ReportName;
 import com.nppgks.reports.constants.ReportTypesEnum;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.ServiceIT;

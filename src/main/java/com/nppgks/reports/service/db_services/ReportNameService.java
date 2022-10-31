@@ -1,6 +1,6 @@
 package com.nppgks.reports.service.db_services;
 
-import com.nppgks.reports.db.entity.ReportName;
+import com.nppgks.reports.db.recurring_reports.entity.ReportName;
 import java.util.List;
 
 public interface ReportNameService {

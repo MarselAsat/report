@@ -1,6 +1,6 @@
 package com.nppgks.reports.controller;
 
-import com.nppgks.reports.security.User;
+import com.nppgks.reports.db.common.entity.User;
 import com.nppgks.reports.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

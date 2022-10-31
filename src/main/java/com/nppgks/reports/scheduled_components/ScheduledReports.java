@@ -2,10 +2,10 @@ package com.nppgks.reports.scheduled_components;
 
 import com.nppgks.reports.constants.ReportTypesEnum;
 import com.nppgks.reports.constants.SettingsConstants;
-import com.nppgks.reports.db.entity.ReportName;
-import com.nppgks.reports.db.entity.ReportType;
-import com.nppgks.reports.db.entity.TagData;
-import com.nppgks.reports.db.entity.TagName;
+import com.nppgks.reports.db.recurring_reports.entity.ReportName;
+import com.nppgks.reports.db.recurring_reports.entity.ReportType;
+import com.nppgks.reports.db.recurring_reports.entity.TagData;
+import com.nppgks.reports.db.recurring_reports.entity.TagName;
 import com.nppgks.reports.opc.OpcRequests;
 import com.nppgks.reports.service.db_services.*;
 import com.nppgks.reports.service.time_services.DateTimeRange;

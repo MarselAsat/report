@@ -1,4 +1,4 @@
-package com.nppgks.reports.db.entity;
+package com.nppgks.reports.db.poverka.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "manual_tag_name")
+@Entity(name = "poverka.tag_name")
+@Table(name = "tag_name", schema = "poverka")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ManualTagName {
+public class TagName {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

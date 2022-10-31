@@ -1,5 +1,7 @@
 package com.nppgks.reports.security;
 
+import com.nppgks.reports.db.common.entity.User;
+import com.nppgks.reports.db.common.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

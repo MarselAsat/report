@@ -1,5 +1,6 @@
 package com.nppgks.reports.security;
 
+import com.nppgks.reports.db.common.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

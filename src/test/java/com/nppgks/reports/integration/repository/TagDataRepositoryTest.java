@@ -2,10 +2,10 @@ package com.nppgks.reports.integration.repository;
 
 import com.nppgks.reports.dto.IReportViewTagData;
 import com.nppgks.reports.dto.ReportViewTagData;
-import com.nppgks.reports.db.entity.TagData;
+import com.nppgks.reports.db.recurring_reports.entity.TagData;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.RepositoryIT;
-import com.nppgks.reports.db.repository.TagDataRepository;
+import com.nppgks.reports.db.recurring_reports.repository.TagDataRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;

@@ -1,7 +1,7 @@
 package com.nppgks.reports.service.db_services;
 
-import com.nppgks.reports.db.entity.ReportName;
-import com.nppgks.reports.db.entity.TagData;
+import com.nppgks.reports.db.recurring_reports.entity.ReportName;
+import com.nppgks.reports.db.recurring_reports.entity.TagData;
 import com.nppgks.reports.dto.ReportViewTagData;
 import com.nppgks.reports.dto.TagDataDto;
 

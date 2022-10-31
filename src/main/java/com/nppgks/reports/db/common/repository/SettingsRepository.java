@@ -1,6 +1,6 @@
-package com.nppgks.reports.db.repository;
+package com.nppgks.reports.db.common.repository;
 
-import com.nppgks.reports.db.entity.Settings;
+import com.nppgks.reports.db.common.entity.Settings;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

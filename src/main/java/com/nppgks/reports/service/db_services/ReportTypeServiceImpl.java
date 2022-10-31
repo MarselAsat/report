@@ -1,8 +1,8 @@
 package com.nppgks.reports.service.db_services;
 
 import com.nppgks.reports.dto.ReportTypeDto;
-import com.nppgks.reports.db.entity.ReportType;
-import com.nppgks.reports.db.repository.ReportTypeRepository;
+import com.nppgks.reports.db.recurring_reports.entity.ReportType;
+import com.nppgks.reports.db.recurring_reports.repository.ReportTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
