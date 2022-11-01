@@ -2,6 +2,16 @@ var changedRows = new Set();
 var deletedRows = new Set();
 var initialValues = {};
 
+window.onload = function () {
+    $("textarea").each(function () {
+        this.style.height = (this.scrollHeight) + "px";
+        this.style.overflowY = "hidden";
+    }).on("input", function () {
+        this.style.height = 0;
+        this.style.height = (this.scrollHeight) + "px";
+    });
+}
+
 function writeInitialValue(element){
     var tagName = element.parentElement.parentElement;
     var id = tagName.id;
@@ -22,7 +32,7 @@ function tagNameIsChanged(element){
 
 function saveChangedTagNames(){
 
-    var changedTagNameList = new Array();
+    var changedTagNameList = [];
     var responsesTd = document.getElementsByClassName("response");
     for(let r of responsesTd){
         r.innerHTML = "";
@@ -46,8 +56,8 @@ function fillChangedTagNameList(changedTagNameList){
             var permanentName = tagNameRow.getElementsByClassName("permanent-name")[0].textContent;
             var name = tagNameRow.getElementsByClassName("name")[0].value;
             var description = tagNameRow.getElementsByClassName("description")[0].value;
-            if(name!=initialValues[id].name ||
-                description!= initialValues[id].description){
+            if(name!==initialValues[id].name ||
+                description!== initialValues[id].description){
                 tagName.id = id;
                 tagName.permanentName = permanentName;
                 tagName.name = name;
@@ -71,7 +81,7 @@ async function updateTagNamesInDB(changedTagNameList){
         var tagNameRowDescription = tagNameRow.getElementsByClassName('description')[0];
         var label = "";
         let responseTd = tagNameRow.getElementsByClassName('response')[0];
-        if(responseJson[id]==true){
+        if(responseJson[id]===true){
             responseTd.style.color = "green";
             label = " is updated";
         }
@@ -110,7 +120,7 @@ async function deleteTagNameFromDB(id, tagNameRow){
                              headers: {'Content-Type': 'application/json'
         }})
         let responseJson = await response.json();
-        if(responseJson[id]==true){
+        if(responseJson[id]===true){
             deleteTagNameRow(tagNameRow);
         }
         else{
@@ -123,3 +133,4 @@ async function deleteTagNameFromDB(id, tagNameRow){
 function deleteTagNameRow(tagNameRow){
     tagNameRow.remove();
 }
+
