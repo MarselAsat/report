@@ -68,7 +68,7 @@ function fillChangedTagNameList(changedTagNameList){
     }
 }
 async function updateTagNamesInDB(changedTagNameList){
-    var url = "/admin/manualTagName";
+    var url = "/admin/poverkaTagName";
     let response = await fetch(url, {
                              method: "POST",
                              body: JSON.stringify(changedTagNameList),
@@ -113,7 +113,7 @@ function strikeoutRow(buttonX){
 }
 
 async function deleteTagNameFromDB(id, tagNameRow){
-    var url = "/admin/manualTagName/"+id;
+    var url = "/admin/poverkaTagName/"+id;
         let response = await fetch(url, {
                              method: "DELETE",
                              body: JSON.stringify(tagNameRow),

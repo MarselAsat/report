@@ -61,23 +61,23 @@ public class AdminController {
         boolean isDeleted = tagNameService.deleteTagName(id);
         return Map.of(id, isDeleted);
     }
-    @PostMapping("/manualTagName")
+    @PostMapping("/poverkaTagName")
     @ResponseBody
     public Map<Integer, Boolean> updatePoverkaTagNames(@RequestBody List<PoverkaTagNameDto> tagNames){
         return poverkaTagNameService.updateTagNames(tagNames);
     }
 
-    @DeleteMapping("/manualTagName/{id}")
+    @DeleteMapping("/poverkaTagName/{id}")
     @ResponseBody
     public Map<Integer, Boolean> deletePoverkaTagName(@PathVariable Integer id){
         boolean isDeleted = poverkaTagNameService.deleteTagName(id);
         return Map.of(id, isDeleted);
     }
 
-    @GetMapping("/manualTagName")
+    @GetMapping("/poverkaTagName")
     public String getAllPoverkaTagNames(ModelMap modelMap){
         List<PoverkaTagNameDto> tagNames = poverkaTagNameService.getAllTagNames();
         modelMap.put("tagNames", tagNames);
-        return "edit-manual-tag-name-table";
+        return "edit-poverka-tag-name-table";
     }
 }

@@ -6,7 +6,7 @@ import com.nppgks.reports.db.poverka.entity.ReportName;
 import com.nppgks.reports.db.poverka.entity.TagData;
 import com.nppgks.reports.db.poverka.repository.ReportNameRepository;
 import com.nppgks.reports.db.poverka.repository.TagDataRepository;
-import com.nppgks.reports.dto.TagNameForOpc;
+import com.nppgks.reports.dto.PoverkaTagNameForOpc;
 import com.nppgks.reports.opc.ArrayParser;
 import com.nppgks.reports.service.time_services.SingleDateTimeFormatter;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
 @Setter
 @RequiredArgsConstructor
 public class Poverka3622InDbService {
-    private List<TagNameForOpc> initialTagNames; // (id, tag name, permanent tag name)
+    private List<PoverkaTagNameForOpc> initialTagNames; // (id, tag name, permanent tag name)
     private Map<String, String> initialDataFromOpc; // (tag name, tag data)
     private Map<String, Object> finalDataForOpc;
-    private List<TagNameForOpc> finalTagNames;
+    private List<PoverkaTagNameForOpc> finalTagNames;
     private final ReportNameRepository reportNameRepository;
     private final TagDataRepository tagDataRepository;
 
@@ -35,8 +35,8 @@ public class Poverka3622InDbService {
     public void savePoverka(){
         ReportName reportName = createReportNamePoverka();
 
-        Map<String, TagNameForOpc> initialTagNamesMap = convertListToMap(initialTagNames);
-        Map<String, TagNameForOpc> finalTagNamesMap = convertListToMap(finalTagNames);
+        Map<String, PoverkaTagNameForOpc> initialTagNamesMap = convertListToMap(initialTagNames);
+        Map<String, PoverkaTagNameForOpc> finalTagNamesMap = convertListToMap(finalTagNames);
         List<TagData> tagDataList = createListOfTagDataPoverka3622(
                 reportName,
                 initialTagNamesMap,
@@ -46,7 +46,7 @@ public class Poverka3622InDbService {
         tagDataRepository.saveAll(tagDataList);
     }
 
-    private Map<String, TagNameForOpc> convertListToMap(List<TagNameForOpc> initialTagNames) {
+    private Map<String, PoverkaTagNameForOpc> convertListToMap(List<PoverkaTagNameForOpc> initialTagNames) {
         return initialTagNames.stream()
                 .map(tn -> Map.entry(tn.name(), tn))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(e1, e2) -> e1));
@@ -54,8 +54,8 @@ public class Poverka3622InDbService {
 
     private List<TagData> createListOfTagDataPoverka3622(
             ReportName reportName,
-            Map<String, TagNameForOpc> initialTagNamesMap,
-            Map<String, TagNameForOpc> finalTagNamesMap) {
+            Map<String, PoverkaTagNameForOpc> initialTagNamesMap,
+            Map<String, PoverkaTagNameForOpc> finalTagNamesMap) {
         List<TagData> tagDataList = new ArrayList<>();
         for (Map.Entry<String, String> entry : initialDataFromOpc.entrySet()) {
             String value = entry.getValue();
@@ -63,7 +63,7 @@ public class Poverka3622InDbService {
                     null,
                     value,
                     getDataType(value),
-                    TagNameForOpc.toManualTagName(initialTagNamesMap.get(entry.getKey())),
+                    PoverkaTagNameForOpc.toTagName(initialTagNamesMap.get(entry.getKey())),
                     reportName
             );
             tagDataList.add(tagData);
@@ -76,7 +76,7 @@ public class Poverka3622InDbService {
                     null,
                     value,
                     getDataType(value),
-                    TagNameForOpc.toManualTagName(finalTagNamesMap.get(entry.getKey())),
+                    PoverkaTagNameForOpc.toTagName(finalTagNamesMap.get(entry.getKey())),
                     reportName
             );
             tagDataList.add(tagData);

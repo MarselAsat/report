@@ -1,7 +1,7 @@
 package com.nppgks.reports.integration.repository.poverka;
 
 import com.nppgks.reports.constants.PoverkaType;
-import com.nppgks.reports.dto.TagNameForOpc;
+import com.nppgks.reports.dto.PoverkaTagNameForOpc;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.RepositoryIT;
 import com.nppgks.reports.db.poverka.repository.TagNameRepository;
@@ -26,21 +26,21 @@ class TagNameRepositoryTest extends IntegrationBaseTest {
     }
 
     @Test
-    void updateManualTagName() {
-        int affectedRows = tagNameRepository.updateManualTagName(1, "pov_Q_ij", "расход23");
+    void updateTagName() {
+        int affectedRows = tagNameRepository.updateTagName(1, "pov_Q_ij", "расход23");
         assertEquals(1, affectedRows);
     }
 
     @Test
-    void updateManualTagNameWithLongDescription() {
+    void updateTagNameWithLongDescription() {
         String longDescription = "fvwerfkbegjber;uibgfdcjs bjbf w fhywebfiyvsh fywveyvbdkwjhdbyw fwebiyfdgbweiufgywgedhj fvwerfkbegjber;uibgfdcjs bjbf w fhywebfiyvsh fywveyvbdkwjhdbyw fwebiyfdgbweiufgywgedhj fvwerfkbegjber;uibgfdcjs bjbf w fhywebfiyvsh fywveyvbdkwjhdbyw fwebiyfdgbweiufgywgedhj fvwerfkbegjber;uibgfdcjs bjbf w fhywebfiyvsh fywveyvbdkwjhdbyw fwebiyfdgbweiufgywgedhj ";
         assertThrows(Exception.class,
-                () -> tagNameRepository.updateManualTagName(1, "pov_Q_ij", longDescription));
+                () -> tagNameRepository.updateTagName(1, "pov_Q_ij", longDescription));
     }
 
     @Test
     public void findAllByInitialAndType(){
-        List<TagNameForOpc> tagNames = tagNameRepository.findAllByInitialAndType(true, PoverkaType.MI_3622.name());
+        List<PoverkaTagNameForOpc> tagNames = tagNameRepository.findAllByInitialAndType(true, PoverkaType.MI_3622.name());
         Assertions.assertThat(tagNames).hasSize(45);
     }
 }

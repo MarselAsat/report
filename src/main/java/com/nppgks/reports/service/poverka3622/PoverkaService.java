@@ -1,6 +1,6 @@
 package com.nppgks.reports.service.poverka3622;
 
-import com.nppgks.reports.dto.TagNameForOpc;
+import com.nppgks.reports.dto.PoverkaTagNameForOpc;
 import com.nppgks.reports.opc.OpcRequests;
 import com.nppgks.reports.constants.PoverkaType;
 import com.nppgks.reports.service.db_services.poverka.PoverkaTagNameService;
@@ -24,12 +24,12 @@ public class PoverkaService {
     private final Poverka3622InDbService poverka3622InDbService;
 
     public void doPoverka3622() {
-        List<TagNameForOpc> initialTagNames = poverkaTagNameService.getTagNamesByInitialAndType(true, PoverkaType.MI_3622.name());
+        List<PoverkaTagNameForOpc> initialTagNames = poverkaTagNameService.getTagNamesByInitialAndType(true, PoverkaType.MI_3622.name());
         Map<String, String> initialTagNamesMap = createTagNamesMap(initialTagNames);
 
         List<String> initialTagNamesForOpc = initialTagNames
                 .stream()
-                .map(TagNameForOpc::name)
+                .map(PoverkaTagNameForOpc::name)
                 .toList();
 
         Map<String, String> initialDataFromOpc = opcRequests.getTagDataFromOpc(initialTagNamesForOpc);
@@ -40,7 +40,7 @@ public class PoverkaService {
         PoverkaRunner poverkaRunner = new PoverkaRunner(initialData);
         FinalData finalData = poverkaRunner.run();
 
-        List<TagNameForOpc> finalTagNames = poverkaTagNameService.getTagNamesByInitialAndType(false, PoverkaType.MI_3622.name());
+        List<PoverkaTagNameForOpc> finalTagNames = poverkaTagNameService.getTagNamesByInitialAndType(false, PoverkaType.MI_3622.name());
 
         Map<String, String> finalTagNamesMap = createTagNamesMap(finalTagNames);
 
@@ -50,9 +50,9 @@ public class PoverkaService {
         prepareAllDataForDB(initialTagNames, initialDataFromOpc, finalTagNames, finalDataForOpc);
     }
 
-    private void prepareAllDataForDB(List<TagNameForOpc> initialTagNames,
+    private void prepareAllDataForDB(List<PoverkaTagNameForOpc> initialTagNames,
                                      Map<String, String> initialDataFromOpc,
-                                     List<TagNameForOpc> finalTagNames,
+                                     List<PoverkaTagNameForOpc> finalTagNames,
                                      Map<String, Object> finalDataForOpc) {
         poverka3622InDbService.setInitialDataFromOpc(initialDataFromOpc);
         poverka3622InDbService.setInitialTagNames(initialTagNames);
@@ -60,9 +60,9 @@ public class PoverkaService {
         poverka3622InDbService.setFinalDataForOpc(finalDataForOpc);
     }
 
-    private Map<String, String> createTagNamesMap(List<TagNameForOpc> tagNamesForOpc){
+    private Map<String, String> createTagNamesMap(List<PoverkaTagNameForOpc> tagNamesForOpc){
         return tagNamesForOpc.stream()
-                .collect(Collectors.toMap(TagNameForOpc::permanentName, TagNameForOpc::name));
+                .collect(Collectors.toMap(PoverkaTagNameForOpc::permanentName, PoverkaTagNameForOpc::name));
     }
 
     public void saveInDb() {

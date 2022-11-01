@@ -1,7 +1,7 @@
 package com.nppgks.reports.db.poverka.repository;
 
 import com.nppgks.reports.db.poverka.entity.TagName;
-import com.nppgks.reports.dto.TagNameForOpc;
+import com.nppgks.reports.dto.PoverkaTagNameForOpc;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +17,7 @@ public interface TagNameRepository extends JpaRepository<TagName, Integer> {
     @Query("update poverka_tag_name tn " +
             "set tn.name = :name, " +
             "tn.description = :description where tn.id = :id")
-    int updateManualTagName(@Param("id") Integer id, @Param("name") String name, @Param("description") String description);
+    int updateTagName(@Param("id") Integer id, @Param("name") String name, @Param("description") String description);
 
-    List<TagNameForOpc> findAllByInitialAndType(Boolean initial, String type);
+    List<PoverkaTagNameForOpc> findAllByInitialAndType(Boolean initial, String type);
 }

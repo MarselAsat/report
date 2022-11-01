@@ -1,6 +1,6 @@
 package com.nppgks.reports.integration.service.poverka3622;
 
-import com.nppgks.reports.dto.TagNameForOpc;
+import com.nppgks.reports.dto.PoverkaTagNameForOpc;
 import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.ServiceIT;
 import com.nppgks.reports.service.poverka3622.Poverka3622InDbService;
@@ -37,18 +37,18 @@ class Poverka3622InDbServiceTest extends IntegrationBaseTest {
                 "WinCC_OA.rep_test.t_min", "12.56"
         );
 
-        List<TagNameForOpc> initialTagNames = List.of(
-                new TagNameForOpc(33, "WinCC_OA.rep_test.measureCount", "measureCount"),
-                new TagNameForOpc(34, "WinCC_OA.rep_test.pointsCount", "pointsCount"),
-                new TagNameForOpc(1, "WinCC_OA.rep_test.Q_ij", "Q_ij"),
-                new TagNameForOpc(19, "CPM_name", "CPM_name"),
-                new TagNameForOpc(77, "WinCC_OA.rep_test.t_min", "t_min")
+        List<PoverkaTagNameForOpc> initialTagNames = List.of(
+                new PoverkaTagNameForOpc(33, "WinCC_OA.rep_test.measureCount", "measureCount"),
+                new PoverkaTagNameForOpc(34, "WinCC_OA.rep_test.pointsCount", "pointsCount"),
+                new PoverkaTagNameForOpc(1, "WinCC_OA.rep_test.Q_ij", "Q_ij"),
+                new PoverkaTagNameForOpc(19, "CPM_name", "CPM_name"),
+                new PoverkaTagNameForOpc(77, "WinCC_OA.rep_test.t_min", "t_min")
         );
 
-        List<TagNameForOpc> finalTagNames = List.of(
-                new TagNameForOpc(35, "WinCC_OA.rep_test.K_pm", "K_pm"),
-                new TagNameForOpc(36, "WinCC_OA.rep_test.M_e_ij", "M_e_ij"),
-                new TagNameForOpc(41, "WinCC_OA.rep_test.K_j", "K_j")
+        List<PoverkaTagNameForOpc> finalTagNames = List.of(
+                new PoverkaTagNameForOpc(35, "WinCC_OA.rep_test.K_pm", "K_pm"),
+                new PoverkaTagNameForOpc(36, "WinCC_OA.rep_test.M_e_ij", "M_e_ij"),
+                new PoverkaTagNameForOpc(41, "WinCC_OA.rep_test.K_j", "K_j")
         );
 
         poverka3622InDbService.setFinalDataForOpc(finalDataForOpc);

@@ -2,7 +2,7 @@ package com.nppgks.reports.service.db_services.poverka;
 
 import com.nppgks.reports.dto.poverka.PoverkaTagNameDto;
 import com.nppgks.reports.db.poverka.repository.TagNameRepository;
-import com.nppgks.reports.dto.TagNameForOpc;
+import com.nppgks.reports.dto.PoverkaTagNameForOpc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class PoverkaTagNameService {
         this.tagNameRepository = repository;
     }
 
-    public List<TagNameForOpc> getTagNamesByInitialAndType(Boolean initial, String type){
+    public List<PoverkaTagNameForOpc> getTagNamesByInitialAndType(Boolean initial, String type){
         return tagNameRepository.findAllByInitialAndType(initial, type);
     }
 
@@ -54,7 +54,7 @@ public class PoverkaTagNameService {
 
     public Integer updateTagName(PoverkaTagNameDto tagNameDto) {
         try{
-            tagNameRepository.updateManualTagName(
+            tagNameRepository.updateTagName(
                     tagNameDto.getId(),
                     tagNameDto.getName(),
                     tagNameDto.getDescription());
