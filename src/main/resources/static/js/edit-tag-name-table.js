@@ -2,6 +2,21 @@ var changedRows = new Set();
 var deletedRows = new Set();
 var initialValues = {};
 
+window.onload = function () {
+    $("textarea").each(function () {
+        if(this.scrollHeight===0){
+            this.style.height="2em";
+        }
+        else{
+            this.style.height = (this.scrollHeight) + "px";
+        }
+        this.style.overflowY = "hidden";
+    }).on("input", function () {
+        this.style.height = 0;
+        this.style.height = (this.scrollHeight) + "px";
+    });
+}
+
 function writeInitialValue(element){
     var tagName = element.parentElement.parentElement;
     var id = tagName.id;
@@ -94,14 +109,14 @@ async function updateTagNamesInDB(changedTagNameList){
     }
 
 }
-function strikeoutRow(buttonX){
+function highlightRow(buttonX){
     var tagNameRow = buttonX.parentElement.parentElement;
-    if(tagNameRow.classList.contains("strikeout")){
-        tagNameRow.classList.remove("strikeout");
+    if(tagNameRow.classList.contains("highlight-red")){
+        tagNameRow.classList.remove("highlight-red");
         deletedRows.delete(tagNameRow.id);
     }
     else{
-        tagNameRow.classList.add("strikeout");
+        tagNameRow.classList.add("highlight-red");
         deletedRows.add(tagNameRow.id);
     }
 }
@@ -169,7 +184,7 @@ async function saveNewTagNames(){
             newTagNameRow.classList.remove("new-tag-name")
             var deleteButton = newTagNameRow.getElementsByClassName("delete-button")[0]
             deleteButton.onclick = function(){
-                strikeoutRow(this);
+                highlightRow(this);
             };
         }
     }

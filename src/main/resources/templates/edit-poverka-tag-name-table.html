@@ -63,9 +63,9 @@
                     <td class="align-middle"><textarea th:text = "${tagName.name}" onchange="tagNameIsChanged(this)" class="name" onfocus="writeInitialValue(this)"> </textarea></td>
                     <td class="align-middle"><textarea th:text = "${tagName.description}" onchange="tagNameIsChanged(this)" class="description" onfocus="writeInitialValue(this)"></textarea></td>
                     <td class="align-middle"><span th:text = "${tagName.type}" class="type"></span></td>
-                    <td class="align-middle" hidden>
-                        <button class="btn btn-danger" onclick="strikeoutRow(this)">X</button>
-                    </td>
+<!--                    <td class="align-middle">-->
+<!--                        <button class="btn btn-danger" onclick="highlightRow(this)">X</button>-->
+<!--                    </td>-->
                     <td class = "response align-middle" style='width:100px;border:none;'></td>
                 </tr>
                 </tbody>
