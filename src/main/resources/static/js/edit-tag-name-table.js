@@ -136,10 +136,9 @@ function createNewRow(){
 
 async function saveNewTagNames(){
     var newTagNameRows = document.getElementsByClassName("new-tag-name")
-    var rowsCount = newTagNameRows.length;
 
-    for (let i = 0; i < rowsCount; i++) {
-        var newTagNameRow =  newTagNameRows[i];
+    while(newTagNameRows.length > 0) {
+        var newTagNameRow = newTagNameRows[0];
         let name = newTagNameRow.getElementsByClassName('name')[0];
         let description = newTagNameRow.getElementsByClassName('description')[0];
         let reportType = newTagNameRow.getElementsByClassName('report-type')[0];
@@ -153,12 +152,12 @@ async function saveNewTagNames(){
                              headers: {'Content-Type': 'application/json'
         }})
 
-        let text = await response.text();
+        let savedTagNameId = await response.text();
 
         let responseTd = newTagNameRow.getElementsByClassName('response')[0];
         responseTd.style.color = "red";
 
-        if(text===""){
+        if(savedTagNameId===""){
             responseTd.style.color = "red";
             responseTd.innerHTML = "isn't saved";
 
@@ -166,11 +165,11 @@ async function saveNewTagNames(){
         else{
             responseTd.style.color = "green";
             responseTd.innerHTML = "is saved";
-            newTagNameRow.id = text;
+            newTagNameRow.id = savedTagNameId;
             newTagNameRow.classList.remove("new-tag-name")
-            var deleteButton = newTagNameRow.getElementsByClassName("delete-button")[0];
+            var deleteButton = newTagNameRow.getElementsByClassName("delete-button")[0]
             deleteButton.onclick = function(){
-                strikeoutRow(deleteButton);
+                strikeoutRow(this);
             };
         }
     }

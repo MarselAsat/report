@@ -16,10 +16,17 @@
         table {
             border-collapse: collapse;
         }
-
+        body {
+            padding-top: 70px;
+        }
         td {
             position: relative;
             padding: 5px 10px;
+        }
+        textarea {
+            width: 250px;
+            border: none;
+            resize: none;
         }
 
         tr.strikeout td:before {
@@ -33,11 +40,15 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-light bg-light fixed-top">
+        <form class="container-fluid justify-content-start">
+            <button type="button" class="btn btn-outline-success me-2" onclick="saveChangedTagNames()">Сохранить</button>
+            <button type="button" class="btn btn-outline-success me-2" onclick="createNewRow()">+ новый тег</button>
+        </form>
+    </nav>
     <div class="container">
         <div class="row">
             <div class="col-sm-9">
-                <button type="submit" class="btn btn-primary" onclick="saveChangedTagNames()">Save</button>
-                <button type="submit" class="btn btn-primary" onclick="createNewRow()">New tag</button>
             <!-- Post Content Column -->
                 <table id = "tag-name-table" class="table table-borderless">
                     <thead class="table-light" style="font-weight: bold">
@@ -50,8 +61,8 @@
 
                     <tbody id="tag-name-tbody">
                         <tr id="hidden-tag-name-row" class="tag-name-row" style="display: none;">
-                            <td class="align-middle"><input type="text" class="name" style="border: 0"/></td>
-                            <td class="align-middle"><input type="text" class="description" style="border: 0"/></td>
+                            <td class="align-middle"><textarea class="name"></textarea></td>
+                            <td class="align-middle"><textarea class="description"></textarea></td>
                             <td class="align-middle">
                                 <select class = "report-type" style="border: 0">
                                     <li th:each="reportType: ${reportTypes}">
@@ -66,8 +77,12 @@
                             <td width="200"><p class = "response"></p></td>
                         </tr>
                         <tr th:each="tagName: ${tagNames}" th:id="${tagName.id}" class="tag-name-row">
-                            <td class="align-middle"><input type="text" th:value = "${tagName.name}" onchange="tagNameIsChanged(this)" class="name" onfocus="writeInitialValue(this)" style="border: 0"/></td>
-                            <td class="align-middle"><input type="text" th:value = "${tagName.description}" onchange="tagNameIsChanged(this)" class="description" onfocus="writeInitialValue(this)" style="border: 0"/></td>
+                            <td class="align-middle">
+                                <textarea th:text = "${tagName.name}" onchange="tagNameIsChanged(this)" class="name" onfocus="writeInitialValue(this)"></textarea>
+                            </td>
+                            <td class="align-middle">
+                                <textarea th:text = "${tagName.description}" onchange="tagNameIsChanged(this)" class="description" onfocus="writeInitialValue(this)"></textarea>
+                            </td>
                             <td class="align-middle">
                                 <select class = "report-type"
                                         onchange="tagNameIsChanged(this)" onfocus="writeInitialValue(this)" style="border: 0">

@@ -42,7 +42,7 @@ public class ReportViewController {
     @GetMapping("/startPage")
     public String getStartPage(ModelMap model){
         setCommonParams(model, true);
-        return "blog";
+        return "start-page";
     }
 
     @GetMapping(value = "/startPage/filter")
@@ -55,7 +55,7 @@ public class ReportViewController {
         List<ReportName> reportNames = reportNameService.getReportNameByDateAndReportId(reportTypeId, date);
         modelMap.put("reportNames", reportNames);
         setCommonParams(modelMap, false);
-        return "blog";
+        return "start-page";
     }
 
     @GetMapping("/tagData/{reportNameId}")
