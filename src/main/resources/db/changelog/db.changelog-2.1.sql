@@ -1,12 +1,13 @@
 --liquibase formatted sql
 
 --changeset alina.parfenteva:1
+-- noinspection SqlResolve
 INSERT INTO manual_tag_name (permanent_name, name, initial, type)
 VALUES ('CPM_name', 'CPM_name', TRUE, '3622'),
        ('CPM_number', 'CPM_number', TRUE, '3622'),
        ('CPM_owner', 'CPM_owner', TRUE, '3622'),
-       ('poverka_method', 'poverka_method', TRUE, '3622'),
-       ('poverka_place', 'poverka_place', TRUE, '3622'),
+       ('calc_method', 'calc_method', TRUE, '3622'),
+       ('calc_place', 'calc_place', TRUE, '3622'),
        ('PR_name', 'PR_name', TRUE, '3622'),
        ('PR_number', 'PR_number', TRUE, '3622'),
        ('check_leakproofness', 'check_leakproofness', TRUE, '3622'),

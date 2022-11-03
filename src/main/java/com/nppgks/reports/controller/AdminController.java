@@ -1,10 +1,10 @@
 package com.nppgks.reports.controller;
 
-import com.nppgks.reports.dto.poverka.PoverkaTagNameDto;
+import com.nppgks.reports.dto.calc.CalcTagNameDto;
 import com.nppgks.reports.dto.ReportTypeDto;
 import com.nppgks.reports.dto.TagNameDto;
 import com.nppgks.reports.service.db_services.*;
-import com.nppgks.reports.service.db_services.poverka.PoverkaTagNameService;
+import com.nppgks.reports.service.db_services.calculation.CalcTagNameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,12 +19,12 @@ public class AdminController {
 
     private final ReportTypeService reportTypeService;
     private final TagNameService tagNameService;
-    private final PoverkaTagNameService poverkaTagNameService;
+    private final CalcTagNameService calcTagNameService;
 
     @Autowired
-    public AdminController(ReportTypeService reportTypeService, TagNameService tagNameService, PoverkaTagNameService poverkaTagNameService) {
+    public AdminController(ReportTypeService reportTypeService, TagNameService tagNameService, CalcTagNameService calcTagNameService) {
         this.reportTypeService = reportTypeService;
-        this.poverkaTagNameService = poverkaTagNameService;
+        this.calcTagNameService = calcTagNameService;
         this.tagNameService = tagNameService;
     }
 
@@ -61,23 +61,23 @@ public class AdminController {
         boolean isDeleted = tagNameService.deleteTagName(id);
         return Map.of(id, isDeleted);
     }
-    @PostMapping("/poverkaTagName")
+    @PostMapping("/calcTagName")
     @ResponseBody
-    public Map<Integer, Boolean> updatePoverkaTagNames(@RequestBody List<PoverkaTagNameDto> tagNames){
-        return poverkaTagNameService.updateTagNames(tagNames);
+    public Map<Integer, Boolean> updatecalcTagNames(@RequestBody List<CalcTagNameDto> tagNames){
+        return calcTagNameService.updateTagNames(tagNames);
     }
 
-    @DeleteMapping("/poverkaTagName/{id}")
+    @DeleteMapping("/calcTagName/{id}")
     @ResponseBody
-    public Map<Integer, Boolean> deletePoverkaTagName(@PathVariable Integer id){
-        boolean isDeleted = poverkaTagNameService.deleteTagName(id);
+    public Map<Integer, Boolean> deletecalcTagName(@PathVariable Integer id){
+        boolean isDeleted = calcTagNameService.deleteTagName(id);
         return Map.of(id, isDeleted);
     }
 
-    @GetMapping("/poverkaTagName")
-    public String getAllPoverkaTagNames(ModelMap modelMap){
-        List<PoverkaTagNameDto> tagNames = poverkaTagNameService.getAllTagNames();
+    @GetMapping("/calcTagName")
+    public String getAllcalcTagNames(ModelMap modelMap){
+        List<CalcTagNameDto> tagNames = calcTagNameService.getAllTagNames();
         modelMap.put("tagNames", tagNames);
-        return "edit-poverka-tag-name-table";
+        return "edit-calc-tag-name-table";
     }
 }

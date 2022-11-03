@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title id="pageTitle">Edit calc tag name table</title>
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/edit-calc-tag-name-table.js}"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        body {
+            padding-top: 70px;
+        }
+        td {
+            position: relative;
+            padding: 5px 10px;
+        }
+        textarea {
+            width: 250px;
+            border: none;
+            resize: none;
+        }
+        tr.strikeout td:before {
+            content: " ";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            border-bottom: 1px solid #111;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light fixed-top">
+        <form class="container-fluid justify-content-start">
+            <button type="button" class="btn btn-outline-success me-2" onclick="saveChangedTagNames()">Save</button>
+        </form>
+    </nav>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <table id = "tag-name-table" class="table">
+                <thead class="table-light" style="font-weight: bold">
+                <tr>
+                    <td>Permanent name</td>
+                    <td>Tag name</td>
+                    <td>Description</td>
+                    <td>Type</td>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="tagName: ${tagNames}" th:id="${tagName.id}">
+                    <td class="align-middle"><span th:text = "${tagName.permanentName}" class="permanent-name"></span></td>
+                    <td class="align-middle"><textarea th:text = "${tagName.name}" onchange="tagNameIsChanged(this)" class="name" onfocus="writeInitialValue(this)"> </textarea></td>
+                    <td class="align-middle"><textarea th:text = "${tagName.description}" onchange="tagNameIsChanged(this)" class="description" onfocus="writeInitialValue(this)"></textarea></td>
+                    <td class="align-middle"><span th:text = "${tagName.type}" class="type"></span></td>
+<!--                    <td class="align-middle">-->
+<!--                        <button class="btn btn-danger" onclick="highlightRow(this)">X</button>-->
+<!--                    </td>-->
+                    <td class = "response align-middle" style='width:100px;border:none;'></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
