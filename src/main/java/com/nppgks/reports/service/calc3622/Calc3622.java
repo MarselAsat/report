@@ -8,7 +8,6 @@ import java.util.Arrays;
 
 @Slf4j
 public class Calc3622 {
-
     private final double[][] Q_i_j;
     private final double[][] N_e_i_j;
     private final double[][] N_p_i_j;
@@ -474,22 +473,11 @@ public class Calc3622 {
     public double calculateDelta_D() {
         double delta_D = 0;
         double theta_sigma_D = calculateTheta_sigma_D();
-        double S_D = Arrays.stream(calculateS_0j()).max().getAsDouble();
+        double S_D = calculateS_D();
         double ratio = theta_sigma_D / S_D;
         if (ratio <= 8 && ratio >= 0.8) {
-            double theta_Dz = calculateTheta_Dz();
-            double theta_D = calculateTheta_D();
-            double S_theta_D = Math.sqrt(
-                            Math.pow(theta_e, 2) +
-                            Math.pow(theta_Dt, 2) +
-                            Math.pow(theta_Dp, 2) +
-                            Math.pow(theta_N, 2) +
-                            Math.pow(theta_Dz, 2) +
-                            Math.pow(theta_D, 2));
-            double t_sigma_D = (calculateEps_D() + theta_sigma_D) / (S_D + S_theta_D);
-            double S_sigma_D = Math.sqrt(
-                    Math.pow(S_theta_D, 2) +
-                            Math.pow(S_D, 2));
+            double t_sigma_D = calculateT_sigma_D();
+            double S_sigma_D = calculateS_sigma_D();
             delta_D = t_sigma_D * S_sigma_D;
         } else if (ratio > 8) {
             delta_D = theta_sigma_D;
@@ -499,27 +487,48 @@ public class Calc3622 {
         return delta_D;
     }
 
+    public double calculateT_sigma_D(){
+        double S_theta_D = calculateS_theta_D();
+        double S_D = calculateS_D();
+        double theta_sigma_D = calculateTheta_sigma_D();
+        return (calculateEps_D() + theta_sigma_D) / (S_D + S_theta_D);
+    }
+
+    public double calculateS_D(){
+        return Arrays.stream(calculateS_0j()).max().getAsDouble();
+    }
+
+    public double calculateS_sigma_D(){
+        double S_D = calculateS_D();
+        double S_theta_D = calculateS_theta_D();
+        return Math.sqrt(
+                Math.pow(S_theta_D, 2) +
+                        Math.pow(S_D, 2));
+    }
+
+    public double calculateS_theta_D(){
+        double theta_Dz = calculateTheta_Dz();
+        double theta_D = calculateTheta_D();
+        return Math.sqrt(
+                        Math.pow(theta_e, 2) +
+                        Math.pow(theta_Dt, 2) +
+                        Math.pow(theta_Dp, 2) +
+                        Math.pow(theta_N, 2) +
+                        Math.pow(theta_Dz, 2) +
+                        Math.pow(theta_D, 2));
+    }
+
     public double[] calculateDelta_PDk() {
         int subrangeCount = pointsCount - 1;
         double[] delta_PDk = new double[subrangeCount];
         double[] theta_sigma_PDk = calculateTheta_sigma_PDk();
         double[] S_0_j = calculateS_0j();
         double[] S_PDk = calculateS_PDk();
-        double[] theta_PDk = calculateTheta_PDk();
-        double[] theta_PDz = calculateTheta_PDz();
-        double[] S_theta_PDk = calculateS_theta_PDk();
         double[] S_sigma_PDk = calculateS_sigma_PDk();
 
         double[] t_sigma_PDk = calculateT_sigma_PDk();
 
         for (int k = 0; k < subrangeCount; k++) {
-            S_theta_PDk[k] = Math.sqrt(
-                            Math.pow(theta_e, 2) +
-                            Math.pow(theta_PDt, 2) +
-                            Math.pow(theta_PDp, 2) +
-                            Math.pow(theta_N, 2) +
-                            Math.pow(theta_PDz[k], 2) +
-                            Math.pow(theta_PDk[k], 2));
             S_PDk[k] = Math.max(S_0_j[k], S_0_j[k + 1]);
             double ratio = theta_sigma_PDk[k] / S_PDk[k];
             if (ratio <= 8 && ratio >= 0.8) {
