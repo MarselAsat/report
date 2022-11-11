@@ -52,5 +52,4 @@ public class FinalData {
     private double S_sigma_D;
     private double t_sigma_D;
 
-
 }

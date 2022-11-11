@@ -42,6 +42,18 @@ public class ArrayParser {
         }
     }
 
+    public static Object fromJsonToObject(String json){
+        if (json == null) return null;
+        try {
+            if(!json.matches("\\[\\[.+]") && !json.matches("\\[.+]")){
+                return objectMapper.readValue("\""+json+"\"", Object.class);
+            }
+            return objectMapper.readValue(json, Object.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static String fromObjectToJson(Object object){
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final ObjectMapper mapper = new ObjectMapper();

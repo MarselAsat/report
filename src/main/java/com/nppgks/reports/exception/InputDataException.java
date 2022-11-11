@@ -1,4 +1,4 @@
-package com.nppgks.reports.service.calc3622.data;
+package com.nppgks.reports.exception;
 
 public class InputDataException extends RuntimeException{
     public InputDataException(String message) {

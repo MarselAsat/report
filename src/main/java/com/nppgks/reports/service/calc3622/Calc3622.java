@@ -1,7 +1,7 @@
 package com.nppgks.reports.service.calc3622;
 
 import com.nppgks.reports.service.calc3622.data.InitialData;
-import com.nppgks.reports.service.calc3622.data.InputDataException;
+import com.nppgks.reports.exception.InputDataException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -66,7 +66,6 @@ public class Calc3622 {
     public double[][] calculateK_e_ij() {
         double[][] K_e_ij = new double[measureCount][pointsCount];
         int eLen = K_e_arr.length;
-        if(eLen != Q_e_arr.length) throw new InputDataException("Длины массивов Q_e_arr и K_e_arr должны соответствовать");
         if(eLen==1){
             for(int i = 0; i< measureCount; i++){
                 for(int j = 0; j<pointsCount; j++){
@@ -75,6 +74,7 @@ public class Calc3622 {
             }
         }
         else {
+            if(eLen != Q_e_arr.length) throw new InputDataException("Длины массивов Q_e_arr и K_e_arr должны соответствовать");
             linearInterpolation(K_e_ij, eLen);
         }
         return K_e_ij;
