@@ -103,16 +103,16 @@
 
                 <tbody>
                 <tr>
-                    <td th:text="${Q_p_max}"></td>
-                    <td th:text="${f_p_max}"></td>
-                    <td th:text="${K_pm}"></td>
-                    <td th:text="${ZS}"></td>
-                    <td th:text="${delta_t_dop}"></td>
-                    <td th:text="${delta_P_dop}"></td>
-                    <td th:text="${t_min}"></td>
-                    <td th:text="${t_max}"></td>
-                    <td th:text="${P_min}"></td>
-                    <td th:text="${P_max}"></td>
+                    <td th:text="${Q_p_max} ?: '-'"></td>
+                    <td th:text="${f_p_max} ?: '-'"></td>
+                    <td th:text="${K_pm} ?: '-'"></td>
+                    <td th:text="${ZS} ?: '-'"></td>
+                    <td th:text="${delta_t_dop} ?: '-'"></td>
+                    <td th:text="${delta_P_dop} ?: '-'"></td>
+                    <td th:text="${t_min} ?: '-'"></td>
+                    <td th:text="${t_max} ?: '-'"></td>
+                    <td th:text="${P_min} ?: '-'"></td>
+                    <td th:text="${P_max} ?: '-'"></td>
                 </tr>
                 </tbody>
             </table>
@@ -130,10 +130,10 @@
 
                 <tbody>
                     <tr th:each="q,i : ${Q_p}">
-                        <td th:text="${Q_p[i.index]}"></td>
-                        <td th:text="${f_p[i.index]}"></td>
-                        <td th:text="${K_y[i.index]}"></td>
-                        <td th:if="${i.index == 0}" th:rowspan="${#lists.size(Q_j)}" th:text="${MF_p}"></td>
+                        <td th:text="${Q_p != null} ? ${Q_p[i.index]} : '-'"></td>
+                        <td th:text="${f_p != null} ? ${f_p[i.index]}  : '-'"></td>
+                        <td th:text="${K_y != null} ? ${K_y[i.index]}  : '-'"></td>
+                        <td th:if="${i.index == 0}" th:rowspan="${#lists.size(Q_j)}" th:text="${MF_p} ?: '-'"></td>
                     </tr>
                 </tbody>
             </table>
@@ -151,10 +151,10 @@
 
                 <tbody>
                 <tr th:each="q,i : ${Q_e_arr}">
-                    <td th:text="${Q_e_arr[i.index]}"></td>
-                    <td th:text="${f_e_arr[i.index]}"></td>
-                    <td th:text="${K_e_arr[i.index]}"></td>
-                    <td th:if="${i.index == 0}" th:rowspan="${#lists.size(Q_e_arr)}" th:text="${MF_e}"></td>
+                    <td th:text="${Q_e_arr != null} ? ${Q_e_arr[i.index]} : '-'"></td>
+                    <td th:text="${f_e_arr != null} ?  ${f_e_arr[i.index]} : '-'"></td>
+                    <td th:text="${K_e_arr != null} ? ${K_e_arr[i.index]} : '-'"></td>
+                    <td th:if="${i.index == 0}" th:rowspan="${#lists.size(Q_e_arr)}" th:text="${MF_e} ?: '-'"></td>
                 </tr>
                 </tbody>
             </table>
@@ -236,7 +236,7 @@
                     <td th:text="${MF_j != null} ? ${MF_j[i.index]} : '-'"></td>
                     <td th:text="${S_j != null} ? ${S_j[i.index]} : '-'"></td>
                     <td th:text="${S_0j != null} ? ${S_0j[i.index]} : '-'"></td>
-                    <td th:text="${measure_count}"></td>
+                    <td th:text="${measureCount}"></td>
                     <td th:text="${t_095 != null} ? ${t_095[i.index]} : '-'"></td>
                     <td th:text="${eps_j != null} ? ${eps_j[i.index]} : '-'"></td>
                     <td th:if="${i.index == 0}" th:rowspan="${#lists.size(Q_j)}" th:text="${theta_e != null} ? ${theta_e} : '-'"></td>

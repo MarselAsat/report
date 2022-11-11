@@ -48,8 +48,8 @@ public class FinalData {
     private Double theta_D;
     private double[] theta_PDz;
     private double[] theta_PDk;
-    private double S_theta_D;
-    private double S_sigma_D;
-    private double t_sigma_D;
+    private Double S_theta_D;
+    private Double S_sigma_D;
+    private Double t_sigma_D;
 
 }

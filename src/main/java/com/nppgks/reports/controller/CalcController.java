@@ -52,9 +52,10 @@ public class CalcController {
         List<TagData> tagDataList = tagDataService.getTagDataList(reportNameId);
 
         tagDataList.forEach(td -> {
-                            Object value = ArrayParser.fromJsonToObject(td.getData());
+            Object value = ArrayParser.fromJsonToObject(td.getData());
                             modelMap.put(
-                                    td.getTagName().getPermanentName(), value);});
+                                    td.getTagName().getPermanentName(), value);
+        });
 
         return "report_pages/calc3622-report-page";
     }

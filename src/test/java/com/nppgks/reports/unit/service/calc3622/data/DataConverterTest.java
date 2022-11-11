@@ -6,7 +6,6 @@ import com.nppgks.reports.service.calc3622.data.FinalData;
 import com.nppgks.reports.service.calc3622.data.InitialData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -90,4 +89,21 @@ class DataConverterTest {
         DataConverter.putInOrder2DArraysInOpcData(dataFromOpc, tagNamesMap);
         assertThat(dataFromOpc.get("tag.Q_ij")).isEqualTo("[[1.0,2.0,3.0],[4.0,5.0,6.0]]");
     }
+
+    @Test
+    void testReflectionApi(){
+//        FinalData finalData = new FinalData();
+//        finalData.setK_pm(89.987989);
+//        finalData.setDelta_D(678.45672);
+//        finalData.setF_ij(new double[][]{{1, 2, 3},{4, 5, 6}});
+//
+//        try {
+//            Field f_ij = finalData.getClass().getDeclaredField("f_ij");
+//            f_ij.getType()
+//        } catch (NoSuchFieldException e) {
+//            throw new RuntimeException(e);
+//        }
+    }
+
+
 }
