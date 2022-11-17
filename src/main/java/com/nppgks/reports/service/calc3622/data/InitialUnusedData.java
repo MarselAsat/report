@@ -17,4 +17,5 @@ public class InitialUnusedData {
     private double[] Q_p;
     private double[] f_p;
     private double[] K_y;
+    private double[] f_e_arr;
 }

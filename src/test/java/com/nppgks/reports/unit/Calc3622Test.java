@@ -56,13 +56,9 @@ public class Calc3622Test {
         };
         M_ij = transpose(M_ij);
 
-        double[][] K_e_ij = new double[][]{
-                {226.4151, 226.4151, 226.4151, 226.4151, 226.4151},
-                {226.4151, 226.4151, 226.4151, 226.4151, 226.4151},
-                {226.4151, 226.4151, 226.4151, 226.4151, 226.4151},
-                {226.4151, 226.4151, 226.4151, 226.4151, 226.4151},
-                {226.4151, 226.4151, 226.4151, 226.4151, 226.4151}
-        };
+        double[] Q_e_arr = new double[]{21, 65, 87.5, 272.0};
+
+        double[] K_e_arr = new double[]{226.4151, 226.4151, 226.4151, 226.4151};
         double f_p_max = 10000;
         double Q_p_max = 159;
         double MF_p = 1;
@@ -79,7 +75,8 @@ public class Calc3622Test {
         initialData.setF_p_max(f_p_max);
         initialData.setQ_p_max(Q_p_max);
         initialData.setMF_p(MF_p);
-        initialData.setK_e_ij(K_e_ij);
+        initialData.setK_e_arr(K_e_arr);
+        initialData.setQ_e_arr(Q_e_arr);
         initialData.setTheta_e(theta_e);
         initialData.setTheta_N(theta_N);
         initialData.setZS(ZS);

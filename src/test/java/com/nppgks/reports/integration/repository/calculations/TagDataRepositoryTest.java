@@ -9,6 +9,7 @@ import com.nppgks.reports.integration.IntegrationBaseTest;
 import com.nppgks.reports.integration.annotation.RepositoryIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -59,5 +60,12 @@ class TagDataRepositoryTest extends IntegrationBaseTest {
         );
 
         tagDataRepository.saveAll(list);
+    }
+
+    @Test
+    @Sql({"classpath:sql/calculation/tagDataRep.sql"})
+    void findByReportNameId(){
+        List<TagData> tagDataList = tagDataRepository.findByReportNameId(1L);
+        System.out.println();
     }
 }

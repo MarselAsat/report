@@ -20,7 +20,7 @@ public class TagData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "calc.tag_data_id_seq")
-    @SequenceGenerator(name="calc.tag_data_id_seq", sequenceName = "calc.tag_data_id_seq")
+    @SequenceGenerator(name="calc.tag_data_id_seq", sequenceName = "calculations.tag_data_id_seq")
     private Long id;
 
     @NotNull

@@ -1,5 +1,6 @@
 package com.nppgks.reports.service.calc3622.data;
 
+import com.nppgks.reports.exception.MissingDbDataException;
 import com.nppgks.reports.service.calc3622.Calc3622;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -41,6 +42,10 @@ public class DataConverter {
             try {
                 declaredField.setAccessible(true);
                 if(declaredField.get(finalData) != null){
+                    String tagName = tagNamesMap.get(declaredField.getName());
+                    if(tagName==null){
+                        throw new MissingDbDataException("There is no "+declaredField.getName()+" tag in calculations.tag_name table");
+                    }
                     map.put(tagNamesMap.get(declaredField.getName()), declaredField.get(finalData));
                 }
             } catch (IllegalAccessException e) {

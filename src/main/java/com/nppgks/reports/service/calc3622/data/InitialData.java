@@ -17,7 +17,8 @@ public class InitialData {
     private double f_p_max;
     private double Q_p_max;
     private double MF_p;
-    private double[][] K_e_ij;
+    private double[] K_e_arr;
+    private double[] Q_e_arr;
     private double ZS;
     private double theta_e;
     private double theta_t;

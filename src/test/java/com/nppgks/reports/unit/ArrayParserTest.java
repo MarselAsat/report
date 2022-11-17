@@ -46,4 +46,12 @@ public class ArrayParserTest {
         String json3 = ArrayParser.fromObjectToJson(new double[]{1, 2, 3, 7.0});
         assertThat(json3).isEqualTo("[1.0,2.0,3.0,7.0]");
     }
+
+    @Test
+    void fromJsonToObject() {
+        Object o = ArrayParser.fromJsonToObject("[1,2,3,4,5]");
+        Object o1 = ArrayParser.fromJsonToObject("[[1,2,3],[1,2,3]]");
+        Object o2 = ArrayParser.fromJsonToObject("hello");
+        System.out.println();
+    }
 }

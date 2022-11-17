@@ -30,6 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.4.RELEASE'
     implementation 'javax.validation:validation-api'
+    implementation 'org.decimal4j:decimal4j:1.0.3'
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.testcontainers:postgresql:1.16.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
