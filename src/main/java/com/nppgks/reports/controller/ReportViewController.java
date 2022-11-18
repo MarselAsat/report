@@ -134,6 +134,9 @@ public class ReportViewController {
         String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
         modelMap.put("meteringStationName", meteringStationName);
 
+        String sixOrSevenTable = settingsService.getStringValueBySettingName(SettingsConstants.MI3622_6OR7_TABLE);
+        modelMap.put("MI3622_6or7Table", sixOrSevenTable);
+
         return "settings";
     }
 

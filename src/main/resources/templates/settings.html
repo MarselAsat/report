@@ -17,8 +17,16 @@
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10 col-xl-8 mx-auto">
                 <div class="my-4">
-                    <h5 class="mb-0 mt-5">Report View Settings</h5>
-                    <div class="list-group mb-5 shadow">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#recurring-reports">Периодические отчеты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#calc3622">Поверка МИ3622</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                    <div class="list-group mb-5 shadow tab-pane container active" id="recurring-reports">
                         <div class="list-group-item">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -254,7 +262,36 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
+                    <div class="list-group mb-5 shadow tab-pane container fade" id="calc3622">
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <p class="mb-0">Проведение расчетов</p>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="operating-range" name="range" th:checked="${MI3622_6or7Table=='7'}">
+                                                <label class="form-check-label" for="operating-range">
+                                                    для рабочео диапазона измерений
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="subrange" name="range" th:checked="${MI3622_6or7Table=='6'}">
+                                                <label class="form-check-label" for="subrange">
+                                                    для поддиапазона измерений
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                     <button type="submit" onclick="save()" class="btn btn-primary">Сохранить</button>
                     <label id="response"></label>
                 </div>

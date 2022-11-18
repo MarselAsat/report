@@ -13,4 +13,6 @@ final public class SettingsConstants {
     public static final String START_DAILY_REPORT = ReportTypesEnum.daily + START_TIME_REPORT_POSTFIX;
     public static final String START_MONTH_REPORT = ReportTypesEnum.month + START_TIME_REPORT_POSTFIX;
     public static final String START_YEAR_REPORT = ReportTypesEnum.year + START_TIME_REPORT_POSTFIX;
+
+    public static final String MI3622_6OR7_TABLE = "MI3622 6 or 7 table";
 }
