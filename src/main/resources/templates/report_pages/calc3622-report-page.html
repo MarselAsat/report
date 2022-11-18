@@ -161,7 +161,7 @@
 
             <h5 style="text-align: center; padding-bottom: 3%; padding-top: 3%" >Результаты поверки</h5>
 
-            <p style="text-align: left;">Проверка гермитичности системы: <u th:text="${check_leakproofness}"></u></p>
+            <p style="text-align: left;">Проверка герметичности системы: <u th:text="${check_leakproofness}"></u></p>
             <p style="text-align: left;">Внешний осмотр: <u th:text="${check_inspection}"></u></p>
             <p style="text-align: left;">Подтверждение соответствия программного обеспечения: <u th:text="${check_software}"></u></p>
             <p style="text-align: left;">Опробование: <u th:text="${check_testing}"></u></p>
@@ -273,8 +273,8 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered">
-                <caption>Таблица А.6 - Результаты поверки в поддиапазонах раочего дапазона измерений</caption>
+            <table class="table table-bordered" th:hidden="${sixOrSevenTable}=='7'">
+                <caption>Таблица А.6 - Результаты поверки в поддиапазонах рабочего диапазона измерений</caption>
                 <thead class="table-light" style="font-weight: bold">
                 <tr>
                     <td>Поддиапазон</td>
@@ -316,7 +316,7 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered">
+            <table class="table table-bordered" th:hidden="${sixOrSevenTable}=='6'">
                 <caption>Таблица А.7 - Результаты поверки в рабочем диапазоне измерений</caption>
                 <thead class="table-light" style="font-weight: bold">
                 <tr>
