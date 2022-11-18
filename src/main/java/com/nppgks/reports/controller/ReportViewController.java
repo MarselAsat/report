@@ -39,7 +39,7 @@ public class ReportViewController {
 
     @GetMapping("/startPage")
     public String getStartPage(ModelMap model){
-        setCommonParams(model, true);
+        setCommonParams(model);
         return "start-page";
     }
 
@@ -59,7 +59,7 @@ public class ReportViewController {
             modelMap.put("reportNames", reportNames);
         }
 
-        setCommonParams(modelMap, false);
+        setCommonParams(modelMap);
         return "start-page";
     }
 
@@ -175,14 +175,8 @@ public class ReportViewController {
         return settingsService.updateSettingsList(settings);
     }
 
-    void setCommonParams(ModelMap model, boolean defaultView){
-        if(defaultView){
-            model.put("reportTypes", reportTypeService.getAllReportTypes());
-            model.put("reportNames", reportNameService.findAll());
-        }
-        else{
-            model.put("reportTypes", reportTypeService.getAllReportTypes());
-        }
+    void setCommonParams(ModelMap model){
+        model.put("reportTypes", reportTypeService.getAllReportTypes());
     }
 
     private void fillModelMapForReportView(ModelMap modelMap, ReportName reportName, List<ReportViewTagData> reportViewTagData, List<String> columnNames) {
