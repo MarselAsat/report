@@ -30,6 +30,12 @@ function reportTypeIsChanged(reportTypeElement){
     var reportTypeId = reportTypeElement.id.split('-')[1];
     path = window.location.search;
     const urlParams = new URLSearchParams(path);
+    if(reportTypeId === "poverki"){
+
+    }
+    else{
+
+    }
     if(!urlParams.has('reportTypeId')){
         urlParams.append('reportTypeId', reportTypeId);
         window.location.href = "/startPage/filter?"+urlParams.toString();

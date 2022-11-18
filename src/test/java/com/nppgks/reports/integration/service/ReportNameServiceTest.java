@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -27,15 +28,15 @@ class ReportNameServiceTest extends IntegrationBaseTest {
 
     @Test
     void getReportNameByDateAndReportId() {
-        List<ReportName> hourReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.hour.name(), "2022-05-20");
+        List<ReportName> hourReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.hour.name(), LocalDate.parse("2022-05-20"));
         assertThat(hourReportNames).hasSize(3);
-        List<ReportName> dailyReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.daily.name(), "2022-05-20");
+        List<ReportName> dailyReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.daily.name(), LocalDate.parse("2022-05-20"));
         assertThat(dailyReportNames).hasSize(1);
-        List<ReportName> shiftReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.shift.name(), "2021-08-20");
+        List<ReportName> shiftReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.shift.name(), LocalDate.parse("2021-08-20"));
         assertThat(shiftReportNames).hasSize(1);
-        List<ReportName> monthReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.month.name(), "2021-12-10");
+        List<ReportName> monthReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.month.name(), LocalDate.parse("2021-12-10"));
         assertThat(monthReportNames).hasSize(1);
-        List<ReportName> yearReportName = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.year.name(), "2022-01-01");
+        List<ReportName> yearReportName = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.year.name(), LocalDate.parse("2022-01-01"));
         Pattern pattern = Pattern.compile(".*2022.*");
         assertThat(yearReportName.get(0).getName()).matches(pattern);
     }

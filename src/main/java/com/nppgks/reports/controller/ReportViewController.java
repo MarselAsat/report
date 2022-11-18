@@ -5,39 +5,37 @@ import com.nppgks.reports.db.recurring_reports.entity.ReportName;
 import com.nppgks.reports.constants.ReportTypesEnum;
 import com.nppgks.reports.dto.ReportViewTagData;
 import com.nppgks.reports.constants.SettingsConstants;
+import com.nppgks.reports.opc.ArrayParser;
 import com.nppgks.reports.service.db_services.ReportNameService;
 import com.nppgks.reports.service.db_services.ReportTypeService;
 import com.nppgks.reports.service.db_services.SettingsService;
 import com.nppgks.reports.service.db_services.TagDataService;
+import com.nppgks.reports.service.db_services.calculation.CalcReportNameService;
+import com.nppgks.reports.service.db_services.calculation.CalcTagDataService;
 import com.nppgks.reports.service.time_services.SingleDateTimeFormatter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Controller
+@RequiredArgsConstructor
 public class ReportViewController {
 
     private final ReportNameService reportNameService;
+
+    private final CalcReportNameService calcReportNameService;
+
+    private final CalcTagDataService calcTagDataService;
     private final TagDataService tagDataService;
     private final ReportTypeService reportTypeService;
     private final SettingsService settingsService;
-
-    @Autowired
-    public ReportViewController(ReportNameService reportNameService,
-                                TagDataService tagDataService,
-                                ReportTypeService reportTypeService, SettingsService settingsService) {
-        this.reportNameService = reportNameService;
-        this.reportTypeService = reportTypeService;
-        this.tagDataService = tagDataService;
-        this.settingsService = settingsService;
-    }
 
     @GetMapping("/startPage")
     public String getStartPage(ModelMap model){
@@ -47,13 +45,20 @@ public class ReportViewController {
 
     @GetMapping(value = "/startPage/filter")
     public String getReportNameByDateAndReportType(ModelMap modelMap,
-                                      @RequestParam(required = false) String date,
+                                      @RequestParam(required = false) LocalDate date,
                                       @RequestParam(required = false) String reportTypeId){
-        if(Objects.equals(date, "")&&reportTypeId==null){
+        if(date == null && reportTypeId == null){
             return "redirect:/startPage";
         }
-        List<ReportName> reportNames = reportNameService.getReportNameByDateAndReportId(reportTypeId, date);
-        modelMap.put("reportNames", reportNames);
+        if(reportTypeId.equals("poverki")){
+            var calcReportNames = calcReportNameService.findReportNameByDate(date);
+            modelMap.put("reportNames", calcReportNames);
+        }
+        else{
+            List<ReportName> reportNames = reportNameService.getReportNameByDateAndReportId(reportTypeId, date);
+            modelMap.put("reportNames", reportNames);
+        }
+
         setCommonParams(modelMap, false);
         return "start-page";
     }
@@ -112,6 +117,30 @@ public class ReportViewController {
         List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.YEAR_REPORT_COLUMNS);
         fillModelMapForReportView(modelMap, reportName, reportViewTagData, columnNames);
         return "report_pages/year-report-page";
+    }
+
+    @GetMapping(value = "/poverkiReport/{reportNameId}")
+    public String getPoverkiReport(ModelMap modelMap,
+                                @PathVariable Long reportNameId){
+        var reportName = calcReportNameService.findReportNameById(reportNameId);
+
+        LocalDate creationDate = reportName.getCreationDt().toLocalDate();
+
+        modelMap.put("date", SingleDateTimeFormatter.formatToSinglePattern(creationDate));
+        modelMap.put("conclusion", "не годен");
+
+        var tagDataList = calcTagDataService.getTagDataList(reportNameId);
+
+        tagDataList.forEach(td -> {
+            Object value = ArrayParser.fromJsonToObject(td.getData());
+            modelMap.put(
+                    td.getTagName().getPermanentName(), value);
+        });
+
+        String sixOrSevenTable = settingsService.getStringValueBySettingName(SettingsConstants.MI3622_6OR7_TABLE);
+        modelMap.put("sixOrSevenTable", sixOrSevenTable);
+
+        return "report_pages/calc3622-report-page";
     }
 
     @GetMapping("/settings")

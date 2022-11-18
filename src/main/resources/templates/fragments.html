@@ -21,9 +21,6 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    <script th:inline="javascript">
-            var contextPath = [[@{/}]];
-    </script>
     <script type="text/javascript" th:src="@{/js/load-tag-data.js}"></script>
     <script type="text/javascript" th:src="@{/js/change-report-name.js}"></script>
 
@@ -51,24 +48,8 @@
 <!--    </div>-->
 <!--</div>-->
 
-<div th:fragment="widget">
-
-    <!-- Search Widget -->
-<!--    <div class="card my-4">-->
-<!--        <h5 class="card-header">Search</h5>-->
-<!--        <div class="card-body">-->
-<!--            <form method="GET" th:action="@{/}">-->
-<!--&lt;!&ndash;                <div class="input-group">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <input type="text" class="form-control" placeholder="Search for..." name="q">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <span class="input-group-append">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <button class="btn btn-secondary" type="submit">Go!</button>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
-
-    <!-- ReportType Widget -->
+        <div th:fragment="widget">
+            <!-- ReportType Widget -->
             <div class="card my-4">
                 <h4 class="card-header">Report Types</h4>
                 <div class="list-group">
@@ -76,10 +57,10 @@
                        th:text="${reportType.name}" class="list-group-item" th:id="'reportType-'+${reportType.id}"
                        onclick="reportTypeIsChanged(this)">
                     </a>
+                    <a onclick="reportTypeIsChanged(this)" class="list-group-item" id="reportType-poverki">Поверки</a>
                 </div>
             </div>
-
-    <div>
+        <div>
         <label for="datePicker">Pick the date:</label>
         <input type="date" id="datePicker" onchange="dateIsChanged(this)"/>
     </div>

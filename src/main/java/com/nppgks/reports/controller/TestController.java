@@ -28,10 +28,4 @@ public class TestController {
     public List<TagDataDto> getTegData(@PathVariable(name = "reportNameId") Long id){
         return tagDataService.getDataForReport(id);
     }
-
-    @GetMapping("/reportName/{date}/{reportTypeId}")
-    public List<ReportName> getReportNameByDateAndReportId(@PathVariable String reportTypeId,
-                                                           @PathVariable String date){
-        return reportService.getReportNameByDateAndReportId(reportTypeId, date);
-    }
 }

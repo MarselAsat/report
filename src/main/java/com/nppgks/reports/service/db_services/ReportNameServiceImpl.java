@@ -27,14 +27,15 @@ public class ReportNameServiceImpl implements ReportNameService{
     }
 
     @Override
-    public List<ReportName> getReportNameByDateAndReportId(String reportTypeId, String dtCreationStr) {
+    public List<ReportName> getReportNameByDateAndReportId(String reportTypeId, LocalDate dtCreation) {
         if(reportTypeId==null){
-            return findByDate(dtCreationStr);
+            return findByDate(dtCreation.toString());
         }
-        else if(dtCreationStr==null||dtCreationStr.isBlank()){
+        else if(dtCreation==null){
             return findByReportTypeId(reportTypeId);
         }
         else{
+            String dtCreationStr = dtCreation.toString();
             DateTimeRange dateTimeRange;
             switch (ReportTypesEnum.valueOf(reportTypeId)) {
                 case hour -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingHourReport(dtCreationStr);

@@ -1,11 +1,13 @@
 package com.nppgks.reports.service.db_services;
 
 import com.nppgks.reports.db.recurring_reports.entity.ReportName;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ReportNameService {
 
-    List<ReportName> getReportNameByDateAndReportId(String reportTypeId, String dtCreationStart);
+    List<ReportName> getReportNameByDateAndReportId(String reportTypeId, LocalDate dateCreation);
 
     ReportName getById(Long reportNameId);
 
