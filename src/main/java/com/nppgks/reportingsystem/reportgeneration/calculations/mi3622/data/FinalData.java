@@ -51,5 +51,6 @@ public class FinalData {
     private Double S_theta_D;
     private Double S_sigma_D;
     private Double t_sigma_D;
+    private String conclusion;
 
 }

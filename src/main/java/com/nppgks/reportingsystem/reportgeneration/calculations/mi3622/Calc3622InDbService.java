@@ -37,12 +37,13 @@ public class Calc3622InDbService {
 
         Map<String, CalcTagNameForOpc> initialTagNamesMap = convertListToMap(initialTagNames);
         Map<String, CalcTagNameForOpc> finalTagNamesMap = convertListToMap(finalTagNames);
+
+        ReportName savedReportName = reportNameRepository.save(reportName);
+
         List<TagData> tagDataList = createListOfTagDataCalc3622(
-                reportName,
+                savedReportName,
                 initialTagNamesMap,
                 finalTagNamesMap);
-
-        reportNameRepository.save(reportName);
         tagDataRepository.saveAll(tagDataList);
     }
 

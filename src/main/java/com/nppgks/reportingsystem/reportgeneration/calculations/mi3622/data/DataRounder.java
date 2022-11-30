@@ -31,20 +31,27 @@ public class DataRounder {
     }
 
     private static Double roundDouble(Double value) {
-        return DoubleRounder.round(value, 4);
+        if(value != null){
+            return DoubleRounder.round(value, 4);
+        }
+        return value;
     }
 
     private static double[] roundDoubleArray(double[] array) {
-        for (int i = 0; i < array.length; i++) {
+        if (array != null) {
+            for (int i = 0; i < array.length; i++) {
                 array[i] = DoubleRounder.round(array[i], 4);
+            }
         }
         return array;
     }
 
     private static double[][] roundDouble2DArray(double[][] array2D) {
-        for (int i = 0; i < array2D.length; i++) {
-            for (int j = 0; j < array2D[0].length; j++) {
-                array2D[i][j] = DoubleRounder.round(array2D[i][j], 4);
+        if (array2D != null) {
+            for (int i = 0; i < array2D.length; i++) {
+                for (int j = 0; j < array2D[0].length; j++) {
+                    array2D[i][j] = DoubleRounder.round(array2D[i][j], 4);
+                }
             }
         }
         return array2D;

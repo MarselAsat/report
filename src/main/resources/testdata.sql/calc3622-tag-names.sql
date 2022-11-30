@@ -119,6 +119,14 @@ VALUES (86, 'check_inspection', 'WinCC_OA.rep_test.' || 'check_inspection', '', 
        (103, 't_sigma_D', 'WinCC_OA.rep_test.' || 't_sigma_D', '', FALSE, 'MI_3622'),
        (104, 'S_D', 'WinCC_OA.rep_test.' || 'S_D', '', FALSE, 'MI_3622');
 
+INSERT INTO tag_name (id, permanent_name, name, description, initial, type)
+VALUES (105, 'MFOrK', 'WinCC_OA.rep_test.' || 'MFOrK', '', TRUE, 'MI_3622'),
+       (106, 'zeroStabilityCorr', 'WinCC_OA.rep_test.' || 'zeroStabilityCorr', '', TRUE, 'MI_3622'),
+       (107, 'rangeType', 'WinCC_OA.rep_test.' || 'rangeType', '', TRUE, 'MI_3622'),
+       (108, 'operatingOrControlCPM', 'WinCC_OA.rep_test.' || 'operatingOrControlCPM', '', TRUE, 'MI_3622'),
+       (109, 'Q_e_arr', 'WinCC_OA.rep_test.' || 'Q_e_arr', '', TRUE, 'MI_3622'),
+       (110, 'conclusion', 'WinCC_OA.rep_test.' || 'conclusion', '', FALSE, 'MI_3622');
+
 SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
 
 INSERT INTO report_name(id, name, creation_dt, calc_method)

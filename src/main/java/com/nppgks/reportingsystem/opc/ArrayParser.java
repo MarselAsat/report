@@ -43,7 +43,7 @@ public class ArrayParser {
     }
 
     public static Object fromJsonToObject(String json){
-        if (json == null) return null;
+        if (json == null || json.isBlank()) return null;
         try {
             if(!json.matches("\\[\\[.+]") && !json.matches("\\[.+]")){
                 return objectMapper.readValue("\""+json+"\"", Object.class);
@@ -59,7 +59,11 @@ public class ArrayParser {
         final ObjectMapper mapper = new ObjectMapper();
         try {
             mapper.writeValue(out, object);
-            return out.toString();
+            String result = out.toString();
+            if(result.matches("\".*\"")){
+                 return result.replaceAll("\"", "");
+            }
+            return result;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

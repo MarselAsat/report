@@ -273,7 +273,7 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered" th:hidden="${sixOrSevenTable}=='7'">
+            <table class="table table-bordered" th:hidden="${#strings.equalsIgnoreCase(rangeType, 'рабочий диапазон')}">
                 <caption>Таблица А.6 - Результаты поверки в поддиапазонах рабочего диапазона измерений</caption>
                 <thead class="table-light" style="font-weight: bold">
                 <tr>
@@ -316,7 +316,7 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered" th:hidden="${sixOrSevenTable}=='6'">
+            <table class="table table-bordered" th:hidden="${#strings.equalsIgnoreCase(rangeType, 'поддиапазон')}">
                 <caption>Таблица А.7 - Результаты поверки в рабочем диапазоне измерений</caption>
                 <thead class="table-light" style="font-weight: bold">
                 <tr>

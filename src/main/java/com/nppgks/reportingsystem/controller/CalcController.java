@@ -1,6 +1,5 @@
 package com.nppgks.reportingsystem.controller;
 
-import com.nppgks.reportingsystem.constants.SettingsConstants;
 import com.nppgks.reportingsystem.db.calculations.entity.ReportName;
 import com.nppgks.reportingsystem.db.calculations.entity.TagData;
 import com.nppgks.reportingsystem.opc.ArrayParser;
@@ -51,7 +50,6 @@ public class CalcController {
         LocalDate creationDate = reportName.getCreationDt().toLocalDate();
 
         modelMap.put("date", SingleDateTimeFormatter.formatToSinglePattern(creationDate));
-        modelMap.put("conclusion", "не годен");
 
         List<TagData> tagDataList = tagDataService.getTagDataList(reportNameId);
 
@@ -61,8 +59,8 @@ public class CalcController {
                                     td.getTagName().getPermanentName(), value);
         });
 
-        String sixOrSevenTable = settingsService.getStringValueBySettingName(SettingsConstants.MI3622_6OR7_TABLE);
-        modelMap.put("sixOrSevenTable", sixOrSevenTable);
+//        String sixOrSevenTable = settingsService.getStringValueBySettingName(SettingsConstants.MI3622_6OR7_TABLE);
+//        modelMap.put("sixOrSevenTable", sixOrSevenTable);
 
         return "report_pages/calc3622-report-page";
     }

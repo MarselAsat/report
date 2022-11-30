@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.nppgks.reportingsystem.opc.ArrayParser.*;
+import static java.lang.Boolean.parseBoolean;
 import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
 
 @Slf4j
 public class DataConverter {
@@ -44,7 +46,7 @@ public class DataConverter {
                 if(declaredField.get(finalData) != null){
                     String tagName = tagNamesMap.get(declaredField.getName());
                     if(tagName==null){
-                        throw new MissingDbDataException("There is no "+declaredField.getName()+" tag in calculations.tag_name table");
+                        throw new MissingDbDataException("There is no "+declaredField.getName()+" (initial = FALSE, type = MI_3622) tag in calculations.tag_name table");
                     }
                     map.put(tagNamesMap.get(declaredField.getName()), declaredField.get(finalData));
                 }
@@ -67,19 +69,27 @@ public class DataConverter {
                 String tagName = tagNamesMap.get(declaredField.getName());
                 if(tagName!=null){
                     String value = dataFromOpc.get(tagNamesMap.get(declaredField.getName()));
+
                     if(value != null){
-                        if(value.matches("\\[\\[.*")){
+                        if(value.matches("\\[\\[.*\\]\\]")){
                             declaredField.set(initialData, to2DArray(value));
                         }
-                        else if(value.matches("\\[.*")){
+                        else if(value.matches("\\[.*\\]")){
                             declaredField.set(initialData, toArray(value));
                         }
-                        else{
-                            if(declaredField.getType().equals(int.class)){
-                                declaredField.set(initialData, Integer.parseInt(value));
+                        else if(!value.isBlank()){
+                            Class<?> fieldType = declaredField.getType();
+                            if(fieldType.equals(int.class)){
+                                declaredField.set(initialData, parseInt(value));
                             }
-                            else{
+                            else if(fieldType.equals(double.class)){
                                 declaredField.set(initialData, parseDouble(value));
+                            }
+                            else if(fieldType.equals(boolean.class)){
+                                declaredField.set(initialData, parseBoolean(value));
+                            }
+                            else {
+                                declaredField.set(initialData, value);
                             }
                         }
                     }
@@ -101,8 +111,8 @@ public class DataConverter {
     }
 
     public static void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, Map<String, String> tagNamesMap) {
-        int pointsCount = Integer.parseInt(dataFromOpc.get(tagNamesMap.get("pointsCount")));
-        int measureCount = Integer.parseInt(dataFromOpc.get(tagNamesMap.get("measureCount")));
+        int pointsCount = parseInt(dataFromOpc.get(tagNamesMap.get("pointsCount")));
+        int measureCount = parseInt(dataFromOpc.get(tagNamesMap.get("measureCount")));
         for(Map.Entry<String, String> entry: dataFromOpc.entrySet()){
             String value = entry.getValue();
             if(value.matches("\\[.*")){

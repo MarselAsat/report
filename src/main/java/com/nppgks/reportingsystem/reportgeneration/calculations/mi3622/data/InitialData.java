@@ -28,4 +28,8 @@ public class InitialData {
     private double theta_PDp;
     private double theta_Dt;
     private double theta_Dp;
+    private String MFOrK;
+    private boolean zeroStabilityCorr;
+    private String operatingOrControlCPM;
+    private String rangeType;
 }
