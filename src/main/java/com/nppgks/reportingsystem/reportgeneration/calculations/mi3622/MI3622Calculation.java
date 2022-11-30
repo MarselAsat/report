@@ -82,7 +82,7 @@ public class MI3622Calculation {
         log.info("Рассчет коэффициента преобразования поверяемого СРМ (K_pm, имп/т) согласно п.7.1 по формуле (1) МИ3622-2020");
         log.debug("Максимальное значение частоты, установленное в СРМ (f_r_max, Гц) {}", f_r_max);
         log.debug("Максимальное значение расхода (Q_r_max, т/ч) {}", Q_r_max);
-        double Kpm = f_r_max * 3600 / Q_r_max;
+        double Kpm = f_r_max * 3.6 / Q_r_max;
         log.info("K_pm = {}", Kpm);
 
         return Kpm;
