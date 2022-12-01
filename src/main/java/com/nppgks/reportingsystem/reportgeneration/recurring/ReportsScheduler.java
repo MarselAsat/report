@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
+import static com.nppgks.reportingsystem.service.timeservices.SingleDateTimeFormatter.formatToSinglePattern;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -84,7 +86,10 @@ public class ReportsScheduler {
             LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
             DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForHourReport(currentDt);
             LocalDateTime startDt = startEndDt.getStartDateTime();
-            String name = String.format("Часовой отчет за %s %s", startDt.toLocalTime().truncatedTo(ChronoUnit.MINUTES), startDt.toLocalDate());
+            String name = String.format("Часовой отчет за %s %s",
+                    formatToSinglePattern(startDt.toLocalTime()),
+                    formatToSinglePattern(startDt.toLocalDate())
+            );
             return createAndSaveTagData(hourReportType, currentDt, startEndDt, name);
         }
         return List.of();
@@ -98,7 +103,7 @@ public class ReportsScheduler {
             LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
             DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForDailyReport(currentDt);
             LocalDateTime startDt = startEndDt.getStartDateTime();
-            String reportName = String.format("Суточный отчет за %s", startDt.toLocalDate());
+            String reportName = String.format("Суточный отчет за %s", formatToSinglePattern(startDt.toLocalDate()));
             return createAndSaveTagData(dailyReportType, currentDt, startEndDt, reportName);
         }
         return List.of();
@@ -112,9 +117,11 @@ public class ReportsScheduler {
             LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
             DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForMonthReport(currentDt);
             LocalDateTime startDt = startEndDt.getStartDateTime();
-            String reportName = String.format("Месячный отчет за %s", YearMonth.of(
-                    startDt.getYear(),
-                    startDt.getMonthValue()));
+            String reportName = String.format("Месячный отчет за %s",
+                    formatToSinglePattern(
+                            YearMonth.of(
+                                    startDt.getYear(),
+                                    startDt.getMonthValue())));
             return createAndSaveTagData(monthReportType, currentDt, startEndDt, reportName);
         }
         return List.of();
@@ -142,7 +149,7 @@ public class ReportsScheduler {
 
         DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForShiftReport(startShiftReportMap, shiftNum, currentDt);
         LocalDateTime startDt = startEndDt.getStartDateTime();
-        String reportNameStr = String.format("Сменный отчет за %s смену %s", shiftNum, startDt.toLocalDate());
+        String reportNameStr = String.format("Сменный отчет за %s смену %s", shiftNum, formatToSinglePattern(startDt.toLocalDate()));
 
         return createAndSaveTagData(reportType, currentDt, startEndDt, reportNameStr);
     }

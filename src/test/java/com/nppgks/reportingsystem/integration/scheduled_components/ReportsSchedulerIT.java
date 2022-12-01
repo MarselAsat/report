@@ -56,7 +56,7 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
 
             List<TagData> tagDataList = reportsScheduler.generateTagDataForHourReport();
             String reportName = tagDataList.get(0).getReportName().getName();
-            assertThat(reportName).isEqualTo("Часовой отчет за 09:00 2022-09-20");
+            assertThat(reportName).isEqualTo("Часовой отчет за 09:00 20.09.2022");
             assertThat(tagDataList).hasSize(3);
             assertThat(tagDataList.get(0).getReportName().getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-20T09:00"));
@@ -75,7 +75,7 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
 
             List<TagData> tagDataList = reportsScheduler.generateTagDataForDailyReport();
             ReportName reportName = tagDataList.get(0).getReportName();
-            assertThat(reportName.getName()).isEqualTo("Суточный отчет за 2022-09-19");
+            assertThat(reportName.getName()).isEqualTo("Суточный отчет за 19.09.2022");
             assertThat(tagDataList).hasSize(3);
             assertThat(reportName.getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-19T10:00"));
@@ -94,7 +94,7 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
 
             List<TagData> tagDataList = reportsScheduler.generateTagDataForMonthReport();
             ReportName reportName = tagDataList.get(0).getReportName();
-            assertThat(reportName.getName()).isEqualTo("Месячный отчет за 2022-08");
+            assertThat(reportName.getName()).isEqualTo("Месячный отчет за 08.2022");
             assertThat(tagDataList).hasSize(3);
             assertThat(reportName.getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-08-01T12:00"));
@@ -136,7 +136,7 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
             assertThat(tagDataShift1).hasSize(3);
 
             ReportName reportNameShift1 = tagDataShift1.get(0).getReportName();
-            assertThat(reportNameShift1.getName()).isEqualTo("Сменный отчет за 1 смену 2022-09-20");
+            assertThat(reportNameShift1.getName()).isEqualTo("Сменный отчет за 1 смену 20.09.2022");
 
             assertThat(reportNameShift1.getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-20T10:00"));
@@ -152,7 +152,7 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
             assertThat(tagDataShift2).hasSize(3);
 
             ReportName reportNameShift2 = tagDataShift2.get(0).getReportName();
-            assertThat(reportNameShift2.getName()).isEqualTo("Сменный отчет за 2 смену 2022-09-20");
+            assertThat(reportNameShift2.getName()).isEqualTo("Сменный отчет за 2 смену 20.09.2022");
 
             assertThat(reportNameShift2.getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-20T22:00"));
