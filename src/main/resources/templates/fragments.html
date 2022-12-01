@@ -10,70 +10,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <title>Отчетная система</title>
 
-    <title th:include=":: #pageTitle" th:text="${post?.title}">
-    </title>
+    <link rel = "icon" href = "/images/logo-GKS-title.png" type = "image/x-icon">
     <!-- Latest compiled and minified CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+            crossorigin="anonymous"></script>
     <script type="text/javascript" th:src="@{/js/load-tag-data.js}"></script>
     <script type="text/javascript" th:src="@{/js/change-report-name.js}"></script>
     <style>
-        .pointer{
+        .pointer {
             cursor: pointer;
         }
     </style>
 
 </head>
-
-<!--<div th:fragment="navigation" class="container">-->
-<!--    <a class="navbar-brand" th:href="@{/}">Spring Blog</a>-->
-<!--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"-->
-<!--            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--        <span class="navbar-toggler-icon"></span>-->
-<!--    </button>-->
-<!--    <div class="collapse navbar-collapse" id="navbarResponsive">-->
-<!--        <ul class="navbar-nav ml-auto">-->
-<!--            <li sec:authorize="hasRole('USER')" class="nav-item">-->
-<!--                <a class="nav-link" th:href="@{/post/new}">New Post</a>-->
-<!--            </li>-->
-<!--            <li sec:authorize="!isAuthenticated()" class="nav-item">-->
-<!--                <a class="nav-link" th:href="@{/sign-in}">Sign in</a>-->
-<!--            </li>-->
-<!--            <li sec:authorize="isAuthenticated()" class="nav-item">-->
-<!--                <a class="nav-link" th:href="@{/sign-out}">Sign out</a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </div>-->
-<!--</div>-->
-
-        <div th:fragment="widget">
-            <!-- ReportType Widget -->
-            <div class="card my-4">
-                <h4 class="card-header">Report Types</h4>
-                <div class="list-group">
-                    <a th:each="reportType: ${reportTypes}"
-                       th:text="${reportType.name}" class="list-group-item pointer" th:id="'reportType-'+${reportType.id}"
-                       onclick="reportTypeIsChanged(this)">
-                    </a>
-                    <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer" id="reportType-poverki">Поверки</a>
-                </div>
-            </div>
-        <div>
-        <label for="datePicker">Pick the date:</label>
+<div th:fragment="filters">
+    <!-- Report Types -->
+    <div class="card my-4">
+        <h4 class="card-header">Типы отчетов</h4>
+        <div class="list-group">
+            <a th:each="reportType: ${reportTypes}"
+               th:text="${reportType.name}" class="list-group-item pointer" th:id="'reportType-'+${reportType.id}"
+               onclick="reportTypeIsChanged(this)">
+            </a>
+            <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer" id="reportType-poverki">Поверки</a>
+        </div>
+    </div>
+    <!-- Date -->
+    <div>
+        <label for="datePicker">Выберите дату:</label>
         <input type="date" id="datePicker" onchange="dateIsChanged(this)"/>
     </div>
-    <!-- ReportName Widget -->
+    <!-- Report Names -->
     <div class="card my-4">
-        <h5 class="card-header">Report Names</h5>
+        <h5 class="card-header">Отчеты</h5>
         <div class="list-group" id="reportNames">
             <a th:each="reportName: ${reportNames}"
-               th:text="${reportName.name}" th:onclick="|getTagData(this,'${reportName.id}')|" class="list-group-item pointer"></a>
+               th:text="${reportName.name}" th:onclick="|getTagData(this,'${reportName.id}')|"
+               class="list-group-item pointer"></a>
         </div>
     </div>
 </div>

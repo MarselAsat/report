@@ -18,9 +18,11 @@
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand">НПП ГКС</a>
+      <a class="navbar-brand">
+        <img src="/images/logo-GKS-nav.png" alt="" width="30" height="45">НПП ГКС
+      </a>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 <!--          <li class="nav-item">-->
@@ -66,7 +68,7 @@
   </nav>
   <div class="container-fluid">
     <div class="row content">
-      <div th:insert="fragments.html :: widget" class="col-sm-3 sidenav">
+      <div th:insert="fragments.html :: filters" class="col-sm-3 sidenav">
       </div>
       <div class="col-sm-9">
         <div class="card my-4">
