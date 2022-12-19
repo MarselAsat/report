@@ -12,6 +12,23 @@ window.onload = function () {
     });
 }
 
+$(document).ready( function () {
+    $('#tag-name-table').DataTable(
+        {
+            columns: [
+                null,
+                null,
+                null,
+                { orderable: false },
+                { orderable: false }
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/ru.json"
+            }
+        }
+    );
+} );
+
 function writeInitialValue(element){
     var tagName = element.parentElement.parentElement;
     var id = tagName.id;
