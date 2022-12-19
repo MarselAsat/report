@@ -2,6 +2,23 @@ var changedRows = new Set();
 var deletedRows = new Set();
 var initialValues = {};
 
+$(document).ready( function () {
+    $('#tag-name-table').DataTable(
+        {
+            columns: [
+                null,
+                null,
+                null,
+                { orderable: false },
+                { orderable: false }
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/ru.json"
+            }
+        }
+    );
+} );
+
 window.onload = function () {
     $("textarea").each(function () {
         if(this.scrollHeight===0){
