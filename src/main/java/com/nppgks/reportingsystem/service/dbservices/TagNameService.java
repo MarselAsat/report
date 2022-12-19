@@ -37,14 +37,7 @@ public class TagNameService {
     }
 
     public List<TagNameDto> getAllTagNamesDto() {
-        return repository.findBy();
-    }
-
-    public List<TagNameDto> getAllTagNamesDtoByReportType(String id){
-        return repository.findAllByReportTypeId(id);
-    }
-    public List<TagName> getAllTagNames() {
-        return repository.findAll();
+        return repository.findByOrderByName();
     }
 
     public Map<Long, Boolean> saveTagNames(List<TagNameDto> tagNames) {

@@ -36,7 +36,7 @@ public class CalcTagNameService {
     }
 
     public List<CalcTagNameDto> getAllTagNames() {
-        return tagNameRepository.findAll()
+        return tagNameRepository.findByOrderByPermanentName()
                 .stream()
                 .map(CalcTagNameDto::fromTagName)
                 .toList();
