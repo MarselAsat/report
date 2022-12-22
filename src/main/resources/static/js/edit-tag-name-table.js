@@ -1,18 +1,15 @@
 var changedRows = new Set();
 var deletedRows = new Set();
 var initialValues = {};
+var dataTable;
 
 $(document).ready( function () {
-    $('#tag-name-table').DataTable(
+    dataTable = $('#tag-name-table').DataTable(
         {
-            columns: [
-                null,
-                null,
-                null,
-                { orderable: false },
-                { orderable: false }
-            ],
-            "language": {
+            paging: false,
+            ordering: false,
+            info: false,
+            language: {
                 "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/ru.json"
             }
         }
@@ -157,6 +154,7 @@ async function deleteTagNameFromDB(id, tagNameRow){
 }
 function deleteTagNameRow(tagNameRow){
     tagNameRow.remove();
+    dataTable.row(tagNameRow).remove().draw();
 }
 
 function createNewRow(){

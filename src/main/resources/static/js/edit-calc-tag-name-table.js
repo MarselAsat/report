@@ -15,14 +15,9 @@ window.onload = function () {
 $(document).ready( function () {
     $('#tag-name-table').DataTable(
         {
-            columns: [
-                null,
-                null,
-                null,
-                { orderable: false },
-                { orderable: false }
-            ],
-            "language": {
+            paging: false,
+            info: false,
+            language: {
                 "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/ru.json"
             }
         }
@@ -35,8 +30,7 @@ function writeInitialValue(element){
     if(initialValues[id]==null){
             var name = tagName.getElementsByClassName("name")[0].value;
             var description = tagName.getElementsByClassName("description")[0].value;
-            var initialValue = { "name": name, "description":description};
-            initialValues[id] = initialValue;
+            initialValues[id] = {"name": name, "description": description};
     }
 }
 
