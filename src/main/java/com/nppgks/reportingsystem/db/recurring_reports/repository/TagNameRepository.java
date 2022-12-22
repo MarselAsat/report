@@ -12,9 +12,8 @@ import java.util.List;
 public interface TagNameRepository extends JpaRepository<TagName, Long> {
 
     TagName findByName(String name);
-    List<TagNameDto> findAllByReportTypeId(String id);
 
-    List<TagNameDto> findBy();
+    List<TagNameDto> findByOrderByName();
 
     List<TagName> findAllByReportType(ReportType reportType);
 }

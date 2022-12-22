@@ -20,4 +20,6 @@ public interface TagNameRepository extends JpaRepository<TagName, Integer> {
     int updateTagName(@Param("id") Integer id, @Param("name") String name, @Param("description") String description);
 
     List<CalcTagNameForOpc> findAllByInitialAndType(Boolean initial, String type);
+
+    List<TagName> findByOrderByPermanentName();
 }

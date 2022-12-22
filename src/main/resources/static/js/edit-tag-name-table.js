@@ -1,6 +1,20 @@
 var changedRows = new Set();
 var deletedRows = new Set();
 var initialValues = {};
+var dataTable;
+
+$(document).ready( function () {
+    dataTable = $('#tag-name-table').DataTable(
+        {
+            paging: false,
+            ordering: false,
+            info: false,
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/ru.json"
+            }
+        }
+    );
+} );
 
 window.onload = function () {
     $("textarea").each(function () {
@@ -140,6 +154,7 @@ async function deleteTagNameFromDB(id, tagNameRow){
 }
 function deleteTagNameRow(tagNameRow){
     tagNameRow.remove();
+    dataTable.row(tagNameRow).remove().draw();
 }
 
 function createNewRow(){
