@@ -26,6 +26,6 @@ public class TestController {
 
     @GetMapping("/tagData/{reportNameId}")
     public List<TagDataDto> getTegData(@PathVariable(name = "reportNameId") Long id){
-        return tagDataService.getDataForReport(id);
+        return tagDataService.getDataByReport(id);
     }
 }

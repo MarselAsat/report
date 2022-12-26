@@ -30,14 +30,14 @@ class ReportNameRepositoryTest extends IntegrationBaseTest {
         LocalDateTime start = LocalDateTime.of(2022, 5, 20, 13, 0);
         LocalDateTime end = LocalDateTime.of(2022, 5, 20, 14, 0);
         List<ReportName> reportNames = reportNameRepository
-                .findByReportTypeIdAndCreationDtBetween(ReportTypesEnum.hour.name(), start, end);
+                .findByReportTypeAndDateRange(ReportTypesEnum.hour.name(), start, end);
         assertThat(reportNames).hasSize(2);
     }
 
     @Test
     void findByReportTypeId() {
         List<ReportName> reportNames = reportNameRepository
-                .findByReportTypeId(ReportTypesEnum.hour.name());
+                .findByReportType(ReportTypesEnum.hour.name());
         assertThat(reportNames).hasSize(9);
     }
 
@@ -46,13 +46,13 @@ class ReportNameRepositoryTest extends IntegrationBaseTest {
         LocalDateTime start = LocalDateTime.of(2022, 5, 1, 0, 0);
         LocalDateTime end = LocalDateTime.of(2022, 5, 31, 0, 0);
         List<ReportName> reportNames = reportNameRepository
-                .findByCreationDtBetween(start, end);
+                .findByDateRange(start, end);
         assertThat(reportNames).hasSize(6);
     }
 
     @Test
     void findByReportTypeIdAndNameIsLike(){
-        List<ReportName> reportNames = reportNameRepository.findByNameLikeAndReportTypeId("%20.08.2022%", ReportTypesEnum.shift.name());
+        List<ReportName> reportNames = reportNameRepository.findByNameLikeAndReportType("%20.08.2022%", ReportTypesEnum.shift.name());
         assertThat(reportNames).hasSize(2);
     }
 }

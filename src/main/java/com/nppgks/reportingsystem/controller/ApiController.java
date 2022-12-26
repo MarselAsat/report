@@ -19,6 +19,6 @@ public class ApiController {
 
     @GetMapping("/tagData/{reportNameId}")
     public List<TagDataDto> getTagData(@PathVariable Long reportNameId){
-        return tagDataService.getDataForReport(reportNameId);
+        return tagDataService.getDataByReport(reportNameId);
     }
 }

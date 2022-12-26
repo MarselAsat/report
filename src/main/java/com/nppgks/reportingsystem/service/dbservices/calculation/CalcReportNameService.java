@@ -24,10 +24,10 @@ public class CalcReportNameService {
 
     public List<ReportName> findReportNameByDate(LocalDate date){
         if(date==null){
-            return reportNameRepository.findAll();
+            return reportNameRepository.findBy();
         }
         else{
-            return reportNameRepository.findByCreationDtBetween(
+            return reportNameRepository.findByDateRange(
                     LocalDateTime.of(date, LocalTime.MIN),
                     LocalDateTime.of(date, LocalTime.MAX));
         }

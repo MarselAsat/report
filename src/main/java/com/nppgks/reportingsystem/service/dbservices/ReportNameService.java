@@ -11,8 +11,6 @@ public interface ReportNameService {
 
     ReportName getById(Long reportNameId);
 
-    List<ReportName> findAll();
-
     List<ReportName> findByReportTypeId(String reportTypeId);
 
     boolean saveReportName(ReportName reportName);

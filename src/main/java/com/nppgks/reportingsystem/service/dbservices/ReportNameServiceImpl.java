@@ -18,12 +18,12 @@ import java.util.stream.Stream;
 @Service
 public class ReportNameServiceImpl implements ReportNameService{
 
-    private final ReportNameRepository repository;
+    private final ReportNameRepository reportNameRepository;
 
     @Autowired
     public ReportNameServiceImpl(ReportNameRepository reportNameRepository) {
 
-        this.repository = reportNameRepository;
+        this.reportNameRepository = reportNameRepository;
     }
 
     @Override
@@ -47,34 +47,29 @@ public class ReportNameServiceImpl implements ReportNameService{
                 case year -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingYearReport(dtCreationStr);
                 default -> throw new RuntimeException("Invalid report type id");
             }
-            return repository.findByReportTypeIdAndCreationDtBetween(reportTypeId, dateTimeRange.getStartDateTime(), dateTimeRange.getEndDateTime());
+            return reportNameRepository.findByReportTypeAndDateRange(reportTypeId, dateTimeRange.getStartDateTime(), dateTimeRange.getEndDateTime());
         }
     }
 
     private List<ReportName> getShiftReportNamesByDate(String dtCreationStr) {
         String formattedDate = LocalDate.parse(dtCreationStr).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        return repository.findByNameLikeAndReportTypeId("%" + formattedDate + "%", ReportTypesEnum.shift.name());
+        return reportNameRepository.findByNameLikeAndReportType("%" + formattedDate + "%", ReportTypesEnum.shift.name());
     }
 
     @Override
     public ReportName getById(Long reportNameId){
-        return repository.findById(reportNameId)
+        return reportNameRepository.findById(reportNameId)
                 .orElseThrow();
     }
 
     @Override
-    public List<ReportName> findAll() {
-        return repository.findAll();
-    }
-
-    @Override
     public List<ReportName> findByReportTypeId(String reportTypeId) {
-        return repository.findByReportTypeId(reportTypeId);
+        return reportNameRepository.findByReportType(reportTypeId);
     }
 
     @Override
     public boolean saveReportName(ReportName reportName) {
-        return repository.save(reportName).getId()!=null;
+        return reportNameRepository.save(reportName).getId()!=null;
     }
 
     @Override
@@ -84,19 +79,19 @@ public class ReportNameServiceImpl implements ReportNameService{
         DateTimeRange dtRangeForMonthReport = DateTimeRangeBuilder.buildDateRangeForSearchingMonthReport(date);
         DateTimeRange dtRangeForYearReport = DateTimeRangeBuilder.buildDateRangeForSearchingYearReport(date);
 
-        List<ReportName> hourReportNames = repository.findByReportTypeIdAndCreationDtBetween(
+        List<ReportName> hourReportNames = reportNameRepository.findByReportTypeAndDateRange(
                 ReportTypesEnum.hour.name(),
                 dtRangeForHourReport.getStartDateTime(),
                 dtRangeForHourReport.getEndDateTime());
-        List<ReportName> dailyReportNames = repository.findByReportTypeIdAndCreationDtBetween(
+        List<ReportName> dailyReportNames = reportNameRepository.findByReportTypeAndDateRange(
                 ReportTypesEnum.daily.name(),
                 dtRangeForDailyReport.getStartDateTime(),
                 dtRangeForDailyReport.getEndDateTime());
-        List<ReportName> monthReportNames = repository.findByReportTypeIdAndCreationDtBetween(
+        List<ReportName> monthReportNames = reportNameRepository.findByReportTypeAndDateRange(
                 ReportTypesEnum.month.name(),
                 dtRangeForMonthReport.getStartDateTime(),
                 dtRangeForMonthReport.getEndDateTime());
-        List<ReportName> yearReportNames = repository.findByReportTypeIdAndCreationDtBetween(
+        List<ReportName> yearReportNames = reportNameRepository.findByReportTypeAndDateRange(
                 ReportTypesEnum.year.name(),
                 dtRangeForYearReport.getStartDateTime(),
                 dtRangeForYearReport.getEndDateTime());

@@ -66,7 +66,7 @@ public class ReportViewController {
     @GetMapping("/tagData/{reportNameId}")
     @ResponseBody
     public List<TagDataDto> getTagData(@PathVariable Long reportNameId){
-        return tagDataService.getDataForReport(reportNameId);
+        return tagDataService.getDataByReport(reportNameId);
     }
 
     @GetMapping(value = "/dailyReport/{reportNameId}")

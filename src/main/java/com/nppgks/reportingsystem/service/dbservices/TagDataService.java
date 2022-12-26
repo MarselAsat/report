@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface TagDataService {
 
-    List<TagDataDto> getDataForReport(Long reportNameId);
+    List<TagDataDto> getDataByReport(Long reportNameId);
 
     List<TagData> findAll();
 
