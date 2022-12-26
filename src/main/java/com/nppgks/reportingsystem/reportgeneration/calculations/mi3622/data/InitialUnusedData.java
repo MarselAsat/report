@@ -18,4 +18,5 @@ public class InitialUnusedData {
     private double[] f_p;
     private double[] K_y;
     private double[] f_e_arr;
+    private int protocolNumber;
 }

@@ -127,6 +127,9 @@ VALUES (105, 'MFOrK', 'WinCC_OA.rep_test.' || 'MFOrK', '', TRUE, 'MI_3622'),
        (109, 'Q_e_arr', 'WinCC_OA.rep_test.' || 'Q_e_arr', '', TRUE, 'MI_3622'),
        (110, 'conclusion', 'WinCC_OA.rep_test.' || 'conclusion', '', FALSE, 'MI_3622');
 
+INSERT INTO tag_name (id, permanent_name, name, description, initial, type)
+VALUES (111, 'protocolNumber', 'WinCC_OA.rep_test.' || 'protocolNumber', '', TRUE, 'MI_3622');
+
 SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
 
 INSERT INTO report_name(id, name, creation_dt, calc_method)
