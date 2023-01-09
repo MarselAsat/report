@@ -23,9 +23,10 @@ public interface TagDataRepository extends JpaRepository<TagData, Long> {
        max(case when type = 'bik' then value end) bik
        from
         (
-        select tn.name, tn.order as "order", data as value, tn.description as description, split_part(tn.name, '_', array_length(regexp_split_to_array(tn.name, '_'), 1)) as type
+        select tn.name, row.order as "order", data as value, row.name as description, split_part(tn.name, '_', array_length(regexp_split_to_array(tn.name, '_'), 1)) as type
         from recurring_reports.tag_data td
                  INNER JOIN recurring_reports.tag_name tn ON tn.id = td.tag_name_id
+                 INNER JOIN recurring_reports.row_in_report row ON row.id = tn.row_id
         where td.report_name_id = :reportNameId
     ) d
     group by d.description

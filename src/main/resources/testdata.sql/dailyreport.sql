@@ -1,46 +1,46 @@
 SET search_path TO recurring_reports;
 
 -- Для суточного отчета
-INSERT INTO tag_name (id, "order", name, description, report_type_id)
-VALUES (1, 1, 'daily_mass_il1', 'Средний массовый расход', 'daily'),
-       (2, 2, 'daily_temp_il1', 'Средняя температура', 'daily'),
-       (3, 3, 'daily_pressure_il1', 'Среднее давление', 'daily'),
-       (4, 4, 'daily_density_il1', 'Средняя плотность при текущих t и P', 'daily'),
-       (5, 5, 'daily_density20_il1', 'Средняя плотность при 20 °C', 'daily'),
-       (6, 6, 'daily_density15_il1', 'Средняя плотность при 15 °C', 'daily'),
-       (7, 7, 'daily_moisture_il1', 'Среднее влагосодержание', 'daily'),
-       (8, 8, 'daily_mass_gross_il1', 'Масса брутто за сутки', 'daily'),
-       (9, 9, 'daily_mass_gross_increasing_il1', 'Масса брутто нарастающая', 'daily'),
-       (10, 10, 'daily_vol_il1', 'Объем за сутки', 'daily'),
-       (11, 11, 'daily_vol_increasing_il1', 'Объем нарастающий', 'daily');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id)
+VALUES (1, 1, 'daily_mass_il1', 'Средний массовый расход за сутки ил1', 'daily'),
+       (2, 2, 'daily_temp_il1', 'Средняя температура за сутки ил1', 'daily'),
+       (3, 3, 'daily_pressure_il1', 'Среднее давление за сутки ил1', 'daily'),
+       (4, 4, 'daily_density_il1', 'Средняя плотность при текущих t и P за сутки ил1', 'daily'),
+       (5, 5, 'daily_density20_il1', 'Средняя плотность при 20 °C за сутки ил1', 'daily'),
+       (6, 6, 'daily_density15_il1', 'Средняя плотность при 15 °C за сутки ил1', 'daily'),
+       (7, 7, 'daily_moisture_il1', 'Среднее влагосодержание за сутки ил1', 'daily'),
+       (8, 8, 'daily_mass_gross_il1', 'Масса брутто за сутки за сутки ил1', 'daily'),
+       (9, 9, 'daily_mass_gross_increasing_il1', 'Масса брутто нарастающая за сутки ил1', 'daily'),
+       (10, 10, 'daily_vol_il1', 'Объем за сутки за сутки ил1', 'daily'),
+       (11, 11, 'daily_vol_increasing_il1', 'Объем нарастающий за сутки ил1', 'daily');
 
-INSERT INTO tag_name (id, "order", name, description, report_type_id)
-VALUES (12, 1, 'daily_mass_il2', 'Средний массовый расход', 'daily'),
-       (13, 2, 'daily_temp_il2', 'Средняя температура', 'daily'),
-       (14, 3, 'daily_pressure_il2', 'Среднее давление', 'daily'),
-       (15, 4, 'daily_density_il2', 'Средняя плотность при текущих t и P', 'daily'),
-       (16, 5, 'daily_density20_il2', 'Средняя плотность при 20 °C', 'daily'),
-       (17, 6, 'daily_density15_il2', 'Средняя плотность при 15 °C', 'daily'),
-       (18, 7, 'daily_moisture_il2', 'Среднее влагосодержание', 'daily'),
-       (19, 8, 'daily_mass_gross_il2', 'Масса брутто за сутки', 'daily'),
-       (20, 9, 'daily_mass_gross_increasing_il2', 'Масса брутто нарастающая', 'daily'),
-       (21, 10, 'daily_vol_il2', 'Объем за сутки', 'daily'),
-       (22, 11, 'daily_vol_increasing_il2', 'Объем нарастающий', 'daily');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id)
+VALUES (12, 1, 'daily_mass_il2', 'Средний массовый расход за сутки ил2', 'daily'),
+       (13, 2, 'daily_temp_il2', 'Средняя температура за сутки ил2', 'daily'),
+       (14, 3, 'daily_pressure_il2', 'Среднее давление за сутки ил2', 'daily'),
+       (15, 4, 'daily_density_il2', 'Средняя плотность при текущих t и P за сутки ил2', 'daily'),
+       (16, 5, 'daily_density20_il2', 'Средняя плотность при 20 °C за сутки ил2', 'daily'),
+       (17, 6, 'daily_density15_il2', 'Средняя плотность при 15 °C за сутки ил2', 'daily'),
+       (18, 7, 'daily_moisture_il2', 'Среднее влагосодержание за сутки ил2', 'daily'),
+       (19, 8, 'daily_mass_gross_il2', 'Масса брутто за сутки ил2', 'daily'),
+       (20, 9, 'daily_mass_gross_increasing_il2', 'Масса брутто нарастающая за сутки ил2', 'daily'),
+       (21, 10, 'daily_vol_il2', 'Объем за сутки ил2', 'daily'),
+       (22, 11, 'daily_vol_increasing_il2', 'Объем нарастающий за сутки ил2', 'daily');
 
-INSERT INTO tag_name (id, "order", name, description, report_type_id)
-VALUES (23, 1, 'daily_mass_sikn', 'Средний массовый расход', 'daily'),
-       (24, 2, 'daily_temp_sikn', 'Средняя температура', 'daily'),
-       (25, 3, 'daily_pressure_sikn', 'Среднее давление', 'daily'),
-       (26, 4, 'daily_density_sikn', 'Средняя плотность при текущих t и P', 'daily'),
-       (27, 5, 'daily_density20_sikn', 'Средняя плотность при 20 °C', 'daily'),
-       (28, 6, 'daily_density15_sikn', 'Средняя плотность при 15 °C', 'daily'),
-       (29, 7, 'daily_moisture_sikn', 'Среднее влагосодержание', 'daily'),
-       (30, 8, 'daily_mass_gross_sikn', 'Масса брутто за сутки', 'daily'),
-       (31, 9, 'daily_mass_gross_increasing_sikn', 'Масса брутто нарастающая', 'daily'),
-       (32, 10, 'daily_vol_sikn', 'Объем за сутки', 'daily'),
-       (33, 11, 'daily_vol_increasing_sikn', 'Объем нарастающий', 'daily');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id)
+VALUES (23, 1, 'daily_mass_sikn', 'Средний массовый расход за сутки сикн', 'daily'),
+       (24, 2, 'daily_temp_sikn', 'Средняя температура за сутки сикн', 'daily'),
+       (25, 3, 'daily_pressure_sikn', 'Среднее давление за сутки сикн', 'daily'),
+       (26, 4, 'daily_density_sikn', 'Средняя плотность при текущих t и P за сутки сикн', 'daily'),
+       (27, 5, 'daily_density20_sikn', 'Средняя плотность при 20 °C за сутки сикн', 'daily'),
+       (28, 6, 'daily_density15_sikn', 'Средняя плотность при 15 °C за сутки сикн', 'daily'),
+       (29, 7, 'daily_moisture_sikn', 'Среднее влагосодержание за сутки сикн', 'daily'),
+       (30, 8, 'daily_mass_gross_sikn', 'Масса брутто за сутки сикн', 'daily'),
+       (31, 9, 'daily_mass_gross_increasing_sikn', 'Масса брутто нарастающая за сутки сикн', 'daily'),
+       (32, 10, 'daily_vol_sikn', 'Объем за сутки сикн', 'daily'),
+       (33, 11, 'daily_vol_increasing_sikn', 'Объем нарастающий за сутки сикн', 'daily');
 
-INSERT INTO tag_name (id, "order", name, description, report_type_id)
+INSERT INTO tag_name (id, row_id, name, description, report_type_id)
 VALUES (34, 1, 'daily_mass_bik', 'Средний массовый расход', 'daily'),
        (35, 2, 'daily_temp_bik', 'Средняя температура', 'daily'),
        (36, 3, 'daily_pressure_bik', 'Среднее давление', 'daily'),

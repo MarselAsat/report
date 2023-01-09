@@ -7,8 +7,21 @@ VALUES ('hour', 'Часовой', 'Отчеты фомируемые кажды�
        ('month', 'Месячный', 'Отчеты фомируемые за месяц', TRUE),
        ('year', 'Годовой', 'Отчеты формируемые за год', TRUE);
 
+INSERT INTO row_in_report (id, name, "order", report_type_id)
+VALUES (1, 'Средний массовый расход', 1, 'daily'),
+       (2, 'Средняя температура', 2, 'daily'),
+       (3, 'Среднее давление', 3, 'daily'),
+       (4, 'Средняя плотность при текущих t и P', 4, 'daily'),
+       (5, 'Средняя плотность при 20 °C', 5, 'daily'),
+       (6, 'Средняя плотность при 15 °C', 6, 'daily'),
+       (7, 'Среднее влагосодержание', 7, 'daily'),
+       (8, 'Масса брутто за сутки', 8, 'daily'),
+       (9, 'Масса брутто нарастающая', 9, 'daily'),
+       (10, 'Объем за сутки', 10, 'daily'),
+       (11, 'Объем нарастающий', 11, 'daily');
+
 -- Для суточного отчета
-INSERT INTO tag_name (id, "order", name, description, report_type_id)
+INSERT INTO tag_name (id, row_id, name, description, report_type_id)
 VALUES (1, 1, 'daily_mass_il1', 'Средний массовый расход', 'daily'),
        (2, 2, 'daily_temp_il1', 'Средняя температура', 'daily'),
        (3, 3, 'daily_pressure_il1', 'Среднее давление', 'daily'),
@@ -21,7 +34,7 @@ VALUES (1, 1, 'daily_mass_il1', 'Средний массовый расход', 
        (10, 10, 'daily_vol_il1', 'Объем за сутки', 'daily'),
        (11, 11, 'daily_vol_increasing_il1', 'Объем нарастающий', 'daily');
 
-INSERT INTO tag_name (id, "order", name, description, report_type_id)
+INSERT INTO tag_name (id, row_id, name, description, report_type_id)
 VALUES (12, 1, 'daily_mass_il2', 'Средний массовый расход', 'daily'),
        (13, 2, 'daily_temp_il2', 'Средняя температура', 'daily'),
        (14, 3, 'daily_pressure_il2', 'Среднее давление', 'daily'),
@@ -34,7 +47,7 @@ VALUES (12, 1, 'daily_mass_il2', 'Средний массовый расход',
        (21, 10, 'daily_vol_il2', 'Объем за сутки', 'daily'),
        (22, 11, 'daily_vol_increasing_il2', 'Объем нарастающий', 'daily');
 
-INSERT INTO tag_name (id, "order", name, description, report_type_id)
+INSERT INTO tag_name (id, row_id, name, description, report_type_id)
 VALUES (23, 1, 'daily_mass_sikn', 'Средний массовый расход', 'daily'),
        (24, 2, 'daily_temp_sikn', 'Средняя температура', 'daily'),
        (25, 3, 'daily_pressure_sikn', 'Среднее давление', 'daily'),
@@ -47,7 +60,7 @@ VALUES (23, 1, 'daily_mass_sikn', 'Средний массовый расход'
        (32, 10, 'daily_vol_sikn', 'Объем за сутки', 'daily'),
        (33, 11, 'daily_vol_increasing_sikn', 'Объем нарастающий', 'daily');
 
-INSERT INTO tag_name (id, "order", name, description, report_type_id)
+INSERT INTO tag_name (id, row_id, name, description, report_type_id)
 VALUES (34, 1, 'daily_mass_bik', 'Средний массовый расход', 'daily'),
        (35, 2, 'daily_temp_bik', 'Средняя температура', 'daily'),
        (36, 3, 'daily_pressure_bik', 'Среднее давление', 'daily'),

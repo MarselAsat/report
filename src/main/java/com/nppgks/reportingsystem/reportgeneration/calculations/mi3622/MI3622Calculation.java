@@ -72,10 +72,10 @@ public class MI3622Calculation {
         measureCount = data.getMeasureCount();
         pointsCount = data.getPointsCount();
         Q_e_arr = data.getQ_e_arr();
-        this.MFOrK = (data.getMFOrK().isBlank() || data.getMFOrK() == null) ? MI3622Settings.MF : data.getMFOrK();
+        this.MFOrK = (data.getMFOrK() == null || data.getMFOrK().isBlank()) ? MI3622Settings.MF : data.getMFOrK();
         this.zeroStabilityCorr = data.isZeroStabilityCorr();
-        this.operatingOrControlCPM = (data.getOperatingOrControlCPM().isBlank() || data.getOperatingOrControlCPM() == null) ? MI3622Settings.OPERATING : data.getOperatingOrControlCPM();
-        this.rangeType = (data.getRangeType().isBlank() || data.getRangeType() == null) ? MI3622Settings.OPERATING_RANGE : data.getRangeType();
+        this.operatingOrControlCPM = (data.getOperatingOrControlCPM() == null || data.getOperatingOrControlCPM().isBlank()) ? MI3622Settings.OPERATING : data.getOperatingOrControlCPM();
+        this.rangeType = (data.getRangeType() == null || data.getRangeType().isBlank()) ? MI3622Settings.OPERATING_RANGE : data.getRangeType();
     }
 
     public double calculateK_pm() {
