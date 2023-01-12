@@ -38,14 +38,6 @@ public class AdminController {
         return tagNameService.saveTagName(tagName);
     }
 
-    @GetMapping("/tagName")
-    public String getAllTagNames(ModelMap modelMap){
-        List<TagNameDto> tagNames = tagNameService.getAllTagNamesDto();
-        List<ReportTypeDto> reportTypes = reportTypeService.getAllReportTypes();
-        modelMap.put("tagNames", tagNames);
-        modelMap.put("reportTypes", reportTypes);
-        return "edit-tag-name-table";
-    }
     @PostMapping("/tagName")
     @ResponseBody
     public Map<Long, Boolean> updateTagNames(@RequestBody List<TagNameDto> tagNames){
