@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TagNameDto {
-    private Long id;
-    private String name;
-    private String description;
+public class ReportRowDto {
+
+    private String reportRowName;
     private String reportTypeName;
-    private String rowNameAndReportType;
+
+    public String combineNameAndType(){
+        return "<"+reportTypeName.substring(0, 3)+"> "+reportRowName;
+    }
 }

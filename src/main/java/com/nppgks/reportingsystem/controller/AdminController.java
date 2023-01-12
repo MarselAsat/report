@@ -1,11 +1,12 @@
 package com.nppgks.reportingsystem.controller;
 
+import com.nppgks.reportingsystem.dto.ReportRowDto;
+import com.nppgks.reportingsystem.dto.TagNameDto;
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameDto;
 import com.nppgks.reportingsystem.dto.ReportTypeDto;
-import com.nppgks.reportingsystem.dto.TagNameDto;
 import com.nppgks.reportingsystem.service.dbservices.*;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagNameService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -15,18 +16,14 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
     private final ReportTypeService reportTypeService;
+
+    private final ReportRowService reportRowService;
     private final TagNameService tagNameService;
     private final CalcTagNameService calcTagNameService;
-
-    @Autowired
-    public AdminController(ReportTypeService reportTypeService, TagNameService tagNameService, CalcTagNameService calcTagNameService) {
-        this.reportTypeService = reportTypeService;
-        this.calcTagNameService = calcTagNameService;
-        this.tagNameService = tagNameService;
-    }
 
     @GetMapping("/tagName/new")
     public String createNewTagName(ModelMap modelMap){
@@ -79,5 +76,18 @@ public class AdminController {
         List<CalcTagNameDto> tagNames = calcTagNameService.getAllTagNames();
         modelMap.put("tagNames", tagNames);
         return "edit-calc-tag-name-table";
+    }
+
+    @GetMapping("/tag-name-editor")
+    public String tagNameEditorView(ModelMap modelMap){
+        modelMap.put("reportTypes",
+                reportTypeService.getAllReportTypes().stream()
+                .map(ReportTypeDto::getName)
+                .toList());
+        modelMap.put("reportRows",
+                reportRowService.getAllReportRows().stream()
+                .map(ReportRowDto::combineNameAndType)
+                .toList());
+        return "tag-names-editor";
     }
 }

@@ -6,8 +6,8 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "row_in_report", schema = "recurring_reports")
-public class RowInReport {
+@Table(name = "report_row", schema = "recurring_reports")
+public class ReportRow {
     @Id
     private Integer id;
     @Column(name = "name")

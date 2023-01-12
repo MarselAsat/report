@@ -92,11 +92,11 @@ async function updateTagNamesInDB(changedTagNameList){
         var tagNameRowDescription = tagNameRow.getElementsByClassName('description')[0];
         var label = "";
         let responseTd = tagNameRow.getElementsByClassName('response')[0];
-        if(responseJson[id]===true){
+        if(responseJson[id]===true) {
             responseTd.style.color = "green";
             label = " is updated";
         }
-        else{
+        else {
             responseTd.style.color = "red";
             label = " isn't updated";
 

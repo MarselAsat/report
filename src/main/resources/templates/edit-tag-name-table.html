@@ -97,7 +97,7 @@
                                         onchange="tagNameIsChanged(this)" onfocus="writeInitialValue(this)" style="border: 0">
                                     <li th:each="reportType: ${reportTypes}">
                                         <option th:value = "${reportType.id}" th:text = "${reportType.name}"
-                                                th:selected="${reportType.id} == ${tagName.reportTypeId}">
+                                                th:selected="${reportType.id} == ${tagName.getReportTypeName}">
                                         </option>
                                     </li>
                                 </select>

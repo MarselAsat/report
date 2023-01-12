@@ -1,37 +1,40 @@
 package com.nppgks.reportingsystem.dto;
 
 import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportType;
+import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportRow;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.TagName;
-import com.nppgks.reportingsystem.service.dbservices.ReportTypeService;
-import lombok.NoArgsConstructor;
+import com.nppgks.reportingsystem.db.recurring_reports.repository.ReportTypeRepository;
+import com.nppgks.reportingsystem.db.recurring_reports.repository.ReportRowRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Component
 public class TagNameMapper {
 
-    private ReportTypeService reportTypeService;
+    private final ReportTypeRepository reportTypeRepository;
 
-    public TagNameMapper(ReportTypeService reportTypeService){
-        this.reportTypeService = reportTypeService;
-    }
+    private final ReportRowMapper reportRowMapper;
 
-    public TagName toTagName(TagNameDto tagNameDto){
-        TagName tagName = new TagName();
-        tagName.setId(tagNameDto.getId());
-        tagName.setName(tagNameDto.getName());
-        tagName.setDescription(tagNameDto.getDescription());
-        ReportType reportType = reportTypeService.getReportTypeById(tagNameDto.getReportTypeId());
-        tagName.setReportType(reportType);
+    private final ReportRowRepository rowRepository;
 
-        return tagName;
-    }
-    public TagNameDto toTagNameDto(TagName tagName){
-        String reportTypeId = tagName.getReportType()!=null?tagName.getReportType().getId(): null;
+    public TagNameDto fromTagNameToTagNameReadDto(TagName tagName){
         return new TagNameDto(
                 tagName.getId(),
                 tagName.getName(),
                 tagName.getDescription(),
-                reportTypeId);
+                tagName.getReportType().getName(),
+                reportRowMapper.fromReportRowToReportRowDto(tagName.getReportRow()).combineNameAndType());
+    }
+    public TagName fromTagNameReadDtoToTagName(TagNameDto tagNameDto){
+        ReportType reportType = reportTypeRepository.findByName(tagNameDto.getReportTypeName()).orElseThrow();
+        String rowName = tagNameDto.getRowNameAndReportType().substring(6);
+        ReportRow row = rowRepository.findByNameAndReportType(rowName, reportType).orElseThrow();
+        return new TagName (
+                tagNameDto.getId(),
+                tagNameDto.getName(),
+                tagNameDto.getDescription(),
+                reportType,
+                row);
     }
 }
