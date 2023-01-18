@@ -20,7 +20,7 @@ public class SingleDateTimeFormatter {
 
     public static String formatToSinglePattern(LocalTime time){
         return time.format(
-                DateTimeFormatter.ofPattern("hh:mm"));
+                DateTimeFormatter.ofPattern("HH:mm"));
     }
     public static String formatToSinglePattern(YearMonth yearMonth){
         return yearMonth.format(
