@@ -53,3 +53,6 @@ INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (35.7, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 98, 3),
        (5.33, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 99, 3),
        (807.1, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 100, 3);
+
+SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
+SELECT SETVAL('report_name_id_seq', (SELECT MAX(id) FROM report_name));
