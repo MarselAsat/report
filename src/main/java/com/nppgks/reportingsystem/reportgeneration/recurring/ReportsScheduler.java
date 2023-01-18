@@ -81,6 +81,7 @@ public class ReportsScheduler {
     // every hour at 00 minutes
     @Transactional
     public List<TagData> generateTagDataForHourReport() {
+        log.info("Создание часового отчета...");
         ReportType hourReportType = reportTypeService.getReportTypeById(ReportTypesEnum.hour.name());
         if (hourReportType.getActive()) {
             LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
@@ -210,14 +211,27 @@ public class ReportsScheduler {
     public void scheduleAllShiftReports() {
         ReportType shiftReportType = reportTypeService.getReportTypeById(ReportTypesEnum.shift.name());
         if (shiftReportType.getActive()) {
-            LinkedHashMap<String, String> startShiftReportMap = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
-            for (Map.Entry<String, String> entry : startShiftReportMap.entrySet()) {
+            LinkedHashMap<String, String> shiftNumToStartTime = moveShiftTime(settingsService
+                    .getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT));
+            for (Map.Entry<String, String> entry : shiftNumToStartTime.entrySet()) {
                 ScheduledFuture<?> scheduledShiftReport = scheduleShiftReport(
                         () -> reportsScheduler.generateTagDataForShiftReport(shiftReportType, entry.getKey()),
                         entry.getValue());
                 rescheduleService.scheduledShiftReportList.add(scheduledShiftReport);
             }
         }
+    }
+
+    public LinkedHashMap<String, String> moveShiftTime(LinkedHashMap<String, String> shiftNumToStartTime){
+        int size = shiftNumToStartTime.size();
+        if(size > 1){
+            String startTimeFirst = shiftNumToStartTime.replace(1+"", shiftNumToStartTime.get(2+""));
+            for(int i = 2; i < size; i++){
+                shiftNumToStartTime.replace(i+"", shiftNumToStartTime.get(i+1+""));
+            }
+            shiftNumToStartTime.replace(size +"", startTimeFirst);
+        }
+        return shiftNumToStartTime;
     }
 
     // every day at hour:minute (hour and minute change depending on shift)

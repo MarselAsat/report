@@ -20,6 +20,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -140,6 +141,45 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
             assertThat(reportName.getEndDt())
                     .isEqualTo(LocalDateTime.parse("2022-01-01T11:00"));
         }
+    }
+
+    @Test
+    void moveShiftNum(){
+        LinkedHashMap<String, String> shiftNumToTime = new LinkedHashMap<>();
+        shiftNumToTime.put("1", "10:00");
+        shiftNumToTime.put("2", "18:00");
+        shiftNumToTime.put("3", "02:00");
+        LinkedHashMap<String, String> resultMap = reportsScheduler.moveShiftTime(shiftNumToTime);
+        assertThat(resultMap).containsEntry("1", "18:00")
+                .containsEntry("2", "02:00")
+                .containsEntry("3", "10:00")
+                .hasSize(3);
+
+        LinkedHashMap<String, String> shiftNumToTime1 = new LinkedHashMap<>();
+        shiftNumToTime1.put("1", "10:00");
+        shiftNumToTime1.put("2", "22:00");
+        LinkedHashMap<String, String> resultMap1 = reportsScheduler.moveShiftTime(shiftNumToTime1);
+        assertThat(resultMap1).containsEntry("1", "22:00")
+                .containsEntry("2", "10:00")
+                .hasSize(2);
+
+        LinkedHashMap<String, String> shiftNumToTime2 = new LinkedHashMap<>();
+        shiftNumToTime2.put("1", "10:00");
+        LinkedHashMap<String, String> resultMap2 = reportsScheduler.moveShiftTime(shiftNumToTime2);
+        assertThat(resultMap2).containsEntry("1", "10:00")
+                .hasSize(1);
+
+        LinkedHashMap<String, String> shiftNumToTime3 = new LinkedHashMap<>();
+        shiftNumToTime3.put("1", "10:00");
+        shiftNumToTime3.put("2", "18:00");
+        shiftNumToTime3.put("3", "02:00");
+        shiftNumToTime3.put("4", "05:00");
+        LinkedHashMap<String, String> resultMap3 = reportsScheduler.moveShiftTime(shiftNumToTime3);
+        assertThat(resultMap3).containsEntry("1", "18:00")
+                .containsEntry("2", "02:00")
+                .containsEntry("3", "05:00")
+                .containsEntry("4", "10:00")
+                .hasSize(4);
     }
 
     @Test
