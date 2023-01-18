@@ -81,6 +81,7 @@ public class ReportsScheduler {
     // every hour at 00 minutes
     @Transactional
     public List<TagData> generateTagDataForHourReport() {
+        log.info("Создание часового отчета...");
         ReportType hourReportType = reportTypeService.getReportTypeById(ReportTypesEnum.hour.name());
         if (hourReportType.getActive()) {
             LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
@@ -179,12 +180,12 @@ public class ReportsScheduler {
         LocalTime startDailyReport = LocalTime.parse(startDailyReportStr);
         int hour = startDailyReport.getHour();
         int minute = startDailyReport.getMinute();
-        String cron = String.format("0 %s %s * * *", minute, hour);
+        String cron = String.format("30 %s %s * * *", minute, hour);
         return taskScheduler.schedule(task, new CronTrigger(cron));
     }
 
     public ScheduledFuture<?> scheduleHourReport(final Runnable task) {
-        return taskScheduler.schedule(task, new CronTrigger("0 0 * * * ?"));
+        return taskScheduler.schedule(task, new CronTrigger("30 0 * * * ?"));
     }
 
     // every first day of month at hour:minute
@@ -193,7 +194,7 @@ public class ReportsScheduler {
         LocalTime startMonthReport = LocalTime.parse(startMonthReportStr);
         int hour = startMonthReport.getHour();
         int minute = startMonthReport.getMinute();
-        String cron = String.format("0 %s %s 1 * *", minute, hour);
+        String cron = String.format("30 %s %s 1 * *", minute, hour);
         return taskScheduler.schedule(task, new CronTrigger(cron));
     }
 
@@ -203,15 +204,16 @@ public class ReportsScheduler {
         LocalTime startYearReport = LocalTime.parse(startYearReportStr);
         int hour = startYearReport.getHour();
         int minute = startYearReport.getMinute();
-        String cron = String.format("0 %s %s 1 JAN *", minute, hour);
+        String cron = String.format("30 %s %s 1 JAN *", minute, hour);
         return taskScheduler.schedule(task, new CronTrigger(cron));
     }
 
     public void scheduleAllShiftReports() {
         ReportType shiftReportType = reportTypeService.getReportTypeById(ReportTypesEnum.shift.name());
         if (shiftReportType.getActive()) {
-            LinkedHashMap<String, String> startShiftReportMap = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
-            for (Map.Entry<String, String> entry : startShiftReportMap.entrySet()) {
+            LinkedHashMap<String, String> shiftNumToStartTime = moveShiftTime(settingsService
+                    .getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT));
+            for (Map.Entry<String, String> entry : shiftNumToStartTime.entrySet()) {
                 ScheduledFuture<?> scheduledShiftReport = scheduleShiftReport(
                         () -> reportsScheduler.generateTagDataForShiftReport(shiftReportType, entry.getKey()),
                         entry.getValue());
@@ -220,12 +222,25 @@ public class ReportsScheduler {
         }
     }
 
+
+    public LinkedHashMap<String, String> moveShiftTime(LinkedHashMap<String, String> shiftNumToStartTime){
+        int size = shiftNumToStartTime.size();
+        if(size > 1){
+            String startTimeFirst = shiftNumToStartTime.replace(1+"", shiftNumToStartTime.get(2+""));
+            for(int i = 2; i < size; i++){
+                shiftNumToStartTime.replace(i+"", shiftNumToStartTime.get(i+1+""));
+            }
+            shiftNumToStartTime.replace(size +"", startTimeFirst);
+        }
+        return shiftNumToStartTime;
+    }
+
     // every day at hour:minute (hour and minute change depending on shift)
     private ScheduledFuture<?> scheduleShiftReport(final Runnable task, String startTimeStr) {
         LocalTime startTime = LocalTime.parse(startTimeStr);
         int hour = startTime.getHour();
         int minute = startTime.getMinute();
-        String cron = String.format("0 %s %s * * *", minute, hour);
+        String cron = String.format("30 %s %s * * *", minute, hour);
         return taskScheduler.schedule(task, new CronTrigger(cron));
     }
 }
