@@ -34,6 +34,6 @@ CREATE TABLE IF NOT EXISTS tag_data
     report_name_id BIGINT       NOT NULL REFERENCES report_name (id)
 );
 
-CREATE SEQUENCE tag_data_id_seq START 1 INCREMENT 50;
+CREATE SEQUENCE tag_data_id_seq START 1 INCREMENT BY 50;
 
 

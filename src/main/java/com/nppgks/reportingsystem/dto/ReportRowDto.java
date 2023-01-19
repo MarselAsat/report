@@ -9,10 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReportRowDto {
 
-    private String reportRowName;
+    private Integer id;
+
+    private String name;
+
+    private Integer order;
     private String reportTypeName;
 
     public String combineNameAndType(){
-        return "<"+reportTypeName.substring(0, 3)+"> "+reportRowName;
+        return "<"+reportTypeName.substring(0, 3)+"> "+ name;
     }
 }

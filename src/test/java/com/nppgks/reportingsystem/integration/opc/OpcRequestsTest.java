@@ -25,7 +25,7 @@ class OpcRequestsTest {
     @Test
     void getTagDataFromOpc() {
         Map<String, String> tagDataFromOpc = opcRequests.getTagDataFromOpc(
-                List.of("WinCC_OA.rep_test.Q", "WinCC_OA.report.day.100"));
+                List.of("daily_mass_gross_bik", "nonexistent_tag"));
         Assertions.assertThat(tagDataFromOpc).hasSize(1);
     }
 

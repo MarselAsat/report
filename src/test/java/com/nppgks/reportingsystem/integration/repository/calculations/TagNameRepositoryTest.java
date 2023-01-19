@@ -27,7 +27,7 @@ class TagNameRepositoryTest extends IntegrationBaseTest {
 
     @Test
     void updateTagName() {
-        int affectedRows = tagNameRepository.updateTagName(1, "pov_Q_ij", "расход23");
+        int affectedRows = tagNameRepository.updateTagName(1, "Q_ij", "расход23");
         assertEquals(1, affectedRows);
     }
 
@@ -41,6 +41,6 @@ class TagNameRepositoryTest extends IntegrationBaseTest {
     @Test
     public void findAllByInitialAndType(){
         List<CalcTagNameForOpc> tagNames = tagNameRepository.findAllByInitialAndType(true, CalcMethod.MI_3622.name());
-        Assertions.assertThat(tagNames).hasSize(45);
+        Assertions.assertThat(tagNames).hasSize(50);
     }
 }

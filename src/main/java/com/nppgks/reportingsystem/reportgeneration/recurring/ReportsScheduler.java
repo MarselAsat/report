@@ -224,15 +224,16 @@ public class ReportsScheduler {
 
 
     public LinkedHashMap<String, String> moveShiftTime(LinkedHashMap<String, String> shiftNumToStartTime){
-        int size = shiftNumToStartTime.size();
+        LinkedHashMap<String, String> shiftNumToStartTimeCopy = (LinkedHashMap<String, String>) shiftNumToStartTime.clone();
+        int size = shiftNumToStartTimeCopy.size();
         if(size > 1){
-            String startTimeFirst = shiftNumToStartTime.replace(1+"", shiftNumToStartTime.get(2+""));
+            String startTimeFirst = shiftNumToStartTimeCopy.replace(1+"", shiftNumToStartTimeCopy.get(2+""));
             for(int i = 2; i < size; i++){
-                shiftNumToStartTime.replace(i+"", shiftNumToStartTime.get(i+1+""));
+                shiftNumToStartTimeCopy.replace(i+"", shiftNumToStartTimeCopy.get(i+1+""));
             }
-            shiftNumToStartTime.replace(size +"", startTimeFirst);
+            shiftNumToStartTimeCopy.replace(size +"", startTimeFirst);
         }
-        return shiftNumToStartTime;
+        return shiftNumToStartTimeCopy;
     }
 
     // every day at hour:minute (hour and minute change depending on shift)

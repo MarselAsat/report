@@ -5,6 +5,8 @@ values (23, 'Средний массовый расход', 11,'shift'),
        (24, 'Средняя температура', 10,'shift'),
        (25, 'Среднее давление', 9,'shift');
 
+SELECT SETVAL('report_row_id_seq', (SELECT MAX(id) FROM report_row));
+
 INSERT INTO tag_name (id, row_id, name, description, report_type_id)
 VALUES (89, 23, 'shift_mass_il1', 'Средний массовый расход за смену ил1', 'shift'),
        (90, 24, 'shift_temp_il1', 'Средняя температура за смену ил1', 'shift'),

@@ -1,7 +1,6 @@
 package com.nppgks.reportingsystem.controller;
 
 import com.nppgks.reportingsystem.dto.ReportRowDto;
-import com.nppgks.reportingsystem.dto.TagNameDto;
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameDto;
 import com.nppgks.reportingsystem.dto.ReportTypeDto;
 import com.nppgks.reportingsystem.service.dbservices.*;
@@ -22,34 +21,8 @@ public class AdminController {
     private final ReportTypeService reportTypeService;
 
     private final ReportRowService reportRowService;
-    private final TagNameService tagNameService;
     private final CalcTagNameService calcTagNameService;
 
-    @GetMapping("/tagName/new")
-    public String createNewTagName(ModelMap modelMap){
-        List<ReportTypeDto> reportTypes = reportTypeService.getAllReportTypes();
-        modelMap.put("reportTypes", reportTypes);
-        return "newTagName";
-    }
-
-    @PostMapping("/tagName/new")
-    @ResponseBody
-    public Long newTagName(@RequestBody TagNameDto tagName){
-        return tagNameService.saveTagName(tagName);
-    }
-
-    @PostMapping("/tagName")
-    @ResponseBody
-    public Map<Long, Boolean> updateTagNames(@RequestBody List<TagNameDto> tagNames){
-        return tagNameService.saveTagNames(tagNames);
-    }
-
-    @DeleteMapping("/tagName/{id}")
-    @ResponseBody
-    public Map<Long, Boolean> deleteTagName(@PathVariable Long id){
-        boolean isDeleted = tagNameService.deleteTagName(id);
-        return Map.of(id, isDeleted);
-    }
     @PostMapping("/calcTagName")
     @ResponseBody
     public Map<Integer, Boolean> updatecalcTagNames(@RequestBody List<CalcTagNameDto> tagNames){

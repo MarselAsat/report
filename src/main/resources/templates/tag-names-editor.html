@@ -3,14 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Editor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
     <script src="https://cdn.zinggrid.com/zinggrid.min.js" defer></script>
 </head>
 <body>
-<zing-grid caption="Теги для периодических отчетов" src="/tagNames/" lang="ru" editor-controls columns-control search sort>
-    <zg-column index="name" header="Название"></zg-column>
-    <zg-column index="description" header="Описание"></zg-column>
-    <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select" th:type-select-options="${reportTypes}"></zg-column>
-    <zg-column id="rows" index="rowNameAndReportType" header="Строка в отчете" type="select" th:type-select-options="${reportRows}"></zg-column>
-</zing-grid>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" href="#tag-names">Теги</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#report-rows">Строки в отчете</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="tag-names" class="list-group mb-5 shadow tab-pane container active">
+                <zing-grid caption="Теги для периодических отчетов" src="/tagNames/" lang="ru" editor-controls
+                           columns-control search sort>
+                    <zg-column index="name" header="Название"></zg-column>
+                    <zg-column index="description" header="Описание"></zg-column>
+                    <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select"
+                               th:type-select-options="${reportTypes}"></zg-column>
+                    <zg-column id="rows" index="rowNameAndReportType" header="Строка в отчете" type="select"
+                               th:type-select-options="${reportRows}"></zg-column>
+                </zing-grid>
+            </div>
+
+            <div id="report-rows" class="list-group mb-5 shadow tab-pane container fade">
+                <zing-grid caption="Строки в отчете" src="/reportRows/" lang="ru" editor-controls columns-control search
+                           sort>
+                    <zg-column index="name" header="Название cтроки"></zg-column>
+                    <zg-column index="order" header="Порядок"></zg-column>
+                    <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select"
+                               th:type-select-options="${reportTypes}"></zg-column>
+                </zing-grid>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

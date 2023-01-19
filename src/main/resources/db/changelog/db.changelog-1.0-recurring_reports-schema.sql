@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS report_type
 --changeset alina.parfenteva:3
 CREATE TABLE IF NOT EXISTS report_row
 (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name VARCHAR(256),
     "order" INTEGER,
     report_type_id VARCHAR(32) REFERENCES report_type (id)

@@ -1,7 +1,9 @@
 --liquibase formatted sql
 
 --changeset alina.parfenteva:1
-insert into recurring_reports.report_row (id, name, "order", report_type_id)
+SET search_path TO recurring_reports;
+
+insert into report_row (id, name, "order", report_type_id)
 values (12, 'Средний массовый расход', 11,'hour'),
        (13, 'Средняя температура', 10,'hour'),
        (14, 'Среднее давление', 9,'hour'),
@@ -13,3 +15,5 @@ values (12, 'Средний массовый расход', 11,'hour'),
        (20, 'Масса брутто нарастающая', 3,'hour'),
        (21, 'Объем за час', 2,'hour'),
        (22, 'Объем нарастающий', 1,'hour');
+
+SELECT SETVAL('report_row_id_seq', (SELECT MAX(id) FROM report_row));

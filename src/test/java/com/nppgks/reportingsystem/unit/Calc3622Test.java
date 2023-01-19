@@ -80,6 +80,7 @@ public class Calc3622Test {
         initialData.setTheta_e(theta_e);
         initialData.setTheta_N(theta_N);
         initialData.setZS(ZS);
+        initialData.setZeroStabilityCorr(true);
         MI3622Calculation = new MI3622Calculation(initialData);
     }
 

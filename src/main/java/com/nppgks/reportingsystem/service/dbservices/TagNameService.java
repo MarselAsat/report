@@ -8,8 +8,6 @@ import com.nppgks.reportingsystem.dto.TagNameDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,39 +40,21 @@ public class TagNameService {
     }
 
     public boolean deleteTagName(Long id) {
-        try{
-            tagNameRepository.deleteById(id);
-            return true;
-        }
-        catch(Exception e){
-            return false;
-        }
+        tagNameRepository.deleteById(id);
+        return true;
     }
 
-    public boolean partialUpdateTagName(Long id, Map<String, String> updates){
+    public boolean partialUpdateTagName(Long id, Map<String, String> updates) {
         Optional<TagName> tagNameOpt = tagNameRepository.findById(id);
 
-        if(tagNameOpt.isPresent()){
+        if (tagNameOpt.isPresent()) {
             TagName tagName = tagNameOpt.get();
             TagNameDto tagNameDto = tagNameMapper.fromTagNameToTagNameReadDto(tagName);
-            Field[] declaredFields = TagNameDto.class.getDeclaredFields();
 
-            Arrays.stream(declaredFields).forEach (
-                    df -> {
-                        String fieldName = df.getName();
-                        if(updates.containsKey(fieldName)){
-                            df.setAccessible(true);
-                            String newFieldValue = updates.get(fieldName);
-                            try {
-                                df.set(tagNameDto, newFieldValue);
-                            } catch (IllegalAccessException e) {
-                                throw new RuntimeException("Значение поля "+fieldName+" не может быть установлено на "+newFieldValue);
-                            }
-                        }
-                    }
-            );
-            TagName changedTagName = tagNameMapper.fromTagNameReadDtoToTagName(tagNameDto);
-            tagNameRepository.save(changedTagName);
+            TagNameDto updatedTagNameDto = PartialUpdateService.updateObject(tagNameDto, updates);
+
+            TagName updatedTagName = tagNameMapper.fromTagNameReadDtoToTagName(updatedTagNameDto);
+            tagNameRepository.save(updatedTagName);
         }
         return true;
     }

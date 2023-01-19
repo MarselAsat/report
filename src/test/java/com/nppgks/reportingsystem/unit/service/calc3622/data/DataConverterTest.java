@@ -44,9 +44,58 @@ class DataConverterTest {
         finalData.setDelta_j(arr1Dim);
         finalData.setF_ij(arr2Dim);
         finalData.setEps_PDk(arr1Dim);
-        Map<String, String> tagNamesMap = Map.of("delta_j", "tagDelta_j", "f_ij", "tagFij", "eps_PDk", "tagEpsPdk");
+        Map<String, String> tagNamesMap = new HashMap<>();
+        fillInTagNamesMap(tagNamesMap);
         Map<String, Object> actualResult = DataConverter.convertFinalDataToMap(finalData, tagNamesMap);
-        assertThat(actualResult).hasSize(3);
+        assertThat(actualResult).hasSize(4);
+    }
+
+    void fillInTagNamesMap(Map<String, String> tagNamesMap){
+        tagNamesMap.put("K_pm", "tagK_pm");
+        tagNamesMap.put("M_e_ij", "tagM_e_ij");
+        tagNamesMap.put("MF_ij", "tagMF_ij");
+        tagNamesMap.put("MF", "tagMF");
+        tagNamesMap.put("MF_j", "tagMF_j");
+        tagNamesMap.put("K", "tagK");
+        tagNamesMap.put("K_j", "tagK_j");
+        tagNamesMap.put("K_ij", "tagK_ij");
+        tagNamesMap.put("MF_prime", "tagMF_prime");
+        tagNamesMap.put("f_ij", "tagf_ij");
+        tagNamesMap.put("f_j", "tagf_j");
+        tagNamesMap.put("S_j", "tagS_j");
+        tagNamesMap.put("S_0j", "tagS_0j");
+        tagNamesMap.put("eps_j", "tageps_j");
+        tagNamesMap.put("t_095", "tagt_095");
+        tagNamesMap.put("eps_D", "tageps_D");
+        tagNamesMap.put("Q_j", "tagQ_j");
+        tagNamesMap.put("theta_sigma_j", "tagtheta_sigma_j");
+        tagNamesMap.put("eps_PDk", "tageps_PDk");
+        tagNamesMap.put("theta_sigma_D", "tagtheta_sigma_D");
+        tagNamesMap.put("theta_sigma_PDk", "tagtheta_sigma_PDk");
+        tagNamesMap.put("delta_j", "tagdelta_j");
+        tagNamesMap.put("t_sigma_j", "tagt_sigma_j");
+        tagNamesMap.put("S_sigma_j", "tagS_sigma_j");
+        tagNamesMap.put("S_theta_j", "tagS_theta_j");
+        tagNamesMap.put("delta_D", "tagdelta_D");
+        tagNamesMap.put("delta_PDk", "tagdelta_PDk");
+        tagNamesMap.put("t_sigma_PDk", "tagt_sigma_PDk");
+        tagNamesMap.put("S_sigma_PDk", "tagS_sigma_PDk");
+        tagNamesMap.put("S_theta_PDk", "tagS_theta_PDk");
+        tagNamesMap.put("S_PDk", "tagS_PDk");
+        tagNamesMap.put("theta_zj", "tagtheta_zj");
+        tagNamesMap.put("theta_Dz", "tagtheta_Dz");
+        tagNamesMap.put("Q_min", "tagQ_min");
+        tagNamesMap.put("Q_max", "tagQ_max");
+        tagNamesMap.put("Q_min_k", "tagQ_min_k");
+        tagNamesMap.put("Q_max_k", "tagQ_max_k");
+        tagNamesMap.put("S_D", "tagS_D");
+        tagNamesMap.put("theta_D", "tagtheta_D");
+        tagNamesMap.put("theta_PDz", "tagtheta_PDz");
+        tagNamesMap.put("theta_PDk", "tagtheta_PDk");
+        tagNamesMap.put("S_theta_D", "tagS_theta_D");
+        tagNamesMap.put("S_sigma_D", "tagS_sigma_D");
+        tagNamesMap.put("t_sigma_D", "tagt_sigma_D");
+        tagNamesMap.put("conclusion", "tagconclusion");
     }
 
     @Test

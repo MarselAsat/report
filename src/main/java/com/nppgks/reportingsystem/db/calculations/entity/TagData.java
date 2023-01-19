@@ -20,7 +20,9 @@ public class TagData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "calc.tag_data_id_seq")
-    @SequenceGenerator(name="calc.tag_data_id_seq", sequenceName = "calculations.tag_data_id_seq")
+    // Странно, что чтобы прошла валидация, имя последовательности должно быть указано без схемы (tag_data_id_seq)
+    // а чтобы в тестах автоматически создалась эта последовательность и была видна, нужно указывать со схемой
+    @SequenceGenerator(name="calc.tag_data_id_seq", sequenceName = "tag_data_id_seq", schema="calculations")
     private Long id;
 
     @NotNull
