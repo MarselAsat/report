@@ -43,7 +43,7 @@
                 <zing-grid caption="Строки в отчете" src="/reportRows/" lang="ru" editor-controls columns-control search
                            sort>
                     <zg-column index="name" header="Название cтроки"></zg-column>
-                    <zg-column index="order" header="Порядок"></zg-column>
+                    <zg-column index="order" type="number" header="Порядок"></zg-column>
                     <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select"
                                th:type-select-options="${reportTypes}"></zg-column>
                 </zing-grid>
