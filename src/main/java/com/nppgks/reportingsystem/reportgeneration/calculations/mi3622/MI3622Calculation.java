@@ -706,11 +706,15 @@ public class MI3622Calculation {
     }
 
     public double[] calculateTheta_zj() {
-        double[] Q_j = calculateQ_j();
-        double[] theta_zj = new double[pointsCount];
-        for (int j = 0; j < pointsCount; j++) {
-            theta_zj[j] = ZS / Q_j[j] * 100;
+        double[] theta_zj = null;
+        if(!zeroStabilityCorr){
+            double[] Q_j = calculateQ_j();
+            theta_zj = new double[pointsCount];
+            for (int j = 0; j < pointsCount; j++) {
+                theta_zj[j] = ZS / Q_j[j] * 100;
+            }
         }
+
         return theta_zj;
     }
 
