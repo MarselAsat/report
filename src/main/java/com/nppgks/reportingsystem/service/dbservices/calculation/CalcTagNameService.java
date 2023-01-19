@@ -1,14 +1,17 @@
 package com.nppgks.reportingsystem.service.dbservices.calculation;
 
+import com.nppgks.reportingsystem.db.calculations.entity.TagName;
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameDto;
 import com.nppgks.reportingsystem.db.calculations.repository.TagNameRepository;
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameForOpc;
+import com.nppgks.reportingsystem.service.dbservices.PartialUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,5 +78,20 @@ public class CalcTagNameService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean partialUpdateTagName(Integer id, Map<String, String> updates) {
+        Optional<TagName> tagNameOpt = tagNameRepository.findById(id);
+
+        if (tagNameOpt.isPresent()) {
+            TagName tagName = tagNameOpt.get();
+            CalcTagNameDto tagNameDto = CalcTagNameDto.fromTagName(tagName);
+
+            CalcTagNameDto updatedTagNameDto = PartialUpdateService.updateObject(tagNameDto, updates);
+
+            TagName updatedTagName = CalcTagNameDto.toTagName(updatedTagNameDto);
+            tagNameRepository.save(updatedTagName);
+        }
+        return true;
     }
 }

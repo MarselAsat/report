@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,14 +26,6 @@ public class TagNameService {
                 .toList();
     }
 
-    public Map<Long, Boolean> saveTagNames(List<TagNameDto> tagNames) {
-        return tagNames.stream()
-                .map(tagName -> {
-                    Boolean resp = saveTagName(tagName)!=-1L;
-                    return Map.entry(tagName.getId(), resp);
-                })
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
     public List<TagName> getAllTagNamesByReportType(ReportType reportType){
         return tagNameRepository.findAllByReportType(reportType);
     }

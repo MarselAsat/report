@@ -37,10 +37,8 @@ public class AdminController {
     }
 
     @GetMapping("/calcTagName")
-    public String getAllcalcTagNames(ModelMap modelMap){
-        List<CalcTagNameDto> tagNames = calcTagNameService.getAllTagNames();
-        modelMap.put("tagNames", tagNames);
-        return "edit-calc-tag-name-table";
+    public String getAllcalcTagNames(){
+        return "calc-tag-names-editor";
     }
 
     @GetMapping("/tag-name-editor")

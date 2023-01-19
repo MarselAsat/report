@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактор тегов</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.zinggrid.com/zinggrid.min.js" defer></script>
+</head>
+<body>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div id="tag-names">
+      <zing-grid caption="Теги поверок" src="/calcTagNames/" lang="ru" editor-controls="editor"
+                 columns-control search sort>
+        <zg-column editor=false index="permanentName" header="Закрепленное название в коде"></zg-column>
+        <zg-column index="name" header="Название"></zg-column>
+        <zg-column index="description" header="Описание"></zg-column>
+        <zg-column editor=false index="type" header="Тип"></zg-column>
+      </zing-grid>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
