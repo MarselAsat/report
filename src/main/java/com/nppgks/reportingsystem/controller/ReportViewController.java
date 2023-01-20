@@ -37,18 +37,18 @@ public class ReportViewController {
     private final ReportTypeService reportTypeService;
     private final SettingsService settingsService;
 
-    @GetMapping("/startPage")
+    @GetMapping
     public String getStartPage(ModelMap model){
         setCommonParams(model);
         return "start-page";
     }
 
-    @GetMapping(value = "/startPage/filter")
+    @GetMapping(value = "/filter")
     public String getReportNameByDateAndReportType(ModelMap modelMap,
                                       @RequestParam(required = false) LocalDate date,
                                       @RequestParam(required = false) String reportTypeId){
         if(date == null && reportTypeId == null){
-            return "redirect:/startPage";
+            return "redirect:/";
         }
         if(reportTypeId.equals("poverki")){
             var calcReportNames = calcReportNameService.findReportNameByDate(date);

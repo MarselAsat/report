@@ -32,11 +32,11 @@ function dateIsChanged(dateElement){
     const urlParams = new URLSearchParams(path);
     if(!urlParams.has('date')){
         urlParams.append('date', dateValue);
-        window.location.href = "/startPage/filter?"+urlParams.toString();
+        window.location.href = "/filter?"+urlParams.toString();
     }
     else{
         urlParams.set('date', dateValue);
-        window.location.href = "/startPage/filter?"+urlParams.toString();
+        window.location.href = "/filter?"+urlParams.toString();
     }
 }
 
@@ -46,10 +46,10 @@ function reportTypeIsChanged(reportTypeElement){
     const urlParams = new URLSearchParams(path);
     if(!urlParams.has('reportTypeId')){
         urlParams.append('reportTypeId', reportTypeId);
-        window.location.href = "/startPage/filter?"+urlParams.toString();
+        window.location.href = "/filter?"+urlParams.toString();
     }
     else{
         urlParams.set('reportTypeId', reportTypeId);
-        window.location.href = "/startPage/filter?"+urlParams.toString();
+        window.location.href = "/filter?"+urlParams.toString();
     }
 }

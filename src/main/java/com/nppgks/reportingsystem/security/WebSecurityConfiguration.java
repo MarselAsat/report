@@ -1,5 +1,6 @@
 package com.nppgks.reportingsystem.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,13 +13,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfiguration {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
 
     @Bean
@@ -29,7 +31,9 @@ public class WebSecurityConfiguration {
                 .and()
                 .csrf().disable()
                 .formLogin()
-                .defaultSuccessUrl("/startPage", true)
+                .and()
+                .logout()
+                .logoutSuccessHandler(customLogoutSuccessHandler)
                 .and()// disabling CSRF will allow sending POST request using Postman
                 .httpBasic(); // enables basic auth.
         return http.build();
