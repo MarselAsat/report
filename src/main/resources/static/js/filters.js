@@ -26,16 +26,30 @@ function getTagData(element, reportNameId) {
     });
 }
 
-function printReport(){
+function dateIsChanged(dateElement){
+    var dateValue = dateElement.value;
+    path = window.location.search;
+    const urlParams = new URLSearchParams(path);
+    if(!urlParams.has('date')){
+        urlParams.append('date', dateValue);
+        window.location.href = "/startPage/filter?"+urlParams.toString();
+    }
+    else{
+        urlParams.set('date', dateValue);
+        window.location.href = "/startPage/filter?"+urlParams.toString();
+    }
+}
 
-    const printContents = document.getElementById("includedContent").innerHTML;
-    let myWindow = window.open();
-
-    myWindow.document.write(printContents);
-    myWindow.document.write('<scr' + 'ipt type="text/javascript">' + 'window.onload = function() { window.print(); window.close(); };' + '</sc' + 'ript>');
-
-    myWindow.document.close(); // necessary for IE >= 10
-    myWindow.focus(); // necessary for IE >= 10
-
-    return true;
+function reportTypeIsChanged(reportTypeElement){
+    var reportTypeId = reportTypeElement.id.split('-')[1];
+    path = window.location.search;
+    const urlParams = new URLSearchParams(path);
+    if(!urlParams.has('reportTypeId')){
+        urlParams.append('reportTypeId', reportTypeId);
+        window.location.href = "/startPage/filter?"+urlParams.toString();
+    }
+    else{
+        urlParams.set('reportTypeId', reportTypeId);
+        window.location.href = "/startPage/filter?"+urlParams.toString();
+    }
 }

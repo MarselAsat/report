@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <style>
+        #userDropdown li:hover ul{
+            left:auto;
+            right:0;
+            margin-right:-10px;
+        }
+    </style>
+
+</head>
+<body>
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/startPage}">
+            <img src="/images/logo-GKS-nav.png" alt="" width="30" height="45">НПП ГКС
+        </a>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!--          <li class="nav-item">-->
+                <!--            <a class="nav-link active" aria-current="page" href="#">Home</a>-->
+                <!--          </li>-->
+                <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link dropdown-toggle" id="editTagsDropdown" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Редактор тегов
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="editTagsDropdown">
+                        <li>
+                            <a th:href="@{/admin/tag-name-editor}" class="dropdown-item">Теги для автоматических
+                                периодических отчетов</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/calcTagName}" class="dropdown-item">Теги для поверок</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/settings}" class="nav-link">Настройки</a>
+                </li>
+                <!--          <li class="nav-item" sec:authorize="hasRole('ADMIN')">-->
+                <!--            <a th:href="@{/admin/tagName/new}" class="nav-link">Create new tag</a>-->
+                <!--          </li>-->
+            </ul>
+            <ul class="navbar-nav navbar-right dropdown-menu-end" id="userDropdown">
+                <li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link"> Войти</a>
+                </li>
+                <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                    <a sec:authentication="name" class="nav-link dropdown-toggle" id="userDropdownLabel" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownLabel">
+                        <li>
+                            <a th:href="@{/user/updatePassword}" class="dropdown-item">Поменять пароль</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/logout}" class="dropdown-item">Выйти</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

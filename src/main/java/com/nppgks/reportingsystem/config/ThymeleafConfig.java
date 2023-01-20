@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.security;
+package com.nppgks.reportingsystem.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
