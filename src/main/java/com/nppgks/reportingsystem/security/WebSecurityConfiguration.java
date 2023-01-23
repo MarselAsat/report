@@ -27,15 +27,16 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().permitAll() // make remaining endpoints public (including POST /register)
+                .mvcMatchers("/user/**").authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .csrf().disable()
                 .formLogin()
                 .and()
                 .logout()
                 .logoutSuccessHandler(customLogoutSuccessHandler)
-                .and()// disabling CSRF will allow sending POST request using Postman
-                .httpBasic(); // enables basic auth.
+                .and()
+                .httpBasic();
         return http.build();
     }
 

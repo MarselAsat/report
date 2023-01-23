@@ -1,14 +1,35 @@
 function savePass(){
-    var pass = document.getElementById("pass").value;
-    var oldpass = document.getElementById("oldpass").value;
-    var valid = pass == document.getElementById("passConfirm").value;
+    var newPass = document.getElementById("password").value;
+    var currPass = document.getElementById("old-password").value;
+    var valid = newPass === document.getElementById("confirm-password").value;
+    let messageField = document.getElementById("message");
     if(!valid) {
-      document.getElementById("error").style.display = 'block';
+        messageField.style.display = 'block';
+        messageField.className = "alert alert-danger";
+        messageField.innerText = "Пароли не совпадают"
       return;
     }
-    fetch("/user/updatePassword?password="+pass+"&oldpassword="+oldpass, {method: 'POST'})
+    fetch("/user/updatePassword", {
+        method: 'PATCH',
+        body: JSON.stringify({
+            currentPassword: currPass,
+            newPassword: newPass
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        }}
+    )
         .then(response => response.text())
         .then(data => {
-            document.getElementById("errormsg").innerHTML = data;
+            if(data === "The current password is not valid"){
+                messageField.style.display = 'block';
+                messageField.className = "alert alert-danger";
+                messageField.innerText = "Неверный текущий пароль"
+            }
+            else if(data === "The password was changed successfully"){
+                messageField.style.display = 'block';
+                messageField.className = "alert alert-success";
+                messageField.innerText = "Пароль успешно изменен"
+            }
         })
 }

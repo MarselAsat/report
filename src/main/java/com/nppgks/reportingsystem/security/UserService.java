@@ -18,7 +18,7 @@ public class UserService {
         return userRepository.getUserByUsername(username);
     }
 
-    public boolean checkIfValidOldPassword(User user, String oldPassword) {
+    public boolean checkIfValidPassword(User user, String oldPassword) {
         return passwordEncoder.matches(oldPassword, user.getPassword());
     }
 

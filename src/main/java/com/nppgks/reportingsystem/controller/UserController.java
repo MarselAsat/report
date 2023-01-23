@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Locale;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -16,25 +15,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/updatePassword")
+    @PatchMapping ("/updatePassword")
     @ResponseBody
-    public String changeUserPassword(Locale locale,
-                                              @RequestParam("password") String password,
-                                              @RequestParam("oldpassword") String oldPassword) {
+    public String changeUserPassword(@RequestBody Map<String, String> passwords) {
         User user = userService.findUserByUsername(
                 SecurityContextHolder.getContext().getAuthentication().getName());
 
-        if(user!=null){
-            if (!userService.checkIfValidOldPassword(user, oldPassword)) {
-                return "The old password is not valid";
-            }
-            userService.changeUserPassword(user, password);
-            return "The password was changed successfully";
+        if (!userService.checkIfValidPassword(user, passwords.get("currentPassword"))) {
+            return "The current password is not valid";
         }
-        else{
-            return "Log in to change the password";
-        }
-
+        userService.changeUserPassword(user, passwords.get("newPassword"));
+        return "The password was changed successfully";
     }
 
     @GetMapping("/updatePassword")
