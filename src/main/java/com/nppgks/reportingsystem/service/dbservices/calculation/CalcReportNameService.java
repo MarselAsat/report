@@ -2,7 +2,7 @@ package com.nppgks.reportingsystem.service.dbservices.calculation;
 
 import com.nppgks.reportingsystem.db.calculations.entity.ReportName;
 import com.nppgks.reportingsystem.db.calculations.repository.ReportNameRepository;
-import com.nppgks.reportingsystem.exception.NoReportException;
+import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class CalcReportNameService {
 
     public ReportName findReportNameById(Long id){
         return reportNameRepository.findById(id).orElseThrow(
-                () -> new NoReportException("В таблице calculations.report_name нет отчета с id = "+id));
+                () -> new MissingDbDataException("В таблице calculations.report_name нет отчета с id = "+id));
     }
 
     public List<ReportName> findReportNameByDate(LocalDate date){

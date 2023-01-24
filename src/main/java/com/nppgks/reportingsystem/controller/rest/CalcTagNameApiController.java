@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/calcTagNames")
+@RequestMapping("/api/calcTagNames")
 @RequiredArgsConstructor
 public class CalcTagNameApiController {
     private final CalcTagNameService tagNameService;

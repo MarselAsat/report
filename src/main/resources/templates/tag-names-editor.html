@@ -37,7 +37,7 @@
                 <div class="card-body ps-0">
                     <div class="tab-content pe-0">
                         <div id="tag-names" class="list-group pe-0 ms-0 mb-5 shadow tab-pane container-fluid active">
-                            <zing-grid caption="Теги для периодических отчетов" src="/tagNames/" lang="ru" editor-controls
+                            <zing-grid caption="Теги для периодических отчетов" src="/api/tagNames/" lang="ru" editor-controls
                                        columns-control search sort>
                                 <zg-column index="name" header="Название"></zg-column>
                                 <zg-column index="description" header="Описание"></zg-column>
@@ -49,7 +49,7 @@
                         </div>
 
                         <div id="report-rows" class="list-group pe-0 ms-0 mb-5 shadow tab-pane container-fluid fade">
-                            <zing-grid caption="Строки в отчете" src="/reportRows/" lang="ru" editor="false" editor-controls columns-control search sort>
+                            <zing-grid caption="Строки в отчете" src="/api/reportRows/" lang="ru" editor="false" editor-controls columns-control search sort>
                                 <zg-column index="name" header="Название cтроки"></zg-column>
                                 <zg-column index="order" type="number" header="Порядок"></zg-column>
                                 <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select"

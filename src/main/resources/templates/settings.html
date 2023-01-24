@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header"></head>
 <head>
-    <title id="pageTitle">Edit manual tag name table</title>
+    <title id="pageTitle">Настройки</title>
     <script type="text/javascript" th:src="@{/js/settings.js}"></script>
     <style>
         .main-container{
@@ -20,9 +20,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" data-bs-toggle="tab" href="#recurring-reports">Периодические
                             отчеты</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#MI3622Calculation">Поверка МИ3622</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -291,36 +288,6 @@
                                 <div class="col-auto">
                                     <div>
                                         <input type="time" th:value="${entry.value}" class="shift-time">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="list-group mb-5 pe-0 shadow tab-pane container fade" id="MI3622Calculation">
-                        <div class="list-group-item">
-                            <div class="row align-items-center">
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <p class="mb-0">Проведение расчетов</p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" id="operating-range"
-                                                       name="range" th:checked="${MI3622_6or7Table=='7'}">
-                                                <label class="form-check-label" for="operating-range">
-                                                    для рабочео диапазона измерений
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" id="subrange" name="range"
-                                                       th:checked="${MI3622_6or7Table=='6'}">
-                                                <label class="form-check-label" for="subrange">
-                                                    для поддиапазона измерений
-                                                </label>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

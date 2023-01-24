@@ -4,7 +4,6 @@ import com.nppgks.reportingsystem.db.calculations.entity.ReportName;
 import com.nppgks.reportingsystem.db.calculations.entity.TagData;
 import com.nppgks.reportingsystem.opc.ArrayParser;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.CalcService;
-import com.nppgks.reportingsystem.service.dbservices.SettingsService;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportNameService;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagDataService;
 import com.nppgks.reportingsystem.service.timeservices.SingleDateTimeFormatter;
@@ -21,13 +20,11 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class CalcController {
+public class CalculationsController {
 
     private final CalcReportNameService reportNameService;
     private final CalcTagDataService tagDataService;
     private final CalcService calcService;
-
-    private final SettingsService settingsService;
     private final String CALC_3622 = "3622";
 
     @ResponseBody
@@ -58,9 +55,6 @@ public class CalcController {
                             modelMap.put(
                                     td.getTagName().getPermanentName(), value);
         });
-
-//        String sixOrSevenTable = settingsService.getStringValueBySettingName(SettingsConstants.MI3622_6OR7_TABLE);
-//        modelMap.put("sixOrSevenTable", sixOrSevenTable);
 
         return "report_pages/calc3622-report-page";
     }

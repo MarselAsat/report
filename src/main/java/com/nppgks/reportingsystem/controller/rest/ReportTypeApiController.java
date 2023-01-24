@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reportTypes")
+@RequestMapping("/api/reportTypes")
 @RequiredArgsConstructor
 public class ReportTypeApiController {
 

@@ -6,6 +6,7 @@ import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportName;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.TagData;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.TagName;
+import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import com.nppgks.reportingsystem.opc.OpcRequests;
 import com.nppgks.reportingsystem.service.dbservices.*;
 import com.nppgks.reportingsystem.service.timeservices.DateTimeRange;
@@ -157,6 +158,9 @@ public class ReportsScheduler {
 
     private List<TagData> createAndSaveTagData(ReportType reportType, LocalDateTime currentDt, DateTimeRange startEndDt, String reportNameStr) {
         List<TagName> tagNames = tagNameService.getAllTagNamesByReportType(reportType);
+        if(tagNames.isEmpty()){
+            throw new MissingDbDataException("There is not a single "+reportType.getName()+" tag name in DB");
+        }
         LocalDateTime startDt = startEndDt.getStartDateTime();
         LocalDateTime endDt = startEndDt.getEndDateTime();
         ReportName reportName = new ReportName(null,

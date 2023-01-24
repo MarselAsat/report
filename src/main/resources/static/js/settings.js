@@ -30,22 +30,14 @@ function save(){
     }
     settings.set('shift report start time', shiftSettings.join(","));
 
-    let checkedRange = document.querySelector('input[name="range"]:checked').id;
-    if(checkedRange === "operating-range"){
-        settings.set("MI3622 6 or 7 table", "7")
-    }
-    else if(checkedRange === "subrange"){
-        settings.set("MI3622 6 or 7 table", "6")
-    }
-
     updateSettingsInDB(settings);
 
 }
 
 async function updateSettingsInDB(settings) {
-    var url = "/settings/update";
+    var url = "/api/settings";
     let response = await fetch(url, {
-        method: "POST",
+        method: "PATCH",
         body: JSON.stringify(Object.fromEntries(settings)),
         headers: {
             'Content-Type': 'application/json'

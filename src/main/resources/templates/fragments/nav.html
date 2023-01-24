@@ -34,12 +34,12 @@
                                 периодических отчетов</a>
                         </li>
                         <li>
-                            <a th:href="@{/admin/calcTagName}" class="dropdown-item">Теги для поверок</a>
+                            <a th:href="@{/admin/calc-tag-name-editor}" class="dropdown-item">Теги для поверок</a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/settings}" class="nav-link">Настройки</a>
+                    <a th:href="@{/admin/settings}" class="nav-link">Настройки</a>
                 </li>
                 <!--          <li class="nav-item" sec:authorize="hasRole('ADMIN')">-->
                 <!--            <a th:href="@{/admin/tagName/new}" class="nav-link">Create new tag</a>-->
