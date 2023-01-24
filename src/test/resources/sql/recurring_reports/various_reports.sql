@@ -9,10 +9,10 @@ VALUES ('hour', 'Часовой', 'Отчеты фомируемые кажды�
 
 INSERT INTO tag_name (id, name, description, report_type_id)
 VALUES (1, 'hour_mass_il1', 'масса за час ил1', 'hour'),
-       (2, 'hour_vol_il1', 'объем за час ил1', 'hour'),
-       (3, 'hour_mass_il2', 'масса за час ил2', 'hour'),
-       (4, 'hour_vol_il2', 'объем за час ил2’', 'hour'),
-       (5, 'hour_sikn_mass', 'масса за час по сикн', 'hour'),
+       (2, 'daily_vol_il1', 'объем за сутки ил1', 'daily'),
+       (3, 'shift_mass_il2', 'масса за смену ил2', 'shift'),
+       (4, 'month_vol_il2', 'объем за месяц ил2’', 'month'),
+       (5, 'year_sikn_mass', 'масса за год по сикн', 'year'),
        (6, 'hour_sikn_vol', 'объем за час по сикн', 'hour');
 SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
 

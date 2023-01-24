@@ -159,7 +159,7 @@ public class ReportsScheduler {
     private List<TagData> createAndSaveTagData(ReportType reportType, LocalDateTime currentDt, DateTimeRange startEndDt, String reportNameStr) {
         List<TagName> tagNames = tagNameService.getAllTagNamesByReportType(reportType);
         if(tagNames.isEmpty()){
-            throw new MissingDbDataException("There is not a single "+reportType.getName()+" tag name in DB");
+            throw new MissingDbDataException("There is not a single "+reportType.getId()+" tag name in DB");
         }
         LocalDateTime startDt = startEndDt.getStartDateTime();
         LocalDateTime endDt = startEndDt.getEndDateTime();
