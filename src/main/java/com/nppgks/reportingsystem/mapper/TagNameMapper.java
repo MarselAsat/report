@@ -1,10 +1,11 @@
-package com.nppgks.reportingsystem.dto;
+package com.nppgks.reportingsystem.mapper;
 
 import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportRow;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.TagName;
 import com.nppgks.reportingsystem.db.recurring_reports.repository.ReportTypeRepository;
 import com.nppgks.reportingsystem.db.recurring_reports.repository.ReportRowRepository;
+import com.nppgks.reportingsystem.dto.TagNameDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
