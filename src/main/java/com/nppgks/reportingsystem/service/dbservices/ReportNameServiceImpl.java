@@ -3,8 +3,8 @@ package com.nppgks.reportingsystem.service.dbservices;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportName;
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.db.recurring_reports.repository.ReportNameRepository;
-import com.nppgks.reportingsystem.service.timeservices.DateTimeRange;
-import com.nppgks.reportingsystem.service.timeservices.DateTimeRangeBuilder;
+import com.nppgks.reportingsystem.util.time.DateTimeRange;
+import com.nppgks.reportingsystem.util.time.DateTimeRangeBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

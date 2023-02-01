@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.service.timeservices;
+package com.nppgks.reportingsystem.util.time;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,6 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 
 public class DateTimeRangeBuilder {
+
     public static DateTimeRange buildDateRangeForSearchingHourReport(String dtCreationStr){
         LocalDateTime dtCreationStart = LocalDateTime.parse(dtCreationStr + "T02:00");
         LocalDate endDay = LocalDate.parse(dtCreationStr).plusDays(1);
@@ -70,13 +71,8 @@ public class DateTimeRangeBuilder {
         return new DateTimeRange(startDt, endDt);
     }
 
-    public static DateTimeRange buildStartEndDateForShiftReport(LinkedHashMap<String, String> shiftNumAndStartTime, String shiftNum, LocalDateTime reportDtCreation) {
-
-//        Pattern pattern = Pattern.compile("\\d смен");
-//        Matcher matcher = pattern.matcher(reportName);
-//        matcher.find();
-//        String shiftNum = matcher.group(0).substring(0, 1);
-        String startTimeStr = shiftNumAndStartTime.get(shiftNum);
+    public static DateTimeRange buildStartEndDateForShiftReport(LinkedHashMap<String, String> shiftNumToStartTime, String shiftNum, LocalDateTime reportDtCreation) {
+        String startTimeStr = shiftNumToStartTime.get(shiftNum);
         LocalTime startTime = LocalTime.parse(startTimeStr);
         LocalTime reportTimeCreation = reportDtCreation.toLocalTime();
         LocalDate startDate;
@@ -90,9 +86,9 @@ public class DateTimeRangeBuilder {
 
         int shiftNumInt = Integer.parseInt(shiftNum);
 
-        String nextShiftNum = shiftNumInt == shiftNumAndStartTime.size() ? 1 + "" : ++shiftNumInt + "";
+        String nextShiftNum = shiftNumInt == shiftNumToStartTime.size() ? 1 + "" : ++shiftNumInt + "";
 
-        LocalTime endTime = LocalTime.parse(shiftNumAndStartTime.get(nextShiftNum));
+        LocalTime endTime = LocalTime.parse(shiftNumToStartTime.get(nextShiftNum));
 
         return new DateTimeRange(
                 LocalDateTime.of(startDate, startTime),

@@ -9,7 +9,7 @@ import com.nppgks.reportingsystem.service.dbservices.SettingsService;
 import com.nppgks.reportingsystem.service.dbservices.TagDataService;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportNameService;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagDataService;
-import com.nppgks.reportingsystem.service.timeservices.SingleDateTimeFormatter;
+import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -32,14 +32,6 @@ public class ReportViewController {
     private final TagDataService tagDataService;
 
     private final SettingsService settingsService;
-
-
-
-//    @GetMapping("/tagData/{reportNameId}")
-//    @ResponseBody
-//    public List<TagDataDto> getTagData(@PathVariable Long reportNameId){
-//        return tagDataService.getDataByReport(reportNameId);
-//    }
 
     @GetMapping(value = "/dailyReport/{reportNameId}")
     public String getDailyReport(ModelMap modelMap,

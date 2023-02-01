@@ -6,7 +6,7 @@ import com.nppgks.reportingsystem.opc.ArrayParser;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.CalcService;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportNameService;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagDataService;
-import com.nppgks.reportingsystem.service.timeservices.SingleDateTimeFormatter;
+import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
