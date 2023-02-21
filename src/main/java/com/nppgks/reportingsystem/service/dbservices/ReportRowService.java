@@ -3,7 +3,7 @@ package com.nppgks.reportingsystem.service.dbservices;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportRow;
 import com.nppgks.reportingsystem.db.recurring_reports.repository.ReportRowRepository;
 import com.nppgks.reportingsystem.dto.ReportRowDto;
-import com.nppgks.reportingsystem.dto.ReportRowMapper;
+import com.nppgks.reportingsystem.mapper.ReportRowMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

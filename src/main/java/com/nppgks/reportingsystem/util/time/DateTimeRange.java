@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.service.timeservices;
+package com.nppgks.reportingsystem.util.time;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

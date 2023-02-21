@@ -9,8 +9,8 @@ import com.nppgks.reportingsystem.db.recurring_reports.entity.TagName;
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import com.nppgks.reportingsystem.opc.OpcRequests;
 import com.nppgks.reportingsystem.service.dbservices.*;
-import com.nppgks.reportingsystem.service.timeservices.DateTimeRange;
-import com.nppgks.reportingsystem.service.timeservices.DateTimeRangeBuilder;
+import com.nppgks.reportingsystem.util.time.DateTimeRange;
+import com.nppgks.reportingsystem.util.time.DateTimeRangeBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
-import static com.nppgks.reportingsystem.service.timeservices.SingleDateTimeFormatter.formatToSinglePattern;
+import static com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter.formatToSinglePattern;
 
 @Service
 @RequiredArgsConstructor

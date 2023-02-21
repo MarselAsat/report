@@ -8,7 +8,7 @@ import com.nppgks.reportingsystem.db.calculations.repository.ReportNameRepositor
 import com.nppgks.reportingsystem.db.calculations.repository.TagDataRepository;
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameForOpc;
 import com.nppgks.reportingsystem.opc.ArrayParser;
-import com.nppgks.reportingsystem.service.timeservices.SingleDateTimeFormatter;
+import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;

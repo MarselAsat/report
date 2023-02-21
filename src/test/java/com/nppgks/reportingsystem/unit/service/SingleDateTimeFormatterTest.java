@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.unit.service;
 
-import com.nppgks.reportingsystem.service.timeservices.SingleDateTimeFormatter;
+import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
