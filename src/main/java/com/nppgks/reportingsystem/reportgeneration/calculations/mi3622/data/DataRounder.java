@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 
 public class DataRounder {
 
+    private final static int PRECISION = 4;
+
     public static void round(Object o) {
         Field[] declaredFields = o.getClass().getDeclaredFields();
         try {
@@ -32,7 +34,7 @@ public class DataRounder {
 
     private static Double roundDouble(Double value) {
         if(value != null){
-            return DoubleRounder.round(value, 4);
+            return DoubleRounder.round(value, PRECISION);
         }
         return value;
     }
@@ -40,7 +42,7 @@ public class DataRounder {
     private static double[] roundDoubleArray(double[] array) {
         if (array != null) {
             for (int i = 0; i < array.length; i++) {
-                array[i] = DoubleRounder.round(array[i], 4);
+                array[i] = DoubleRounder.round(array[i], PRECISION);
             }
         }
         return array;
@@ -50,7 +52,7 @@ public class DataRounder {
         if (array2D != null) {
             for (int i = 0; i < array2D.length; i++) {
                 for (int j = 0; j < array2D[0].length; j++) {
-                    array2D[i][j] = DoubleRounder.round(array2D[i][j], 4);
+                    array2D[i][j] = DoubleRounder.round(array2D[i][j], PRECISION);
                 }
             }
         }
