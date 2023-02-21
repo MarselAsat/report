@@ -34,7 +34,10 @@ public class CalcService {
 
         Map<String, String> initialDataFromOpc = opcRequests.getTagDataFromOpc(initialTagNamesForOpc);
 
-        DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagNamesMap);
+        DataConverter.putInOrder2DArraysInOpcData(
+                initialDataFromOpc,
+                initialTagNamesMap.get("pointsCount"),
+                initialTagNamesMap.get("measureCount"));
 
         InitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagNamesMap);
         CalcRunner calcRunner = new CalcRunner(initialData);

@@ -22,8 +22,12 @@ public class DataConverter {
 
     private static final String CALCULATE_METHOD_PREFIX = "calculate";
 
+    /**
+     * Возвращается объект FinalData, поля которого высчитываются по формулам из MI3622Calculation
+     */
 
-    public static void setCalcFinalDataFields(FinalData finalData, MI3622Calculation calc){
+    public static FinalData calculateFinalData(MI3622Calculation calc){
+        FinalData finalData = new FinalData();
         Field[] declaredFields = FinalData.class.getDeclaredFields();
         Class<? extends MI3622Calculation> calcClass = calc.getClass();
         for(Field field : declaredFields){
@@ -37,7 +41,16 @@ public class DataConverter {
                 throw new RuntimeException(e);
             }
         }
+        return finalData;
     }
+
+    /**
+     * Возвращается объект Map<String, Object>, построенный на основе значений полей finalData.
+     * Каждому полю в FinalData соответствует имя тега, которое знает OPC.
+     * Соответствия имен тегов и имен полей FinalData содержатся в параметре tagNamesMap.
+     * Ключ в map это имя тега из OPC, а значение это значение этого тега,
+     * которое берется из соответствующего поля finalData
+     */
 
     public static Map<String, Object> convertFinalDataToMap(FinalData finalData, Map<String, String> tagNamesMap){
 
@@ -62,6 +75,13 @@ public class DataConverter {
 
         return map;
     }
+
+    /**
+     * Возвращается объект InitialData, значения которого берутся из dataFromOpc.
+     * В dataFromOpc ключ - это имя тега, а значение - это значение тега.
+     * В tagNamesMap содержатся соответствия имени тега и имени полей в InitialData.
+     * C использованием tagNamesMap и dataFromOpc заполняются поля InitialData.
+     */
 
     public static InitialData convertMapToInitialData(Map<String, String> dataFromOpc, Map<String, String> tagNamesMap){
         InitialData initialData = new InitialData();
@@ -107,9 +127,14 @@ public class DataConverter {
         return initialData;
     }
 
-    public static void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, Map<String, String> tagNamesMap) {
-        int pointsCount = parseInt(dataFromOpc.get(tagNamesMap.get("pointsCount")));
-        int measureCount = parseInt(dataFromOpc.get(tagNamesMap.get("measureCount")));
+    /**
+     * Двумерные массивы из OPC приходят в виде одномерного массива: [x, x, x, x, ...]
+     * Этот метод меняет вид двумерных массивов (value из dataFromOpc) на [[x, x, ...],[x, x, ...]...]
+     */
+
+    public static void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, String pointsCountTagName, String measureCountTagName) {
+        int pointsCount = parseInt(dataFromOpc.get(pointsCountTagName));
+        int measureCount = parseInt(dataFromOpc.get(measureCountTagName));
         for(Map.Entry<String, String> entry: dataFromOpc.entrySet()){
             String value = entry.getValue();
             if(value.matches(ARRAY_REGEX)){
