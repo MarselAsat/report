@@ -9,6 +9,13 @@ import java.util.LinkedHashMap;
 
 public class DateTimeRangeBuilder {
 
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * в рамках которого будет производиться поиск часового отчета.
+     * Если в веб интерфейсе выбран часовой отчет и определенный день,
+     * то показываются часовые отчеты за этот день.
+     * */
+
     public static DateTimeRange buildDateRangeForSearchingHourReport(String dtCreationStr){
         LocalDateTime dtCreationStart = LocalDateTime.parse(dtCreationStr + "T02:00");
         LocalDate endDay = LocalDate.parse(dtCreationStr).plusDays(1);
@@ -16,11 +23,25 @@ public class DateTimeRangeBuilder {
         return new DateTimeRange(dtCreationStart, dtCreationEnd);
     }
 
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * в рамках которого будет производиться поиск суточного отчета.
+     * Если в веб интерфейсе выбран суточный отчет и определенный день,
+     * то показываются суточные отчеты за этот день.
+     * */
+
     public static DateTimeRange buildDateRangeForSearchingDailyReport(String dtCreationStr){
         LocalDateTime dtCreationStart = LocalDateTime.parse(dtCreationStr + "T00:00").plusDays(1);
         LocalDateTime dtCreationEnd = LocalDateTime.parse(dtCreationStr + "T23:59").plusDays(1);
         return new DateTimeRange(dtCreationStart, dtCreationEnd);
     }
+
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * в рамках которого будет производиться поиск месячного отчета.
+     * Если в веб интерфейсе выбран месячный отчет и определенный день,
+     * то показываются месячные отчеты за месяц, к которому принадлежит выбранный день.
+     * */
 
     public static DateTimeRange buildDateRangeForSearchingMonthReport(String dtCreationStr){
         LocalDate dateForMonthReport = LocalDate.parse(dtCreationStr).plusMonths(1);
@@ -31,6 +52,13 @@ public class DateTimeRangeBuilder {
         return new DateTimeRange(dtCreationStart, dtCreationEnd);
     }
 
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * в рамках которого будет производиться поиск годового отчета.
+     * Если в веб интерфейсе выбран годовой отчет и определенный день,
+     * то показываются годовые отчеты за год, к которому принадлежит выбранный день.
+     * */
+
     public static DateTimeRange buildDateRangeForSearchingYearReport(String dtCreationStr){
         LocalDate dateForYearReport = LocalDate.parse(dtCreationStr).plusYears(1);
         int y = dateForYearReport.getYear();
@@ -38,6 +66,13 @@ public class DateTimeRangeBuilder {
         LocalDateTime dtCreationEnd = LocalDateTime.of(y, 12, 31, 23, 59);
         return new DateTimeRange(dtCreationStart, dtCreationEnd);
     }
+
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * определяющий начало и конец периода, за который формируется часовой отчет.
+     * Например, если часовой отчет создается в 10:15,
+     * то начало периода будет в 09:00, а конец в 10:00.
+     * */
 
     public static DateTimeRange buildStartEndDateForHourReport(LocalDateTime dateTime){
         LocalDateTime startDt = dateTime.minusHours(1).withMinute(0)
@@ -47,6 +82,13 @@ public class DateTimeRangeBuilder {
         return new DateTimeRange(startDt, endDt);
     }
 
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * определяющий начало и конец периода, за который формируется суточный отчет.
+     * Например, если суточный отчет создается в 10:15 21 февраля,
+     * то начало периода будет в 10:00 20 февраля, а конец в 10:00 21 февраля.
+     * */
+
     public static DateTimeRange buildStartEndDateForDailyReport(LocalDateTime dateTime){
         LocalDateTime startDt = dateTime.minusDays(1).withMinute(0)
                 .truncatedTo(ChronoUnit.MINUTES);
@@ -54,6 +96,13 @@ public class DateTimeRangeBuilder {
                 .truncatedTo(ChronoUnit.MINUTES);
         return new DateTimeRange(startDt, endDt);
     }
+
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * определяющий начало и конец периода, за который формируется месячный отчет.
+     * Например, если месячный отчет создается в 10:15 1 февраля,
+     * то начало периода будет в 10:00 1 января, а конец в 10:00 1 февраля.
+     * */
 
     public static DateTimeRange buildStartEndDateForMonthReport(LocalDateTime dateTime){
         LocalDateTime startDt = dateTime.minusMonths(1).withMinute(0)
@@ -63,6 +112,13 @@ public class DateTimeRangeBuilder {
         return new DateTimeRange(startDt, endDt);
     }
 
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * определяющий начало и конец периода, за который формируется годовой отчет.
+     * Например, если годовой отчет создается в 10:15 1 января 2023г,
+     * то начало периода будет в 10:00 1 января 2022г, а конец в 10:00 1 января 2023г.
+     * */
+
     public static DateTimeRange buildStartEndDateForYearReport(LocalDateTime dateTime){
         LocalDateTime startDt = dateTime.minusYears(1).withMinute(0)
                 .truncatedTo(ChronoUnit.MINUTES);
@@ -70,6 +126,13 @@ public class DateTimeRangeBuilder {
                 .truncatedTo(ChronoUnit.MINUTES);
         return new DateTimeRange(startDt, endDt);
     }
+
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * определяющий начало и конец периода, за который формируется сменный отчет.
+     * Например, если сменный отчет за 1 смену (с 10:00 до 18:00) создается в 18:15 21 февраля,
+     * то начало периода будет в 10:00 21 февраля, а конец в 18:00 21 февраля.
+     * */
 
     public static DateTimeRange buildStartEndDateForShiftReport(LinkedHashMap<String, String> shiftNumToStartTime, String shiftNum, LocalDateTime reportDtCreation) {
         String startTimeStr = shiftNumToStartTime.get(shiftNum);
