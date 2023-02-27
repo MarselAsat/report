@@ -28,10 +28,7 @@ public class ReportNameServiceImpl implements ReportNameService{
 
     @Override
     public List<ReportName> getReportNameByDateAndReportId(String reportTypeId, LocalDate dtCreation) {
-        if(reportTypeId==null){
-            return findByDate(dtCreation.toString());
-        }
-        else if(dtCreation==null){
+        if(dtCreation==null){
             return findByReportTypeId(reportTypeId);
         }
         else{
