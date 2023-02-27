@@ -3,7 +3,7 @@ package com.nppgks.reportingsystem.integration.service.calc_method_3622;
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameForOpc;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ServiceIT;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622InDbService;
+import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622DbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -13,13 +13,13 @@ import java.util.Map;
 
 @ServiceIT
 @Sql({"classpath:sql/calculation/calc-method-3622.sql"})
-class MI3622InDbServiceTest extends IntegrationBaseTest {
+class MI3622DbServiceTest extends IntegrationBaseTest {
 
-    private final MI3622InDbService MI3622InDbService;
+    private final MI3622DbService MI3622DbService;
 
     @Autowired
-    MI3622InDbServiceTest(MI3622InDbService MI3622InDbService) {
-        this.MI3622InDbService = MI3622InDbService;
+    MI3622DbServiceTest(MI3622DbService MI3622DbService) {
+        this.MI3622DbService = MI3622DbService;
     }
 
     @Test
@@ -51,10 +51,10 @@ class MI3622InDbServiceTest extends IntegrationBaseTest {
                 new CalcTagNameForOpc(41, "WinCC_OA.rep_test.K_j", "K_j")
         );
 
-        MI3622InDbService.setFinalDataForOpc(finalDataForOpc);
-        MI3622InDbService.setInitialDataFromOpc(initialDataFromOpc);
-        MI3622InDbService.setInitialTagNames(initialTagNames);
-        MI3622InDbService.setFinalTagNames(finalTagNames);
-        MI3622InDbService.saveCalculations();
+        MI3622DbService.setFinalDataForOpc(finalDataForOpc);
+        MI3622DbService.setInitialDataFromOpc(initialDataFromOpc);
+        MI3622DbService.setInitialTagNames(initialTagNames);
+        MI3622DbService.setFinalTagNames(finalTagNames);
+        MI3622DbService.saveCalculations();
     }
 }

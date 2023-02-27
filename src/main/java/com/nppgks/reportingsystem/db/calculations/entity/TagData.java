@@ -6,7 +6,6 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Entity(name = "calc_tag_data")
@@ -26,11 +25,6 @@ public class TagData {
     @NotNull
     @Column(name = "data")
     private String data;
-
-    @NotNull
-    @Pattern(regexp = "array2D|array|singleValue")
-    @Column(name = "data_type")
-    private String dataType;
 
     @NotNull
     @ManyToOne

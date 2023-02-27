@@ -21,7 +21,7 @@ public class MI3622Service {
     private final OpcRequests opcRequests;
     private final CalcTagNameService calcTagNameService;
 
-    private final MI3622InDbService MI3622InDbService;
+    private final MI3622DbService MI3622DbService;
 
     public void doCalc3622() {
         List<CalcTagNameForOpc> initialTagNames = calcTagNameService.getTagNamesByInitialAndType(true, CalcMethod.MI_3622.name());
@@ -57,10 +57,10 @@ public class MI3622Service {
                                      Map<String, String> initialDataFromOpc,
                                      List<CalcTagNameForOpc> finalTagNames,
                                      Map<String, Object> finalDataForOpc) {
-        MI3622InDbService.setInitialDataFromOpc(initialDataFromOpc);
-        MI3622InDbService.setInitialTagNames(initialTagNames);
-        MI3622InDbService.setFinalTagNames(finalTagNames);
-        MI3622InDbService.setFinalDataForOpc(finalDataForOpc);
+        MI3622DbService.setInitialDataFromOpc(initialDataFromOpc);
+        MI3622DbService.setInitialTagNames(initialTagNames);
+        MI3622DbService.setFinalTagNames(finalTagNames);
+        MI3622DbService.setFinalDataForOpc(finalDataForOpc);
     }
 
     private Map<String, String> createTagNamesMap(List<CalcTagNameForOpc> tagNamesForOpc){
@@ -69,6 +69,6 @@ public class MI3622Service {
     }
 
     public void saveInDb() {
-        MI3622InDbService.saveCalculations();
+        MI3622DbService.saveCalculations();
     }
 }

@@ -1,6 +1,5 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
 
-import com.nppgks.reportingsystem.constants.DataType;
 import com.nppgks.reportingsystem.constants.CalcMethod;
 import com.nppgks.reportingsystem.db.calculations.entity.ReportName;
 import com.nppgks.reportingsystem.db.calculations.entity.TagData;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @Setter
 @RequiredArgsConstructor
-public class MI3622InDbService {
+public class MI3622DbService {
     private List<CalcTagNameForOpc> initialTagNames; // (id, tag name, permanent tag name)
     private Map<String, String> initialDataFromOpc; // (tag name, tag data)
     private Map<String, Object> finalDataForOpc;
@@ -69,7 +68,6 @@ public class MI3622InDbService {
             TagData tagData = new TagData(
                     null,
                     value,
-                    getDataType(value),
                     CalcTagNameForOpc.toTagName(initialTagNamesMap.get(entry.getKey())),
                     reportName
             );
@@ -82,23 +80,12 @@ public class MI3622InDbService {
             TagData tagData = new TagData(
                     null,
                     value,
-                    getDataType(value),
                     CalcTagNameForOpc.toTagName(finalTagNamesMap.get(entry.getKey())),
                     reportName
             );
             tagDataList.add(tagData);
         }
         return tagDataList;
-    }
-
-    private String getDataType(String value) {
-        if (value.matches("\\[\\[.*")) {
-            return DataType.array2D.name();
-        } else if (value.matches("\\[.*")) {
-            return DataType.array.name();
-        } else {
-            return DataType.singleValue.name();
-        }
     }
 
     private ReportName createReportName() {
