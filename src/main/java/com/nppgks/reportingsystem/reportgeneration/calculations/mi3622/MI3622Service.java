@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CalcService {
+public class MI3622Service {
 
     private final OpcRequests opcRequests;
     private final CalcTagNameService calcTagNameService;
 
-    private final Calc3622InDbService calc3622InDbService;
+    private final MI3622InDbService MI3622InDbService;
 
     public void doCalc3622() {
         List<CalcTagNameForOpc> initialTagNames = calcTagNameService.getTagNamesByInitialAndType(true, CalcMethod.MI_3622.name());
@@ -40,8 +40,8 @@ public class CalcService {
                 initialTagNamesMap.get("measureCount"));
 
         InitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagNamesMap);
-        CalcRunner calcRunner = new CalcRunner(initialData);
-        FinalData finalData = calcRunner.run();
+        MI3622Runner MI3622Runner = new MI3622Runner(initialData);
+        FinalData finalData = MI3622Runner.run();
 
         List<CalcTagNameForOpc> finalTagNames = calcTagNameService.getTagNamesByInitialAndType(false, CalcMethod.MI_3622.name());
 
@@ -57,10 +57,10 @@ public class CalcService {
                                      Map<String, String> initialDataFromOpc,
                                      List<CalcTagNameForOpc> finalTagNames,
                                      Map<String, Object> finalDataForOpc) {
-        calc3622InDbService.setInitialDataFromOpc(initialDataFromOpc);
-        calc3622InDbService.setInitialTagNames(initialTagNames);
-        calc3622InDbService.setFinalTagNames(finalTagNames);
-        calc3622InDbService.setFinalDataForOpc(finalDataForOpc);
+        MI3622InDbService.setInitialDataFromOpc(initialDataFromOpc);
+        MI3622InDbService.setInitialTagNames(initialTagNames);
+        MI3622InDbService.setFinalTagNames(finalTagNames);
+        MI3622InDbService.setFinalDataForOpc(finalDataForOpc);
     }
 
     private Map<String, String> createTagNamesMap(List<CalcTagNameForOpc> tagNamesForOpc){
@@ -69,6 +69,6 @@ public class CalcService {
     }
 
     public void saveInDb() {
-        calc3622InDbService.saveCalculations();
+        MI3622InDbService.saveCalculations();
     }
 }

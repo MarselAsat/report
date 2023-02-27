@@ -20,10 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Класс, отвечающий за сохранение данных МИ3622 (исходные данные + результаты вычислений) в базу данных
+ */
 @Service
 @Setter
 @RequiredArgsConstructor
-public class Calc3622InDbService {
+public class MI3622InDbService {
     private List<CalcTagNameForOpc> initialTagNames; // (id, tag name, permanent tag name)
     private Map<String, String> initialDataFromOpc; // (tag name, tag data)
     private Map<String, Object> finalDataForOpc;
@@ -32,28 +35,31 @@ public class Calc3622InDbService {
     private final TagDataRepository tagDataRepository;
 
     @Transactional
-    public void saveCalculations(){
-        ReportName reportName = createReportNameCalc();
+    public void saveCalculations() {
+        ReportName reportName = createReportName();
 
         Map<String, CalcTagNameForOpc> initialTagNamesMap = convertListToMap(initialTagNames);
         Map<String, CalcTagNameForOpc> finalTagNamesMap = convertListToMap(finalTagNames);
 
         ReportName savedReportName = reportNameRepository.save(reportName);
 
-        List<TagData> tagDataList = createListOfTagDataCalc3622(
+        List<TagData> tagDataList = createListOfTagDataMI3622(
                 savedReportName,
                 initialTagNamesMap,
                 finalTagNamesMap);
         tagDataRepository.saveAll(tagDataList);
     }
 
-    private Map<String, CalcTagNameForOpc> convertListToMap(List<CalcTagNameForOpc> initialTagNames) {
-        return initialTagNames.stream()
+    /** конвертация списка объектов CalcTagNameForOpc (id, tagName, permanentTagName)
+     *  в map (key = CalcTagNameForOpc.name, value = calcTagNameForOpc)
+     */
+    private Map<String, CalcTagNameForOpc> convertListToMap(List<CalcTagNameForOpc> tagNames) {
+        return tagNames.stream()
                 .map(tn -> Map.entry(tn.name(), tn))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(e1, e2) -> e1));
     }
 
-    private List<TagData> createListOfTagDataCalc3622(
+    private List<TagData> createListOfTagDataMI3622 (
             ReportName reportName,
             Map<String, CalcTagNameForOpc> initialTagNamesMap,
             Map<String, CalcTagNameForOpc> finalTagNamesMap) {
@@ -95,7 +101,7 @@ public class Calc3622InDbService {
         }
     }
 
-    private ReportName createReportNameCalc() {
+    private ReportName createReportName() {
         LocalDateTime dt = LocalDateTime.now();
         return new ReportName(
                 null,

@@ -3,7 +3,7 @@ package com.nppgks.reportingsystem.integration.service.calc_method_3622;
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameForOpc;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ServiceIT;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.Calc3622InDbService;
+import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622InDbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -13,13 +13,13 @@ import java.util.Map;
 
 @ServiceIT
 @Sql({"classpath:sql/calculation/calc-method-3622.sql"})
-class Calc3622InDbServiceTest extends IntegrationBaseTest {
+class MI3622InDbServiceTest extends IntegrationBaseTest {
 
-    private final Calc3622InDbService calc3622InDbService;
+    private final MI3622InDbService MI3622InDbService;
 
     @Autowired
-    Calc3622InDbServiceTest(Calc3622InDbService calc3622InDbService) {
-        this.calc3622InDbService = calc3622InDbService;
+    MI3622InDbServiceTest(MI3622InDbService MI3622InDbService) {
+        this.MI3622InDbService = MI3622InDbService;
     }
 
     @Test
@@ -51,10 +51,10 @@ class Calc3622InDbServiceTest extends IntegrationBaseTest {
                 new CalcTagNameForOpc(41, "WinCC_OA.rep_test.K_j", "K_j")
         );
 
-        calc3622InDbService.setFinalDataForOpc(finalDataForOpc);
-        calc3622InDbService.setInitialDataFromOpc(initialDataFromOpc);
-        calc3622InDbService.setInitialTagNames(initialTagNames);
-        calc3622InDbService.setFinalTagNames(finalTagNames);
-        calc3622InDbService.saveCalculations();
+        MI3622InDbService.setFinalDataForOpc(finalDataForOpc);
+        MI3622InDbService.setInitialDataFromOpc(initialDataFromOpc);
+        MI3622InDbService.setInitialTagNames(initialTagNames);
+        MI3622InDbService.setFinalTagNames(finalTagNames);
+        MI3622InDbService.saveCalculations();
     }
 }
