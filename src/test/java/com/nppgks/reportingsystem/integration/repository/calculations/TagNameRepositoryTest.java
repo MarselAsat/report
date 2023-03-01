@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RepositoryIT
-@Sql({"classpath:sql/calculation/calc-method-3622.sql"})
+@Sql({"classpath:sql/calculation/calc-MI3622.sql"})
 class TagNameRepositoryTest extends IntegrationBaseTest {
 
     private final TagNameRepository tagNameRepository;

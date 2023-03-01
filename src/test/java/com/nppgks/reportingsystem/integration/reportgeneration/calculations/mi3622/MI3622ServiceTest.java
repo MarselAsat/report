@@ -11,7 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 @ServiceIT
 @ExtendWith(MockitoExtension.class)
-@Sql({"classpath:sql/calculation/calc-method-3622.sql"})
+@Sql({"classpath:sql/calculation/calc-MI3622.sql"})
 class MI3622ServiceTest extends IntegrationBaseTest {
 
     private final MI3622Service MI3622Service;

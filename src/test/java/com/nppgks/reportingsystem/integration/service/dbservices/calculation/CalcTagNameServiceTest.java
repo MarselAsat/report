@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ServiceIT
-@Sql({"classpath:sql/calculation/calc-method-3622.sql"})
+@Sql({"classpath:sql/calculation/calc-MI3622.sql"})
 class CalcTagNameServiceTest extends IntegrationBaseTest {
 
     private final CalcTagNameService calcTagNameService;

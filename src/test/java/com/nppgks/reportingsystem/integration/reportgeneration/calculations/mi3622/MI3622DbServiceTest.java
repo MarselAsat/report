@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @ServiceIT
-@Sql({"classpath:sql/calculation/calc-method-3622.sql"})
+@Sql({"classpath:sql/calculation/calc-MI3622.sql"})
 class MI3622DbServiceTest extends IntegrationBaseTest {
 
     private final MI3622DbService MI3622DbService;
