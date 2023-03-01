@@ -66,6 +66,45 @@
                         <div class="list-group-item">
                             <div class="row align-items-center">
                                 <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в двухчасовом отчете</p>
+                                </div>
+                                <div class="col-auto" id="twohour-columns">
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="sikn" class="form-check-input"
+                                               th:checked="${twohourColumns.contains('sikn')}" autocomplete="off">
+                                        <label class="form-check-label">СИКН</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il1" class="form-check-input"
+                                               th:checked="${twohourColumns.contains('il1')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №1</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il2" class="form-check-input"
+                                               th:checked="${twohourColumns.contains('il2')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №2</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il3" class="form-check-input"
+                                               th:checked="${twohourColumns.contains('il3')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №3</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="il4" class="form-check-input"
+                                               th:checked="${twohourColumns.contains('il4')}" autocomplete="off">
+                                        <label class="form-check-label">ИЛ №4</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" name="bik" class="form-check-input"
+                                               th:checked="${twohourColumns.contains('bik')}" autocomplete="off">
+                                        <label class="form-check-label">БИК</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
                                     <p class="mb-0">Столбцы, отображающиеся в суточном отчете</p>
                                 </div>
                                 <div class="col-auto" id="daily-columns">

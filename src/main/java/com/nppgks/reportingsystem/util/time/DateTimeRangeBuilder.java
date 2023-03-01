@@ -17,9 +17,23 @@ public class DateTimeRangeBuilder {
      * */
 
     public static DateTimeRange buildDateRangeForSearchingHourReport(String dtCreationStr){
-        LocalDateTime dtCreationStart = LocalDateTime.parse(dtCreationStr + "T02:00");
+        LocalDateTime dtCreationStart = LocalDateTime.parse(dtCreationStr + "T01:00");
         LocalDate endDay = LocalDate.parse(dtCreationStr).plusDays(1);
-        LocalDateTime dtCreationEnd = LocalDateTime.parse(endDay + "T01:59");
+        LocalDateTime dtCreationEnd = LocalDateTime.parse(endDay + "T00:59");
+        return new DateTimeRange(dtCreationStart, dtCreationEnd);
+    }
+
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * в рамках которого будет производиться поиск двухчасового отчета.
+     * Если в веб интерфейсе выбран двухчасовой отчет и определенный день,
+     * то показываются двухчасовые отчеты за этот день.
+     * */
+
+    public static DateTimeRange buildDateRangeForSearching2HourReport(String dateCreationStr){
+        LocalDateTime dtCreationStart = LocalDateTime.parse(dateCreationStr + "T02:00");
+        LocalDate endDay = LocalDate.parse(dateCreationStr).plusDays(1);
+        LocalDateTime dtCreationEnd = LocalDateTime.parse(endDay + "T00:59");
         return new DateTimeRange(dtCreationStart, dtCreationEnd);
     }
 
@@ -76,6 +90,21 @@ public class DateTimeRangeBuilder {
 
     public static DateTimeRange buildStartEndDateForHourReport(LocalDateTime dateTime){
         LocalDateTime startDt = dateTime.minusHours(1).withMinute(0)
+                .truncatedTo(ChronoUnit.MINUTES);
+        LocalDateTime endDt = dateTime.withMinute(0)
+                .truncatedTo(ChronoUnit.MINUTES);
+        return new DateTimeRange(startDt, endDt);
+    }
+
+    /**
+     * Этот метод используется для создания временного диапазона,
+     * определяющий начало и конец периода, за который формируется двухчасовой отчет.
+     * Например, если двуччасовой отчет создается в 10:15,
+     * то начало периода будет в 08:00, а конец в 10:00.
+     * */
+
+    public static DateTimeRange buildStartEndDateFor2HourReport(LocalDateTime dateTime) {
+        LocalDateTime startDt = dateTime.minusHours(2).withMinute(0)
                 .truncatedTo(ChronoUnit.MINUTES);
         LocalDateTime endDt = dateTime.withMinute(0)
                 .truncatedTo(ChronoUnit.MINUTES);

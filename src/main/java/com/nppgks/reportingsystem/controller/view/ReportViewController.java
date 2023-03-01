@@ -48,9 +48,21 @@ public class ReportViewController {
                             @PathVariable Long reportNameId){
         ReportName reportName = reportNameService.getById(reportNameId);
         List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
-        List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.HOUR_REPORT_COLUMNS);
-        fillModelMapForReportView(modelMap, reportName, reportViewTagData, dailyColumns);
+
+        // какие столбцы будут отображаться в таблице отчета. (например, 'ИЛ №1' будет, а 'ИЛ №2' не будет)
+        List<String> hourColumns = settingsService.getListValuesBySettingName(SettingsConstants.HOUR_REPORT_COLUMNS);
+        fillModelMapForReportView(modelMap, reportName, reportViewTagData, hourColumns);
         return "report_pages/hour-report-page";
+    }
+
+    @GetMapping(value = "/twohourReport/{reportNameId}")
+    public String get2HourReport(ModelMap modelMap,
+                                @PathVariable Long reportNameId){
+        ReportName reportName = reportNameService.getById(reportNameId);
+        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
+        List<String> twohourColumns = settingsService.getListValuesBySettingName(SettingsConstants.TWOHOUR_REPORT_COLUMNS);
+        fillModelMapForReportView(modelMap, reportName, reportViewTagData, twohourColumns);
+        return "report_pages/twohour-report-page";
     }
 
     @GetMapping(value = "/shiftReport/{reportNameId}")

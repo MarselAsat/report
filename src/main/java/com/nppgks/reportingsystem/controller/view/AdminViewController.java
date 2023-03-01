@@ -52,16 +52,13 @@ public class AdminViewController {
                 modelMap.put(reportTypeName+"StartTime",
                         settingsService.getMapValuesBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
             }
-            else if(!reportType.equals(ReportTypesEnum.hour)){
+            else if(!reportType.equals(ReportTypesEnum.hour) && !reportType.equals(ReportTypesEnum.twohour)){
                 modelMap.put(reportTypeName+"StartTime",
                         settingsService.getStringValueBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
             }
         }
         String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
         modelMap.put("meteringStationName", meteringStationName);
-
-        String sixOrSevenTable = settingsService.getStringValueBySettingName(SettingsConstants.MI3622_6OR7_TABLE);
-        modelMap.put("MI3622_6or7Table", sixOrSevenTable);
 
         return "settings";
     }
