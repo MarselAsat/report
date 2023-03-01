@@ -3,6 +3,9 @@ SET search_path TO calculations;
 -- InitialData
 INSERT INTO tag_name (id, permanent_name, name, description, initial, type)
 VALUES (1, 'Q_ij', 'WinCC_OA.rep_test.' || 'Q_ij', '', TRUE, 'MI_3622');
+
+SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
+
 INSERT INTO tag_name (permanent_name, name, description, initial, type)
 VALUES ('N_e_ij', 'WinCC_OA.rep_test.' || 'N_e_ij', '', TRUE, 'MI_3622'),
        ('N_p_ij', 'WinCC_OA.rep_test.' || 'N_p_ij', '', TRUE, 'MI_3622'),

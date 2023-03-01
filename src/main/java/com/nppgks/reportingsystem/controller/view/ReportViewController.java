@@ -3,7 +3,7 @@ package com.nppgks.reportingsystem.controller.view;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportName;
 import com.nppgks.reportingsystem.dto.ReportViewTagData;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
-import com.nppgks.reportingsystem.opc.ArrayParser;
+import com.nppgks.reportingsystem.util.ArrayParser;
 import com.nppgks.reportingsystem.service.dbservices.ReportNameService;
 import com.nppgks.reportingsystem.service.dbservices.SettingsService;
 import com.nppgks.reportingsystem.service.dbservices.TagDataService;

@@ -2,6 +2,7 @@ SET search_path TO recurring_reports;
 
 INSERT INTO report_type (id, name, description, active)
 VALUES ('hour', 'Часовой', 'Отчеты фомируемые каждый час', TRUE),
+       ('twohour', 'Двухчасовой', 'Отчеты фомируемые каждые два часа', TRUE),
        ('daily', 'Суточный', 'Отчеты фомируемые за сутки', TRUE),
        ('shift', 'Сменный', 'Отчеты фомируемые за смену', TRUE),
        ('month', 'Месячный', 'Отчеты фомируемые за месяц', TRUE),
@@ -13,7 +14,8 @@ VALUES (1, 'hour_mass_il1', 'масса за час ил1', 'hour'),
        (3, 'shift_mass_il2', 'масса за смену ил2', 'shift'),
        (4, 'month_vol_il2', 'объем за месяц ил2’', 'month'),
        (5, 'year_sikn_mass', 'масса за год по сикн', 'year'),
-       (6, 'hour_sikn_vol', 'объем за час по сикн', 'hour');
+       (6, 'hour_sikn_vol', 'объем за час по сикн', 'hour'),
+       (7, 'twohour_sikn_mass', 'масса за 2 часа по сикн', 'twohour');
 SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
 
 INSERT INTO report_name(id, report_type_id, name, creation_dt)
@@ -105,18 +107,26 @@ VALUES (25, 'year',
         'Годовой отчет за 2021',
         TO_TIMESTAMP('2022-01-01 22:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
+INSERT INTO report_name(id, report_type_id, name, creation_dt, start_dt, end_dt)
+VALUES (27, 'twohour',
+        'Двухчасовой отчет за период с 10:00 по 12:00 01.03.2023',
+        TO_TIMESTAMP('2023-03-01 12:00:50', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_TIMESTAMP('2023-03-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_TIMESTAMP('2023-03-01 12:00:00', 'YYYY-MM-DD HH24:MI:SS')),
+       (28, 'twohour',
+        'Двухчасовой отчет за период с 12:00 по 14:00 01.03.2023',
+        TO_TIMESTAMP('2022-03-01 12:01:00', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_TIMESTAMP('2023-03-01 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_TIMESTAMP('2023-03-01 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+
 SELECT SETVAL('report_name_id_seq', (SELECT MAX(id) FROM report_name));
 
 INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (80.0, TO_TIMESTAMP('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 1),
-       (120.0, TO_TIMESTAMP('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2, 1),
-       (160.0, TO_TIMESTAMP('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3, 1),
+       (120.0, TO_TIMESTAMP('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 6, 1),
        (81.0, TO_TIMESTAMP('2022-05-21 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 4),
-       (121.0, TO_TIMESTAMP('2022-05-21 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2, 4),
-       (161.0, TO_TIMESTAMP('2022-05-21 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3, 4),
+       (121.0, TO_TIMESTAMP('2022-05-21 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 6, 4),
        (82.0, TO_TIMESTAMP('2022-05-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 3),
-       (122.0, TO_TIMESTAMP('2022-05-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2, 3),
-       (162.0, TO_TIMESTAMP('2022-05-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3, 3),
+       (122.0, TO_TIMESTAMP('2022-05-20 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 6, 3),
        (83.0, TO_TIMESTAMP('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 2),
-       (123.0, TO_TIMESTAMP('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 2, 2),
-       (163.0, TO_TIMESTAMP('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 3, 2);
+       (123.0, TO_TIMESTAMP('2022-05-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 6, 2);

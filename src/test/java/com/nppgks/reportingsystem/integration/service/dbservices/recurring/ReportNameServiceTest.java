@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.integration.service;
+package com.nppgks.reportingsystem.integration.service.dbservices.recurring;
 
 import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportName;
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;

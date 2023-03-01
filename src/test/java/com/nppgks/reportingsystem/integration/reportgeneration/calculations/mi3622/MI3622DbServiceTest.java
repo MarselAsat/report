@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.integration.service.calc_method_3622;
+package com.nppgks.reportingsystem.integration.reportgeneration.calculations.mi3622;
 
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameForOpc;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;

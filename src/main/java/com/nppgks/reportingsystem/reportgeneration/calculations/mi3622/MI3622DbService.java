@@ -6,7 +6,7 @@ import com.nppgks.reportingsystem.db.calculations.entity.TagData;
 import com.nppgks.reportingsystem.db.calculations.repository.ReportNameRepository;
 import com.nppgks.reportingsystem.db.calculations.repository.TagDataRepository;
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameForOpc;
-import com.nppgks.reportingsystem.opc.ArrayParser;
+import com.nppgks.reportingsystem.util.ArrayParser;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

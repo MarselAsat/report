@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.integration.service;
+package com.nppgks.reportingsystem.integration.service.dbservices.common;
 
 import com.nppgks.reportingsystem.constants.SettingsConstants;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;

@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.unit.service.calc3622.data;
+package com.nppgks.reportingsystem.unit.reportgeneration.calculations.mi3622;
 
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.DataConverter;

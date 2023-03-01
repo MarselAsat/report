@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.nppgks.reportingsystem.opc.ArrayParser.*;
+import static com.nppgks.reportingsystem.util.ArrayParser.*;
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;

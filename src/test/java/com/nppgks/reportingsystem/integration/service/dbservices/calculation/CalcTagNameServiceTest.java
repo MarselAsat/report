@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.integration.service.calc_method_3622;
+package com.nppgks.reportingsystem.integration.service.dbservices.calculation;
 
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameDto;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
