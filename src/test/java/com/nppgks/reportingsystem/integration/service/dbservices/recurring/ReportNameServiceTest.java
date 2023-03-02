@@ -28,8 +28,16 @@ class ReportNameServiceTest extends IntegrationBaseTest {
 
     @Test
     void getReportNameByDateAndReportId() {
-        List<ReportName> hourReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.hour.name(), LocalDate.parse("2022-05-20"));
-        assertThat(hourReportNames).hasSize(3);
+        List<ReportName> hourReportNames1 = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.hour.name(), LocalDate.parse("2022-05-20"));
+        assertThat(hourReportNames1).hasSize(4);
+        List<ReportName> hourReportNames2 = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.hour.name(), LocalDate.parse("2022-06-01"));
+        assertThat(hourReportNames2).hasSize(2);
+        List<ReportName> hourReportNames3 = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.hour.name(), LocalDate.parse("2023-02-28"));
+        assertThat(hourReportNames3).hasSize(1);
+
+        List<ReportName> twohourReportNames1 = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.twohour.name(), LocalDate.parse("2022-05-20"));
+        assertThat(twohourReportNames1).hasSize(3);
+
         List<ReportName> dailyReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.daily.name(), LocalDate.parse("2022-05-20"));
         assertThat(dailyReportNames).hasSize(1);
         List<ReportName> shiftReportNames = reportNameService.getReportNameByDateAndReportId(ReportTypesEnum.shift.name(), LocalDate.parse("2021-08-20"));
