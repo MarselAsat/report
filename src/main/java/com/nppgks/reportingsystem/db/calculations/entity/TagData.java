@@ -18,8 +18,8 @@ import java.util.Objects;
 public class TagData {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "calc.tag_data_id_seq")
-    @SequenceGenerator(name="calc.tag_data_id_seq", sequenceName = "tag_data_id_seq", schema="calculations")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "calc_tag_data_id_seq")
+    @SequenceGenerator(name="calc_tag_data_id_seq", sequenceName = "calc_tag_data_id_seq", schema = "calculations")
     private Long id;
 
     @NotNull

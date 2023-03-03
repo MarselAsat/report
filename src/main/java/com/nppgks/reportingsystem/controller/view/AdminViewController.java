@@ -2,6 +2,7 @@ package com.nppgks.reportingsystem.controller.view;
 
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
+import com.nppgks.reportingsystem.db.recurring_reports.entity.MeteringNode;
 import com.nppgks.reportingsystem.dto.ReportRowDto;
 import com.nppgks.reportingsystem.dto.ReportTypeDto;
 import com.nppgks.reportingsystem.service.dbservices.*;
@@ -20,6 +21,7 @@ public class AdminViewController {
     private final ReportTypeService reportTypeService;
     private final ReportRowService reportRowService;
     private final SettingsService settingsService;
+    private final MeteringNodeService meteringNodeService;
 
 
     @GetMapping("/calc-tag-name-editor")
@@ -32,6 +34,10 @@ public class AdminViewController {
         modelMap.put("reportTypes",
                 reportTypeService.getAllReportTypes().stream()
                 .map(ReportTypeDto::getName)
+                .toList());
+        modelMap.put("meteringNodes",
+                meteringNodeService.getAllNodes().stream()
+                .map(MeteringNode::getName)
                 .toList());
         modelMap.put("reportRows",
                 reportRowService.getAllReportRows().stream()

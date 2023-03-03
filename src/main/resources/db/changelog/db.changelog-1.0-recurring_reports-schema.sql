@@ -9,19 +9,26 @@ SET search_path TO recurring_reports;
 CREATE TABLE IF NOT EXISTS report_type
 (
     id          VARCHAR(32) PRIMARY KEY,
-    name        VARCHAR(256),
+    name        VARCHAR(256) NOT NULL,
     description VARCHAR(256),
     time_zone   INTEGER,
     active      BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS metering_node
+(
+    id VARCHAR(32) PRIMARY KEY,
+    name VARCHAR(32) NOT NULL,
+    UNIQUE (name)
 );
 
 --changeset alina.parfenteva:3
 CREATE TABLE IF NOT EXISTS report_row
 (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(256),
-    "order" INTEGER,
-    report_type_id VARCHAR(32) REFERENCES report_type (id)
+    name VARCHAR(256) NOT NULL,
+    "order" INTEGER NOT NULL,
+    report_type_id VARCHAR(32) REFERENCES report_type (id) NOT NULL
 );
 
 
@@ -29,10 +36,11 @@ CREATE TABLE IF NOT EXISTS report_row
 CREATE TABLE IF NOT EXISTS tag_name
 (
     id             BIGSERIAL PRIMARY KEY,
-    name           VARCHAR(256),
+    name           VARCHAR(256) NOT NULL ,
     description    VARCHAR(256),
-    report_type_id VARCHAR(32) REFERENCES report_type (id),
-    row_id         INTEGER REFERENCES report_row (id),
+    report_type_id VARCHAR(32) REFERENCES report_type (id) NOT NULL,
+    row_id         INTEGER REFERENCES report_row (id) NOT NULL,
+    metering_node_id VARCHAR(32) REFERENCES metering_node (id) NOT NULL,
     UNIQUE (name, report_type_id)
 );
 
