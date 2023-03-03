@@ -47,7 +47,7 @@ class ReportNameRepositoryTest extends IntegrationBaseTest {
         LocalDateTime end = LocalDateTime.of(2022, 5, 31, 0, 0);
         List<ReportName> reportNames = reportNameRepository
                 .findByDateRange(start, end);
-        assertThat(reportNames).hasSize(6);
+        assertThat(reportNames).hasSize(14);
     }
 
     @Test

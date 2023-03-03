@@ -1,6 +1,6 @@
-package com.nppgks.reportingsystem.unit;
+package com.nppgks.reportingsystem.unit.util;
 
-import com.nppgks.reportingsystem.opc.ArrayParser;
+import com.nppgks.reportingsystem.util.ArrayParser;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

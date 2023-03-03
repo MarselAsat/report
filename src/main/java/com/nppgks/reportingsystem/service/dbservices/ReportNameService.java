@@ -14,6 +14,4 @@ public interface ReportNameService {
     List<ReportName> findByReportTypeId(String reportTypeId);
 
     boolean saveReportName(ReportName reportName);
-
-    List<ReportName> findByDate(String date);
 }

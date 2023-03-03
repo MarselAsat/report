@@ -6,7 +6,6 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Entity(name = "calc_tag_data")
@@ -20,19 +19,12 @@ public class TagData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "calc.tag_data_id_seq")
-    // Странно, что чтобы прошла валидация, имя последовательности должно быть указано без схемы (tag_data_id_seq)
-    // а чтобы в тестах автоматически создалась эта последовательность и была видна, нужно указывать со схемой
     @SequenceGenerator(name="calc.tag_data_id_seq", sequenceName = "tag_data_id_seq", schema="calculations")
     private Long id;
 
     @NotNull
     @Column(name = "data")
     private String data;
-
-    @NotNull
-    @Pattern(regexp = "array2D|array|singleValue")
-    @Column(name = "data_type")
-    private String dataType;
 
     @NotNull
     @ManyToOne

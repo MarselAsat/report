@@ -1,8 +1,8 @@
-package com.nppgks.reportingsystem.integration.service.calc_method_3622;
+package com.nppgks.reportingsystem.integration.reportgeneration.calculations.mi3622;
 
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ServiceIT;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.CalcService;
+import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Service;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -11,19 +11,19 @@ import org.springframework.test.context.jdbc.Sql;
 
 @ServiceIT
 @ExtendWith(MockitoExtension.class)
-@Sql({"classpath:sql/calculation/calc-method-3622.sql"})
-class CalcServiceTest extends IntegrationBaseTest {
+@Sql({"classpath:sql/calculation/calc-MI3622.sql"})
+class MI3622ServiceTest extends IntegrationBaseTest {
 
-    private final CalcService calcService;
+    private final MI3622Service MI3622Service;
 
     @Autowired
-    CalcServiceTest(CalcService calcService) {
-        this.calcService = calcService;
+    MI3622ServiceTest(MI3622Service MI3622Service) {
+        this.MI3622Service = MI3622Service;
     }
 
     @Test
     //@Disabled
     void doCalc3622() {
-        calcService.doCalc3622();
+        MI3622Service.doCalc3622();
     }
 }

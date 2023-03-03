@@ -3,6 +3,7 @@
 --changeset alina.parfenteva:1
 INSERT INTO recurring_reports.report_type (id, name, description, active)
 VALUES ('hour', 'Часовой', 'Отчеты фомируемые каждый час', TRUE),
+       ('twohour', 'Двухчасовой', 'Отчеты фомируемые каждые 2 часа', TRUE),
        ('daily', 'Суточный', 'Отчеты фомируемые за сутки', TRUE),
        ('shift', 'Сменный', 'Отчеты фомируемые за смену', TRUE),
        ('month', 'Месячный', 'Отчеты фомируемые за месяц', TRUE),

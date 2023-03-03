@@ -28,7 +28,7 @@ class TagDataRepositoryTest extends IntegrationBaseTest {
     @Test
     void findByReportNameId() {
         List<TagData> tagData = tagDataRepository.findByReportNameId(1L);
-        assertThat(tagData).hasSize(3);
+        assertThat(tagData).hasSize(2);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.opc;
+package com.nppgks.reportingsystem.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

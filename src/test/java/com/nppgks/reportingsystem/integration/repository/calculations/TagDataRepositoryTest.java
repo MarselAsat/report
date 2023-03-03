@@ -1,6 +1,5 @@
 package com.nppgks.reportingsystem.integration.repository.calculations;
 
-import com.nppgks.reportingsystem.constants.DataType;
 import com.nppgks.reportingsystem.db.calculations.entity.ReportName;
 import com.nppgks.reportingsystem.db.calculations.entity.TagData;
 import com.nppgks.reportingsystem.db.calculations.repository.TagNameRepository;
@@ -39,22 +38,22 @@ class TagDataRepositoryTest extends IntegrationBaseTest {
         List<TagData> list = new ArrayList<>();
 
         tagNameRepository.findById(1).ifPresent(tag -> {
-                    TagData row = new TagData(null, arr2Dim, DataType.array2D.name(), tag, reportName);
+                    TagData row = new TagData(null, arr2Dim, tag, reportName);
                     list.add(row);
                 }
         );
         tagNameRepository.findById(2).ifPresent(tag -> {
-                    TagData row = new TagData(null, arr2Dim, DataType.array2D.name(), tag, reportName);
+                    TagData row = new TagData(null, arr2Dim, tag, reportName);
                     list.add(row);
                 }
         );
         tagNameRepository.findById(3).ifPresent(tag -> {
-                    TagData row = new TagData(null, arr2Dim, DataType.array2D.name(), tag, reportName);
+                    TagData row = new TagData(null, arr2Dim, tag, reportName);
                     list.add(row);
                 }
         );
         tagNameRepository.findById(4).ifPresent(tag -> {
-                    TagData row = new TagData(null, arr2Dim, DataType.array2D.name(), tag, reportName);
+                    TagData row = new TagData(null, arr2Dim, tag, reportName);
                     list.add(row);
                 }
         );

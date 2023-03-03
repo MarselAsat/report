@@ -1,7 +1,7 @@
 var prevShiftCount;
 
 function save(){
-    var reportTypes = ['hour', 'daily', 'shift', 'month', 'year'];
+    var reportTypes = ['hour', 'twohour', 'daily', 'shift', 'month', 'year'];
     var settings = new Map();
 
     for(var reportType of reportTypes){

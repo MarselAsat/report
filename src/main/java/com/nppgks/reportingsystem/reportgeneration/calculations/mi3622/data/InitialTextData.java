@@ -19,5 +19,4 @@ public class InitialTextData {
     private String check_testing;
     private String inspector_position;
     private String inspector_full_name;
-    private String date;
 }

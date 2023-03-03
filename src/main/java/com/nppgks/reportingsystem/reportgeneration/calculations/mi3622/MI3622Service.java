@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CalcService {
+public class MI3622Service {
 
     private final OpcRequests opcRequests;
     private final CalcTagNameService calcTagNameService;
 
-    private final Calc3622InDbService calc3622InDbService;
+    private final MI3622DbService MI3622DbService;
 
     public void doCalc3622() {
         List<CalcTagNameForOpc> initialTagNames = calcTagNameService.getTagNamesByInitialAndType(true, CalcMethod.MI_3622.name());
@@ -34,11 +34,14 @@ public class CalcService {
 
         Map<String, String> initialDataFromOpc = opcRequests.getTagDataFromOpc(initialTagNamesForOpc);
 
-        DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagNamesMap);
+        DataConverter.putInOrder2DArraysInOpcData(
+                initialDataFromOpc,
+                initialTagNamesMap.get("pointsCount"),
+                initialTagNamesMap.get("measureCount"));
 
         InitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagNamesMap);
-        CalcRunner calcRunner = new CalcRunner(initialData);
-        FinalData finalData = calcRunner.run();
+        MI3622Runner MI3622Runner = new MI3622Runner(initialData);
+        FinalData finalData = MI3622Runner.run();
 
         List<CalcTagNameForOpc> finalTagNames = calcTagNameService.getTagNamesByInitialAndType(false, CalcMethod.MI_3622.name());
 
@@ -54,10 +57,10 @@ public class CalcService {
                                      Map<String, String> initialDataFromOpc,
                                      List<CalcTagNameForOpc> finalTagNames,
                                      Map<String, Object> finalDataForOpc) {
-        calc3622InDbService.setInitialDataFromOpc(initialDataFromOpc);
-        calc3622InDbService.setInitialTagNames(initialTagNames);
-        calc3622InDbService.setFinalTagNames(finalTagNames);
-        calc3622InDbService.setFinalDataForOpc(finalDataForOpc);
+        MI3622DbService.setInitialDataFromOpc(initialDataFromOpc);
+        MI3622DbService.setInitialTagNames(initialTagNames);
+        MI3622DbService.setFinalTagNames(finalTagNames);
+        MI3622DbService.setFinalDataForOpc(finalDataForOpc);
     }
 
     private Map<String, String> createTagNamesMap(List<CalcTagNameForOpc> tagNamesForOpc){
@@ -66,6 +69,6 @@ public class CalcService {
     }
 
     public void saveInDb() {
-        calc3622InDbService.saveCalculations();
+        MI3622DbService.saveCalculations();
     }
 }

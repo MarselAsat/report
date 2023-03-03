@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.unit.service;
+package com.nppgks.reportingsystem.unit.util.time;
 
 import com.nppgks.reportingsystem.util.time.DateTimeRange;
 import com.nppgks.reportingsystem.util.time.DateTimeRangeBuilder;

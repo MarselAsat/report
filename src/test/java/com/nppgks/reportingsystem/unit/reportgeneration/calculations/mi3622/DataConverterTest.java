@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.unit.service.calc3622.data;
+package com.nppgks.reportingsystem.unit.reportgeneration.calculations.mi3622;
 
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.DataConverter;
@@ -25,8 +25,7 @@ class DataConverterTest {
         Mockito.doReturn(arr2Dim).when(poverkaMock).calculateM_e_ij();
         Mockito.doReturn(singleVal).when(poverkaMock).calculateK();
 
-        FinalData finalData = new FinalData();
-        DataConverter.setCalcFinalDataFields(finalData, poverkaMock);
+        FinalData finalData = DataConverter.calculateFinalData(poverkaMock);
 
         assertThat(finalData.getS_0j()).isEqualTo(arr1Dim);
         assertThat(finalData.getEps_j()).isEqualTo(arr1Dim);
@@ -135,7 +134,7 @@ class DataConverterTest {
         tagNamesMap.put("pointsCount", "tag.pointsCount");
         tagNamesMap.put("measureCount", "tag.measureCount");
         tagNamesMap.put("Q_ij", "tag.Q_ij");
-        DataConverter.putInOrder2DArraysInOpcData(dataFromOpc, tagNamesMap);
+        DataConverter.putInOrder2DArraysInOpcData(dataFromOpc, tagNamesMap.get("pointsCount"), tagNamesMap.get("measureCount"));
         assertThat(dataFromOpc.get("tag.Q_ij")).isEqualTo("[[1.0,2.0,3.0],[4.0,5.0,6.0]]");
     }
 

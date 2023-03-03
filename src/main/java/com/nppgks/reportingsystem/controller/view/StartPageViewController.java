@@ -33,14 +33,14 @@ public class StartPageViewController {
     public String getReportNameByDateAndReportType(ModelMap modelMap,
                                                    @RequestParam(required = false) LocalDate date,
                                                    @RequestParam(required = false) String reportTypeId){
-        if(date == null && reportTypeId == null){
+        if(date == null && reportTypeId == null) {
             return "redirect:/";
         }
-        if(reportTypeId.equals("poverki")){
+        else if(reportTypeId != null && reportTypeId.equals("poverki")) {
             var calcReportNames = calcReportNameService.findReportNameByDate(date);
             modelMap.put("reportNames", calcReportNames);
         }
-        else{
+        else if(reportTypeId != null){
             List<ReportName> reportNames = reportNameService.getReportNameByDateAndReportId(reportTypeId, date);
             modelMap.put("reportNames", reportNames);
         }

@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.integration.service;
+package com.nppgks.reportingsystem.integration.reportgeneration;
 
 import com.nppgks.reportingsystem.reportgeneration.recurring.ReportsScheduler;
 import org.springframework.boot.test.context.TestConfiguration;

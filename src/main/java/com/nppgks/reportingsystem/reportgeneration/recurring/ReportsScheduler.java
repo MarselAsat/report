@@ -73,6 +73,7 @@ public class ReportsScheduler {
     @PostConstruct
     public void initSchedule() {
         rescheduleService.scheduledHourReport = scheduleHourReport(reportsScheduler::generateTagDataForHourReport);
+        schedule2HourReport(reportsScheduler::generateTagDataFor2HourReport);
         rescheduleService.scheduledDailyReport = scheduleDailyReport(reportsScheduler::generateTagDataForDailyReport);
         rescheduleService.scheduledMonthReport = scheduleMonthReport(reportsScheduler::generateTagDataForMonthReport);
         rescheduleService.scheduledYearReport = scheduleYearReport(reportsScheduler::generateTagDataForYearReport);
@@ -93,6 +94,26 @@ public class ReportsScheduler {
                     formatToSinglePattern(startDt.toLocalDate())
             );
             return createAndSaveTagData(hourReportType, currentDt, startEndDt, name);
+        }
+        return List.of();
+    }
+
+    // every 2 hour at 00 minutes
+    @Transactional
+    public List<TagData> generateTagDataFor2HourReport() {
+        log.info("Создание двухчасового отчета...");
+        ReportType twoHourReportType = reportTypeService.getReportTypeById(ReportTypesEnum.twohour.name());
+        if (twoHourReportType.getActive()) {
+            LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+            DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateFor2HourReport(currentDt);
+            LocalDateTime startDt = startEndDt.getStartDateTime();
+            LocalDateTime endDt = startEndDt.getEndDateTime();
+            String name = String.format("Двухчасовой отчет за период с %s по %s %s",
+                    formatToSinglePattern(startDt.toLocalTime()),
+                    formatToSinglePattern(endDt.toLocalTime()),
+                    formatToSinglePattern(startDt.toLocalDate())
+            );
+            return createAndSaveTagData(twoHourReportType, currentDt, startEndDt, name);
         }
         return List.of();
     }
@@ -190,6 +211,10 @@ public class ReportsScheduler {
 
     public ScheduledFuture<?> scheduleHourReport(final Runnable task) {
         return taskScheduler.schedule(task, new CronTrigger("30 0 * * * ?"));
+    }
+
+    public ScheduledFuture<?> schedule2HourReport(final Runnable task) {
+        return taskScheduler.schedule(task, new CronTrigger("30 0 */2 * * ?"));
     }
 
     // every first day of month at hour:minute

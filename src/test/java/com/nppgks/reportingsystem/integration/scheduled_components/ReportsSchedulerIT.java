@@ -87,6 +87,25 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
     }
 
     @Test
+    void generateTagDataFor2HourReport(){
+        LocalDateTime currentDt = LocalDateTime.parse("2023-01-10T14:00:50");
+
+        try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
+            mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
+
+            List<TagData> tagDataList = reportsScheduler.generateTagDataFor2HourReport();
+            String reportName = tagDataList.get(0).getReportName().getName();
+            assertThat(reportName).isEqualTo("Двухчасовой отчет за период с 12:00 по 14:00 10.01.2023");
+            assertThat(tagDataList).hasSize(3);
+            assertThat(tagDataList.get(0).getReportName().getStartDt())
+                    .isEqualTo(LocalDateTime.parse("2023-01-10T12:00"));
+
+            assertThat(tagDataList.get(0).getReportName().getEndDt())
+                    .isEqualTo(LocalDateTime.parse("2023-01-10T14:00"));
+        }
+    }
+
+    @Test
     void generateTagDataForDailyReport(){
         LocalDateTime currentDt = LocalDateTime.parse("2022-09-20T10:10:50");
 

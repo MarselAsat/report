@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS tag_data
 (
     id             BIGINT PRIMARY KEY,
     data           VARCHAR(512) NOT NULL,
-    data_type      VARCHAR(32)  NOT NULL,
     tag_name_id    INTEGER      NOT NULL REFERENCES tag_name (id),
     report_name_id BIGINT       NOT NULL REFERENCES report_name (id)
 );

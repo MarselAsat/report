@@ -5,17 +5,16 @@ import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.Data
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.FinalData;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.InitialData;
 
-public class CalcRunner {
+public class MI3622Runner {
     private final InitialData initialData;
 
-    public CalcRunner(InitialData initialData) {
+    public MI3622Runner(InitialData initialData) {
         this.initialData = initialData;
     }
 
     public FinalData run(){
-        FinalData finalData = new FinalData();
         MI3622Calculation MI3622Calculation = new MI3622Calculation(initialData);
-        DataConverter.setCalcFinalDataFields(finalData, MI3622Calculation);
+        FinalData finalData = DataConverter.calculateFinalData(MI3622Calculation);
         DataRounder.round(finalData);
         return finalData;
     }

@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.unit;
+package com.nppgks.reportingsystem.unit.reportgeneration.calculations.mi3622;
 
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.InitialData;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class Calc3622Test {
+public class MI3622CalculationTest {
 
     MI3622Calculation MI3622Calculation;
 
