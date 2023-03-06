@@ -26,12 +26,11 @@
                 <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle" id="editTagsDropdown" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
-                        Редактор тегов
+                        Редактор таблиц
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="editTagsDropdown">
                         <li>
-                            <a th:href="@{/admin/tag-name-editor}" class="dropdown-item">Теги для автоматических
-                                периодических отчетов</a>
+                            <a th:href="@{/admin/tag-name-editor}" class="dropdown-item">Периодические отчеты</a>
                         </li>
                         <li>
                             <a th:href="@{/admin/calc-tag-name-editor}" class="dropdown-item">Теги для поверок</a>

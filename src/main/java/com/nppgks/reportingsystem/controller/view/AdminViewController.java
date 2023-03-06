@@ -63,8 +63,11 @@ public class AdminViewController {
                         settingsService.getStringValueBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
             }
         }
+        List<MeteringNode> allMeteringNodes = meteringNodeService.getAllNodes();
         String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
+        modelMap.put("meteringNodes", allMeteringNodes);
         modelMap.put("meteringStationName", meteringStationName);
+
 
         return "settings";
     }
