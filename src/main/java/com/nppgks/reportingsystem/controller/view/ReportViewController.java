@@ -1,8 +1,10 @@
 package com.nppgks.reportingsystem.controller.view;
 
+import com.nppgks.reportingsystem.db.recurring_reports.entity.MeteringNode;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportName;
-import com.nppgks.reportingsystem.dto.ReportViewTagData;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
+import com.nppgks.reportingsystem.dto.ReportViewTagData;
+import com.nppgks.reportingsystem.service.dbservices.MeteringNodeService;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import com.nppgks.reportingsystem.service.dbservices.ReportNameService;
 import com.nppgks.reportingsystem.service.dbservices.SettingsService;
@@ -33,65 +35,47 @@ public class ReportViewController {
 
     private final SettingsService settingsService;
 
+    private final MeteringNodeService meteringNodeService;
+
     @GetMapping(value = "/dailyReport/{reportNameId}")
     public String getDailyReport(ModelMap modelMap,
-                            @PathVariable Long reportNameId){
-        ReportName reportName = reportNameService.getById(reportNameId);
-        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
-        List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.DAILY_REPORT_COLUMNS);
-        fillModelMapForReportView(modelMap, reportName, reportViewTagData, dailyColumns);
+                            @PathVariable Long reportNameId) {
+        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.DAILY_REPORT_COLUMNS);
         return "report_pages/daily-report-page";
     }
 
     @GetMapping(value = "/hourReport/{reportNameId}")
     public String getHourReport(ModelMap modelMap,
                             @PathVariable Long reportNameId){
-        ReportName reportName = reportNameService.getById(reportNameId);
-        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
-
-        // какие столбцы будут отображаться в таблице отчета. (например, 'ИЛ №1' будет, а 'ИЛ №2' не будет)
-        List<String> hourColumns = settingsService.getListValuesBySettingName(SettingsConstants.HOUR_REPORT_COLUMNS);
-        fillModelMapForReportView(modelMap, reportName, reportViewTagData, hourColumns);
+        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.HOUR_REPORT_COLUMNS);
         return "report_pages/hour-report-page";
     }
 
     @GetMapping(value = "/twohourReport/{reportNameId}")
     public String get2HourReport(ModelMap modelMap,
                                 @PathVariable Long reportNameId){
-        ReportName reportName = reportNameService.getById(reportNameId);
-        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
-        List<String> twohourColumns = settingsService.getListValuesBySettingName(SettingsConstants.TWOHOUR_REPORT_COLUMNS);
-        fillModelMapForReportView(modelMap, reportName, reportViewTagData, twohourColumns);
+        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.TWOHOUR_REPORT_COLUMNS);
         return "report_pages/twohour-report-page";
     }
 
     @GetMapping(value = "/shiftReport/{reportNameId}")
     public String getShiftReport(ModelMap modelMap,
                                  @PathVariable Long reportNameId){
-        ReportName reportName = reportNameService.getById(reportNameId);
-        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
-        List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.SHIFT_REPORT_COLUMNS);
-        fillModelMapForReportView(modelMap, reportName, reportViewTagData, columnNames);
+        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.SHIFT_REPORT_COLUMNS);
         return "report_pages/shift-report-page";
     }
 
     @GetMapping(value = "/monthReport/{reportNameId}")
     public String getMonthReport(ModelMap modelMap,
                                  @PathVariable Long reportNameId){
-        ReportName reportName = reportNameService.getById(reportNameId);
-        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
-        List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.MONTH_REPORT_COLUMNS);
-        fillModelMapForReportView(modelMap, reportName, reportViewTagData, columnNames);
+        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.MONTH_REPORT_COLUMNS);
         return "report_pages/month-report-page";
     }
 
     @GetMapping(value = "/yearReport/{reportNameId}")
     public String getYearReport(ModelMap modelMap,
                                  @PathVariable Long reportNameId){
-        ReportName reportName = reportNameService.getById(reportNameId);
-        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
-        List<String> columnNames = settingsService.getListValuesBySettingName(SettingsConstants.YEAR_REPORT_COLUMNS);
-        fillModelMapForReportView(modelMap, reportName, reportViewTagData, columnNames);
+        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.YEAR_REPORT_COLUMNS);
         return "report_pages/year-report-page";
     }
 
@@ -115,7 +99,14 @@ public class ReportViewController {
         return "report_pages/calc3622-report-page";
     }
 
-    private void fillModelMapForReportView(ModelMap modelMap, ReportName reportName, List<ReportViewTagData> reportViewTagData, List<String> columnNames) {
+    private void fillModelMapForReportView(ModelMap modelMap, Long reportNameId, String columnsFromSetting) {
+        ReportName reportName = reportNameService.getById(reportNameId);
+        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
+        List<String> meteringNodesDisplayIds = settingsService.getListValuesBySettingName(columnsFromSetting);
+        List<MeteringNode> meteringNodesDisplay = meteringNodeService.getAllNodes().stream()
+                .filter(mn -> meteringNodesDisplayIds.contains(mn.getId()))
+                .toList();
+
         String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
         LocalDateTime reportStartDt = reportName.getStartDt();
         LocalDateTime reportEndDt = reportName.getEndDt();
@@ -126,7 +117,7 @@ public class ReportViewController {
                 .formatToSinglePattern(reportStartDt));
         modelMap.put("endReportDate", SingleDateTimeFormatter
                 .formatToSinglePattern(reportEndDt));
-        modelMap.put("columns", columnNames);
+        modelMap.put("columns", meteringNodesDisplay);
         modelMap.put("meteringStationName", meteringStationName);
     }
 }

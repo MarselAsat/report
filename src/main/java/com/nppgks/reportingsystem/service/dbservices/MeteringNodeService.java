@@ -14,6 +14,6 @@ public class MeteringNodeService {
     private final MeteringNodeRepository meteringNodeRepository;
 
     public List<MeteringNode> getAllNodes(){
-        return meteringNodeRepository.findAll();
+        return meteringNodeRepository.findAllByOrderById();
     }
 }

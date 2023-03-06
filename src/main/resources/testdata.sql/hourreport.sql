@@ -1,56 +1,56 @@
 SET search_path TO recurring_reports;
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id)
-VALUES (45, 12, 'hour_mass_il1', 'Средний массовый расход за час ил1', 'hour'),
-       (46, 13, 'hour_temp_il1', 'Средняя температура за час ил1', 'hour'),
-       (47, 14, 'hour_pressure_il1', 'Среднее давление за час ил1', 'hour'),
-       (48, 15, 'hour_density_il1', 'Средняя плотность при текущих t и P за час ил1', 'hour'),
-       (49, 16, 'hour_density20_il1', 'Средняя плотность при 20 °C за час ил1', 'hour'),
-       (50, 17, 'hour_density15_il1', 'Средняя плотность при 15 °C за час ил1', 'hour'),
-       (51, 18, 'hour_moisture_il1', 'Среднее влагосодержание за час ил1', 'hour'),
-       (52, 19, 'hour_mass_gross_il1', 'Масса брутто за час за час ил1', 'hour'),
-       (53, 20, 'hour_mass_gross_increasing_il1', 'Масса брутто нарастающая за час ил1', 'hour'),
-       (54, 21, 'hour_vol_il1', 'Объем за час за час ил1', 'hour'),
-       (55, 22, 'hour_vol_increasing_il1', 'Объем нарастающий за час ил1', 'hour');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+VALUES (45, 12, 'hour_mass_il1', 'Средний массовый расход за час ил1', 'hour', 'il1'),
+       (46, 13, 'hour_temp_il1', 'Средняя температура за час ил1', 'hour', 'il1'),
+       (47, 14, 'hour_pressure_il1', 'Среднее давление за час ил1', 'hour', 'il1'),
+       (48, 15, 'hour_density_il1', 'Средняя плотность при текущих t и P за час ил1', 'hour', 'il1'),
+       (49, 16, 'hour_density20_il1', 'Средняя плотность при 20 °C за час ил1', 'hour', 'il1'),
+       (50, 17, 'hour_density15_il1', 'Средняя плотность при 15 °C за час ил1', 'hour', 'il1'),
+       (51, 18, 'hour_moisture_il1', 'Среднее влагосодержание за час ил1', 'hour', 'il1'),
+       (52, 19, 'hour_mass_gross_il1', 'Масса брутто за час за час ил1', 'hour', 'il1'),
+       (53, 20, 'hour_mass_gross_increasing_il1', 'Масса брутто нарастающая за час ил1', 'hour', 'il1'),
+       (54, 21, 'hour_vol_il1', 'Объем за час за час ил1', 'hour', 'il1'),
+       (55, 22, 'hour_vol_increasing_il1', 'Объем нарастающий за час ил1', 'hour', 'il1');
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id)
-VALUES (56, 12, 'hour_mass_il2', 'Средний массовый расход за час ил2', 'hour'),
-       (57, 13, 'hour_temp_il2', 'Средняя температура за час ил2', 'hour'),
-       (58, 14, 'hour_pressure_il2', 'Среднее давление за час ил2', 'hour'),
-       (59, 15, 'hour_density_il2', 'Средняя плотность при текущих t и P за час ил2', 'hour'),
-       (60, 16, 'hour_density20_il2', 'Средняя плотность при 20 °C за час ил2', 'hour'),
-       (61, 17, 'hour_density15_il2', 'Средняя плотность при 15 °C за час ил2', 'hour'),
-       (62, 18, 'hour_moisture_il2', 'Среднее влагосодержание за час ил2', 'hour'),
-       (63, 19, 'hour_mass_gross_il2', 'Масса брутто за час ил2', 'hour'),
-       (64, 20, 'hour_mass_gross_increasing_il2', 'Масса брутто нарастающая за час ил2', 'hour'),
-       (65, 21, 'hour_vol_il2', 'Объем за час ил2', 'hour'),
-       (66, 22, 'hour_vol_increasing_il2', 'Объем нарастающий за час ил2', 'hour');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+VALUES (56, 12, 'hour_mass_il2', 'Средний массовый расход за час ил2', 'hour', 'il2'),
+       (57, 13, 'hour_temp_il2', 'Средняя температура за час ил2', 'hour', 'il2'),
+       (58, 14, 'hour_pressure_il2', 'Среднее давление за час ил2', 'hour', 'il2'),
+       (59, 15, 'hour_density_il2', 'Средняя плотность при текущих t и P за час ил2', 'hour', 'il2'),
+       (60, 16, 'hour_density20_il2', 'Средняя плотность при 20 °C за час ил2', 'hour', 'il2'),
+       (61, 17, 'hour_density15_il2', 'Средняя плотность при 15 °C за час ил2', 'hour', 'il2'),
+       (62, 18, 'hour_moisture_il2', 'Среднее влагосодержание за час ил2', 'hour', 'il2'),
+       (63, 19, 'hour_mass_gross_il2', 'Масса брутто за час ил2', 'hour', 'il2'),
+       (64, 20, 'hour_mass_gross_increasing_il2', 'Масса брутто нарастающая за час ил2', 'hour', 'il2'),
+       (65, 21, 'hour_vol_il2', 'Объем за час ил2', 'hour', 'il2'),
+       (66, 22, 'hour_vol_increasing_il2', 'Объем нарастающий за час ил2', 'hour', 'il2');
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id)
-VALUES (67, 12, 'hour_mass_sikn', 'Средний массовый расход за час сикн', 'hour'),
-       (68, 13, 'hour_temp_sikn', 'Средняя температура за час сикн', 'hour'),
-       (69, 14, 'hour_pressure_sikn', 'Среднее давление за час сикн', 'hour'),
-       (70, 15, 'hour_density_sikn', 'Средняя плотность при текущих t и P за час сикн', 'hour'),
-       (71, 16, 'hour_density20_sikn', 'Средняя плотность при 20 °C за час сикн', 'hour'),
-       (72, 17, 'hour_density15_sikn', 'Средняя плотность при 15 °C за час сикн', 'hour'),
-       (73, 18, 'hour_moisture_sikn', 'Среднее влагосодержание за час сикн', 'hour'),
-       (74, 19, 'hour_mass_gross_sikn', 'Масса брутто за час сикн', 'hour'),
-       (75, 20, 'hour_mass_gross_increasing_sikn', 'Масса брутто нарастающая за час сикн', 'hour'),
-       (76, 21, 'hour_vol_sikn', 'Объем за час сикн', 'hour'),
-       (77, 22, 'hour_vol_increasing_sikn', 'Объем нарастающий за час сикн', 'hour');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+VALUES (67, 12, 'hour_mass_sikn', 'Средний массовый расход за час сикн', 'hour', 'sikn'),
+       (68, 13, 'hour_temp_sikn', 'Средняя температура за час сикн', 'hour', 'sikn'),
+       (69, 14, 'hour_pressure_sikn', 'Среднее давление за час сикн', 'hour', 'sikn'),
+       (70, 15, 'hour_density_sikn', 'Средняя плотность при текущих t и P за час сикн', 'hour', 'sikn'),
+       (71, 16, 'hour_density20_sikn', 'Средняя плотность при 20 °C за час сикн', 'hour', 'sikn'),
+       (72, 17, 'hour_density15_sikn', 'Средняя плотность при 15 °C за час сикн', 'hour', 'sikn'),
+       (73, 18, 'hour_moisture_sikn', 'Среднее влагосодержание за час сикн', 'hour', 'sikn'),
+       (74, 19, 'hour_mass_gross_sikn', 'Масса брутто за час сикн', 'hour', 'sikn'),
+       (75, 20, 'hour_mass_gross_increasing_sikn', 'Масса брутто нарастающая за час сикн', 'hour', 'sikn'),
+       (76, 21, 'hour_vol_sikn', 'Объем за час сикн', 'hour', 'sikn'),
+       (77, 22, 'hour_vol_increasing_sikn', 'Объем нарастающий за час сикн', 'hour', 'sikn');
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id)
-VALUES (78, 12, 'hour_mass_bik', 'Средний массовый расход', 'hour'),
-       (79, 13, 'hour_temp_bik', 'Средняя температура', 'hour'),
-       (80, 14, 'hour_pressure_bik', 'Среднее давление', 'hour'),
-       (81, 15, 'hour_density_bik', 'Средняя плотность при текущих t и P', 'hour'),
-       (82, 16, 'hour_density20_bik', 'Средняя плотность при 20 °C', 'hour'),
-       (83, 17, 'hour_density15_bik', 'Средняя плотность при 15 °C', 'hour'),
-       (84, 18, 'hour_moisture_bik', 'Среднее влагосодержание', 'hour'),
-       (85, 19, 'hour_mass_gross_bik', 'Масса брутто за час', 'hour'),
-       (86, 20, 'hour_mass_gross_increasing_bik', 'Масса брутто нарастающая', 'hour'),
-       (87, 21, 'hour_vol_bik', 'Объем за час', 'hour'),
-       (88, 22, 'hour_vol_increasing_bik', 'Объем нарастающий', 'hour');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+VALUES (78, 12, 'hour_mass_bik', 'Средний массовый расход', 'hour', 'bik'),
+       (79, 13, 'hour_temp_bik', 'Средняя температура', 'hour', 'bik'),
+       (80, 14, 'hour_pressure_bik', 'Среднее давление', 'hour', 'bik'),
+       (81, 15, 'hour_density_bik', 'Средняя плотность при текущих t и P', 'hour', 'bik'),
+       (82, 16, 'hour_density20_bik', 'Средняя плотность при 20 °C', 'hour', 'bik'),
+       (83, 17, 'hour_density15_bik', 'Средняя плотность при 15 °C', 'hour', 'bik'),
+       (84, 18, 'hour_moisture_bik', 'Среднее влагосодержание', 'hour', 'bik'),
+       (85, 19, 'hour_mass_gross_bik', 'Масса брутто за час', 'hour', 'bik'),
+       (86, 20, 'hour_mass_gross_increasing_bik', 'Масса брутто нарастающая', 'hour', 'bik'),
+       (87, 21, 'hour_vol_bik', 'Объем за час', 'hour', 'bik'),
+       (88, 22, 'hour_vol_increasing_bik', 'Объем нарастающий', 'hour', 'bik');
 SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
 
 INSERT INTO report_name(id, report_type_id, name, start_dt, end_dt, creation_dt)

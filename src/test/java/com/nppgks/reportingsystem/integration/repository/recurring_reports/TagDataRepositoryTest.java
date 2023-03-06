@@ -34,10 +34,8 @@ class TagDataRepositoryTest extends IntegrationBaseTest {
     @Test
     @Sql("classpath:sql/recurring_reports/daily.sql")
     void getTagDataView() {
-        List<IReportViewTagData> resultQuery = tagDataRepository.getTagDataView(1L);
-        List<ReportViewTagData> reportViewTagDataList = resultQuery.stream()
-                .map(ReportViewTagData::fromIReportViewTagData)
-                .toList();
+        List<IReportViewTagData> resultQuery = tagDataRepository.getTagDataViewTest(1L);
+        List<ReportViewTagData> reportViewTagDataList = ReportViewTagData.fromIReportViewTagData(resultQuery);
         assertThat(reportViewTagDataList).hasSize(11);
     }
 }
