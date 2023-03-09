@@ -9,6 +9,13 @@ function getTagNameTablePage(){
 function getReportRowTablePage(){
     getTablePage("report-rows")
 }
+function getReportTypeTablePage(){
+    getTablePage("report-types")
+}
+
+function getMeteringNodeTablePage(){
+    getTablePage("metering-nodes")
+}
 
 function getTablePage(tableName){
     const url = "/admin/recurring-tables-editor/"+tableName;

@@ -64,7 +64,17 @@ public class AdminViewController {
     }
     @GetMapping("/recurring-tables-editor/report-rows")
     public String reportRowEditorView() {
-        return "fragments/report-row-editor";
+        return "fragments/report-rows-editor";
+    }
+
+    @GetMapping("/recurring-tables-editor/report-types")
+    public String reportTypeEditorView() {
+        return "fragments/report-types-editor";
+    }
+
+    @GetMapping("/recurring-tables-editor/metering-nodes")
+    public String meteringNodeEditorView() {
+        return "fragments/metering-nodes-editor";
     }
 
     @GetMapping("/settings")

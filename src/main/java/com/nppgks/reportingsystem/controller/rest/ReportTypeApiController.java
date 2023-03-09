@@ -3,11 +3,11 @@ package com.nppgks.reportingsystem.controller.rest;
 import com.nppgks.reportingsystem.dto.ReportTypeDto;
 import com.nppgks.reportingsystem.service.dbservices.ReportTypeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/reportTypes")
@@ -19,5 +19,11 @@ public class ReportTypeApiController {
     @GetMapping
     public List<ReportTypeDto> getAllReportTypes() {
         return reportTypeService.getAllReportTypes();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> partUpdateReportType(@RequestBody Map<String, String> updates, @PathVariable String id){
+        reportTypeService.partialUpdateReportType(id, updates);
+        return ResponseEntity.ok("successfully updated");
     }
 }
