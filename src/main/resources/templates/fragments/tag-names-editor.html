@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <zing-grid caption="Теги для периодических отчетов" src="/api/tagNames/" lang="ru" editor-controls
+               columns-control search sort>
+        <zg-column index="name" header="Название"></zg-column>
+        <zg-column index="description" header="Описание"></zg-column>
+        <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select"
+                   th:type-select-options="${reportTypes}"></zg-column>
+        <zg-column id="meteringNodes" index="meteringNodeName" header="Узел учета" type="select"
+                   th:type-select-options="${meteringNodes}"></zg-column>
+        <zg-column id="rows" index="rowNameAndReportType" header="Строка в отчете" type="select"
+                   th:type-select-options="${reportRows}"></zg-column>
+    </zing-grid>
+</body>
+</html>

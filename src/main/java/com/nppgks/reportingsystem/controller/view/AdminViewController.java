@@ -29,8 +29,8 @@ public class AdminViewController {
         return "calc-tag-names-editor";
     }
 
-    @GetMapping("/tag-name-editor")
-    public String tagNameEditorView(ModelMap modelMap){
+    @GetMapping("/recurring-tables-editor")
+    public String recurringTablesEditorView(ModelMap modelMap){
         modelMap.put("reportTypes",
                 reportTypeService.getAllReportTypes().stream()
                 .map(ReportTypeDto::getName)
@@ -43,7 +43,28 @@ public class AdminViewController {
                 reportRowService.getAllReportRows().stream()
                 .map(ReportRowDto::combineNameAndType)
                 .toList());
-        return "tag-names-editor";
+        return "recurring-tables-editor";
+    }
+
+    @GetMapping("/recurring-tables-editor/tag-names")
+    public String tagNameEditorView(ModelMap modelMap){
+        modelMap.put("reportTypes",
+                reportTypeService.getAllReportTypes().stream()
+                        .map(ReportTypeDto::getName)
+                        .toList());
+        modelMap.put("meteringNodes",
+                meteringNodeService.getAllNodes().stream()
+                        .map(MeteringNode::getName)
+                        .toList());
+        modelMap.put("reportRows",
+                reportRowService.getAllReportRows().stream()
+                        .map(ReportRowDto::combineNameAndType)
+                        .toList());
+        return "fragments/tag-names-editor";
+    }
+    @GetMapping("/recurring-tables-editor/report-rows")
+    public String reportRowEditorView() {
+        return "fragments/report-row-editor";
     }
 
     @GetMapping("/settings")

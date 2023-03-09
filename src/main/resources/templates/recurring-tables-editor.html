@@ -5,6 +5,7 @@
 <head>
     <title>Редактор тегов</title>
     <script th:src="@{/external_libraries/zinggrid.min.js}"></script>
+    <script th:src="@{/js/recurring-tables-editor.js}"></script>
     <link th:href="@{/css/zinggrid.css}" rel="stylesheet"/>
     <style>
         .card {
@@ -27,36 +28,36 @@
                 <div class="card-title">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#tag-names">Теги</a>
+                            <a class="nav-link active" data-bs-toggle="tab" href="#tag-names" onclick="getTagNameTablePage()">Теги</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#report-rows">Строки в отчете</a>
+                            <a class="nav-link" data-bs-toggle="tab" href="#report-rows" onclick="getReportRowTablePage()">Строки в отчете</a>
                         </li>
                     </ul>
                 </div>
                 <div class="card-body ps-0">
                     <div class="tab-content pe-0">
                         <div id="tag-names" class="list-group pe-0 ms-0 mb-5 shadow tab-pane container-fluid active">
-                            <zing-grid caption="Теги для периодических отчетов" src="/api/tagNames/" lang="ru" editor-controls
-                                       columns-control search sort>
-                                <zg-column index="name" header="Название"></zg-column>
-                                <zg-column index="description" header="Описание"></zg-column>
-                                <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select"
-                                           th:type-select-options="${reportTypes}"></zg-column>
-                                <zg-column id="meteringNodes" index="meteringNodeName" header="Узел учета" type="select"
-                                           th:type-select-options="${meteringNodes}"></zg-column>
-                                <zg-column id="rows" index="rowNameAndReportType" header="Строка в отчете" type="select"
-                                           th:type-select-options="${reportRows}"></zg-column>
-                            </zing-grid>
+<!--                            <zing-grid caption="Теги для периодических отчетов" src="/api/tagNames/" lang="ru" editor-controls-->
+<!--                                       columns-control search sort>-->
+<!--                                <zg-column index="name" header="Название"></zg-column>-->
+<!--                                <zg-column index="description" header="Описание"></zg-column>-->
+<!--                                <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select"-->
+<!--                                           th:type-select-options="${reportTypes}"></zg-column>-->
+<!--                                <zg-column id="meteringNodes" index="meteringNodeName" header="Узел учета" type="select"-->
+<!--                                           th:type-select-options="${meteringNodes}"></zg-column>-->
+<!--                                <zg-column id="rows" index="rowNameAndReportType" header="Строка в отчете" type="select"-->
+<!--                                           th:type-select-options="${reportRows}"></zg-column>-->
+<!--                            </zing-grid>-->
                         </div>
 
                         <div id="report-rows" class="list-group pe-0 ms-0 mb-5 shadow tab-pane container-fluid fade">
-                            <zing-grid caption="Строки в отчете" src="/api/reportRows/" lang="ru" editor="false" editor-controls columns-control search sort>
-                                <zg-column index="name" header="Название cтроки"></zg-column>
-                                <zg-column index="order" type="number" header="Порядок"></zg-column>
-                                <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select"
-                                           th:type-select-options="${reportTypes}"></zg-column>
-                            </zing-grid>
+<!--                            <zing-grid caption="Строки в отчете" src="/api/reportRows/" lang="ru" editor="false" editor-controls columns-control search sort>-->
+<!--                                <zg-column index="name" header="Название cтроки"></zg-column>-->
+<!--                                <zg-column index="order" type="number" header="Порядок"></zg-column>-->
+<!--                                <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select"-->
+<!--                                           th:type-select-options="${reportTypes}"></zg-column>-->
+<!--                            </zing-grid>-->
                         </div>
                     </div>
                 </div>
