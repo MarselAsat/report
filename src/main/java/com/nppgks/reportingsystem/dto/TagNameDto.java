@@ -12,5 +12,6 @@ public class TagNameDto {
     private String name;
     private String description;
     private String reportTypeName;
+    private String meteringNodeName;
     private String rowNameAndReportType;
 }

@@ -7,25 +7,25 @@ values (23, 'Средний массовый расход', 11,'shift'),
 
 SELECT SETVAL('report_row_id_seq', (SELECT MAX(id) FROM report_row));
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id)
-VALUES (89, 23, 'shift_mass_il1', 'Средний массовый расход за смену ил1', 'shift'),
-       (90, 24, 'shift_temp_il1', 'Средняя температура за смену ил1', 'shift'),
-       (91, 25, 'shift_pressure_il1', 'Среднее давление за смену ил1', 'shift');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+VALUES (89, 23, 'shift_mass_il1', 'Средний массовый расход за смену ил1', 'shift', 'il1'),
+       (90, 24, 'shift_temp_il1', 'Средняя температура за смену ил1', 'shift', 'il1'),
+       (91, 25, 'shift_pressure_il1', 'Среднее давление за смену ил1', 'shift', 'il1');
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id)
-VALUES (92, 23, 'shift_mass_il2', 'Средний массовый расход за смену ил2', 'shift'),
-       (93, 24, 'shift_temp_il2', 'Средняя температура за смену ил2', 'shift'),
-       (94, 25, 'shift_pressure_il2', 'Среднее давление за смену ил2', 'shift');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+VALUES (92, 23, 'shift_mass_il2', 'Средний массовый расход за смену ил2', 'shift', 'il2'),
+       (93, 24, 'shift_temp_il2', 'Средняя температура за смену ил2', 'shift', 'il2'),
+       (94, 25, 'shift_pressure_il2', 'Среднее давление за смену ил2', 'shift', 'il2');
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id)
-VALUES (95, 23, 'shift_mass_sikn', 'Средний массовый расход за смену сикн', 'shift'),
-       (96, 24, 'shift_temp_sikn', 'Средняя температура за смену сикн', 'shift'),
-       (97, 25, 'shift_pressure_sikn', 'Среднее давление за смену сикн', 'shift');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+VALUES (95, 23, 'shift_mass_sikn', 'Средний массовый расход за смену сикн', 'shift', 'sikn'),
+       (96, 24, 'shift_temp_sikn', 'Средняя температура за смену сикн', 'shift', 'sikn'),
+       (97, 25, 'shift_pressure_sikn', 'Среднее давление за смену сикн', 'shift', 'sikn');
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id)
-VALUES (98, 23, 'shift_mass_bik', 'Средний массовый расход', 'shift'),
-       (99, 24, 'shift_temp_bik', 'Средняя температура', 'shift'),
-       (100, 25, 'shift_pressure_bik', 'Среднее давление', 'shift');
+INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+VALUES (98, 23, 'shift_mass_bik', 'Средний массовый расход', 'shift', 'bik'),
+       (99, 24, 'shift_temp_bik', 'Средняя температура', 'shift', 'bik'),
+       (100, 25, 'shift_pressure_bik', 'Среднее давление', 'shift', 'bik');
 
 SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
 

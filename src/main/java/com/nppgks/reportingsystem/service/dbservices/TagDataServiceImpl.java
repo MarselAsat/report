@@ -3,9 +3,7 @@ package com.nppgks.reportingsystem.service.dbservices;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportName;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.TagData;
 import com.nppgks.reportingsystem.db.recurring_reports.entity.TagName;
-import com.nppgks.reportingsystem.dto.IReportViewTagData;
-import com.nppgks.reportingsystem.dto.ReportViewTagData;
-import com.nppgks.reportingsystem.dto.TagDataDto;
+import com.nppgks.reportingsystem.dto.*;
 import com.nppgks.reportingsystem.db.recurring_reports.repository.TagDataRepository;
 import com.nppgks.reportingsystem.db.recurring_reports.repository.TagNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +61,7 @@ public class TagDataServiceImpl implements TagDataService {
 
     @Override
     public List<ReportViewTagData> getReportViewTagData(Long reportNameId) {
-        List<IReportViewTagData> tagDataViewInterface = tagDataRepository.getTagDataView(reportNameId);
-        return tagDataViewInterface.stream()
-                .map(ReportViewTagData::fromIReportViewTagData)
-                .toList();
+        List<IReportViewTagData> tagDataViewInterface = tagDataRepository.getTagDataViewTest(reportNameId);
+        return ReportViewTagData.fromIReportViewTagData(tagDataViewInterface);
     }
 }

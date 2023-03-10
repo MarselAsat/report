@@ -50,6 +50,6 @@ public class StartPageViewController {
     }
 
     void setCommonParams(ModelMap model){
-        model.put("reportTypes", reportTypeService.getAllReportTypes());
+        model.put("reportTypes", reportTypeService.getAllActiveReportTypes());
     }
 }

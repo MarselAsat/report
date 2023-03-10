@@ -30,35 +30,10 @@
                                     <p class="mb-0">Столбцы, отображающиеся в часовом отчете</p>
                                 </div>
                                 <div class="col-auto" id="hour-columns">
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="sikn" class="form-check-input"
-                                               th:checked="${hourColumns.contains('sikn')}" autocomplete="off">
-                                        <label class="form-check-label">СИКН</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il1" class="form-check-input"
-                                               th:checked="${hourColumns.contains('il1')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №1</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il2" class="form-check-input"
-                                               th:checked="${hourColumns.contains('il2')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №2</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il3" class="form-check-input"
-                                               th:checked="${hourColumns.contains('il3')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №3</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il4" class="form-check-input"
-                                               th:checked="${hourColumns.contains('il4')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №4</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="bik" class="form-check-input"
-                                               th:checked="${hourColumns.contains('bik')}" autocomplete="off">
-                                        <label class="form-check-label">БИК</label>
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${hourColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -69,35 +44,10 @@
                                     <p class="mb-0">Столбцы, отображающиеся в двухчасовом отчете</p>
                                 </div>
                                 <div class="col-auto" id="twohour-columns">
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="sikn" class="form-check-input"
-                                               th:checked="${twohourColumns.contains('sikn')}" autocomplete="off">
-                                        <label class="form-check-label">СИКН</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il1" class="form-check-input"
-                                               th:checked="${twohourColumns.contains('il1')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №1</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il2" class="form-check-input"
-                                               th:checked="${twohourColumns.contains('il2')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №2</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il3" class="form-check-input"
-                                               th:checked="${twohourColumns.contains('il3')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №3</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il4" class="form-check-input"
-                                               th:checked="${twohourColumns.contains('il4')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №4</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="bik" class="form-check-input"
-                                               th:checked="${twohourColumns.contains('bik')}" autocomplete="off">
-                                        <label class="form-check-label">БИК</label>
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${twohourColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -108,35 +58,10 @@
                                     <p class="mb-0">Столбцы, отображающиеся в суточном отчете</p>
                                 </div>
                                 <div class="col-auto" id="daily-columns">
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="sikn" class="form-check-input"
-                                               th:checked="${dailyColumns.contains('sikn')}" autocomplete="off">
-                                        <label class="form-check-label">СИКН</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il1" class="form-check-input"
-                                               th:checked="${dailyColumns.contains('il1')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №1</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il2" class="form-check-input"
-                                               th:checked="${dailyColumns.contains('il2')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №2</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il3" class="form-check-input"
-                                               th:checked="${dailyColumns.contains('il3')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №3</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il4" class="form-check-input"
-                                               th:checked="${dailyColumns.contains('il4')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №4</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="bik" class="form-check-input"
-                                               th:checked="${dailyColumns.contains('bik')}" autocomplete="off">
-                                        <label class="form-check-label">БИК</label>
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${dailyColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -147,35 +72,10 @@
                                     <p class="mb-0">Столбцы, отображающиеся в сменном отчете</p>
                                 </div>
                                 <div class="col-auto" id="shift-columns">
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="sikn" class="form-check-input"
-                                               th:checked="${shiftColumns.contains('sikn')}" autocomplete="off">
-                                        <label class="form-check-label">СИКН</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il1" class="form-check-input"
-                                               th:checked="${shiftColumns.contains('il1')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №1</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il2" class="form-check-input"
-                                               th:checked="${shiftColumns.contains('il2')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №2</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il3" class="form-check-input"
-                                               th:checked="${shiftColumns.contains('il3')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №3</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il4" class="form-check-input"
-                                               th:checked="${shiftColumns.contains('il4')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №4</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="bik" class="form-check-input"
-                                               th:checked="${shiftColumns.contains('bik')}" autocomplete="off">
-                                        <label class="form-check-label">БИК</label>
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${shiftColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -186,35 +86,10 @@
                                     <p class="mb-0">Столбцы, отображающиеся в месячном отчете</p>
                                 </div>
                                 <div class="col-auto" id="month-columns">
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="sikn" class="form-check-input"
-                                               th:checked="${monthColumns.contains('sikn')}" autocomplete="off">
-                                        <label class="form-check-label">СИКН</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il1" class="form-check-input"
-                                               th:checked="${monthColumns.contains('il1')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №1</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il2" class="form-check-input"
-                                               th:checked="${monthColumns.contains('il2')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №2</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il3" class="form-check-input"
-                                               th:checked="${monthColumns.contains('il3')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №3</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il4" class="form-check-input"
-                                               th:checked="${monthColumns.contains('il4')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №4</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="bik" class="form-check-input"
-                                               th:checked="${monthColumns.contains('bik')}" autocomplete="off">
-                                        <label class="form-check-label">БИК</label>
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${monthColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
                                     </div>
                                 </div>
                             </div>
@@ -225,35 +100,10 @@
                                     <p class="mb-0">Столбцы, отображающиеся в годовом отчете</p>
                                 </div>
                                 <div class="col-auto" id="year-columns">
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="sikn" class="form-check-input"
-                                               th:checked="${yearColumns.contains('sikn')}" autocomplete="off">
-                                        <label class="form-check-label">СИКН</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il1" class="form-check-input"
-                                               th:checked="${yearColumns.contains('il1')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №1</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il2" class="form-check-input"
-                                               th:checked="${yearColumns.contains('il2')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №2</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il3" class="form-check-input"
-                                               th:checked="${yearColumns.contains('il3')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №3</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="il4" class="form-check-input"
-                                               th:checked="${yearColumns.contains('il4')}" autocomplete="off">
-                                        <label class="form-check-label">ИЛ №4</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" name="bik" class="form-check-input"
-                                               th:checked="${yearColumns.contains('bik')}" autocomplete="off">
-                                        <label class="form-check-label">БИК</label>
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${yearColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
                                     </div>
                                 </div>
                             </div>

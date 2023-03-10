@@ -2,6 +2,7 @@ package com.nppgks.reportingsystem.controller.view;
 
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
+import com.nppgks.reportingsystem.db.recurring_reports.entity.MeteringNode;
 import com.nppgks.reportingsystem.dto.ReportRowDto;
 import com.nppgks.reportingsystem.dto.ReportTypeDto;
 import com.nppgks.reportingsystem.service.dbservices.*;
@@ -20,24 +21,43 @@ public class AdminViewController {
     private final ReportTypeService reportTypeService;
     private final ReportRowService reportRowService;
     private final SettingsService settingsService;
+    private final MeteringNodeService meteringNodeService;
 
 
     @GetMapping("/calc-tag-name-editor")
-    public String getAllcalcTagNames(){
-        return "calc-tag-names-editor";
+    public String getAllcalcTagNames() {
+        return "editors/calc-tag-names-editor";
     }
 
-    @GetMapping("/tag-name-editor")
-    public String tagNameEditorView(ModelMap modelMap){
+    @GetMapping("/recurring-tables-editor/tag-names")
+    public String tagNameEditorView(ModelMap modelMap) {
         modelMap.put("reportTypes",
                 reportTypeService.getAllReportTypes().stream()
-                .map(ReportTypeDto::getName)
-                .toList());
+                        .map(ReportTypeDto::getName)
+                        .toList());
+        modelMap.put("meteringNodes",
+                meteringNodeService.getAllNodes().stream()
+                        .map(MeteringNode::getName)
+                        .toList());
         modelMap.put("reportRows",
                 reportRowService.getAllReportRows().stream()
-                .map(ReportRowDto::combineNameAndType)
-                .toList());
-        return "tag-names-editor";
+                        .map(ReportRowDto::combineNameAndType)
+                        .toList());
+        return "editors/tag-names-editor";
+    }
+    @GetMapping("/recurring-tables-editor/report-rows")
+    public String reportRowEditorView() {
+        return "editors/report-rows-editor";
+    }
+
+    @GetMapping("/recurring-tables-editor/report-types")
+    public String reportTypeEditorView() {
+        return "editors/report-types-editor";
+    }
+
+    @GetMapping("/recurring-tables-editor/metering-nodes")
+    public String meteringNodeEditorView() {
+        return "editors/metering-nodes-editor";
     }
 
     @GetMapping("/settings")
@@ -57,8 +77,11 @@ public class AdminViewController {
                         settingsService.getStringValueBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
             }
         }
+        List<MeteringNode> allMeteringNodes = meteringNodeService.getAllNodes();
         String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
+        modelMap.put("meteringNodes", allMeteringNodes);
         modelMap.put("meteringStationName", meteringStationName);
+
 
         return "settings";
     }

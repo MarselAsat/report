@@ -28,6 +28,12 @@ public class TagName {
     private ReportType reportType;
 
     @ManyToOne
+    @JoinColumn(name = "metering_node_id")
+    private MeteringNode meteringNode;
+
+    @ManyToOne
     @JoinColumn(name = "row_id")
     private ReportRow reportRow;
+
+
 }
