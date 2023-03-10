@@ -112,4 +112,4 @@ VALUES (1, '[1, 2, 3, 4, 5]', 41, 1),
        (3, '[1, 2, 3, 4, 5]', 46, 1),
        (4, '[1, 2, 3, 4, 5]', 47, 1);
 
-SELECT SETVAL('tag_data_id_seq', (SELECT MAX(id) FROM tag_data));
+SELECT SETVAL('calc_tag_data_id_seq', (SELECT MAX(id) FROM tag_data));
