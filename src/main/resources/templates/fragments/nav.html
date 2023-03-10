@@ -9,7 +9,25 @@
             right:0;
             margin-right:-10px;
         }
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+        }
     </style>
+    <script>
+        $(document).ready(function(){
+            $('.dropdown-submenu a.test').on("click", function(e){
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+    </script>
 
 </head>
 <body>
@@ -23,14 +41,21 @@
                 <!--          <li class="nav-item">-->
                 <!--            <a class="nav-link active" aria-current="page" href="#">Home</a>-->
                 <!--          </li>-->
+
                 <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle" id="editTagsDropdown" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
                         Редактор таблиц
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="editTagsDropdown">
-                        <li>
-                            <a th:href="@{/admin/recurring-tables-editor}" class="dropdown-item">Периодические отчеты</a>
+                        <li class="dropdown-submenu dropend">
+                            <a tabindex="-1" th:href="@{/admin/recurring-tables-editor}" class="test dropdown-item dropdown-toggle">Периодические отчеты</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" tabindex="-1" th:href="@{/admin/recurring-tables-editor/tag-names}">Теги</a></li>
+                                <li><a class="dropdown-item" tabindex="-1" th:href="@{/admin/recurring-tables-editor/report-types}">Типы отчетов</a></li>
+                                <li><a class="dropdown-item" tabindex="-1" th:href="@{/admin/recurring-tables-editor/report-rows}">Строки в отчете</a></li>
+                                <li><a class="dropdown-item" tabindex="-1" th:href="@{/admin/recurring-tables-editor/metering-nodes}">Узлы учета</a></li>
+                            </ul>
                         </li>
                         <li>
                             <a th:href="@{/admin/calc-tag-name-editor}" class="dropdown-item">Теги для поверок</a>

@@ -25,29 +25,12 @@ public class AdminViewController {
 
 
     @GetMapping("/calc-tag-name-editor")
-    public String getAllcalcTagNames(){
-        return "calc-tag-names-editor";
-    }
-
-    @GetMapping("/recurring-tables-editor")
-    public String recurringTablesEditorView(ModelMap modelMap){
-        modelMap.put("reportTypes",
-                reportTypeService.getAllReportTypes().stream()
-                .map(ReportTypeDto::getName)
-                .toList());
-        modelMap.put("meteringNodes",
-                meteringNodeService.getAllNodes().stream()
-                .map(MeteringNode::getName)
-                .toList());
-        modelMap.put("reportRows",
-                reportRowService.getAllReportRows().stream()
-                .map(ReportRowDto::combineNameAndType)
-                .toList());
-        return "recurring-tables-editor";
+    public String getAllcalcTagNames() {
+        return "editors/calc-tag-names-editor";
     }
 
     @GetMapping("/recurring-tables-editor/tag-names")
-    public String tagNameEditorView(ModelMap modelMap){
+    public String tagNameEditorView(ModelMap modelMap) {
         modelMap.put("reportTypes",
                 reportTypeService.getAllReportTypes().stream()
                         .map(ReportTypeDto::getName)
@@ -60,21 +43,21 @@ public class AdminViewController {
                 reportRowService.getAllReportRows().stream()
                         .map(ReportRowDto::combineNameAndType)
                         .toList());
-        return "fragments/tag-names-editor";
+        return "editors/tag-names-editor";
     }
     @GetMapping("/recurring-tables-editor/report-rows")
     public String reportRowEditorView() {
-        return "fragments/report-rows-editor";
+        return "editors/report-rows-editor";
     }
 
     @GetMapping("/recurring-tables-editor/report-types")
     public String reportTypeEditorView() {
-        return "fragments/report-types-editor";
+        return "editors/report-types-editor";
     }
 
     @GetMapping("/recurring-tables-editor/metering-nodes")
     public String meteringNodeEditorView() {
-        return "fragments/metering-nodes-editor";
+        return "editors/metering-nodes-editor";
     }
 
     @GetMapping("/settings")
