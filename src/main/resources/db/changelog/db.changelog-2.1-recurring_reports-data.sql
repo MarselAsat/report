@@ -2,12 +2,12 @@
 
 --changeset alina.parfenteva:1
 INSERT INTO recurring_reports.report_type (id, name, description, active)
-VALUES ('hour', 'Часовой', 'Отчеты фомируемые каждый час', TRUE),
-       ('twohour', 'Двухчасовой', 'Отчеты фомируемые каждые 2 часа', TRUE),
-       ('daily', 'Суточный', 'Отчеты фомируемые за сутки', TRUE),
-       ('shift', 'Сменный', 'Отчеты фомируемые за смену', TRUE),
-       ('month', 'Месячный', 'Отчеты фомируемые за месяц', TRUE),
-       ('year', 'Годовой', 'Отчеты формируемые за год', TRUE);
+VALUES ('hour', 'Часовой', 'Отчеты, формируемые каждый час', TRUE),
+       ('twohour', 'Двухчасовой', 'Отчеты, формируемые каждые 2 часа', TRUE),
+       ('daily', 'Суточный', 'Отчеты, формируемые за сутки', TRUE),
+       ('shift', 'Сменный', 'Отчеты, формируемые за смену', TRUE),
+       ('month', 'Месячный', 'Отчеты, формируемые за месяц', TRUE),
+       ('year', 'Годовой', 'Отчеты, формируемые за год', TRUE);
 
 insert into recurring_reports.report_row (id, name, "order", report_type_id)
 values (1, 'Средний массовый расход', 1,'daily'),
