@@ -60,7 +60,7 @@ class CalcTagNameServiceTest extends IntegrationBaseTest {
         CalcTagNameDto tagNameDto = new CalcTagNameDto();
         tagNameDto.setPermanentName("newTagName");
         tagNameDto.setName("tag name");
-        tagNameDto.setType("3622");
+        tagNameDto.setCalcMethod("3622");
         Integer newId = calcTagNameService.saveTagName(tagNameDto);
         assertThat(newId).isGreaterThan(30);
     }

@@ -40,7 +40,7 @@ class TagNameRepositoryTest extends IntegrationBaseTest {
 
     @Test
     public void findAllByInitialAndType(){
-        List<CalcTagNameForOpc> tagNames = tagNameRepository.findAllByInitialAndType(true, CalcMethod.MI_3622.name());
+        List<CalcTagNameForOpc> tagNames = tagNameRepository.findAllByInitialAndCalcMethod(true, CalcMethod.MI_3622.name());
         Assertions.assertThat(tagNames).hasSize(50);
     }
 }

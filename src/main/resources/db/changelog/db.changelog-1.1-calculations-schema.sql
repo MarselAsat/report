@@ -8,11 +8,11 @@ SET search_path TO calculations;
 CREATE TABLE IF NOT EXISTS tag_name
 (
     id             SERIAL PRIMARY KEY,
-    permanent_name VARCHAR(256),
-    name           VARCHAR(256),
+    permanent_name VARCHAR(256) NOT NULL,
+    name           VARCHAR(256) NOT NULL,
     description    VARCHAR(256),
-    initial        BOOLEAN,
-    type           VARCHAR(32)
+    initial        BOOLEAN      NOT NULL,
+    calc_method    VARCHAR(32)  NOT NULL
 );
 
 --changeset alina.parfenteva:3

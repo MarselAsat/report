@@ -26,7 +26,7 @@ public class CalcTagNameService {
     }
 
     public List<CalcTagNameForOpc> getTagNamesByInitialAndType(Boolean initial, String type){
-        return tagNameRepository.findAllByInitialAndType(initial, type);
+        return tagNameRepository.findAllByInitialAndCalcMethod(initial, type);
     }
 
     public Integer saveTagName(CalcTagNameDto tagNameDto) {

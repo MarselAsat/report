@@ -31,8 +31,8 @@ public class TagName {
     @Column(name = "initial")
     private Boolean initial;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "calc_method")
+    private String calcMethod;
 
     @Override
     public boolean equals(Object o) {

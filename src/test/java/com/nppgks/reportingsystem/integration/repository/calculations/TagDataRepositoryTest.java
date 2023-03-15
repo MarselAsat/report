@@ -63,7 +63,7 @@ class TagDataRepositoryTest extends IntegrationBaseTest {
 
     @Test
     @Sql({"classpath:sql/calculation/tagDataRep.sql"})
-    void findByReportNameId(){
+    void findByReportNameId() {
         List<TagData> tagDataList = tagDataRepository.findByReportNameId(1L);
         System.out.println();
     }

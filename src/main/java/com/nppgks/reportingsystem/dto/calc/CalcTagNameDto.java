@@ -9,25 +9,25 @@ public class CalcTagNameDto {
     private String permanentName;
     private String name;
     private String description;
-    private String type;
+    private String calcMethod;
 
-    public static CalcTagNameDto fromTagName(TagName tagName){
+    public static CalcTagNameDto fromTagName(TagName tagName) {
         CalcTagNameDto calcTagNameDto = new CalcTagNameDto();
         calcTagNameDto.setId(tagName.getId());
         calcTagNameDto.setPermanentName(tagName.getPermanentName());
         calcTagNameDto.setName(tagName.getName());
         calcTagNameDto.setDescription(tagName.getDescription());
-        calcTagNameDto.setType(tagName.getType());
+        calcTagNameDto.setCalcMethod(tagName.getCalcMethod());
         return calcTagNameDto;
     }
 
-    public static TagName toTagName(CalcTagNameDto tagNameDto){
+    public static TagName toTagName(CalcTagNameDto tagNameDto) {
         TagName tagName = new TagName();
         tagName.setId(tagNameDto.getId());
         tagName.setPermanentName(tagNameDto.getPermanentName());
         tagName.setName(tagNameDto.getName());
         tagName.setDescription(tagNameDto.getDescription());
-        tagName.setType(tagNameDto.getType());
+        tagName.setCalcMethod(tagNameDto.getCalcMethod());
         return tagName;
     }
 }
