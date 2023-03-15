@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.controller.view;
 
-import com.nppgks.reportingsystem.db.recurring_reports.entity.MeteringNode;
-import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportName;
+import com.nppgks.reportingsystem.db.operative_reports.entity.MeteringNode;
+import com.nppgks.reportingsystem.db.operative_reports.entity.ReportName;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
 import com.nppgks.reportingsystem.dto.ReportViewTagData;
 import com.nppgks.reportingsystem.service.dbservices.MeteringNodeService;

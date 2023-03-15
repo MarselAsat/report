@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.dto;
 
-import com.nppgks.reportingsystem.db.recurring_reports.entity.TagData;
+import com.nppgks.reportingsystem.db.operative_reports.entity.TagData;
 import lombok.Data;
 
 import java.time.LocalDateTime;

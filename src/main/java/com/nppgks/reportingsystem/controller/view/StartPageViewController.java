@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.controller.view;
 
-import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportName;
+import com.nppgks.reportingsystem.db.operative_reports.entity.ReportName;
 import com.nppgks.reportingsystem.service.dbservices.ReportNameService;
 import com.nppgks.reportingsystem.service.dbservices.ReportTypeService;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportNameService;

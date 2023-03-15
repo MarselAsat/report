@@ -1,4 +1,4 @@
-SET search_path TO recurring_reports;
+SET search_path TO operative_reports;
 
 INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
 VALUES (45, 12, 'hour_mass_il1', 'Средний массовый расход за час ил1', 'hour', 'il1'),

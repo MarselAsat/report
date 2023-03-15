@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.integration.reportgeneration;
 
-import com.nppgks.reportingsystem.reportgeneration.recurring.ReportsScheduler;
+import com.nppgks.reportingsystem.reportgeneration.operative.ReportsScheduler;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 

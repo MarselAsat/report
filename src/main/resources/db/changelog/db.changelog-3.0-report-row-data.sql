@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
 --changeset alina.parfenteva:1
-SET search_path TO recurring_reports;
+SET search_path TO operative_reports;
 
 insert into report_row (id, name, "order", report_type_id)
 values (12, 'Средний массовый расход', 11,'hour'),

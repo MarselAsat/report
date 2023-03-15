@@ -1,12 +1,12 @@
 package com.nppgks.reportingsystem.integration.scheduled_components;
 
-import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportName;
-import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportType;
-import com.nppgks.reportingsystem.db.recurring_reports.entity.TagData;
+import com.nppgks.reportingsystem.db.operative_reports.entity.ReportName;
+import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
+import com.nppgks.reportingsystem.db.operative_reports.entity.TagData;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ScheduledIT;
 import com.nppgks.reportingsystem.opc.OpcRequests;
-import com.nppgks.reportingsystem.reportgeneration.recurring.ReportsScheduler;
+import com.nppgks.reportingsystem.reportgeneration.operative.ReportsScheduler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.doReturn;
 @Transactional
 @ExtendWith(MockitoExtension.class)
 @ScheduledIT
-@Sql({"classpath:sql/recurring_reports/various_reports.sql"})
+@Sql({"classpath:sql/operative_reports/various_reports.sql"})
 public class ReportsSchedulerIT extends IntegrationBaseTest {
 
     @InjectMocks

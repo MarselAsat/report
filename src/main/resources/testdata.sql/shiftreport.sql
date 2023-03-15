@@ -1,6 +1,6 @@
-SET search_path TO recurring_reports;
+SET search_path TO operative_reports;
 
-insert into recurring_reports.report_row (id, name, "order", report_type_id)
+insert into operative_reports.report_row (id, name, "order", report_type_id)
 values (23, 'Средний массовый расход', 11,'shift'),
        (24, 'Средняя температура', 10,'shift'),
        (25, 'Среднее давление', 9,'shift');

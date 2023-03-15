@@ -2,7 +2,7 @@ package com.nppgks.reportingsystem.controller.view;
 
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
-import com.nppgks.reportingsystem.db.recurring_reports.entity.MeteringNode;
+import com.nppgks.reportingsystem.db.operative_reports.entity.MeteringNode;
 import com.nppgks.reportingsystem.dto.ReportRowDto;
 import com.nppgks.reportingsystem.dto.ReportTypeDto;
 import com.nppgks.reportingsystem.service.dbservices.*;
@@ -29,7 +29,7 @@ public class AdminViewController {
         return "editors/calc-tag-names-editor";
     }
 
-    @GetMapping("/recurring-tables-editor/tag-names")
+    @GetMapping("/operative-tables-editor/tag-names")
     public String tagNameEditorView(ModelMap modelMap) {
         modelMap.put("reportTypes",
                 reportTypeService.getAllReportTypes().stream()
@@ -45,17 +45,17 @@ public class AdminViewController {
                         .toList());
         return "editors/tag-names-editor";
     }
-    @GetMapping("/recurring-tables-editor/report-rows")
+    @GetMapping("/operative-tables-editor/report-rows")
     public String reportRowEditorView() {
         return "editors/report-rows-editor";
     }
 
-    @GetMapping("/recurring-tables-editor/report-types")
+    @GetMapping("/operative-tables-editor/report-types")
     public String reportTypeEditorView() {
         return "editors/report-types-editor";
     }
 
-    @GetMapping("/recurring-tables-editor/metering-nodes")
+    @GetMapping("/operative-tables-editor/metering-nodes")
     public String meteringNodeEditorView() {
         return "editors/metering-nodes-editor";
     }

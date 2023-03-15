@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.service.dbservices;
 
-import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportName;
+import com.nppgks.reportingsystem.db.operative_reports.entity.ReportName;
 
 import java.time.LocalDate;
 import java.util.List;

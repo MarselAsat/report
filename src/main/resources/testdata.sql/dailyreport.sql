@@ -1,4 +1,4 @@
-SET search_path TO recurring_reports;
+SET search_path TO operative_reports;
 
 -- Для суточного отчета
 INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)

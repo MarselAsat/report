@@ -1,9 +1,9 @@
 package com.nppgks.reportingsystem.service.dbservices;
 
-import com.nppgks.reportingsystem.db.recurring_reports.entity.ReportType;
-import com.nppgks.reportingsystem.db.recurring_reports.entity.TagName;
+import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
+import com.nppgks.reportingsystem.db.operative_reports.entity.TagName;
 import com.nppgks.reportingsystem.mapper.TagNameMapper;
-import com.nppgks.reportingsystem.db.recurring_reports.repository.TagNameRepository;
+import com.nppgks.reportingsystem.db.operative_reports.repository.TagNameRepository;
 import com.nppgks.reportingsystem.dto.TagNameDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
