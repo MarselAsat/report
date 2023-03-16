@@ -33,8 +33,8 @@ INSERT INTO report_name(id, report_type_id, name, start_dt, end_dt, creation_dt)
 VALUES (3, 'shift',
         'Тестовый сменный отчет за 10:00 21.04.2022',
         TO_TIMESTAMP('2022-04-21 09:00', 'YYYY-MM-DD HH24:MI:SS'),
-        TO_TIMESTAMP('2022-04-21 10:00', 'YYYY-MM-DD HH24:MI:SS'),
-        TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'));
+        TO_TIMESTAMP('2022-04-21 18:00', 'YYYY-MM-DD HH24:MI:SS'),
+        TO_TIMESTAMP('2022-04-21 18:00:50', 'YYYY-MM-DD HH24:MI:SS'));
 
 INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
 VALUES (45.9, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 89, 3),
