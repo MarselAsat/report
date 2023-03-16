@@ -34,4 +34,8 @@ public class MeteringNodeService {
     public String saveMeteringNode(MeteringNode meteringNode) {
         return meteringNodeRepository.save(meteringNode).getId();
     }
+
+    public void deleteMeteringNode(String id) {
+        meteringNodeRepository.deleteById(id);
+    }
 }

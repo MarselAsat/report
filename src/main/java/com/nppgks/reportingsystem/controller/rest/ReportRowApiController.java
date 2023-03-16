@@ -20,25 +20,26 @@ public class ReportRowApiController {
     public List<ReportRowDto> getReportRows() {
         return reportRowService.getAllReportRows();
     }
+
     @PostMapping
-    public Integer createReportRow(@RequestBody ReportRowDto reportRowDto){
+    public Integer createReportRow(@RequestBody ReportRowDto reportRowDto) {
         return reportRowService.saveReportRow(reportRowDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteReportRow(@PathVariable Integer id){
+    public ResponseEntity<?> deleteReportRow(@PathVariable Integer id) {
         reportRowService.deleteReportRow(id);
         return ResponseEntity.ok("successfully deleted");
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> partUpdateReportRow(@RequestBody Map<String, String> updates, @PathVariable Integer id){
+    public ResponseEntity<?> partUpdateReportRow(@RequestBody Map<String, String> updates, @PathVariable Integer id) {
         reportRowService.partialUpdateReportRow(id, updates);
         return ResponseEntity.ok("successfully updated");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateReportRow(@RequestBody ReportRowDto reportRowDto){
+    public ResponseEntity<?> updateReportRow(@RequestBody ReportRowDto reportRowDto) {
         reportRowService.saveReportRow(reportRowDto);
         return ResponseEntity.ok("successfully updated");
     }

@@ -22,13 +22,19 @@ public class MeteringNodeApiController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> partUpdateMeteringNode(@RequestBody Map<String, String> updates, @PathVariable String id){
+    public ResponseEntity<?> partUpdateMeteringNode(@RequestBody Map<String, String> updates, @PathVariable String id) {
         meteringNodeService.partialUpdateMeteringNode(id, updates);
         return ResponseEntity.ok("successfully updated");
     }
 
     @PostMapping
-    public String createMeteringNode(@RequestBody MeteringNode meteringNode){
+    public String createMeteringNode(@RequestBody MeteringNode meteringNode) {
         return meteringNodeService.saveMeteringNode(meteringNode);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteMeteringNode(@PathVariable String id) {
+        meteringNodeService.deleteMeteringNode(id);
+        return ResponseEntity.ok("successfully deleted");
     }
 }

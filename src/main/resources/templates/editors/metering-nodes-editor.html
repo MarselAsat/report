@@ -22,8 +22,8 @@
     <div class="main-container container">
         <div class="col-md-12">
             <div class="card my-4 border-0">
-                <zing-grid caption="Таблица metering_node" src="/api/meteringNodes/" lang="ru" editor="false" columns-control>
-                    <zg-column editor=false index="id" header="ID"></zg-column>
+                <zing-grid frozen-columns-left caption="Таблица metering_node" src="/api/meteringNodes/" lang="ru" editor-controls="creator remover" editor columns-control>
+                    <zg-column index="id" header="ID"></zg-column>
                     <zg-column index="name" header="Название"></zg-column>
                 </zing-grid>
             </div>
