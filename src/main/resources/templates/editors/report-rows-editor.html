@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="fragments/header">
+</head>
+<head>
+    <meta charset="UTF-8">
+    <title>Редактор строк в отчете</title>
+    <script th:src="@{/external_libraries/zinggrid.min.js}"></script>
+    <link th:href="@{/css/zinggrid.css}" rel="stylesheet"/>
+    <style>
+        .card {
+            --bs-card-spacer-y: 0;
+        }
+
+        .main-container {
+            margin-top: 5rem!important;
+        }
+    </style>
+</head>
+<body>
+    <nav th:replace="fragments/nav"></nav>
+    <div class="main-container container">
+        <div class="col-md-12">
+            <div class="card my-4 border-0">
+                <zing-grid caption="Таблица report_row" src="/api/reportRows/" lang="ru" editor="false" editor-controls columns-control search sort>
+                    <zg-column index="name" header="Название cтроки"></zg-column>
+                    <zg-column index="order" type="number" header="Порядок"></zg-column>
+                    <zg-column id="reportTypes" index="reportTypeName" header="Тип отчета" type="select"
+                               th:type-select-options="${reportTypes}"></zg-column>
+                </zing-grid>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

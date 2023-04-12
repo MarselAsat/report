@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header"></head>
+<head>
+    <title id="pageTitle">Настройки</title>
+    <script type="text/javascript" th:src="@{/js/settings.js}"></script>
+    <style>
+        .main-container{
+            margin-top: 5rem;
+        }
+    </style>
+</head>
+<body>
+<nav th:replace="fragments/nav"></nav>
+<div class="main-container container">
+    <div class="row justify-content-center">
+        <div class="col-12 mx-auto">
+            <div class="my-4">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#operative-reports">Оперативные
+                            отчеты</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="list-group mb-5 pe-0 shadow tab-pane container active" id="operative-reports">
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в часовом отчете</p>
+                                </div>
+                                <div class="col-auto" id="hour-columns">
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${hourColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в двухчасовом отчете</p>
+                                </div>
+                                <div class="col-auto" id="twohour-columns">
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${twohourColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в суточном отчете</p>
+                                </div>
+                                <div class="col-auto" id="daily-columns">
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${dailyColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в сменном отчете</p>
+                                </div>
+                                <div class="col-auto" id="shift-columns">
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${shiftColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в месячном отчете</p>
+                                </div>
+                                <div class="col-auto" id="month-columns">
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${monthColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в годовом отчете</p>
+                                </div>
+                                <div class="col-auto" id="year-columns">
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${yearColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Название узла учета</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="text" id="metering-station-name" th:value="${meteringStationName}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Начало формирования суточного отчета</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="time" id="start-daily-report" th:value="${dailyStartTime}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Начало формирования месячного отчета</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="time" id="start-month-report" th:value="${monthStartTime}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Начало формирования годового отчета</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="time" id="start-year-report" th:value="${yearStartTime}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <p class="mb-0">Количество смен</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="number" onchange="shiftNumsHasChanged(this)"
+                                               onfocus="savePrevValue(this)" id="start-shift-report"
+                                               th:value="${shiftStartTime.size()}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:each="entry : ${shiftStartTime}" class="row align-items-center shift-start-time"
+                                 th:id="|shift-start-time-${entry.key}|">
+                                <div class="col">
+                                    <p class="mb-0 shift-name" th:text="|Начало смены ${entry.key}|"></p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="time" th:value="${entry.value}" class="shift-time">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" onclick="save()" class="btn btn-primary">Сохранить</button>
+                <label id="response"></label>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+zg-caption{
+    border-radius: 5px;
+    background: white;
+    color: #495057;
+    --zg-caption-icon-color: #0d6efd;
+}
+zg-watermark{
+    display: none;
+}
+zing-grid{
+    border-radius: 0.5rem!important;
+}

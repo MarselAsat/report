@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <script type="text/javascript" th:src="@{/js/start-page-filters.js}"></script>
+    <style>
+        .pointer{
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<div th:fragment="filters">
+
+    <!-- Report Types -->
+    <div class="card my-4">
+        <h4 class="card-header">Типы отчетов</h4>
+        <div class="list-group">
+            <a th:each="reportType: ${reportTypes}"
+               th:text="${reportType.name}" class="list-group-item pointer" th:id="'reportType-'+${reportType.id}"
+               onclick="reportTypeIsChanged(this)">
+            </a>
+            <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer" id="reportType-poverki">Поверки</a>
+        </div>
+    </div>
+
+    <!-- Date -->
+    <div>
+        <label for="datePicker">Выберите дату:</label>
+        <input type="date" id="datePicker" onchange="dateIsChanged(this)"/>
+    </div>
+
+    <!-- Report Names -->
+    <div class="card my-4">
+        <h5 class="card-header">Отчеты</h5>
+        <div class="list-group" id="reportNames">
+            <a th:each="reportName: ${reportNames}"
+               th:text="${reportName.name}" th:onclick="|getTagData(this,'${reportName.id}')|"
+               class="list-group-item pointer"></a>
+        </div>
+    </div>
+</div>
+
+<body>
+
+</body>
+</html>

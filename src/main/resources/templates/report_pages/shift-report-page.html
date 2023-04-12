@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header"></head>
+<body>
+<div class="container">
+    <div class="row">
+        <h2 style="text-align: center;">Сменный отчет</h2>
+        <h5 style="text-align: center; padding-bottom: 3%;" th:text="${meteringStationName}"></h5>
+        <div class="col-sm-12">
+            <p>Дата и время начала отчета: <u th:text="${startReportDate}"></u></p>
+            <p>Дата и время окончания отчета: <u th:text="${endReportDate}"></u></p>
+            <p>Дата и время формирования отчета: <u th:text="${reportNameDtCreation}"></u></p>
+            <table id = "tag-name-table" class="table table-bordered table-striped">
+                <thead class="table-light" style="font-weight: bold">
+                <tr>
+                    <td>Параметр</td>
+                    <td th:each="column: ${columns}">
+                        <div th:text="${column.getName()}"></div>
+                    </td>
+                </tr>
+                </thead>
+
+                <tbody id="tag-name-tbody">
+                <tr th:each="row: ${reportViewTagData}">
+                    <td class="align-middle">
+                        <span th:text = "${row.description} ?: '-'"/>
+                    </td>
+                    <td th:each="column: ${columns}" class="align-middle">
+                        <span th:text = "${row.meteringNodeValues().containsKey(column.getId())} ? ${row.meteringNodeValues().get(column.getId())}: '-'"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <p style="padding-top: 3%;">Сдал: ________________________________ /(ФИО) Подпись _____________ </p>
+            <p>Принял: ________________________________ /(ФИО) Подпись _____________ </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="fragments/header">
+</head>
+<head>
+    <meta charset="UTF-8">
+    <title>Редактор типов отчетов</title>
+    <script th:src="@{/external_libraries/zinggrid.min.js}"></script>
+    <link th:href="@{/css/zinggrid.css}" rel="stylesheet"/>
+    <style>
+        .card {
+            --bs-card-spacer-y: 0;
+        }
+
+        .main-container {
+            margin-top: 5rem!important;
+        }
+    </style>
+</head>
+<body>
+    <nav th:replace="fragments/nav"></nav>
+    <div class="main-container container">
+        <div class="col-md-12">
+            <div class="card my-4 border-0">
+                <zing-grid caption="Таблица report_type" src="/api/reportTypes/" lang="ru" editor="false" columns-control>
+                    <zg-column editor=false index="id" header="ID"></zg-column>
+                    <zg-column editor=false index="name" header="Название"></zg-column>
+                    <zg-column index="description" header="Описание"></zg-column>
+                    <zg-column index="active" header="Активный" type="select" type-select-options="[true, false]"></zg-column>
+                </zing-grid>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
