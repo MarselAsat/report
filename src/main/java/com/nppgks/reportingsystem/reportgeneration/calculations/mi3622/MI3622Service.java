@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
 
 import com.nppgks.reportingsystem.dto.calc.CalcTagNameForOpc;
-import com.nppgks.reportingsystem.opc.OpcRequests;
+import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.constants.CalcMethod;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagNameService;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.DataConverter;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MI3622Service {
 
-    private final OpcRequests opcRequests;
+    private final OpcServiceRequests opcServiceRequests;
     private final CalcTagNameService calcTagNameService;
 
     private final MI3622DbService MI3622DbService;
@@ -32,7 +32,7 @@ public class MI3622Service {
                 .map(CalcTagNameForOpc::name)
                 .toList();
 
-        Map<String, String> initialDataFromOpc = opcRequests.getTagDataFromOpc(initialTagNamesForOpc);
+        Map<String, String> initialDataFromOpc = opcServiceRequests.getTagDataFromOpc(initialTagNamesForOpc);
 
         DataConverter.putInOrder2DArraysInOpcData(
                 initialDataFromOpc,
@@ -48,7 +48,7 @@ public class MI3622Service {
         Map<String, String> finalTagNamesMap = createTagNamesMap(finalTagNames);
 
         Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(finalData, finalTagNamesMap);
-        opcRequests.sendTagDataToOpc(finalDataForOpc);
+        opcServiceRequests.sendTagDataToOpc(finalDataForOpc);
 
         prepareAllDataForDB(initialTagNames, initialDataFromOpc, finalTagNames, finalDataForOpc);
     }
