@@ -24,7 +24,7 @@ class OpcServiceRequestsTest {
 
     @Test
     void checkConnection() {
-        boolean isReachable = opcServiceRequests.checkOpcServerConnection();
+        boolean isReachable = opcServiceRequests.testOpcServerConnection();
         Assertions.assertThat(isReachable).isTrue();
     }
 

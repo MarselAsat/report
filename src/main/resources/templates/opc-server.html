@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header"></head>
+<head>
+  <title id="pageTitle">OPC сервер</title>
+  <script type="text/javascript" th:src="@{/js/opc-server.js}"></script>
+  <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
+  <link th:href="@{/external_libraries/sweetalert/sweetalert2.min.css}" rel="stylesheet">
+  <style>
+    .main-container{
+      margin-top: 5rem;
+    }
+    .swal2-confirm{
+      background-color: #0d6efd !important;
+    }
+  </style>
+</head>
+<body>
+<nav th:replace="fragments/nav"></nav>
+<div class="main-container container">
+  <div class="row justify-content-center">
+    <div class="col-12 mx-auto">
+      <div class="my-4">
+        <div class="tab-content">
+          <div class="list-group mb-5 pe-0 container">
+            <div class="list-group-item">
+              <div class="row align-items-center">
+                <button class="btn btn-primary" type="submit" onclick="checkConnection()">Проверить соединение с OPC сервером</button>
+                <div id="message" class="alert alert-danger" style="display:none" role="alert"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
