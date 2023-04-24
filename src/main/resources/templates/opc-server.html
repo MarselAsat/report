@@ -28,26 +28,35 @@
 <body>
 <nav th:replace="fragments/nav"></nav>
 <div class="main-container container">
+  <h1 class="h2 mb-4">OPC сервер</h1>
   <div class="row justify-content-center">
-    <div class="col-12 mx-auto">
-      <div class="my-4">
-        <div class="tab-content">
-          <div class="list-group mb-5 pe-0 container">
-            <div class="list-group-item">
-              <div class="row align-items-center">
-                <button class="btn btn-primary" type="submit" onclick="checkConnection()">Проверить соединение с OPC сервером</button>
-              </div>
-              <div class="row align-items-center">
-                Проверить значение тега:
-                <select id="select" class="select-with-search" onchange="getTagValue(this.options[this.selectedIndex].value)">
-                  <option>daily_mass_il1</option>
-                  <option>daily.mass.il1</option>
-                  <option th:each="tagName : ${tagNames}" th:value="${tagName}" th:text="${tagName}"></option>
-                </select>
-                <div id="tag-value" class="alert alert-danger" style="display:none" role="alert"></div>
-              </div>
-            </div>
+    <div class="mb-4 mb-lg-0 col-md-10 col-lg-7 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="mb-2">
+            Проверить значение тега:
           </div>
+          <div class="mb-2">
+            <select id="select" class="select-with-search" onchange="getTagValue(this.options[this.selectedIndex].value)">
+              <option>daily_mass_il1</option>
+              <option>daily.mass.il1</option>
+              <option th:each="tagName : ${tagNames}" th:value="${tagName}" th:text="${tagName}"></option>
+            </select>
+          </div>
+          <div id="tag-value" class="alert alert-danger" style="display:none" role="alert"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-10 col-lg-5 col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="mb-2">
+            <strong>Связь с OPC сервером</strong>
+          </div>
+          <div class="mb-2">
+            <button class="btn btn-primary" type="submit" onclick="checkConnection()">Проверить соединение с OPC сервером</button>
+          </div>
+          <button class="btn btn-primary" type="submit" onclick="reconnect()">Переподключиться к OPC серверу</button>
         </div>
       </div>
     </div>
