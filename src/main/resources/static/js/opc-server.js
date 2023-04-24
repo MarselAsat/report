@@ -10,7 +10,8 @@ window.onload = function () {
     });
 }
 
-function checkConnection() {
+function testConnection() {
+    $('#loaderTestConnection').css("display", "block")
     fetch("/opcService/testOpcServerConnection", {
             method: 'GET',
             headers: {
@@ -31,10 +32,12 @@ function checkConnection() {
                     text: 'OPC сервер доступен'
                 })
             }
+            $('#loaderTestConnection').css("display", "none")
         })
 }
 
 function reconnect() {
+    $('#loaderReconnect').css("display", "block")
     fetch("/opcService/reconnect", {
             method: 'GET',
             headers: {
@@ -48,6 +51,7 @@ function reconnect() {
                 Swal.fire({
                     icon: 'error',
                     text: 'Не удалось переподключиться к OPC серверу'
+
                 })
             } else if (data === "true") {
                 Swal.fire({
@@ -55,11 +59,12 @@ function reconnect() {
                     text: 'Переподключение к OPC серверу прошло успешно'
                 })
             }
+            $('#loaderReconnect').css("display", "none")
         })
 }
 
 function getTagValue(tagName) {
-    if(tagName === "Выберите тег" || tagName === ""){
+    if(tagName === ""){
         return;
     }
     var url = "/opcService/readValue/" + tagName;
@@ -81,7 +86,7 @@ function getTagValue(tagName) {
                 tagValueField.innerText = "Тег не найден";
             } else {
                 tagValueField.style.display = 'block';
-                tagValueField.className = "alert alert-success";
+                tagValueField.className = "alert alert-secondary";
                 tagValueField.innerText = data;
             }
         })
