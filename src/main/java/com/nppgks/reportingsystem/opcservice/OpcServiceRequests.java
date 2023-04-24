@@ -19,6 +19,7 @@ public class OpcServiceRequests {
     private RestTemplate restTemplate;
     private HttpHeaders headers;
     private URI uriCheckConnection;
+    private URI uriReconnect;
     private URI uriRead;
     private URI uriWrite;
 
@@ -28,12 +29,15 @@ public class OpcServiceRequests {
         headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        final String pathCheckConnection = "/opc/test-connection";
+        final String pathTestConnection = "/opc/test-connection";
+        final String pathReconnect = "/opc/reconnect";
         final String pathRead = "/opc/read";
         final String pathWrite = "/opc/write";
 
         uriCheckConnection = UriComponentsBuilder.newInstance()
-                .scheme("http").host(host).port(port).path(pathCheckConnection).build().toUri();
+                .scheme("http").host(host).port(port).path(pathTestConnection).build().toUri();
+        uriReconnect = UriComponentsBuilder.newInstance()
+                .scheme("http").host(host).port(port).path(pathReconnect).build().toUri();
         uriRead = UriComponentsBuilder.newInstance()
                 .scheme("http").host(host).port(port).path(pathRead).build().toUri();
         uriWrite = UriComponentsBuilder.newInstance()
@@ -57,5 +61,9 @@ public class OpcServiceRequests {
     public void sendTagDataToOpc(Map<String, Object> data) {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(data, headers);
         restTemplate.postForObject(uriWrite, entity, HashMap.class);
+    }
+
+    public boolean reconnectToOpcServer() {
+        return restTemplate.getForObject(uriReconnect, Boolean.class);
     }
 }

@@ -21,6 +21,12 @@ public class OpcServiceController {
         return opcServiceRequests.testOpcServerConnection();
     }
 
+    @GetMapping("/reconnect")
+    @ResponseBody
+    public boolean reconnect(){
+        return opcServiceRequests.reconnectToOpcServer();
+    }
+
     @GetMapping("/readValue/{tagName}")
     @ResponseBody
     public String getValueByName(@PathVariable String tagName){
