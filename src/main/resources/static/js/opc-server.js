@@ -1,5 +1,4 @@
 function checkConnection() {
-    let messageField = document.getElementById("message");
     fetch("/opcService/testOpcServerConnection", {
             method: 'GET',
             headers: {
