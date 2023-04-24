@@ -4,14 +4,24 @@
 <head>
   <title id="pageTitle">OPC сервер</title>
   <script type="text/javascript" th:src="@{/js/opc-server.js}"></script>
+
+<!--  sweetAlert library-->
   <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
   <link th:href="@{/external_libraries/sweetalert/sweetalert2.min.css}" rel="stylesheet">
+
+<!--  tom-select library-->
+  <script th:src="@{/external_libraries/tom-select/tom-select.complete.min.js}"></script>
+  <link th:href="@{/external_libraries/tom-select/tom-select.bootstrap5.min.css}" rel="stylesheet">
+
   <style>
     .main-container{
       margin-top: 5rem;
     }
     .swal2-confirm{
       background-color: #0d6efd !important;
+    }
+    #tag-value{
+      overflow-wrap: break-word;
     }
   </style>
 </head>
@@ -26,6 +36,15 @@
             <div class="list-group-item">
               <div class="row align-items-center">
                 <button class="btn btn-primary" type="submit" onclick="checkConnection()">Проверить соединение с OPC сервером</button>
+              </div>
+              <div class="row align-items-center">
+                Проверить значение тега:
+                <select id="select" class="select-with-search" onchange="getTagValue(this.options[this.selectedIndex].value)">
+                  <option>daily_mass_il1</option>
+                  <option>daily.mass.il1</option>
+                  <option th:each="tagName : ${tagNames}" th:value="${tagName}" th:text="${tagName}"></option>
+                </select>
+                <div id="tag-value" class="alert alert-danger" style="display:none" role="alert"></div>
               </div>
             </div>
           </div>

@@ -47,7 +47,7 @@ public class OpcServiceRequests {
 
     public String getTagDataFromOpc(String tagName) {
         HttpEntity<List<String>> entity = new HttpEntity<>(List.of(tagName), headers);
-        return (String) restTemplate.postForObject(uriRead, entity, HashMap.class).getOrDefault(tagName, "Значение тега не найдено");
+        return (String) restTemplate.postForObject(uriRead, entity, HashMap.class).getOrDefault(tagName, "No data");
     }
 
     public boolean testOpcServerConnection(){
