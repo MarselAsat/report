@@ -1,6 +1,6 @@
 window.onload = function () {
-    $(document).ready(function() {
-        new TomSelect("#select",{
+    $(document).ready(function () {
+        new TomSelect("#select", {
             create: true,
             sortField: {
                 field: "text",
@@ -19,7 +19,15 @@ function testConnection() {
             }
         }
     )
-        .then(response => response.text())
+        .then(response => {
+            if (response.status === 503) {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Нет связи с OPC сервисом'
+                })
+            }
+            return response.text()
+        })
         .then(data => {
             if (data === "false") {
                 Swal.fire({
@@ -45,13 +53,20 @@ function reconnect() {
             }
         }
     )
-        .then(response => response.text())
+        .then(response => {
+            if (response.status === 503) {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Нет связи с OPC сервисом'
+                })
+            }
+            return response.text()
+        })
         .then(data => {
             if (data === "false") {
                 Swal.fire({
                     icon: 'error',
                     text: 'Не удалось переподключиться к OPC серверу'
-
                 })
             } else if (data === "true") {
                 Swal.fire({
@@ -64,7 +79,7 @@ function reconnect() {
 }
 
 function getTagValue(tagName) {
-    if(tagName === ""){
+    if (tagName === "") {
         return;
     }
     var url = "/opcService/readValue/" + tagName;
@@ -78,13 +93,20 @@ function getTagValue(tagName) {
             }
         }
     )
-        .then(response => response.text())
+        .then(response => {
+            if (response.status === 503) {
+                tagValueField.style.display = 'block';
+                tagValueField.className = "alert alert-danger";
+                tagValueField.innerText = "Нет связи с OPC сервисом";
+            }
+            return response.text()
+        })
         .then(data => {
             if (data === "No data") {
                 tagValueField.style.display = 'block';
                 tagValueField.className = "alert alert-danger";
                 tagValueField.innerText = "Тег не найден";
-            } else {
+            } else if (data !== "OPC service is unavailable") {
                 tagValueField.style.display = 'block';
                 tagValueField.className = "alert alert-secondary";
                 tagValueField.innerText = data;
