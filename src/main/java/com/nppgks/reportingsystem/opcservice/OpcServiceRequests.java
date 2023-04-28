@@ -64,6 +64,6 @@ public class OpcServiceRequests {
     }
 
     public boolean reconnectToOpcServer() {
-        return restTemplate.getForObject(uriReconnect, Boolean.class);
+        return restTemplate.postForObject(uriReconnect, new HttpEntity<>(headers), Boolean.class);
     }
 }
