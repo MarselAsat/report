@@ -5,7 +5,8 @@ window.onload = function () {
             sortField: {
                 field: "text",
                 direction: "asc"
-            }
+            },
+            maxOptions: null
         });
     });
 }
@@ -79,12 +80,14 @@ function reconnect() {
 }
 
 function getTagValue(tagName) {
+    let tagValueField = document.getElementById("tag-value");
+    tagValueField.style.display = 'none';
+    $('#loaderTagValue').css("display", "block")
+
     if (tagName === "") {
         return;
     }
     var url = "/opcService/readValue/" + tagName;
-
-    let tagValueField = document.getElementById("tag-value");
 
     fetch(url, {
             method: 'GET',
@@ -111,5 +114,6 @@ function getTagValue(tagName) {
                 tagValueField.className = "alert alert-secondary";
                 tagValueField.innerText = data;
             }
+            $('#loaderTagValue').css("display", "none")
         })
 }

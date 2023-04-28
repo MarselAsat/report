@@ -59,12 +59,12 @@
                     <div class="mb-2">
                         <select id="select" class="select-with-search"
                                 onchange="getTagValue(this.options[this.selectedIndex].value)">
-                            <option>daily_mass_il1</option>
-                            <option>daily.mass.il1</option>
                             <option th:each="tagName : ${tagNames}" th:value="${tagName}" th:text="${tagName}"></option>
                         </select>
                     </div>
-                    <div id="tag-value" class="alert alert-danger" style="display:none" role="alert"></div>
+                    <div class="loader alert" id="loaderTagValue" style="display:none; margin-left: 10pt"></div>
+                    <div id="tag-value" class="alert alert-danger" style="display:none" role="alert">
+                    </div>
                 </div>
             </div>
         </div>
