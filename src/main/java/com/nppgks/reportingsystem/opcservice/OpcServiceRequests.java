@@ -51,10 +51,16 @@ public class OpcServiceRequests {
 
     public String getTagDataFromOpc(String tagName) {
         HttpEntity<List<String>> entity = new HttpEntity<>(List.of(tagName), headers);
-        return (String) restTemplate.postForObject(uriRead, entity, HashMap.class).getOrDefault(tagName, "No data");
+        HashMap result = restTemplate.postForObject(uriRead, entity, HashMap.class);
+        String noData = "No data";
+        if (result != null) {
+            return (String) result.getOrDefault(tagName, noData);
+        } else {
+            return noData;
+        }
     }
 
-    public boolean testOpcServerConnection(){
+    public boolean testOpcServerConnection() {
         return restTemplate.getForObject(uriCheckConnection, Boolean.class);
     }
 
