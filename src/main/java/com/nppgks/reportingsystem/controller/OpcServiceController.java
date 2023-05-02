@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.controller;
 
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
-import com.nppgks.reportingsystem.opcservice.TagNamesOpcService;
+import com.nppgks.reportingsystem.service.dbservices.AllTagNamesService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class OpcServiceController {
 
     private final OpcServiceRequests opcServiceRequests;
-    private final TagNamesOpcService tagNamesOpcService;
+    private final AllTagNamesService allTagNamesService;
 
     @GetMapping("/testOpcServerConnection")
     @ResponseBody
@@ -35,7 +35,7 @@ public class OpcServiceController {
 
     @GetMapping("/opcServer")
     public String getOpcServerPage(ModelMap modelMap){
-        modelMap.put("tagNames", tagNamesOpcService.getAllOperativeAndCalculationTagNames());
+        modelMap.put("tagNames", allTagNamesService.getAllOperativeAndCalculationTagNames());
         return "opc-server";
     }
 }

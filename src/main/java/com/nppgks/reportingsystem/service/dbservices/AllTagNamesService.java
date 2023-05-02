@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.opcservice;
+package com.nppgks.reportingsystem.service.dbservices;
 
 import com.nppgks.reportingsystem.db.operative_reports.repository.TagNameRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class TagNamesOpcService {
+public class AllTagNamesService {
     private final TagNameRepository operativeRepository;
     private final com.nppgks.reportingsystem.db.calculations.repository.TagNameRepository calculationRepository;
 
@@ -21,6 +21,5 @@ public class TagNamesOpcService {
                 .map(tn -> tn.getName()).toList());
 
         return allTagNames;
-
     }
 }
