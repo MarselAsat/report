@@ -32,6 +32,8 @@ public class WebSecurityConfiguration {
                 .and()
                 .csrf().disable()
                 .formLogin()
+                .loginPage("/login")
+                .failureUrl("/login?error=true")
                 .and()
                 .logout()
                 .logoutSuccessHandler(customLogoutSuccessHandler)
