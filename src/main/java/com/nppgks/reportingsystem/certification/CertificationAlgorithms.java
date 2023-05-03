@@ -90,4 +90,8 @@ public class CertificationAlgorithms {
     public static double calculateQ_mass(double Q_il, double ro_il) {
         return Q_il * ro_il / 1000;
     }
+
+    public static double calculateKinematicViscosity(double dynVisc, double density) {
+        return dynVisc/(density*0.001);
+    }
 }

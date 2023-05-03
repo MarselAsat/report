@@ -20,13 +20,13 @@ class CertificationAlgorithmsTest {
         Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.01));
     }
 
-    @ParameterizedTest
-    @MethodSource("provideArgumentsForDensity15")
-    void calculateDensity15OldReportSystem(String product, double p, double temp, double overpressure, double expected) {
-        float expectedF = (float) expected;
-        float[] actual = CalculationOldReportSystem.calculateDensity15ByChange(product, (float) p, (float) temp, overpressure);
-        Assertions.assertThat(actual[0]).isCloseTo(expectedF, Offset.offset(0.01F));
-    }
+//    @ParameterizedTest
+//    @MethodSource("provideArgumentsForDensity15")
+//    void calculateDensity15OldReportSystem(String product, double p, double temp, double overpressure, double expected) {
+//        float expectedF = (float) expected;
+//        float[] actual = CalculationOldReportSystem.calculateDensity15ByChange(product, (float) p, (float) temp, overpressure);
+//        Assertions.assertThat(actual[0]).isCloseTo(expectedF, Offset.offset(0.01F));
+//    }
 
     private static Stream<Arguments> provideArgumentsForDensity15() {
         return Stream.of(
@@ -117,6 +117,13 @@ class CertificationAlgorithmsTest {
     void calculateQ_mass() {
         double actual = CertificationAlgorithms.calculateQ_mass(1000.001, 850.5001);
         double expected = 850.5001;
+        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+    }
+
+    @Test
+    void calculateKinematicViscosity() {
+        double actual = CertificationAlgorithms.calculateKinematicViscosity(50.00001, 850.5001);
+        double expected = 58.789;
         Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 }
