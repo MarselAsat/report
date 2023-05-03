@@ -3,8 +3,8 @@ package com.nppgks.reportingsystem.controller.view;
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
 import com.nppgks.reportingsystem.db.operative_reports.entity.MeteringNode;
+import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
 import com.nppgks.reportingsystem.dto.ReportRowDto;
-import com.nppgks.reportingsystem.dto.ReportTypeDto;
 import com.nppgks.reportingsystem.service.dbservices.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,21 +32,28 @@ public class AdminViewController {
     @GetMapping("/operative-tables-editor/tag-names")
     public String tagNameEditorView(ModelMap modelMap) {
         modelMap.put("reportTypes",
-                reportTypeService.getAllReportTypes().stream()
-                        .map(ReportTypeDto::getName)
+                reportTypeService.getAllActiveReportTypes()
+                        .stream()
+                        .map(ReportType::getName)
                         .toList());
         modelMap.put("meteringNodes",
-                meteringNodeService.getAllNodes().stream()
+                meteringNodeService.getAllNodes()
+                        .stream()
                         .map(MeteringNode::getName)
                         .toList());
         modelMap.put("reportRows",
-                reportRowService.getAllReportRows().stream()
+                reportRowService.getAllReportRows()
+                        .stream()
                         .map(ReportRowDto::combineNameAndType)
                         .toList());
         return "editors/tag-names-editor";
     }
     @GetMapping("/operative-tables-editor/report-rows")
-    public String reportRowEditorView() {
+    public String reportRowEditorView(ModelMap modelMap) {
+        modelMap.put("reportTypes", reportTypeService.getAllActiveReportTypes()
+                .stream()
+                .map(ReportType::getName)
+                .toList());
         return "editors/report-rows-editor";
     }
 
