@@ -22,7 +22,7 @@ public class AdminViewController {
     private final ReportRowService reportRowService;
     private final SettingsService settingsService;
     private final MeteringNodeService meteringNodeService;
-
+    private final AllTagNamesService allTagNamesService;
 
     @GetMapping("/calc-tag-name-editor")
     public String getAllcalcTagNames() {
@@ -84,5 +84,11 @@ public class AdminViewController {
 
 
         return "settings";
+    }
+
+    @GetMapping("/opcServer")
+    public String getOpcServerPage(ModelMap modelMap){
+        modelMap.put("tagNames", allTagNamesService.getAllOperativeAndCalculationTagNames());
+        return "opc-server";
     }
 }
