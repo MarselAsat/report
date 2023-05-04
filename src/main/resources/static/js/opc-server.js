@@ -85,6 +85,7 @@ function getTagValue(tagName) {
     $('#loaderTagValue').css("display", "block")
 
     if (tagName === "") {
+        $('#loaderTagValue').css("display", "none")
         return;
     }
     var url = "/opcService/readValue/" + tagName;
