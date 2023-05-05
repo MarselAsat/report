@@ -135,7 +135,7 @@ public class MI3622Service {
                 .collect(Collectors.toMap(CalcTagNameForOpc::permanentName, CalcTagNameForOpc::name));
     }
 
-    public void saveInDb() {
-        MI3622DbService.saveCalculations(tagDataList, reportName);
+    public String saveInDb() {
+        return MI3622DbService.saveCalculations(tagDataList, reportName);
     }
 }

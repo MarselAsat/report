@@ -31,7 +31,6 @@ public class CalculationsController {
     @ResponseBody
     @GetMapping("/calc" + MI_3622 + "/save")
     public String saveDataCalc3622() {
-        MI3622Service.saveInDb();
-        return "Успешно сохранено в базе данных!";
+        return MI3622Service.saveInDb();
     }
 }
