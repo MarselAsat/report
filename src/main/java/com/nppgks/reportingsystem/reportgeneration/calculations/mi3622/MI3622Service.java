@@ -26,11 +26,8 @@ public class MI3622Service {
 
     private final OpcServiceRequests opcServiceRequests;
     private final CalcTagNameService calcTagNameService;
-
     private final MI3622DbService MI3622DbService;
-
     private boolean isSaved = false;
-
     private List<TagData> tagDataList = new ArrayList<>();
     private ReportName reportName;
 

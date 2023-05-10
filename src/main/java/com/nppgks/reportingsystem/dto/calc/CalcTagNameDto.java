@@ -9,6 +9,7 @@ public class CalcTagNameDto {
     private String permanentName;
     private String name;
     private String description;
+    private Boolean initial;
     private String calcMethod;
 
     public static CalcTagNameDto fromTagName(TagName tagName) {
@@ -18,6 +19,7 @@ public class CalcTagNameDto {
         calcTagNameDto.setName(tagName.getName());
         calcTagNameDto.setDescription(tagName.getDescription());
         calcTagNameDto.setCalcMethod(tagName.getCalcMethod());
+        calcTagNameDto.setInitial(tagName.getInitial());
         return calcTagNameDto;
     }
 
@@ -28,6 +30,7 @@ public class CalcTagNameDto {
         tagName.setName(tagNameDto.getName());
         tagName.setDescription(tagNameDto.getDescription());
         tagName.setCalcMethod(tagNameDto.getCalcMethod());
+        tagName.setInitial(tagNameDto.getInitial());
         return tagName;
     }
 }
