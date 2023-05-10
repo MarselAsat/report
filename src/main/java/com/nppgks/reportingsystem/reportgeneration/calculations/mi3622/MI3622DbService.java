@@ -31,7 +31,7 @@ public class MI3622DbService {
         String response = "В базе данных успешно создан отчет поверки и сохранены результаты!";
         if (!reportNames.isEmpty()) {
             deleteReport(reportNames.get(0).getId());
-            response = "В базе данных результаты поверки успешно перезаписаны!";
+            response = "Результаты поверки успешно перезаписаны!";
         }
         reportNameRepository.save(reportName);
         tagDataRepository.saveAll(tagDataList);

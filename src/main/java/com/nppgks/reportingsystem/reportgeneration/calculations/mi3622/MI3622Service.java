@@ -29,8 +29,10 @@ public class MI3622Service {
 
     private final MI3622DbService MI3622DbService;
 
-    List<TagData> tagDataList = new ArrayList<>();
-    ReportName reportName;
+    private boolean isSaved = false;
+
+    private List<TagData> tagDataList = new ArrayList<>();
+    private ReportName reportName;
 
     public List<TagData> doCalc3622() {
         List<CalcTagNameForOpc> initialTagNames = calcTagNameService.getTagNamesByInitialAndType(true, CalcMethod.MI_3622.name());
@@ -60,7 +62,17 @@ public class MI3622Service {
         opcServiceRequests.sendTagDataToOpc(finalDataForOpc);
 
         prepareAllDataForDB(initialTagNames, initialDataFromOpc, finalTagNames, finalDataForOpc);
+        isSaved = false;
         return tagDataList;
+    }
+
+    public String saveInDb() {
+        if (isSaved) {
+            return "Эти результаты уже сохранены в базу данных";
+        }
+        String response = MI3622DbService.saveCalculations(tagDataList, reportName);
+        isSaved = true;
+        return response;
     }
 
     private void prepareAllDataForDB(List<CalcTagNameForOpc> initialTagNames,
@@ -80,16 +92,17 @@ public class MI3622Service {
                 finalTagNamesMap);
     }
 
-    /** конвертация списка объектов CalcTagNameForOpc (id, name, permanentTagName)
-     *  в map (key = CalcTagNameForOpc.name, value = calcTagNameForOpc)
+    /**
+     * конвертация списка объектов CalcTagNameForOpc (id, name, permanentTagName)
+     * в map (key = CalcTagNameForOpc.name, value = calcTagNameForOpc)
      */
     private Map<String, CalcTagNameForOpc> convertListToMap(List<CalcTagNameForOpc> tagNames) {
         return tagNames.stream()
                 .map(tn -> Map.entry(tn.name(), tn))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(e1, e2) -> e1));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1));
     }
 
-    private List<TagData> createListOfTagDataMI3622 (
+    private List<TagData> createListOfTagDataMI3622(
             Map<String, String> initialDataFromOpc,
             Map<String, Object> finalDataForOpc,
             ReportName reportName,
@@ -125,17 +138,13 @@ public class MI3622Service {
         LocalDateTime dt = LocalDateTime.now();
         return new ReportName(
                 null,
-                "Поверка МИ3622 от "+ SingleDateTimeFormatter.formatToSinglePattern(dt),
+                "Поверка МИ3622 от " + SingleDateTimeFormatter.formatToSinglePattern(dt),
                 dt,
                 CalcMethod.MI_3622.name());
     }
 
-    private Map<String, String> createTagNamesMap(List<CalcTagNameForOpc> tagNamesForOpc){
+    private Map<String, String> createTagNamesMap(List<CalcTagNameForOpc> tagNamesForOpc) {
         return tagNamesForOpc.stream()
                 .collect(Collectors.toMap(CalcTagNameForOpc::permanentName, CalcTagNameForOpc::name));
-    }
-
-    public String saveInDb() {
-        return MI3622DbService.saveCalculations(tagDataList, reportName);
     }
 }
