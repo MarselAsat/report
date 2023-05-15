@@ -61,6 +61,12 @@ function reconnect() {
                     text: 'Нет связи с OPC сервисом'
                 })
             }
+            else if(response.status >= 500){
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Не удалось переподключиться к OPC серверу'
+                })
+            }
             return response.text()
         })
         .then(data => {
