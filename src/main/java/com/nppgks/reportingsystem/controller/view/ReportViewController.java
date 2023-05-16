@@ -96,7 +96,7 @@ public class ReportViewController {
                     td.getTagName().getPermanentName(), value);
         });
 
-        return "report_pages/calc3622-report-page";
+        return "report_pages/MI3622-report-page";
     }
 
     private void fillModelMapForReportView(ModelMap modelMap, Long reportNameId, String columnsFromSetting) {

@@ -31,7 +31,7 @@ public class MI3622Service {
     private List<TagData> tagDataList = new ArrayList<>();
     private ReportName reportName;
 
-    public List<TagData> doCalc3622() {
+    public List<TagData> calcMI3622() {
         List<CalcTagNameForOpc> initialTagNames = calcTagNameService.getTagNamesByInitialAndType(true, CalcMethod.MI_3622.name());
         Map<String, String> initialTagNamesMap = createTagNamesMap(initialTagNames);
 
