@@ -38,10 +38,6 @@
         </a>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!--          <li class="nav-item">-->
-                <!--            <a class="nav-link active" aria-current="page" href="#">Home</a>-->
-                <!--          </li>-->
-
                 <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle" id="editTagsDropdown" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
@@ -63,11 +59,11 @@
                     </ul>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/admin/opcServer}" class="nav-link">OPC сервер</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/admin/settings}" class="nav-link">Настройки</a>
                 </li>
-                <!--          <li class="nav-item" sec:authorize="hasRole('ADMIN')">-->
-                <!--            <a th:href="@{/admin/tagName/new}" class="nav-link">Create new tag</a>-->
-                <!--          </li>-->
             </ul>
             <ul class="navbar-nav navbar-right dropdown-menu-end" id="userDropdown">
                 <li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link"> Войти</a>

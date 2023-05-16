@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS tag_name
     id             SERIAL PRIMARY KEY,
     permanent_name VARCHAR(256) NOT NULL,
     name           VARCHAR(256) NOT NULL,
-    description    VARCHAR(256),
+    description    VARCHAR(512),
     initial        BOOLEAN      NOT NULL,
     calc_method    VARCHAR(32)  NOT NULL
 );

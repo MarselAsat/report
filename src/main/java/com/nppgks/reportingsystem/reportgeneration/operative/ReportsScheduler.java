@@ -7,7 +7,7 @@ import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.operative_reports.entity.TagData;
 import com.nppgks.reportingsystem.db.operative_reports.entity.TagName;
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
-import com.nppgks.reportingsystem.opc.OpcRequests;
+import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.service.dbservices.*;
 import com.nppgks.reportingsystem.util.time.DateTimeRange;
 import com.nppgks.reportingsystem.util.time.DateTimeRangeBuilder;
@@ -56,7 +56,7 @@ public class ReportsScheduler {
 
     private final SettingsService settingsService;
 
-    private final OpcRequests opcRequests;
+    private final OpcServiceRequests opcServiceRequests;
 
     @Autowired
     public void setRescheduleService(RescheduleService rescheduleService){
@@ -195,7 +195,7 @@ public class ReportsScheduler {
         List<String> tagNamesStr = tagNames.stream()
                 .map(TagName::getName)
                 .toList();
-        Map<String, String> tagDataFromOPC = opcRequests.getTagDataFromOpc(tagNamesStr);
+        Map<String, String> tagDataFromOPC = opcServiceRequests.getTagDataFromOpc(tagNamesStr);
         return tagDataService.saveTagDataMapByReportName(tagDataFromOPC, reportName, currentDt);
     }
 
