@@ -91,44 +91,44 @@ public class MI3622Calculation {
     public double[][] calculateK_e_ij() {
         double[][] K_e_ij = new double[measureCount][pointsCount];
         int eLen = K_e_arr.length;
-        if(eLen==1){
-            for(int i = 0; i< measureCount; i++){
-                for(int j = 0; j<pointsCount; j++){
+        if (eLen == 1) {
+            for (int i = 0; i < measureCount; i++) {
+                for (int j = 0; j < pointsCount; j++) {
                     K_e_ij[i][j] = K_e_arr[0];
                 }
             }
-        }
-        else {
-            if(eLen != Q_e_arr.length) throw new NotValidTagDataException("Длины массивов Q_e_arr и K_e_arr должны соответствовать");
+        } else {
+            if (eLen != Q_e_arr.length)
+                throw new NotValidTagDataException(
+                        "Длины массивов Q_e_arr=%s и K_e_arr=%s должны соответствовать"
+                                .formatted(Arrays.toString(Q_e_arr), Arrays.toString(K_e_arr)));
             linearInterpolation(K_e_ij, eLen);
         }
         return K_e_ij;
     }
 
     private void linearInterpolation(double[][] K_e_ij, int eLen) {
-        for(int i = 0; i< measureCount; i++){
-            for(int j = 0; j<pointsCount; j++){
-                if(Q_e_arr[0] >= Q_i_j[i][j]){
+        for (int i = 0; i < measureCount; i++) {
+            for (int j = 0; j < pointsCount; j++) {
+                if (Q_e_arr[0] >= Q_i_j[i][j]) {
                     K_e_ij[i][j] = K_e_arr[0];
-                }
-                else if(Q_i_j[i][j] >= Q_e_arr[eLen -1]){
-                    K_e_ij[i][j] = K_e_arr[eLen -1];
-                }
-                else{
+                } else if (Q_i_j[i][j] >= Q_e_arr[eLen - 1]) {
+                    K_e_ij[i][j] = K_e_arr[eLen - 1];
+                } else {
                     int index1;
                     int index2;
-                    for(int k = 0; k< eLen; k++){
-                        if(Q_e_arr[k] == Q_i_j[i][j]){
+                    for (int k = 0; k < eLen; k++) {
+                        if (Q_e_arr[k] == Q_i_j[i][j]) {
                             K_e_ij[i][j] = K_e_arr[k];
                             break;
                         }
-                        if(Q_e_arr[k] > Q_i_j[i][j]){
+                        if (Q_e_arr[k] > Q_i_j[i][j]) {
                             index2 = k;
-                            index1 = k-1;
+                            index1 = k - 1;
 
                             // f(X1)+(f(X2) - f(X1))*(X - X1)/(X2 - X1)
-                            K_e_ij[i][j] = K_e_arr[index1] + (K_e_arr[index2] - K_e_arr[index1])*
-                                    (Q_i_j[i][j] - Q_e_arr[index1])/(Q_e_arr[index2] - Q_e_arr[index1]);
+                            K_e_ij[i][j] = K_e_arr[index1] + (K_e_arr[index2] - K_e_arr[index1]) *
+                                    (Q_i_j[i][j] - Q_e_arr[index1]) / (Q_e_arr[index2] - Q_e_arr[index1]);
                             break;
                         }
                     }
@@ -157,7 +157,7 @@ public class MI3622Calculation {
 
     public double[][] calculateMF_ij() {
         double[][] MF = null;
-        if(MFOrK.equalsIgnoreCase(MI3622Settings.MF)){
+        if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
             double Kpm = calculateK_pm();
             double[][] M_e = calculateM_e_ij();
             double[][] M = new double[measureCount][pointsCount];
@@ -184,7 +184,7 @@ public class MI3622Calculation {
     public Double calculateMF() {
         Double MF = null;
 
-        if(MFOrK.equalsIgnoreCase(MI3622Settings.MF)){
+        if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
             double[] MF_j = calculateMF_j();
             log.info("Рассчет среднего значения коэффициента коррекции поверяемого СРМ (MF) согласно п.7.4 по формуле (7) МИ3622-2020");
             log.debug("Значения коэффициентов коррекции поверяемого СРМ (MF_j) {}", Arrays.toString(MF_j));
@@ -203,7 +203,7 @@ public class MI3622Calculation {
 
     public double[] calculateMF_j() {
         double[] MF_j = null;
-        if(MFOrK.equalsIgnoreCase(MI3622Settings.MF)){
+        if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
             double[][] MF_ij = calculateMF_ij();
             log.info("Рассчет значения коэффициента коррекции поверяемого СРМ в j-й точке (MF) согласно п.7.3 по формуле (6) МИ3622-2020");
             log.debug("Значения коэффициентов коррекции поверяемого СРМ (MF) {}", Arrays.deepToString(MF_ij));
@@ -224,7 +224,7 @@ public class MI3622Calculation {
 
     public Double calculateK() {
         Double K = null;
-        if(MFOrK.equalsIgnoreCase(MI3622Settings.K)){
+        if (MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
             double[] Kj = calculateK_j();
             K = 0d;
             for (int j = 0; j < pointsCount; j++) {
@@ -238,7 +238,7 @@ public class MI3622Calculation {
 
     public double[] calculateK_j() {
         double[] Kj = null;
-        if(MFOrK.equalsIgnoreCase(MI3622Settings.K)){
+        if (MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
             double[][] K_ij = calculateK_ij();
             Kj = new double[pointsCount];
             for (int j = 0; j < pointsCount; j++) {
@@ -254,8 +254,8 @@ public class MI3622Calculation {
     }
 
     public double[][] calculateK_ij() {
-        double[][] K_ij =  null;
-        if(MFOrK.equalsIgnoreCase(MI3622Settings.K)){
+        double[][] K_ij = null;
+        if (MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
             K_ij = new double[measureCount][pointsCount];
             double[][] M_e_ij = calculateM_e_ij();
             for (int i = 0; i < measureCount; i++) {
@@ -270,7 +270,7 @@ public class MI3622Calculation {
 
     public Double calculateMF_prime() {
         Double MF_prime = null;
-        if(MFOrK.equalsIgnoreCase(MI3622Settings.MF) && MF_p != null){
+        if (MFOrK.equalsIgnoreCase(MI3622Settings.MF) && MF_p != null) {
             return MF_p * calculateMF();
         }
         return MF_prime;
@@ -306,16 +306,16 @@ public class MI3622Calculation {
     public double[] calculateS_j() {
         double[][] MFOrK_ij;
         double[] MFOrK_j;
-        if(MFOrK.equalsIgnoreCase(MI3622Settings.MF)){
+        if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
             MFOrK_ij = calculateMF_ij();
             MFOrK_j = calculateMF_j();
-        }
-        else if(MFOrK.equalsIgnoreCase(MI3622Settings.K)){
+        } else if (MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
             MFOrK_ij = calculateK_ij();
             MFOrK_j = calculateK_j();
-        }
-        else {
-            throw new NotValidTagDataException("Значение поля MFOrK может быть либо "+ MI3622Settings.MF+", либо "+ MI3622Settings.K);
+        } else {
+            throw new NotValidTagDataException(
+                    "Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
+                    .formatted(MFOrK, MI3622Settings.MF, MI3622Settings.K));
         }
 
         log.info("Рассчет СКО результатов измерений в j-й точке (S_j) согласно п.7.11 по формуле (14) МИ3622-2020");
@@ -339,31 +339,35 @@ public class MI3622Calculation {
         return Arrays.stream(S_j).max().getAsDouble() <= 0.03;
     }
 
-    public String calculateConclusion(){
+    public String calculateConclusion() {
         String isValid = "годен";
         String isNotValid = "не годен";
-        if(operatingOrControlCPM.equalsIgnoreCase(MI3622Settings.OPERATING)){
-            if(rangeType.equalsIgnoreCase(MI3622Settings.OPERATING_RANGE)){
+        if (operatingOrControlCPM.equalsIgnoreCase(MI3622Settings.OPERATING)) {
+            if (rangeType.equalsIgnoreCase(MI3622Settings.OPERATING_RANGE)) {
                 double delta_D = calculateDelta_D();
-                if(delta_D <= 0.25) return isValid;
+                if (delta_D <= 0.25) return isValid;
                 else return isNotValid;
-            }
-            else if(rangeType.equalsIgnoreCase(MI3622Settings.SUBRANGE)){
+            } else if (rangeType.equalsIgnoreCase(MI3622Settings.SUBRANGE)) {
                 double[] delta_PDk = calculateDelta_PDk();
-                if(Arrays.stream(delta_PDk).max().getAsDouble() <= 0.25) return isValid;
-                else return isNotValid;
+                if (delta_PDk == null) {
+                    return "Не может быть вычислено delta_PDk, т.к. кол-во точек < 2";
+                } else {
+                    if (Arrays.stream(delta_PDk).max().getAsDouble() <= 0.25) return isValid;
+                    else return isNotValid;
+                }
+            } else {
+                throw new NotValidTagDataException(
+                        "Значение поля rangeType=%s, но оно должно быть либо '%s', либо '%s'".
+                        formatted(rangeType, MI3622Settings.OPERATING_RANGE, MI3622Settings.SUBRANGE));
             }
-            else{
-                throw new NotValidTagDataException("Значение поля operatingOrControl может быть либо "+MI3622Settings.OPERATING_RANGE+", либо "+MI3622Settings.SUBRANGE);
-            }
-        }
-        else if(operatingOrControlCPM.equalsIgnoreCase(MI3622Settings.CONTROL)){
+        } else if (operatingOrControlCPM.equalsIgnoreCase(MI3622Settings.CONTROL)) {
             double[] delta_j = calculateDelta_j();
-            if(Arrays.stream(delta_j).max().getAsDouble() <= 0.2) return isValid;
+            if (Arrays.stream(delta_j).max().getAsDouble() <= 0.2) return isValid;
             else return isNotValid;
-        }
-        else {
-            throw new NotValidTagDataException("Значение поля operatingOrControl может быть либо "+MI3622Settings.OPERATING+", либо "+MI3622Settings.CONTROL);
+        } else {
+            throw new NotValidTagDataException(
+                    "Значение поля operatingOrControl=%s, но оно должно быть либо '%s', либо '%s'"
+                            .formatted(operatingOrControlCPM, MI3622Settings.OPERATING, MI3622Settings.CONTROL));
         }
     }
 
@@ -383,7 +387,7 @@ public class MI3622Calculation {
     public double[] calculateEps_j() {
         double[] S_0j = calculateS_0j();
         double[] t095Arr = calculateT_095();
-        double t095 = t095Arr[pointsCount - 5];
+        double t095 = t095Arr[measureCount - 5];
         if (S_0j == null) {
             S_0j = calculateS_0j();
         }
@@ -435,7 +439,7 @@ public class MI3622Calculation {
         log.debug("Другие параметры: ZS = {}, theta_e = {}, theta_t = {}, theta_P = {}, theta_N = {}", ZS, theta_e, theta_t, theta_p, theta_N);
         for (int j = 0; j < pointsCount; j++) {
             theta_sigma_j[j] = 1.1 * Math.sqrt(
-                            Math.pow(theta_e, 2) +
+                    Math.pow(theta_e, 2) +
                             Math.pow(theta_t, 2) +
                             Math.pow(theta_p, 2) +
                             Math.pow(theta_N, 2) +
@@ -446,15 +450,19 @@ public class MI3622Calculation {
     }
 
     public double[] calculateEps_PDk() {
-        double[] eps_j = calculateEps_j();
-        log.info("Рассчет границы случайной составляющей погрешности СРМ в к-м поддиапазоне рабочего диапазона измерений (E_PD) согласно п.7.15 по формуле (19) МИ3622-2020");
-        log.debug("значения границ случайной составляющей погрешности СРМ (eps_j) {}", Arrays.toString(eps_j));
-        int subrangeCount = pointsCount - 1;
-        double[] eps_pdk = new double[subrangeCount];
-        for (int k = 0; k < subrangeCount; k++) {
-            eps_pdk[k] = Math.max(eps_j[k], eps_j[k + 1]);
+        double[] eps_pdk = null;
+        if (pointsCount > 1) {
+            double[] eps_j = calculateEps_j();
+            log.info("Рассчет границы случайной составляющей погрешности СРМ в к-м поддиапазоне рабочего диапазона измерений (E_PD) согласно п.7.15 по формуле (19) МИ3622-2020");
+            log.debug("значения границ случайной составляющей погрешности СРМ (eps_j) {}", Arrays.toString(eps_j));
+            int subrangeCount = pointsCount - 1;
+            eps_pdk = new double[subrangeCount];
+            for (int k = 0; k < subrangeCount; k++) {
+                eps_pdk[k] = Math.max(eps_j[k], eps_j[k + 1]);
+            }
+            log.info("eps_pdk = {}", Arrays.toString(eps_pdk));
         }
-        log.info("eps_pdk = {}", Arrays.toString(eps_pdk));
+
         return eps_pdk;
     }
 
@@ -466,7 +474,7 @@ public class MI3622Calculation {
         log.debug("Граница составляющей неисключенной систематической погрешности, обусловленной погрешностью аппроксимации градуировочной характеристики (theta_D, %) {}", theta_D);
         log.debug("Дргуие параметры: ZS = {}, theta_e = {}, theta_Dt = {}, theta_Dp ={}, theta_N = {}", ZS, theta_e, theta_Dt, theta_Dp, theta_N);
         double theta_sigma_D = 1.1 * Math.sqrt(
-                        Math.pow(theta_e, 2) +
+                Math.pow(theta_e, 2) +
                         Math.pow(theta_Dt, 2) +
                         Math.pow(theta_Dp, 2) +
                         Math.pow(theta_N, 2) +
@@ -477,23 +485,27 @@ public class MI3622Calculation {
     }
 
     public double[] calculateTheta_sigma_PDk() {
-        int subrangeCount = pointsCount - 1;
-        double[] theta_sigma_PDk = new double[subrangeCount];
-        double[] theta_PDz = new double[subrangeCount];
-        if(!zeroStabilityCorr) theta_PDz = calculateTheta_PDz();
-        double[] theta_PDk = calculateTheta_PDk();
-        log.info("Рассчет границы неисключенной систематической погрешности в к-м поддиапазоне (theta_sigma_PDk) согласно п.7.17 по формуле (22) МИ3622-2020");
-        log.debug("Используемые данные: ZS = {}, theta_e = {}, theta_PDt = {}, theta_PDp = {}, theta_N = {}", ZS, theta_e, theta_PDt, theta_PDp, theta_N);
-        for (int k = 0; k < subrangeCount; k++) {
-            theta_sigma_PDk[k] = 1.1 * Math.sqrt(
-                            Math.pow(theta_e, 2) +
-                            Math.pow(theta_PDt, 2) +
-                            Math.pow(theta_PDp, 2) +
-                            Math.pow(theta_N, 2) +
-                            Math.pow(theta_PDz[k], 2) +
-                            Math.pow(theta_PDk[k], 2));
+        double[] theta_sigma_PDk = null;
+        if (pointsCount > 1) {
+            int subrangeCount = pointsCount - 1;
+            theta_sigma_PDk = new double[subrangeCount];
+            double[] theta_PDz = new double[subrangeCount];
+            if (!zeroStabilityCorr) theta_PDz = calculateTheta_PDz();
+            double[] theta_PDk = calculateTheta_PDk();
+            log.info("Рассчет границы неисключенной систематической погрешности в к-м поддиапазоне (theta_sigma_PDk) согласно п.7.17 по формуле (22) МИ3622-2020");
+            log.debug("Используемые данные: ZS = {}, theta_e = {}, theta_PDt = {}, theta_PDp = {}, theta_N = {}", ZS, theta_e, theta_PDt, theta_PDp, theta_N);
+            for (int k = 0; k < subrangeCount; k++) {
+                theta_sigma_PDk[k] = 1.1 * Math.sqrt(
+                        Math.pow(theta_e, 2) +
+                                Math.pow(theta_PDt, 2) +
+                                Math.pow(theta_PDp, 2) +
+                                Math.pow(theta_N, 2) +
+                                Math.pow(theta_PDz[k], 2) +
+                                Math.pow(theta_PDk[k], 2));
+            }
+            log.info("theta_sigma_PDk = {}", Arrays.toString(theta_sigma_PDk));
         }
-        log.info("theta_sigma_PDk = {}", Arrays.toString(theta_sigma_PDk));
+
         return theta_sigma_PDk;
     }
 
@@ -549,7 +561,7 @@ public class MI3622Calculation {
 
     public double[] calculateS_theta_j() {
         double[] theta_zj = new double[pointsCount];
-        if(!zeroStabilityCorr) theta_zj = calculateTheta_zj();
+        if (!zeroStabilityCorr) theta_zj = calculateTheta_zj();
         double[] S_theta_j = new double[pointsCount];
         for (int j = 0; j < pointsCount; j++) {
             S_theta_j[j] = Math.sqrt(
@@ -565,7 +577,7 @@ public class MI3622Calculation {
     public double calculateDelta_D() {
         double delta_D = 0;
         double theta_sigma_D = 0;
-        if(!zeroStabilityCorr) theta_sigma_D = calculateTheta_sigma_D();
+        if (!zeroStabilityCorr) theta_sigma_D = calculateTheta_sigma_D();
         double S_D = calculateS_D();
         double ratio = theta_sigma_D / S_D;
         if (ratio <= 8 && ratio >= 0.8) {
@@ -580,19 +592,19 @@ public class MI3622Calculation {
         return delta_D;
     }
 
-    public double calculateT_sigma_D(){
+    public double calculateT_sigma_D() {
         double S_theta_D = calculateS_theta_D();
         double S_D = calculateS_D();
         double theta_sigma_D = 0;
-        if(!zeroStabilityCorr) theta_sigma_D = calculateTheta_sigma_D();
+        if (!zeroStabilityCorr) theta_sigma_D = calculateTheta_sigma_D();
         return (calculateEps_D() + theta_sigma_D) / (S_D + S_theta_D);
     }
 
-    public double calculateS_D(){
+    public double calculateS_D() {
         return Arrays.stream(calculateS_0j()).max().getAsDouble();
     }
 
-    public double calculateS_sigma_D(){
+    public double calculateS_sigma_D() {
         double S_D = calculateS_D();
         double S_theta_D = calculateS_theta_D();
         return Math.sqrt(
@@ -600,11 +612,11 @@ public class MI3622Calculation {
                         Math.pow(S_D, 2));
     }
 
-    public double calculateS_theta_D(){
+    public double calculateS_theta_D() {
         double theta_Dz = calculateTheta_Dz();
         double theta_D = calculateTheta_D();
         return Math.sqrt(
-                        Math.pow(theta_e, 2) +
+                Math.pow(theta_e, 2) +
                         Math.pow(theta_Dt, 2) +
                         Math.pow(theta_Dp, 2) +
                         Math.pow(theta_N, 2) +
@@ -613,84 +625,103 @@ public class MI3622Calculation {
     }
 
     public double[] calculateDelta_PDk() {
-        int subrangeCount = pointsCount - 1;
-        double[] delta_PDk = new double[subrangeCount];
-        double[] theta_sigma_PDk = calculateTheta_sigma_PDk();
-        double[] S_0_j = calculateS_0j();
-        double[] S_PDk = calculateS_PDk();
-        double[] S_sigma_PDk = calculateS_sigma_PDk();
+        double[] delta_PDk = null;
+        if (pointsCount > 1) {
+            int subrangeCount = pointsCount - 1;
+            delta_PDk = new double[subrangeCount];
+            double[] theta_sigma_PDk = calculateTheta_sigma_PDk();
+            double[] S_0_j = calculateS_0j();
+            double[] S_PDk = calculateS_PDk();
+            double[] S_sigma_PDk = calculateS_sigma_PDk();
 
-        double[] t_sigma_PDk = calculateT_sigma_PDk();
+            double[] t_sigma_PDk = calculateT_sigma_PDk();
 
-        for (int k = 0; k < subrangeCount; k++) {
-            S_PDk[k] = Math.max(S_0_j[k], S_0_j[k + 1]);
-            double ratio = theta_sigma_PDk[k] / S_PDk[k];
-            if (ratio <= 8 && ratio >= 0.8) {
-                delta_PDk[k] = t_sigma_PDk[k] * S_sigma_PDk[k];
-            } else if (ratio > 8) {
-                delta_PDk[k] = theta_sigma_PDk[k];
+            for (int k = 0; k < subrangeCount; k++) {
+                S_PDk[k] = Math.max(S_0_j[k], S_0_j[k + 1]);
+                double ratio = theta_sigma_PDk[k] / S_PDk[k];
+                if (ratio <= 8 && ratio >= 0.8) {
+                    delta_PDk[k] = t_sigma_PDk[k] * S_sigma_PDk[k];
+                } else if (ratio > 8) {
+                    delta_PDk[k] = theta_sigma_PDk[k];
+                }
             }
+
+            log.info("Рассчет относительной погрешности СРМ (рабочего) в к-м поддиапазоне рабочего диапазона измерений (delta_PDk, %) согласно п.7.23 по формуле (36) МИ3622-2020");
+            log.info("delta_PDk = {}", Arrays.toString(delta_PDk));
         }
 
-        log.info("Рассчет относительной погрешности СРМ (рабочего) в к-м поддиапазоне рабочего диапазона измерений (delta_PDk, %) согласно п.7.23 по формуле (36) МИ3622-2020");
-        log.info("delta_PDk = {}", Arrays.toString(delta_PDk));
         return delta_PDk;
     }
 
     public double[] calculateT_sigma_PDk() {
-        double[] theta_sigma_PDk = calculateTheta_sigma_PDk();
-        double[] eps_PDk = calculateEps_PDk();
-        double[] S_PDk = calculateS_PDk();
-        double[] S_theta_PDk = calculateS_theta_PDk();
-        int subrangeCount = pointsCount - 1;
-        double[] t_sigma_PDk = new double[subrangeCount];
-        for (int k = 0; k < subrangeCount; k++) {
-            t_sigma_PDk[k] = (eps_PDk[k] + theta_sigma_PDk[k]) / (S_theta_PDk[k] + S_PDk[k]);
+        double[] t_sigma_PDk = null;
+        if (pointsCount > 1) {
+            double[] theta_sigma_PDk = calculateTheta_sigma_PDk();
+            double[] eps_PDk = calculateEps_PDk();
+            double[] S_PDk = calculateS_PDk();
+            double[] S_theta_PDk = calculateS_theta_PDk();
+            int subrangeCount = pointsCount - 1;
+            t_sigma_PDk = new double[subrangeCount];
+            for (int k = 0; k < subrangeCount; k++) {
+                t_sigma_PDk[k] = (eps_PDk[k] + theta_sigma_PDk[k]) / (S_theta_PDk[k] + S_PDk[k]);
+            }
         }
+
         return t_sigma_PDk;
     }
 
     public double[] calculateS_sigma_PDk() {
-        double[] S_PDk = calculateS_PDk();
-        double[] S_theta_PDk = calculateS_theta_PDk();
-        int subrangeCount = pointsCount - 1;
-        double[] S_sigma_PDk = new double[subrangeCount];
-        for (int k = 0; k < subrangeCount; k++) {
-            S_sigma_PDk[k] = Math.sqrt(
-                                Math.pow(S_theta_PDk[k], 2) +
-                            Math.pow(S_PDk[k], 2));
+        double[] S_sigma_PDk = null;
+        if (pointsCount > 1) {
+            double[] S_PDk = calculateS_PDk();
+            double[] S_theta_PDk = calculateS_theta_PDk();
+            int subrangeCount = pointsCount - 1;
+            S_sigma_PDk = new double[subrangeCount];
+            for (int k = 0; k < subrangeCount; k++) {
+                S_sigma_PDk[k] = Math.sqrt(
+                        Math.pow(S_theta_PDk[k], 2) +
+                                Math.pow(S_PDk[k], 2));
+            }
         }
         return S_sigma_PDk;
     }
 
     public double[] calculateS_theta_PDk() {
-        double[] theta_PDk = calculateTheta_PDk();
-        double[] theta_PDz =  new double[theta_PDk.length];
-        if (!zeroStabilityCorr) {
-            theta_PDz = calculateTheta_PDz();
-        }
-        int subrangeCount = pointsCount - 1;
-        double[] S_theta_PDk = new double[subrangeCount];
+        double[] S_theta_PDk = null;
+        if (pointsCount > 1) {
+            double[] theta_PDk = calculateTheta_PDk();
+            double[] theta_PDz = new double[theta_PDk.length];
+            if (!zeroStabilityCorr) {
+                theta_PDz = calculateTheta_PDz();
+            }
+            int subrangeCount = pointsCount - 1;
+            S_theta_PDk = new double[subrangeCount];
 
-        for (int k = 0; k < subrangeCount; k++) {
-            S_theta_PDk[k] = Math.sqrt(
-                    Math.pow(theta_e, 2) +
-                            Math.pow(theta_PDt, 2) +
-                            Math.pow(theta_PDp, 2) +
-                            Math.pow(theta_N, 2) +
-                            Math.pow(theta_PDz[k], 2) +
-                            Math.pow(theta_PDk[k], 2));
+            for (int k = 0; k < subrangeCount; k++) {
+                S_theta_PDk[k] = Math.sqrt(
+                        Math.pow(theta_e, 2) +
+                                Math.pow(theta_PDt, 2) +
+                                Math.pow(theta_PDp, 2) +
+                                Math.pow(theta_N, 2) +
+                                Math.pow(theta_PDz[k], 2) +
+                                Math.pow(theta_PDk[k], 2));
+            }
         }
+
         return S_theta_PDk;
     }
 
     public double[] calculateS_PDk() {
-        double[] S_0_j = calculateS_0j();
-        int subrangeCount = pointsCount - 1;
-        double[] S_PDk = new double[subrangeCount];
-        for (int k = 0; k < subrangeCount; k++) {
-            S_PDk[k] = Math.max(S_0_j[k], S_0_j[k + 1]);
+        double[] S_PDk = null;
+        if (pointsCount > 1) {
+            double[] S_0_j = calculateS_0j();
+            int subrangeCount = pointsCount - 1;
+            S_PDk = new double[subrangeCount];
+            for (int k = 0; k < subrangeCount; k++) {
+                S_PDk[k] = Math.max(S_0_j[k], S_0_j[k + 1]);
+            }
         }
+
         return S_PDk;
     }
 
@@ -707,7 +738,7 @@ public class MI3622Calculation {
 
     public double[] calculateTheta_zj() {
         double[] theta_zj = null;
-        if(!zeroStabilityCorr){
+        if (!zeroStabilityCorr) {
             double[] Q_j = calculateQ_j();
             theta_zj = new double[pointsCount];
             for (int j = 0; j < pointsCount; j++) {
@@ -729,13 +760,17 @@ public class MI3622Calculation {
     }
 
     public double[] calculateQ_min_k() {
-        double[] Q_j = calculateQ_j();
-        int subrangeCount = pointsCount - 1;
-        double[] Q_min_k =  new double[subrangeCount];
+        double[] Q_min_k = null;
+        if (pointsCount > 1) {
+            double[] Q_j = calculateQ_j();
+            int subrangeCount = pointsCount - 1;
+            Q_min_k = new double[subrangeCount];
 
-        for(int k = 0; k<subrangeCount; k++){
-            Q_min_k[k] = Math.min(Q_j[k], Q_j[k+1]);
+            for (int k = 0; k < subrangeCount; k++) {
+                Q_min_k[k] = Math.min(Q_j[k], Q_j[k + 1]);
+            }
         }
+
         return Q_min_k;
     }
 
@@ -745,29 +780,33 @@ public class MI3622Calculation {
     }
 
     public double[] calculateQ_max_k() {
-        double[] Q_j = calculateQ_j();
-        int subrangeCount = pointsCount - 1;
-        double[] Q_max_k =  new double[subrangeCount];
+        double[] Q_max_k = null;
+        if (pointsCount > 1) {
+            double[] Q_j = calculateQ_j();
+            int subrangeCount = pointsCount - 1;
+            Q_max_k = new double[subrangeCount];
 
-        for(int k = 0; k<subrangeCount; k++){
-            Q_max_k[k] = Math.max(Q_j[k], Q_j[k+1]);
+            for (int k = 0; k < subrangeCount; k++) {
+                Q_max_k[k] = Math.max(Q_j[k], Q_j[k + 1]);
+            }
         }
+
         return Q_max_k;
     }
 
     public double calculateTheta_D() {
         double[] MFOrK_j;
         double MFOrK;
-        if(this.MFOrK.equalsIgnoreCase(MI3622Settings.MF)){
+        if (this.MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
             MFOrK_j = calculateMF_j();
             MFOrK = calculateMF();
-        }
-        else if(this.MFOrK.equalsIgnoreCase(MI3622Settings.K)){
+        } else if (this.MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
             MFOrK_j = calculateK_j();
             MFOrK = calculateK();
-        }
-        else {
-            throw new NotValidTagDataException("Значение поля MFOrK может быть либо "+ MI3622Settings.MF+", либо "+ MI3622Settings.K);
+        } else {
+            throw new NotValidTagDataException(
+                    "Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
+                    .formatted(this.MFOrK, MI3622Settings.MF, MI3622Settings.K));
         }
 
         return Arrays.stream(MFOrK_j)
@@ -776,33 +815,39 @@ public class MI3622Calculation {
     }
 
     public double[] calculateTheta_PDz() {
-        int subrangeCount = pointsCount - 1;
-        double[] theta_PDz = new double[subrangeCount];
-        double[] Q_j = calculateQ_j();
-        for (int k = 0; k < subrangeCount; k++) {
-            double Q_PDmin = Math.min(Q_j[k], Q_j[k + 1]);
-            theta_PDz[k] = ZS / Q_PDmin * 100;
+        double[] theta_PDz = null;
+        if (pointsCount > 1) {
+            int subrangeCount = pointsCount - 1;
+            theta_PDz = new double[subrangeCount];
+            double[] Q_j = calculateQ_j();
+            for (int k = 0; k < subrangeCount; k++) {
+                double Q_PDmin = Math.min(Q_j[k], Q_j[k + 1]);
+                theta_PDz[k] = ZS / Q_PDmin * 100;
+            }
         }
+
         return theta_PDz;
     }
 
     public double[] calculateTheta_PDk() {
+        double[] theta_PDk = null;
+        if (pointsCount > 1) {
+            double[] MFOrK_j;
+            if (this.MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
+                MFOrK_j = calculateMF_j();
+            } else if (this.MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
+                MFOrK_j = calculateK_j();
+            } else {
+                throw new NotValidTagDataException(
+                        "Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
+                        .formatted(this.MFOrK, MI3622Settings.MF, MI3622Settings.K));
+            }
 
-        double[] MFOrK_j;
-        if(this.MFOrK.equalsIgnoreCase(MI3622Settings.MF)){
-            MFOrK_j = calculateMF_j();
-        }
-        else if(this.MFOrK.equalsIgnoreCase(MI3622Settings.K)){
-            MFOrK_j = calculateK_j();
-        }
-        else {
-            throw new NotValidTagDataException("Значение поля MFOrK может быть либо "+ MI3622Settings.MF+", либо "+ MI3622Settings.K);
-        }
-
-        int subrangeCount = pointsCount - 1;
-        double[] theta_PDk = new double[subrangeCount];
-        for (int k = 0; k < subrangeCount; k++) {
-            theta_PDk[k] = 0.5 * Math.abs((MFOrK_j[k] - MFOrK_j[k + 1]) / (MFOrK_j[k] + MFOrK_j[k + 1])) * 100;
+            int subrangeCount = pointsCount - 1;
+            theta_PDk = new double[subrangeCount];
+            for (int k = 0; k < subrangeCount; k++) {
+                theta_PDk[k] = 0.5 * Math.abs((MFOrK_j[k] - MFOrK_j[k + 1]) / (MFOrK_j[k] + MFOrK_j[k + 1])) * 100;
+            }
         }
         return theta_PDk;
     }

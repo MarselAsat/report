@@ -134,7 +134,7 @@ class DataConverterTest {
         tagNamesMap.put("pointsCount", "tag.pointsCount");
         tagNamesMap.put("measureCount", "tag.measureCount");
         tagNamesMap.put("Q_ij", "tag.Q_ij");
-        DataConverter.putInOrder2DArraysInOpcData(dataFromOpc, tagNamesMap.get("pointsCount"), tagNamesMap.get("measureCount"));
+        DataConverter.putInOrder2DArraysInOpcData(dataFromOpc, tagNamesMap);
         assertThat(dataFromOpc.get("tag.Q_ij")).isEqualTo("[[1.0,2.0,3.0],[4.0,5.0,6.0]]");
     }
 

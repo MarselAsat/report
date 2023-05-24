@@ -42,10 +42,7 @@ public class MI3622Service {
 
         Map<String, String> initialDataFromOpc = opcServiceRequests.getTagDataFromOpc(initialTagNamesForOpc);
 
-        DataConverter.putInOrder2DArraysInOpcData(
-                initialDataFromOpc,
-                initialTagNamesMap.get("pointsCount"),
-                initialTagNamesMap.get("measureCount"));
+        DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagNamesMap);
 
         InitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagNamesMap);
         MI3622Runner MI3622Runner = new MI3622Runner(initialData);
