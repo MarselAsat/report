@@ -94,10 +94,11 @@ function getTagValue(tagName) {
         $('#loaderTagValue').css("display", "none")
         return;
     }
-    var url = "/opcService/readValue/" + tagName;
+    var url = "/opcService/readValue";
 
     fetch(url, {
-            method: 'GET',
+            method: 'POST',
+            body: tagName,
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             }

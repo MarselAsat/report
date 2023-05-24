@@ -23,9 +23,9 @@ public class OpcServiceController {
         return opcServiceRequests.reconnectToOpcServer();
     }
 
-    @GetMapping("/readValue/{tagName}")
+    @PostMapping("/readValue")
     @ResponseBody
-    public String getValueByName(@PathVariable String tagName){
+    public String getValueByName(@RequestBody String tagName){
         return opcServiceRequests.getTagDataFromOpc(tagName);
     }
 }

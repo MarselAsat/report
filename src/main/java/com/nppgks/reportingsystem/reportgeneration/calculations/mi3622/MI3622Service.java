@@ -31,7 +31,7 @@ public class MI3622Service {
     private List<TagData> tagDataList = new ArrayList<>();
     private ReportName reportName;
 
-    public List<TagData> doCalc3622() {
+    public List<TagData> calcMI3622() {
         List<CalcTagNameForOpc> initialTagNames = calcTagNameService.getTagNamesByInitialAndType(true, CalcMethod.MI_3622.name());
         Map<String, String> initialTagNamesMap = createTagNamesMap(initialTagNames);
 
@@ -42,10 +42,7 @@ public class MI3622Service {
 
         Map<String, String> initialDataFromOpc = opcServiceRequests.getTagDataFromOpc(initialTagNamesForOpc);
 
-        DataConverter.putInOrder2DArraysInOpcData(
-                initialDataFromOpc,
-                initialTagNamesMap.get("pointsCount"),
-                initialTagNamesMap.get("measureCount"));
+        DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagNamesMap);
 
         InitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagNamesMap);
         MI3622Runner MI3622Runner = new MI3622Runner(initialData);
