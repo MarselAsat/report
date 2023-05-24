@@ -12,7 +12,9 @@
         td {
             padding: 0.25rem !important;
             text-align: center;
+            overflow: hidden;
         }
+
         tr {
             white-space: nowrap;
             height: 2px;
@@ -161,7 +163,7 @@
                 <caption>Таблица А.4 - Результаты измерений и вычислений</caption>
                 <thead class="table-light" style="font-weight: bold">
                 <tr>
-                    <td>№ точ/№ изм</td>
+                    <td style="width: 7rem;">№ точ/№ изм</td>
                     <td><i>Q<sub>ij</sub>, т/ч</i></td>
                     <td><i>T<sub>ij</sub>, с</i></td>
                     <td><i>t<sub>ij</sub>, ºC</i></td>
@@ -180,17 +182,17 @@
                     <div th:each="qi,i : ${Q_ij}">
                         <tr th:each="qj,j : ${qi}">
                             <td th:text="|${i.index+1}/${j.index+1}|"></td>
-                            <td th:text="${Q_ij != null} ? ${Q_ij[j.index][i.index]} : '-'"></td>
-                            <td th:text="${T_ij != null} ? ${T_ij[j.index][i.index]} : '-'"></td>
-                            <td th:text="${t_ij != null} ? ${t_ij[j.index][i.index]} : '-'"></td>
-                            <td th:text="${P_ij != null} ? ${P_ij[j.index][i.index]} : '-'"></td>
-                            <td th:text="${N_p_ij != null} ? ${N_p_ij[j.index][i.index]} : '-'"></td>
-                            <td th:text="${N_e_ij != null} ? ${N_e_ij[j.index][i.index]} : '-'"></td>
-                            <td th:text="${f_ij != null} ? ${f_ij[j.index][i.index]} : '-'"></td>
-                            <td th:text="${M_ij != null} ? ${M_ij[j.index][i.index]} : '-'"></td>
-                            <td th:text="${M_e_ij != null} ? ${M_e_ij[j.index][i.index]} : '-'"></td>
-                            <td th:text="${K_ij != null} ? ${K_ij[j.index][i.index]} : '-'"></td>
-                            <td th:text="${MF_ij != null} ? ${MF_ij[j.index][i.index]} : '-'"></td>
+                            <td th:text="${Q_ij != null} ? ${Q_ij[i.index][j.index]} : '-'"></td>
+                            <td th:text="${T_ij != null} ? ${T_ij[i.index][j.index]} : '-'"></td>
+                            <td th:text="${t_ij != null} ? ${t_ij[i.index][j.index]} : '-'"></td>
+                            <td th:text="${P_ij != null} ? ${P_ij[i.index][j.index]} : '-'"></td>
+                            <td th:text="${N_p_ij != null} ? ${N_p_ij[i.index][j.index]} : '-'"></td>
+                            <td th:text="${N_e_ij != null} ? ${N_e_ij[i.index][j.index]} : '-'"></td>
+                            <td th:text="${f_ij != null} ? ${f_ij[i.index][j.index]} : '-'"></td>
+                            <td th:text="${M_ij != null} ? ${M_ij[i.index][j.index]} : '-'"></td>
+                            <td th:text="${M_e_ij != null} ? ${M_e_ij[i.index][j.index]} : '-'"></td>
+                            <td th:text="${K_ij != null} ? ${K_ij[i.index][j.index]} : '-'"></td>
+                            <td th:text="${MF_ij != null} ? ${MF_ij[i.index][j.index]} : '-'"></td>
                         </tr>
                     </div>
                 </tbody>
@@ -200,15 +202,15 @@
                 <caption>Таблица А.5 - результаты поверки в точках рабочего диапазона измерений</caption>
                 <thead class="table-light" style="font-weight: bold">
                 <tr>
-                    <td>№ точки</td>
+                    <td style="width: 4rem;">№ точки</td>
                     <td><i>Q<sub>j</sub>, т/ч</i></td>
                     <td><i>f<sub>j</sub>, Гц</i></td>
-                    <td><i>K<sub>j</sub>, имп/т</i></td>
+                    <td style="width: 5rem;"><i>K<sub>j</sub>, имп/т</i></td>
                     <td><i>MF<sub>j</sub></i></td>
                     <td><i>S<sub>j</sub>, %</i></td>
                     <td><i>S<sub>0j</sub>, %</i></td>
                     <td><i>n</i></td>
-                    <td><i>t<sub>0,95</sub>, имп/т</i></td>
+                    <td style="width: 6rem;"><i>t<sub>0,95</sub>, имп/т</i></td>
                     <td><i>ε<sub>j</sub>, %</i></td>
                     <td><i>Θ<sub>э</sub>, %</i></td>
                     <td><i>Θ<sub>t</sub>, %</i></td>
@@ -269,8 +271,8 @@
                 <thead class="table-light" style="font-weight: bold">
                 <tr>
                     <td>Поддиапазон</td>
-                    <td><i>Q<sub>min</sub>, т/ч</i></td>
-                    <td><i>Q<sub>max</sub>, т/ч</i></td>
+                    <td style="width: 5rem;"><i>Q<sub>min</sub>, т/ч</i></td>
+                    <td style="width: 5rem;"><i>Q<sub>max</sub>, т/ч</i></td>
                     <td><i>ε<sub>ПДk</sub>, %</i></td>
                     <td><i>S<sub>ПДk</sub>, %</i></td>
                     <td><i>Θ<sub>ПДt</sub>, %</i></td>
@@ -311,9 +313,9 @@
                 <caption>Таблица А.7 - Результаты поверки в рабочем диапазоне измерений</caption>
                 <thead class="table-light" style="font-weight: bold">
                 <tr>
-                    <td><i>Q<sub>min</sub>, т/ч</i></td>
-                    <td><i>Q<sub>max</sub>, т/ч</i></td>
-                    <td><i>K, имп/т</i></td>
+                    <td style="width: 5rem;"><i>Q<sub>min</sub>, т/ч</i></td>
+                    <td style="width: 5rem;"><i>Q<sub>max</sub>, т/ч</i></td>
+                    <td style="width: 5rem;"><i>K, имп/т</i></td>
                     <td><i>MF</i></td>
                     <td><i>MF'</i></td>
                     <td><i>ε<sub>Д</sub>, %</i></td>

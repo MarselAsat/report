@@ -23,7 +23,7 @@ class MI3622ServiceTest extends IntegrationBaseTest {
 
     @Test
     //@Disabled
-    void doCalc3622() {
-        MI3622Service.doCalc3622();
+    void calcMI3622() {
+        MI3622Service.calcMI3622();
     }
 }

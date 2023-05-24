@@ -14,6 +14,7 @@ plugins {
 
 group = 'com.nppgks'
 version = '0.0.1-SNAPSHOT'
+archivesBaseName = 'reporting_system'
 
 repositories {
     mavenLocal()

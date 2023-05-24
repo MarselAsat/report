@@ -13,4 +13,6 @@ public interface TagDataRepository extends JpaRepository<TagData, Long> {
     @EntityGraph(attributePaths = {"tagName"})
     List<TagData> findByReportNameId(Long id);
 
+    void deleteByReportNameId(Long id);
+
 }

@@ -85,11 +85,7 @@ public class CalcTagNameService {
 
         if (tagNameOpt.isPresent()) {
             TagName tagName = tagNameOpt.get();
-            CalcTagNameDto tagNameDto = CalcTagNameDto.fromTagName(tagName);
-
-            CalcTagNameDto updatedTagNameDto = PartialUpdateService.updateObject(tagNameDto, updates);
-
-            TagName updatedTagName = CalcTagNameDto.toTagName(updatedTagNameDto);
+            TagName updatedTagName = PartialUpdateService.updateObject(tagName, updates);
             tagNameRepository.save(updatedTagName);
         }
         return true;

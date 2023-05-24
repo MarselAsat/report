@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header"></head>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Вход</title>
+</head>
+<body>
+<div class="vh-100 d-flex justify-content-center align-items-center" style="background-color: rgba(0, 0, 0, 0.03)">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card bg-white">
+                    <div class="card-body p-5">
+                        <form class="mb-3 mt-md-4 form-signin" method="post" action="/login">
+                            <h1 class="h2 mb-4">Отчетная система</h1>
+                            <div class="alert alert-danger" role="alert" th:if="${error == true}">Неверное имя пользователя или пароль</div>
+                            <div class="mb-3">
+                                <label for="username" class="sr-only mb-2">Имя пользователя</label>
+                                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="sr-only mb-2">Пароль</label>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" type="submit">Войти</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

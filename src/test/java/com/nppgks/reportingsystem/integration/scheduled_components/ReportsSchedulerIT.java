@@ -5,7 +5,7 @@ import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.operative_reports.entity.TagData;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ScheduledIT;
-import com.nppgks.reportingsystem.opc.OpcRequests;
+import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.reportgeneration.operative.ReportsScheduler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
     @InjectMocks
     private final ReportsScheduler reportsScheduler;
     @SpyBean
-    private OpcRequests opcRequests;
+    private OpcServiceRequests opcServiceRequests;
 
     @Autowired
     public ReportsSchedulerIT(ReportsScheduler reportsScheduler) {
@@ -46,7 +46,7 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
     @BeforeEach
     void init(){
         doReturn(Map.of("WinCC_OA.report_redu.save", "234", "WinCC_OA.report_redu.main", "890", "WinCC_OA.CRC.Calc_crc", "237"))
-                .when(opcRequests).getTagDataFromOpc(Mockito.anyList());
+                .when(opcServiceRequests).getTagDataFromOpc(Mockito.anyList());
     }
     @Test
     void generateTagDataForHourReport(){

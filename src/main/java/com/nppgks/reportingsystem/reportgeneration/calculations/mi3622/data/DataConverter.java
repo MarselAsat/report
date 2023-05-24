@@ -1,14 +1,17 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data;
 
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
+import com.nppgks.reportingsystem.exception.NotValidTagDataException;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.nppgks.reportingsystem.util.ArrayParser.*;
 import static java.lang.Boolean.parseBoolean;
@@ -19,6 +22,7 @@ import static java.lang.Integer.parseInt;
 public class DataConverter {
 
     private static final String ARRAY_REGEX = "\\[.*]";
+    private static final String ARRAY_2DIM_REGEX = "\\[\\[.*]]";
 
     private static final String CALCULATE_METHOD_PREFIX = "calculate";
 
@@ -58,12 +62,16 @@ public class DataConverter {
         for (Field declaredField : declaredFields) {
             try {
                 declaredField.setAccessible(true);
-                if (declaredField.get(finalData) != null) {
+                Object data = declaredField.get(finalData);
+                if (data != null) {
+                    if (declaredField.getType().equals(double[][].class)) {
+                        data = transpose((double[][]) data);
+                    }
                     String tagName = tagNamesMap.get(declaredField.getName());
                     if (tagName == null) {
                         throw new MissingDbDataException("There is no " + declaredField.getName() + " (initial = FALSE, type = MI_3622) tag in calculations.tag_name table");
                     }
-                    map.put(tagNamesMap.get(declaredField.getName()), declaredField.get(finalData));
+                    map.put(tagNamesMap.get(declaredField.getName()), data);
                 }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
@@ -95,7 +103,11 @@ public class DataConverter {
                         Class<?> fieldType = declaredField.getType();
 
                         if (fieldType.equals(double[][].class)) {
-                            declaredField.set(initialData, to2DArray(value));
+                            // из OPC сервера значения идут в таком виде: каждая строка(!) это множество измерений в 1 точке
+                            // а формулы для вычислений предполагают, что каждый столбец(!) это множество измерений в 1 точке
+                            // поэтому, нужно транспонировать двумерный массив
+                            double[][] array2Dim = transpose(to2DArray(value));
+                            declaredField.set(initialData, array2Dim);
                         } else if (fieldType.equals(double[].class)) {
                             declaredField.set(initialData, toArray(value));
                         } else if (fieldType.equals(int.class)) {
@@ -127,19 +139,54 @@ public class DataConverter {
      * Двумерные массивы из OPC приходят в виде одномерного массива: [x, x, x, x, ...]
      * Этот метод меняет вид двумерных массивов (value из dataFromOpc) на [[x, x, ...],[x, x, ...]...]
      */
-    public static void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, String pointsCountTagName, String measureCountTagName) {
-        int pointsCount = parseInt(dataFromOpc.get(pointsCountTagName));
-        int measureCount = parseInt(dataFromOpc.get(measureCountTagName));
+    public static void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, Map<String, String> initialTagNamesMap) {
+        int pointsCount = parseInt(dataFromOpc.get(initialTagNamesMap.get("pointsCount")));
+        int measureCount = parseInt(dataFromOpc.get(initialTagNamesMap.get("measureCount")));
+        Field[] initialDataFields = InitialData.class.getDeclaredFields();
         for (Map.Entry<String, String> entry : dataFromOpc.entrySet()) {
             String value = entry.getValue();
-            if (value.matches(ARRAY_REGEX)) {
+
+            String permanentTagName = initialTagNamesMap
+                    .entrySet()
+                    .stream()
+                    .filter(en -> en.getValue().equals(entry.getKey()))
+                    .map(Map.Entry::getKey)
+                    .findFirst()
+                    .orElseThrow();
+            Optional<Field> dfOptional= Arrays.stream(initialDataFields)
+                    .filter(df -> df.getName().equals(permanentTagName))
+                    .findFirst();
+            Class<?> dfType;
+            if(dfOptional.isPresent()){
+                dfType = dfOptional.get().getType();
+            }
+            else{
+                continue;
+            }
+            if (value.matches(ARRAY_REGEX) && !value.matches(ARRAY_2DIM_REGEX) && dfType.equals(double[][].class)) {
                 double[] valueArr = toArray(value);
                 if (valueArr.length == pointsCount * measureCount) {
                     double[][] array2D = fromArrayTo2DArray(valueArr, pointsCount, measureCount);
                     String newValue = fromObjectToJson(array2D);
                     dataFromOpc.put(entry.getKey(), newValue);
                 }
+                else {
+                    throw new NotValidTagDataException("Длина массива %s должна быть равна pointsCount*measureCount = %s"
+                            .formatted(value, pointsCount*measureCount));
+                }
             }
         }
+    }
+
+    private static double[][] transpose(double[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        double[][] transposeMatrix = new double[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                transposeMatrix[i][j] = matrix[j][i];
+            }
+        }
+        return transposeMatrix;
     }
 }

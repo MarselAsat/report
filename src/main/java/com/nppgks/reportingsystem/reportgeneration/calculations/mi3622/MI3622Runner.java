@@ -12,7 +12,7 @@ public class MI3622Runner {
         this.initialData = initialData;
     }
 
-    public FinalData run(){
+    public FinalData run() {
         MI3622Calculation MI3622Calculation = new MI3622Calculation(initialData);
         FinalData finalData = DataConverter.calculateFinalData(MI3622Calculation);
         DataRounder.round(finalData);
