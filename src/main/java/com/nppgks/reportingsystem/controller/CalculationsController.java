@@ -17,9 +17,9 @@ import java.util.List;
 @RequestMapping("/calc")
 public class CalculationsController {
     private final MI3622Service MI3622Service;
-    private final String MI_3622 = "MI3622";
+    private final String MI_3622 = "/MI3622";
 
-    @GetMapping("/" + MI_3622)
+    @GetMapping(MI_3622)
     public String calcMI3622(ModelMap modelMap) {
         List<TagData> tagDataList = MI3622Service.calcMI3622();
         tagDataList.forEach(td -> {
@@ -31,7 +31,7 @@ public class CalculationsController {
     }
 
     @ResponseBody
-    @GetMapping("/" + MI_3622 + "/save")
+    @GetMapping(MI_3622 + "/save")
     public String saveMI3622Data() {
         return MI3622Service.saveInDb();
     }
