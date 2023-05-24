@@ -103,7 +103,7 @@ public class MI3622CalculationTest {
     }
 
     @Test
-    void checkKnm(){
+    void checkKpm(){
         double Kpm = MI3622Calculation.calculateK_pm();
         double KpmRef = 226.4151;
         assertThat(Kpm).isCloseTo(KpmRef, within(0.05));

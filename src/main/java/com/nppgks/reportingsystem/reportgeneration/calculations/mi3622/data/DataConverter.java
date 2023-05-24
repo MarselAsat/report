@@ -152,7 +152,7 @@ public class DataConverter {
                     .filter(en -> en.getValue().equals(entry.getKey()))
                     .map(Map.Entry::getKey)
                     .findFirst()
-                    .get();
+                    .orElseThrow();
             Optional<Field> dfOptional= Arrays.stream(initialDataFields)
                     .filter(df -> df.getName().equals(permanentTagName))
                     .findFirst();
@@ -171,8 +171,7 @@ public class DataConverter {
                     dataFromOpc.put(entry.getKey(), newValue);
                 }
                 else {
-                    throw new NotValidTagDataException(
-                            "Длина массива %s должна быть равна pointsCount*measureCount = %s"
+                    throw new NotValidTagDataException("Длина массива %s должна быть равна pointsCount*measureCount = %s"
                             .formatted(value, pointsCount*measureCount));
                 }
             }
