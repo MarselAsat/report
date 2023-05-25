@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ class OpcServiceRequestsTest {
 
     @Test
     void getSingleTagDataFromOpc() {
-        String tagDataFromOpc = opcServiceRequests.getTagDataFromOpc(
+        ResponseEntity<String> tagDataFromOpc = opcServiceRequests.getTagDataFromOpc(
                 "opc.tag.name");
         Assertions.assertThat(tagDataFromOpc).isNotNull();
     }

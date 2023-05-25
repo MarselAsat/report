@@ -2,6 +2,7 @@ package com.nppgks.reportingsystem.controller;
 
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class OpcServiceController {
 
     @PostMapping("/readValue")
     @ResponseBody
-    public String getValueByName(@RequestBody String tagName){
+    public ResponseEntity<String> getValueByName(@RequestBody String tagName){
         return opcServiceRequests.getTagDataFromOpc(tagName);
     }
 }

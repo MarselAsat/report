@@ -1,9 +1,7 @@
 package com.nppgks.reportingsystem.opcservice;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,12 +14,12 @@ import java.util.Map;
 @Component
 public class OpcServiceRequests {
 
-    private RestTemplate restTemplate;
-    private HttpHeaders headers;
-    private URI uriCheckConnection;
-    private URI uriReconnect;
-    private URI uriRead;
-    private URI uriWrite;
+    private final RestTemplate restTemplate;
+    private final HttpHeaders headers;
+    private final URI uriCheckConnection;
+    private final URI uriReconnect;
+    private final URI uriRead;
+    private final URI uriWrite;
 
     public OpcServiceRequests(@Value("${opc.service.host}") String host, @Value("${opc.service.port}") String port) {
 
@@ -49,15 +47,11 @@ public class OpcServiceRequests {
         return restTemplate.postForObject(uriRead, entity, HashMap.class);
     }
 
-    public String getTagDataFromOpc(String tagName) {
+    public ResponseEntity<String> getTagDataFromOpc(String tagName) {
         HttpEntity<List<String>> entity = new HttpEntity<>(List.of(tagName), headers);
-        HashMap result = restTemplate.postForObject(uriRead, entity, HashMap.class);
+        ResponseEntity<Map> responseEntity = restTemplate.postForEntity(uriRead, entity, Map.class);
         String noData = "No data";
-        if (result != null) {
-            return (String) result.getOrDefault(tagName, noData);
-        } else {
-            return noData;
-        }
+        return new ResponseEntity<>( (String) responseEntity.getBody().getOrDefault(tagName, noData), HttpStatus.OK);
     }
 
     public boolean testOpcServerConnection() {
