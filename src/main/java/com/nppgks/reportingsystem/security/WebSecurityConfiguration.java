@@ -38,6 +38,10 @@ public class WebSecurityConfiguration {
                 .logout()
                 .logoutSuccessHandler(customLogoutSuccessHandler)
                 .and()
+                .rememberMe()
+                .userDetailsService(this.userDetailsService)
+                .alwaysRemember(true)
+                .and()
                 .httpBasic();
         return http.build();
     }

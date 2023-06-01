@@ -60,7 +60,7 @@ public class OpcServiceRequests {
 
     public void sendTagDataToOpc(Map<String, Object> data) {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(data, headers);
-        restTemplate.postForObject(uriWrite, entity, HashMap.class);
+        restTemplate.postForObject(uriWrite, entity, Boolean.class);
     }
 
     public boolean reconnectToOpcServer() {
