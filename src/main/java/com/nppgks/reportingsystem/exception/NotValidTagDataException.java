@@ -9,4 +9,7 @@ public class NotValidTagDataException extends RuntimeException{
     public NotValidTagDataException(String message) {
         super(message);
     }
+    public NotValidTagDataException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

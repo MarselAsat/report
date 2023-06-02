@@ -1,6 +1,7 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data;
 
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
+import com.nppgks.reportingsystem.exception.MissingOpcTagException;
 import com.nppgks.reportingsystem.exception.NotValidTagDataException;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
 import lombok.extern.slf4j.Slf4j;
@@ -106,7 +107,20 @@ public class DataConverter {
                             // из OPC сервера значения идут в таком виде: каждая строка(!) это множество измерений в 1 точке
                             // а формулы для вычислений предполагают, что каждый столбец(!) это множество измерений в 1 точке
                             // поэтому, нужно транспонировать двумерный массив
-                            double[][] array2Dim = transpose(to2DArray(value));
+                            double[][] array2Dim;
+                            try{
+                                array2Dim = transpose(to2DArray(value));
+                            }
+                            catch(Exception e){
+                                String message = """
+                                Произошла ошибка во время обработки массива %s.
+                                Проверьте, что массив соответствует одному из шаблонов
+                                [a1, a2, a3, ...] или [[a11, a12, a13, ...],[a21, a22, a23, ...], ...]
+                                и что его длина соответствует количеству точек и измерений
+                                """.formatted(value);
+                                throw new NotValidTagDataException(message, e);
+                            }
+
                             declaredField.set(initialData, array2Dim);
                         } else if (fieldType.equals(double[].class)) {
                             declaredField.set(initialData, toArray(value));
@@ -140,8 +154,14 @@ public class DataConverter {
      * Этот метод меняет вид двумерных массивов (value из dataFromOpc) на [[x, x, ...],[x, x, ...]...]
      */
     public static void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, Map<String, String> initialTagNamesMap) {
-        int pointsCount = parseInt(dataFromOpc.get(initialTagNamesMap.get("pointsCount")));
-        int measureCount = parseInt(dataFromOpc.get(initialTagNamesMap.get("measureCount")));
+        String pointsCountStr = dataFromOpc.get(initialTagNamesMap.get("pointsCount"));
+        String measureCountStr = dataFromOpc.get(initialTagNamesMap.get("measureCount"));
+        if(pointsCountStr == null || measureCountStr == null){
+            throw new MissingOpcTagException("Теги pointsCount и/или measureCount не инициализированы, либо не существуют на OPC сервере");
+        }
+        int pointsCount = parseInt(pointsCountStr);
+        int measureCount = parseInt(measureCountStr);
+
         Field[] initialDataFields = InitialData.class.getDeclaredFields();
         for (Map.Entry<String, String> entry : dataFromOpc.entrySet()) {
             String value = entry.getValue();

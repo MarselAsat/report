@@ -17,8 +17,8 @@ public class MI3622Calculation {
     private final double[][] N_e_i_j;
     private final double[][] N_p_i_j;
     private final double[][] T_i_j;
-    private final double f_r_max;
-    private final double Q_r_max;
+    private final double f_p_max;
+    private final double Q_p_max;
     private final Double MF_p;
     private final double[] K_e_arr;
     private final double[] Q_e_arr;
@@ -60,8 +60,8 @@ public class MI3622Calculation {
         this.N_e_i_j = data.getN_e_ij();
         this.N_p_i_j = data.getN_p_ij();
         this.T_i_j = data.getT_ij();
-        this.f_r_max = data.getF_p_max();
-        this.Q_r_max = data.getQ_p_max();
+        this.f_p_max = data.getF_p_max();
+        this.Q_p_max = data.getQ_p_max();
         this.K_e_arr = data.getK_e_arr();
         this.MF_p = data.getMF_p();
         this.ZS = data.getZS();
@@ -84,9 +84,9 @@ public class MI3622Calculation {
 
     public double calculateK_pm() {
         log.info("Рассчет коэффициента преобразования поверяемого СРМ (K_pm, имп/т) согласно п.7.1 по формуле (1) МИ3622-2020");
-        log.debug("Максимальное значение частоты, установленное в СРМ (f_r_max, Гц) {}", f_r_max);
-        log.debug("Максимальное значение расхода (Q_r_max, т/ч) {}", Q_r_max);
-        double Kpm = f_r_max * 3.6 / Q_r_max;
+        log.debug("Максимальное значение частоты, установленное в СРМ (f_r_max, Гц) {}", f_p_max);
+        log.debug("Максимальное значение расхода (Q_r_max, т/ч) {}", Q_p_max);
+        double Kpm = f_p_max * 3.6 / Q_p_max;
         log.info("K_pm = {}", Kpm);
 
         return Kpm;
