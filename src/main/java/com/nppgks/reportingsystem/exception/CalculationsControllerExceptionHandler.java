@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice(assignableTypes = CalculationsController.class)
 @Slf4j
 public class CalculationsControllerExceptionHandler {
-
-
     @ExceptionHandler
     public ResponseEntity<String> handleMismatchedInputException(MismatchedInputException e) {
         String message = """

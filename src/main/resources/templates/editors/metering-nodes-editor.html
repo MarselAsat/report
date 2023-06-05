@@ -13,21 +13,22 @@
         }
 
         .main-container {
-            margin-top: 5rem!important;
+            margin-top: 5rem !important;
         }
     </style>
 </head>
 <body>
-    <nav th:replace="fragments/nav"></nav>
-    <div class="main-container container">
-        <div class="col-md-12">
-            <div class="card my-4 border-0">
-                <zing-grid frozen-columns-left caption="Таблица metering_node" src="/api/meteringNodes/" lang="ru" editor-controls="creator remover" editor columns-control>
-                    <zg-column index="id" header="ID"></zg-column>
-                    <zg-column index="name" header="Название"></zg-column>
-                </zing-grid>
-            </div>
+<nav th:replace="fragments/nav"></nav>
+<div class="main-container container">
+    <div class="col-md-12">
+        <div class="card my-4 border-0">
+            <zing-grid frozen-columns-left caption="Узлы учета (таблица operative_reports.metering_node)"
+                       src="/api/meteringNodes/" lang="ru" editor-controls="creator remover" editor columns-control>
+                <zg-column index="id" header="ID"></zg-column>
+                <zg-column index="name" header="Название"></zg-column>
+            </zing-grid>
         </div>
     </div>
+</div>
 </body>
 </html>

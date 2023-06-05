@@ -1,16 +1,16 @@
 package com.nppgks.reportingsystem.controller.view;
 
 import com.nppgks.reportingsystem.db.operative_reports.entity.MeteringNode;
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportName;
+import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
-import com.nppgks.reportingsystem.dto.ReportViewTagData;
+import com.nppgks.reportingsystem.dto.ReportViewReportData;
 import com.nppgks.reportingsystem.service.dbservices.MeteringNodeService;
 import com.nppgks.reportingsystem.util.ArrayParser;
-import com.nppgks.reportingsystem.service.dbservices.ReportNameService;
+import com.nppgks.reportingsystem.service.dbservices.ReportService;
 import com.nppgks.reportingsystem.service.dbservices.SettingsService;
-import com.nppgks.reportingsystem.service.dbservices.TagDataService;
-import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportNameService;
-import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagDataService;
+import com.nppgks.reportingsystem.service.dbservices.ReportDataService;
+import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportService;
+import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportDataService;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,93 +26,93 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReportViewController {
 
-    private final ReportNameService reportNameService;
+    private final ReportService reportService;
 
-    private final CalcReportNameService calcReportNameService;
+    private final CalcReportService calcReportService;
 
-    private final CalcTagDataService calcTagDataService;
-    private final TagDataService tagDataService;
+    private final CalcReportDataService calcReportDataService;
+    private final ReportDataService reportDataService;
 
     private final SettingsService settingsService;
 
     private final MeteringNodeService meteringNodeService;
 
-    @GetMapping(value = "/dailyReport/{reportNameId}")
+    @GetMapping(value = "/dailyReport/{reportId}")
     public String getDailyReport(ModelMap modelMap,
-                            @PathVariable Long reportNameId) {
-        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.DAILY_REPORT_COLUMNS);
+                            @PathVariable Long reportId) {
+        fillModelMapForReportView(modelMap, reportId, SettingsConstants.DAILY_REPORT_COLUMNS);
         return "report_pages/daily-report-page";
     }
 
-    @GetMapping(value = "/hourReport/{reportNameId}")
+    @GetMapping(value = "/hourReport/{reportId}")
     public String getHourReport(ModelMap modelMap,
-                            @PathVariable Long reportNameId){
-        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.HOUR_REPORT_COLUMNS);
+                            @PathVariable Long reportId){
+        fillModelMapForReportView(modelMap, reportId, SettingsConstants.HOUR_REPORT_COLUMNS);
         return "report_pages/hour-report-page";
     }
 
-    @GetMapping(value = "/twohourReport/{reportNameId}")
+    @GetMapping(value = "/twohourReport/{reportId}")
     public String get2HourReport(ModelMap modelMap,
-                                @PathVariable Long reportNameId){
-        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.TWOHOUR_REPORT_COLUMNS);
+                                @PathVariable Long reportId){
+        fillModelMapForReportView(modelMap, reportId, SettingsConstants.TWOHOUR_REPORT_COLUMNS);
         return "report_pages/twohour-report-page";
     }
 
-    @GetMapping(value = "/shiftReport/{reportNameId}")
+    @GetMapping(value = "/shiftReport/{reportId}")
     public String getShiftReport(ModelMap modelMap,
-                                 @PathVariable Long reportNameId){
-        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.SHIFT_REPORT_COLUMNS);
+                                 @PathVariable Long reportId){
+        fillModelMapForReportView(modelMap, reportId, SettingsConstants.SHIFT_REPORT_COLUMNS);
         return "report_pages/shift-report-page";
     }
 
-    @GetMapping(value = "/monthReport/{reportNameId}")
+    @GetMapping(value = "/monthReport/{reportId}")
     public String getMonthReport(ModelMap modelMap,
-                                 @PathVariable Long reportNameId){
-        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.MONTH_REPORT_COLUMNS);
+                                 @PathVariable Long reportId){
+        fillModelMapForReportView(modelMap, reportId, SettingsConstants.MONTH_REPORT_COLUMNS);
         return "report_pages/month-report-page";
     }
 
-    @GetMapping(value = "/yearReport/{reportNameId}")
+    @GetMapping(value = "/yearReport/{reportId}")
     public String getYearReport(ModelMap modelMap,
-                                 @PathVariable Long reportNameId){
-        fillModelMapForReportView(modelMap, reportNameId, SettingsConstants.YEAR_REPORT_COLUMNS);
+                                 @PathVariable Long reportId){
+        fillModelMapForReportView(modelMap, reportId, SettingsConstants.YEAR_REPORT_COLUMNS);
         return "report_pages/year-report-page";
     }
 
-    @GetMapping(value = "/poverkiReport/{reportNameId}")
+    @GetMapping(value = "/poverkiReport/{reportId}")
     public String getPoverkiReport(ModelMap modelMap,
-                                @PathVariable Long reportNameId){
-        var reportName = calcReportNameService.findReportNameById(reportNameId);
+                                @PathVariable Long reportId){
+        var report = calcReportService.findReportById(reportId);
 
-        LocalDate creationDate = reportName.getCreationDt().toLocalDate();
+        LocalDate creationDate = report.getCreationDt().toLocalDate();
 
         modelMap.put("date", SingleDateTimeFormatter.formatToSinglePattern(creationDate));
 
-        var tagDataList = calcTagDataService.getTagDataList(reportNameId);
+        var reportDataList = calcReportDataService.getReportDataList(reportId);
 
-        tagDataList.forEach(td -> {
-            Object value = ArrayParser.fromJsonToObject(td.getData());
+        reportDataList.forEach(rd -> {
+            Object value = ArrayParser.fromJsonToObject(rd.getData());
             modelMap.put(
-                    td.getTagName().getPermanentName(), value);
+                    rd.getTag().getPermanentName(), value);
         });
 
         return "report_pages/MI3622-report-page";
     }
 
-    private void fillModelMapForReportView(ModelMap modelMap, Long reportNameId, String columnsFromSetting) {
-        ReportName reportName = reportNameService.getById(reportNameId);
-        List<ReportViewTagData> reportViewTagData = tagDataService.getReportViewTagData(reportNameId);
+    private void fillModelMapForReportView(ModelMap modelMap, Long reportId, String columnsFromSetting) {
+        Report report = reportService.getById(reportId);
+        List<ReportViewReportData> reportViewReportData = reportDataService.getReportViewReportData(reportId);
         List<String> meteringNodesDisplayIds = settingsService.getListValuesBySettingName(columnsFromSetting);
         List<MeteringNode> meteringNodesDisplay = meteringNodeService.getAllNodes().stream()
                 .filter(mn -> meteringNodesDisplayIds.contains(mn.getId()))
                 .toList();
 
         String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
-        LocalDateTime reportStartDt = reportName.getStartDt();
-        LocalDateTime reportEndDt = reportName.getEndDt();
-        modelMap.put("reportViewTagData", reportViewTagData);
-        modelMap.put("reportNameDtCreation", SingleDateTimeFormatter
-                .formatToSinglePattern(reportName.getCreationDt()));
+        LocalDateTime reportStartDt = report.getStartDt();
+        LocalDateTime reportEndDt = report.getEndDt();
+        modelMap.put("reportViewReportData", reportViewReportData);
+        modelMap.put("reportDtCreation", SingleDateTimeFormatter
+                .formatToSinglePattern(report.getCreationDt()));
         modelMap.put("startReportDate", SingleDateTimeFormatter
                 .formatToSinglePattern(reportStartDt));
         modelMap.put("endReportDate", SingleDateTimeFormatter

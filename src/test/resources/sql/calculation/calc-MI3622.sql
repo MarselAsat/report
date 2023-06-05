@@ -1,12 +1,12 @@
 SET search_path TO calculations;
 
 -- InitialData
-INSERT INTO tag_name (id, permanent_name, name, description, initial, type)
+INSERT INTO tag (id, permanent_name, address, description, initial, calc_method)
 VALUES (1, 'Q_ij', 'WinCC_OA.rep_test.' || 'Q_ij', '', TRUE, 'MI_3622');
 
-SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
+SELECT SETVAL('tag_id_seq', (SELECT MAX(id) FROM tag));
 
-INSERT INTO tag_name (permanent_name, name, description, initial, type)
+INSERT INTO tag (permanent_name, address, description, initial, calc_method)
 VALUES ('N_e_ij', 'WinCC_OA.rep_test.' || 'N_e_ij', '', TRUE, 'MI_3622'),
        ('N_p_ij', 'WinCC_OA.rep_test.' || 'N_p_ij', '', TRUE, 'MI_3622'),
        ('T_ij', 'WinCC_OA.rep_test.' || 'T_ij', '', TRUE, 'MI_3622'),
@@ -31,7 +31,7 @@ VALUES ('N_e_ij', 'WinCC_OA.rep_test.' || 'N_e_ij', '', TRUE, 'MI_3622'),
        ('Q_e_arr', 'WinCC_OA.rep_test.' || 'Q_e_arr', '', TRUE, 'MI_3622');
 
 -- FinalData
-INSERT INTO tag_name (permanent_name, name, description, initial, type)
+INSERT INTO tag (permanent_name, address, description, initial, calc_method)
 VALUES ('K_pm', 'WinCC_OA.rep_test.' || 'K_pm', '', FALSE, 'MI_3622'),
        ('M_e_ij', 'WinCC_OA.rep_test.' || 'M_e_ij', '', FALSE, 'MI_3622'),
        ('MF_ij', 'WinCC_OA.rep_test.' || 'MF_ij', '', FALSE, 'MI_3622'),
@@ -75,7 +75,7 @@ VALUES ('K_pm', 'WinCC_OA.rep_test.' || 'K_pm', '', FALSE, 'MI_3622'),
        ('conclusion', 'WinCC_OA.rep_test.' || 'conclusion', '', FALSE, 'MI_3622');
 
 -- InitialUnusedData
-INSERT INTO tag_name (permanent_name, name, description, initial, type)
+INSERT INTO tag (permanent_name, address, description, initial, calc_method)
 VALUES ('delta_t_dop', 'WinCC_OA.rep_test.' || 'delta_t_dop', '', TRUE, 'MI_3622'),
        ('delta_P_dop', 'WinCC_OA.rep_test.' || 'delta_P_dop', '', TRUE, 'MI_3622'),
        ('t_min', 'WinCC_OA.rep_test.' || 't_min', '', TRUE, 'MI_3622'),
@@ -90,7 +90,7 @@ VALUES ('delta_t_dop', 'WinCC_OA.rep_test.' || 'delta_t_dop', '', TRUE, 'MI_3622
        ('protocolNumber', 'WinCC_OA.rep_test.' || 'protocolNumber', '', TRUE, 'MI_3622');
 
 -- InitialTextData
-INSERT INTO tag_name (permanent_name, name, description, initial, type)
+INSERT INTO tag (permanent_name, address, description, initial, calc_method)
 VALUES ('check_inspection', 'WinCC_OA.rep_test.' || 'check_inspection', '', TRUE, 'MI_3622'),
        ('check_leakproofness', 'WinCC_OA.rep_test.' || 'check_leakproofness', '', TRUE, 'MI_3622'),
        ('check_software', 'WinCC_OA.rep_test.' || 'check_software', '', TRUE, 'MI_3622'),
@@ -111,11 +111,11 @@ VALUES ('check_inspection', 'WinCC_OA.rep_test.' || 'check_inspection', '', TRUE
        ('t_sigma_D', 'WinCC_OA.rep_test.' || 't_sigma_D', '', FALSE, 'MI_3622'),
        ('S_D', 'WinCC_OA.rep_test.' || 'S_D', '', FALSE, 'MI_3622');
 
-SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
+SELECT SETVAL('tag_id_seq', (SELECT MAX(id) FROM tag));
 
-INSERT INTO report_name(id, name, creation_dt, calc_method)
+INSERT INTO report(id, name, creation_dt, calc_method)
 VALUES (1, 'Поверка 3622 за 2022-07-14',
         TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
         'MI_3622');
 
-SELECT SETVAL('report_name_id_seq', (SELECT MAX(id) FROM report_name));
+SELECT SETVAL('report_id_seq', (SELECT MAX(id) FROM report));

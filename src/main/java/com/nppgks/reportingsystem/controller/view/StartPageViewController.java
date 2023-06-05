@@ -1,9 +1,9 @@
 package com.nppgks.reportingsystem.controller.view;
 
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportName;
-import com.nppgks.reportingsystem.service.dbservices.ReportNameService;
+import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
+import com.nppgks.reportingsystem.service.dbservices.ReportService;
 import com.nppgks.reportingsystem.service.dbservices.ReportTypeService;
-import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportNameService;
+import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,9 +18,9 @@ import java.util.List;
 public class StartPageViewController {
 
     private final ReportTypeService reportTypeService;
-    private final ReportNameService reportNameService;
+    private final ReportService reportService;
 
-    private final CalcReportNameService calcReportNameService;
+    private final CalcReportService calcReportService;
 
 
     @GetMapping
@@ -30,19 +30,19 @@ public class StartPageViewController {
     }
 
     @GetMapping(value = "/filter")
-    public String getReportNameByDateAndReportType(ModelMap modelMap,
-                                                   @RequestParam(required = false) LocalDate date,
-                                                   @RequestParam(required = false) String reportTypeId){
+    public String getReportByDateAndReportType(ModelMap modelMap,
+                                               @RequestParam(required = false) LocalDate date,
+                                               @RequestParam(required = false) String reportTypeId){
         if(date == null && reportTypeId == null) {
             return "redirect:/";
         }
         else if(reportTypeId != null && reportTypeId.equals("poverki")) {
-            var calcReportNames = calcReportNameService.findReportNameByDate(date);
-            modelMap.put("reportNames", calcReportNames);
+            var calcReports = calcReportService.findReportByDate(date);
+            modelMap.put("reports", calcReports);
         }
         else if(reportTypeId != null){
-            List<ReportName> reportNames = reportNameService.getReportNameByDateAndReportId(reportTypeId, date);
-            modelMap.put("reportNames", reportNames);
+            List<Report> reports = reportService.getReportsByDateAndReportId(reportTypeId, date);
+            modelMap.put("reports", reports);
         }
 
         setCommonParams(modelMap);

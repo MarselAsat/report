@@ -1,9 +1,9 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
 
-import com.nppgks.reportingsystem.db.calculations.entity.ReportName;
-import com.nppgks.reportingsystem.db.calculations.entity.TagData;
-import com.nppgks.reportingsystem.db.calculations.repository.ReportNameRepository;
-import com.nppgks.reportingsystem.db.calculations.repository.TagDataRepository;
+import com.nppgks.reportingsystem.db.calculations.entity.Report;
+import com.nppgks.reportingsystem.db.calculations.entity.ReportData;
+import com.nppgks.reportingsystem.db.calculations.repository.ReportRepository;
+import com.nppgks.reportingsystem.db.calculations.repository.ReportDataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,28 +18,28 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MI3622DbService {
-    private final ReportNameRepository reportNameRepository;
-    private final TagDataRepository tagDataRepository;
+    private final ReportRepository reportRepository;
+    private final ReportDataRepository reportDataRepository;
 
     @Transactional
-    public String saveCalculations(List<TagData> tagDataList, ReportName reportName) {
-        if (tagDataList == null || reportName == null) {
+    public String saveCalculations(List<ReportData> reportDataList, Report report) {
+        if (reportDataList == null || report == null) {
             return "Нет данных для сохранения!";
         }
-        LocalDate creationDate = reportName.getCreationDt().toLocalDate();
-        List<ReportName> reportNames = reportNameRepository.findByDateRange(creationDate.atStartOfDay(), creationDate.atTime(LocalTime.MAX));
+        LocalDate creationDate = report.getCreationDt().toLocalDate();
+        List<Report> reports = reportRepository.findByDateRange(creationDate.atStartOfDay(), creationDate.atTime(LocalTime.MAX));
         String response = "В базе данных успешно создан отчет поверки и сохранены результаты!";
-        if (!reportNames.isEmpty()) {
-            deleteReport(reportNames.get(0).getId());
+        if (!reports.isEmpty()) {
+            deleteReport(reports.get(0).getId());
             response = "Результаты поверки успешно перезаписаны!";
         }
-        reportNameRepository.save(reportName);
-        tagDataRepository.saveAll(tagDataList);
+        reportRepository.save(report);
+        reportDataRepository.saveAll(reportDataList);
         return response;
     }
 
     public void deleteReport(Long id) {
-        tagDataRepository.deleteByReportNameId(id);
-        reportNameRepository.deleteById(id);
+        reportDataRepository.deleteByReportId(id);
+        reportRepository.deleteById(id);
     }
 }

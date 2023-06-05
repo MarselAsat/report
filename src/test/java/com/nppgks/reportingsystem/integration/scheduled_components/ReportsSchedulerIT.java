@@ -1,8 +1,8 @@
 package com.nppgks.reportingsystem.integration.scheduled_components;
 
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportName;
+import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
 import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
-import com.nppgks.reportingsystem.db.operative_reports.entity.TagData;
+import com.nppgks.reportingsystem.db.operative_reports.entity.ReportData;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ScheduledIT;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
@@ -46,118 +46,118 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
     @BeforeEach
     void init(){
         doReturn(Map.of("WinCC_OA.report_redu.save", "234", "WinCC_OA.report_redu.main", "890", "WinCC_OA.CRC.Calc_crc", "237"))
-                .when(opcServiceRequests).getTagDataFromOpc(Mockito.anyList());
+                .when(opcServiceRequests).getTagValuesFromOpc(Mockito.anyList());
     }
     @Test
-    void generateTagDataForHourReport(){
+    void generateReportDataForHourReport(){
         LocalDateTime currentDt = LocalDateTime.parse("2022-09-20T10:10:50");
 
         try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
 
-            List<TagData> tagDataList = reportsScheduler.generateTagDataForHourReport();
-            String reportName = tagDataList.get(0).getReportName().getName();
+            List<ReportData> reportDataList = reportsScheduler.generateReportDataForHourReport();
+            String reportName = reportDataList.get(0).getReport().getName();
             assertThat(reportName).isEqualTo("Часовой отчет за 09:00 20.09.2022");
-            assertThat(tagDataList).hasSize(3);
-            assertThat(tagDataList.get(0).getReportName().getStartDt())
+            assertThat(reportDataList).hasSize(3);
+            assertThat(reportDataList.get(0).getReport().getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-20T09:00"));
 
-            assertThat(tagDataList.get(0).getReportName().getEndDt())
+            assertThat(reportDataList.get(0).getReport().getEndDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-20T10:00"));
         }
     }
 
     @Test
-    void generateTagDataForHourReport2(){
+    void generateReportDataForHourReport2(){
         LocalDateTime currentDt = LocalDateTime.parse("2023-01-10T14:00:50");
 
         try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
 
-            List<TagData> tagDataList = reportsScheduler.generateTagDataForHourReport();
-            String reportName = tagDataList.get(0).getReportName().getName();
+            List<ReportData> reportDataList = reportsScheduler.generateReportDataForHourReport();
+            String reportName = reportDataList.get(0).getReport().getName();
             assertThat(reportName).isEqualTo("Часовой отчет за 13:00 10.01.2023");
-            assertThat(tagDataList).hasSize(3);
-            assertThat(tagDataList.get(0).getReportName().getStartDt())
+            assertThat(reportDataList).hasSize(3);
+            assertThat(reportDataList.get(0).getReport().getStartDt())
                     .isEqualTo(LocalDateTime.parse("2023-01-10T13:00"));
 
-            assertThat(tagDataList.get(0).getReportName().getEndDt())
+            assertThat(reportDataList.get(0).getReport().getEndDt())
                     .isEqualTo(LocalDateTime.parse("2023-01-10T14:00"));
         }
     }
 
     @Test
-    void generateTagDataFor2HourReport(){
+    void generateReportDataFor2HourReport(){
         LocalDateTime currentDt = LocalDateTime.parse("2023-01-10T14:00:50");
 
         try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
 
-            List<TagData> tagDataList = reportsScheduler.generateTagDataFor2HourReport();
-            String reportName = tagDataList.get(0).getReportName().getName();
+            List<ReportData> reportDataList = reportsScheduler.generateReportDataFor2HourReport();
+            String reportName = reportDataList.get(0).getReport().getName();
             assertThat(reportName).isEqualTo("Двухчасовой отчет за период с 12:00 по 14:00 10.01.2023");
-            assertThat(tagDataList).hasSize(3);
-            assertThat(tagDataList.get(0).getReportName().getStartDt())
+            assertThat(reportDataList).hasSize(3);
+            assertThat(reportDataList.get(0).getReport().getStartDt())
                     .isEqualTo(LocalDateTime.parse("2023-01-10T12:00"));
 
-            assertThat(tagDataList.get(0).getReportName().getEndDt())
+            assertThat(reportDataList.get(0).getReport().getEndDt())
                     .isEqualTo(LocalDateTime.parse("2023-01-10T14:00"));
         }
     }
 
     @Test
-    void generateTagDataForDailyReport(){
+    void generateReportDataForDailyReport(){
         LocalDateTime currentDt = LocalDateTime.parse("2022-09-20T10:10:50");
 
         try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
 
-            List<TagData> tagDataList = reportsScheduler.generateTagDataForDailyReport();
-            ReportName reportName = tagDataList.get(0).getReportName();
-            assertThat(reportName.getName()).isEqualTo("Суточный отчет за 19.09.2022");
-            assertThat(tagDataList).hasSize(3);
-            assertThat(reportName.getStartDt())
+            List<ReportData> reportDataList = reportsScheduler.generateReportDataForDailyReport();
+            Report report = reportDataList.get(0).getReport();
+            assertThat(report.getName()).isEqualTo("Суточный отчет за 19.09.2022");
+            assertThat(reportDataList).hasSize(3);
+            assertThat(report.getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-19T10:00"));
 
-            assertThat(reportName.getEndDt())
+            assertThat(report.getEndDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-20T10:00"));
         }
     }
 
     @Test
-    void generateTagDataForMonthReport(){
+    void generateReportDataForMonthReport(){
         LocalDateTime currentDt = LocalDateTime.parse("2022-09-01T12:10:50");
 
         try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
 
-            List<TagData> tagDataList = reportsScheduler.generateTagDataForMonthReport();
-            ReportName reportName = tagDataList.get(0).getReportName();
-            assertThat(reportName.getName()).isEqualTo("Месячный отчет за 08.2022");
-            assertThat(tagDataList).hasSize(3);
-            assertThat(reportName.getStartDt())
+            List<ReportData> reportDataList = reportsScheduler.generateReportDataForMonthReport();
+            Report report = reportDataList.get(0).getReport();
+            assertThat(report.getName()).isEqualTo("Месячный отчет за 08.2022");
+            assertThat(reportDataList).hasSize(3);
+            assertThat(report.getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-08-01T12:00"));
 
-            assertThat(reportName.getEndDt())
+            assertThat(report.getEndDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-01T12:00"));
         }
     }
 
     @Test
-    void generateTagDataForYearReport(){
+    void generateReportDataForYearReport(){
         LocalDateTime currentDt = LocalDateTime.parse("2022-01-01T11:10:50");
 
         try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDt);
 
-            List<TagData> tagDataList = reportsScheduler.generateTagDataForYearReport();
-            ReportName reportName = tagDataList.get(0).getReportName();
-            assertThat(reportName.getName()).isEqualTo("Годовой отчет за 2021 год");
-            assertThat(tagDataList).hasSize(3);
-            assertThat(reportName.getStartDt())
+            List<ReportData> reportDataList = reportsScheduler.generateReportDataForYearReport();
+            Report report = reportDataList.get(0).getReport();
+            assertThat(report.getName()).isEqualTo("Годовой отчет за 2021 год");
+            assertThat(reportDataList).hasSize(3);
+            assertThat(report.getStartDt())
                     .isEqualTo(LocalDateTime.parse("2021-01-01T11:00"));
 
-            assertThat(reportName.getEndDt())
+            assertThat(report.getEndDt())
                     .isEqualTo(LocalDateTime.parse("2022-01-01T11:00"));
         }
     }
@@ -202,7 +202,7 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
     }
 
     @Test
-    void generateTagDataForShiftReport(){
+    void generateReportDataForShiftReport(){
         ReportType shiftReportType = new ReportType();
         shiftReportType.setId("shift");
         try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
@@ -210,32 +210,32 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
 
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDtShift1);
 
-            List<TagData> tagDataShift1 = reportsScheduler.generateTagDataForShiftReport(shiftReportType, "1");
-            assertThat(tagDataShift1).hasSize(3);
+            List<ReportData> reportDataShift1 = reportsScheduler.generateReportDataForShiftReport(shiftReportType, "1");
+            assertThat(reportDataShift1).hasSize(3);
 
-            ReportName reportNameShift1 = tagDataShift1.get(0).getReportName();
-            assertThat(reportNameShift1.getName()).isEqualTo("Сменный отчет за 1 смену 20.09.2022");
+            Report reportShift1 = reportDataShift1.get(0).getReport();
+            assertThat(reportShift1.getName()).isEqualTo("Сменный отчет за 1 смену 20.09.2022");
 
-            assertThat(reportNameShift1.getStartDt())
+            assertThat(reportShift1.getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-20T10:00"));
 
-            assertThat(reportNameShift1.getEndDt())
+            assertThat(reportShift1.getEndDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-20T22:00"));
 
             LocalDateTime currentDtShift2 = LocalDateTime.parse("2022-09-21T10:10:50");
 
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDtShift2);
 
-            List<TagData> tagDataShift2 = reportsScheduler.generateTagDataForShiftReport(shiftReportType, "2");
-            assertThat(tagDataShift2).hasSize(3);
+            List<ReportData> reportDataShift2 = reportsScheduler.generateReportDataForShiftReport(shiftReportType, "2");
+            assertThat(reportDataShift2).hasSize(3);
 
-            ReportName reportNameShift2 = tagDataShift2.get(0).getReportName();
-            assertThat(reportNameShift2.getName()).isEqualTo("Сменный отчет за 2 смену 20.09.2022");
+            Report reportShift2 = reportDataShift2.get(0).getReport();
+            assertThat(reportShift2.getName()).isEqualTo("Сменный отчет за 2 смену 20.09.2022");
 
-            assertThat(reportNameShift2.getStartDt())
+            assertThat(reportShift2.getStartDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-20T22:00"));
 
-            assertThat(reportNameShift2.getEndDt())
+            assertThat(reportShift2.getEndDt())
                     .isEqualTo(LocalDateTime.parse("2022-09-21T10:00"));
         }
     }

@@ -33,19 +33,19 @@ CREATE TABLE IF NOT EXISTS report_row
 
 
 --changeset alina.parfenteva:4
-CREATE TABLE IF NOT EXISTS tag_name
+CREATE TABLE IF NOT EXISTS tag
 (
     id               BIGSERIAL PRIMARY KEY,
-    name             VARCHAR(256)                              NOT NULL,
+    address          VARCHAR(256)                              NOT NULL UNIQUE,
     description      VARCHAR(256),
     report_type_id   VARCHAR(32) REFERENCES report_type (id)   NOT NULL,
     row_id           INTEGER REFERENCES report_row (id)        NOT NULL,
     metering_node_id VARCHAR(32) REFERENCES metering_node (id) NOT NULL,
-    UNIQUE (name, report_type_id)
+    UNIQUE (address, report_type_id)
 );
 
 --changeset alina.parfenteva:5
-CREATE TABLE IF NOT EXISTS report_name
+CREATE TABLE IF NOT EXISTS report
 (
     id             BIGSERIAL PRIMARY KEY,
     report_type_id VARCHAR(32) REFERENCES report_type NOT NULL,
@@ -56,11 +56,11 @@ CREATE TABLE IF NOT EXISTS report_name
 );
 
 --changeset alina.parfenteva:6
-CREATE TABLE IF NOT EXISTS tag_data
+CREATE TABLE IF NOT EXISTS report_data
 (
-    id             BIGSERIAL PRIMARY KEY,
-    data           DOUBLE PRECISION              NOT NULL,
-    creation_dt    TIMESTAMP                     NOT NULL,
-    tag_name_id    BIGINT REFERENCES tag_name    NOT NULL,
-    report_name_id BIGINT REFERENCES report_name NOT NULL
+    id          BIGSERIAL PRIMARY KEY,
+    data        DOUBLE PRECISION         NOT NULL,
+    creation_dt TIMESTAMP                NOT NULL,
+    tag_id      BIGINT REFERENCES tag    NOT NULL,
+    report_id   BIGINT REFERENCES report NOT NULL
 );

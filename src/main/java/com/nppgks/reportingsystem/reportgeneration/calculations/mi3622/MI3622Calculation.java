@@ -3,7 +3,7 @@ package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
 import com.nppgks.reportingsystem.constants.MI3622Settings;
 import com.nppgks.reportingsystem.reportgeneration.calculations.CommonFunctions;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.InitialData;
-import com.nppgks.reportingsystem.exception.NotValidTagDataException;
+import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -103,8 +103,8 @@ public class MI3622Calculation {
             }
         } else {
             if (eLen != Q_e_arr.length)
-                throw new NotValidTagDataException("Длины массивов Q_e_arr=%s и K_e_arr=%s должны совпадать"
-                                .formatted(Arrays.toString(Q_e_arr), Arrays.toString(K_e_arr)));
+                throw new NotValidTagValueException("Длины массивов Q_e_arr=%s и K_e_arr=%s должны совпадать"
+                        .formatted(Arrays.toString(Q_e_arr), Arrays.toString(K_e_arr)));
             K_e_ij = linearInterpolation(Q_i_j, Q_e_arr, K_e_arr);
         }
         return K_e_ij;
@@ -253,7 +253,7 @@ public class MI3622Calculation {
             MFOrK_ij = calculateK_ij();
             MFOrK_j = calculateK_j();
         } else {
-            throw new NotValidTagDataException("Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
+            throw new NotValidTagValueException("Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
                     .formatted(MFOrK, MI3622Settings.MF, MI3622Settings.K));
         }
 
@@ -295,7 +295,7 @@ public class MI3622Calculation {
                     else return isNotValid;
                 }
             } else {
-                throw new NotValidTagDataException("Значение поля rangeType=%s, но оно должно быть либо '%s', либо '%s'".
+                throw new NotValidTagValueException("Значение поля rangeType=%s, но оно должно быть либо '%s', либо '%s'".
                         formatted(rangeType, MI3622Settings.OPERATING_RANGE, MI3622Settings.SUBRANGE));
             }
         } else if (operatingOrControlCPM.equalsIgnoreCase(MI3622Settings.CONTROL)) {
@@ -303,8 +303,8 @@ public class MI3622Calculation {
             if (getMaxInArray(delta_j) <= 0.2) return isValid;
             else return isNotValid;
         } else {
-            throw new NotValidTagDataException("Значение поля operatingOrControl=%s, но оно должно быть либо '%s', либо '%s'"
-                            .formatted(operatingOrControlCPM, MI3622Settings.OPERATING, MI3622Settings.CONTROL));
+            throw new NotValidTagValueException("Значение поля operatingOrControl=%s, но оно должно быть либо '%s', либо '%s'"
+                    .formatted(operatingOrControlCPM, MI3622Settings.OPERATING, MI3622Settings.CONTROL));
         }
     }
 
@@ -733,7 +733,7 @@ public class MI3622Calculation {
             MFOrK_j = calculateK_j();
             MFOrKValue = calculateK();
         } else {
-            throw new NotValidTagDataException("Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
+            throw new NotValidTagValueException("Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
                     .formatted(this.MFOrK, MI3622Settings.MF, MI3622Settings.K));
         }
 
@@ -766,7 +766,7 @@ public class MI3622Calculation {
             } else if (this.MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
                 MFOrK_j = calculateK_j();
             } else {
-                throw new NotValidTagDataException("Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
+                throw new NotValidTagValueException("Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
                         .formatted(this.MFOrK, MI3622Settings.MF, MI3622Settings.K));
             }
 

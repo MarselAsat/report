@@ -42,23 +42,23 @@ public class OpcServiceRequests {
                 .scheme("http").host(host).port(port).path(pathWrite).build().toUri();
     }
 
-    public Map<String, String> getTagDataFromOpc(List<String> tagNames) {
-        HttpEntity<List<String>> entity = new HttpEntity<>(tagNames, headers);
+    public Map<String, String> getTagValuesFromOpc(List<String> tagAddresses) {
+        HttpEntity<List<String>> entity = new HttpEntity<>(tagAddresses, headers);
         return restTemplate.postForObject(uriRead, entity, HashMap.class);
     }
 
-    public ResponseEntity<String> getTagDataFromOpc(String tagName) {
-        HttpEntity<List<String>> entity = new HttpEntity<>(List.of(tagName), headers);
+    public ResponseEntity<String> getTagValuesFromOpc(String tagAddress) {
+        HttpEntity<List<String>> entity = new HttpEntity<>(List.of(tagAddress), headers);
         ResponseEntity<Map> responseEntity = restTemplate.postForEntity(uriRead, entity, Map.class);
         String noData = "No data";
-        return new ResponseEntity<>( (String) responseEntity.getBody().getOrDefault(tagName, noData), HttpStatus.OK);
+        return new ResponseEntity<>( (String) responseEntity.getBody().getOrDefault(tagAddress, noData), HttpStatus.OK);
     }
 
     public boolean testOpcServerConnection() {
         return restTemplate.getForObject(uriCheckConnection, Boolean.class);
     }
 
-    public void sendTagDataToOpc(Map<String, Object> data) {
+    public void sendTagValuesToOpc(Map<String, Object> data) {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(data, headers);
         restTemplate.postForObject(uriWrite, entity, Boolean.class);
     }

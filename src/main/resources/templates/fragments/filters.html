@@ -5,7 +5,7 @@
 <head>
     <script type="text/javascript" th:src="@{/js/start-page-filters.js}"></script>
     <style>
-        .pointer{
+        .pointer {
             cursor: pointer;
         }
     </style>
@@ -34,9 +34,9 @@
     <!-- Report Names -->
     <div class="card my-4">
         <h5 class="card-header">Отчеты</h5>
-        <div class="list-group" id="reportNames">
-            <a th:each="reportName: ${reportNames}"
-               th:text="${reportName.name}" th:onclick="|getTagData(this,'${reportName.id}')|"
+        <div class="list-group" id="reports">
+            <a th:each="report: ${reports}"
+               th:text="${report.name}" th:onclick="|getReportData(this,'${report.id}')|"
                class="list-group-item pointer"></a>
         </div>
     </div>

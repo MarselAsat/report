@@ -1,10 +1,10 @@
-function getTagData(element, reportNameId) {
+function getReportData(element, reportId) {
     let activeClass = "active";
     if(!element.classList.contains(activeClass)){
-        let reportNamesDiv = document.getElementById("reportNames");
-        let activeReportName = reportNamesDiv.getElementsByClassName(activeClass)[0];
-        if(activeReportName!=null){
-            activeReportName.classList.remove(activeClass)
+        let reportsDiv = document.getElementById("reports");
+        let activeReport = reportsDiv.getElementsByClassName(activeClass)[0];
+        if(activeReport!=null){
+            activeReport.classList.remove(activeClass)
         }
         element.classList.add(activeClass);
     }
@@ -12,7 +12,7 @@ function getTagData(element, reportNameId) {
     let path = window.location.search;
     const urlParams = new URLSearchParams(path);
     let reportTypeId = urlParams.get("reportTypeId");
-    const url = "/"+reportTypeId+"Report/"+reportNameId;
+    const url = "/"+reportTypeId+"Report/"+reportId;
 
     fetch(url).then(function (response) {
         // The API call was successful!

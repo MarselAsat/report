@@ -11,7 +11,6 @@ import org.springframework.web.client.ResourceAccessException;
 @ControllerAdvice
 @Slf4j
 public class ControllerExceptionHandler {
-
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<String> handleHttpClientErrorException(
             HttpClientErrorException e) {
@@ -23,7 +22,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleNotValidTagDataException(NotValidTagDataException e) {
+    public ResponseEntity<String> handleNotValidTagValueException(NotValidTagValueException e) {
         String message = e.getMessage();
         log.error(message, e);
 

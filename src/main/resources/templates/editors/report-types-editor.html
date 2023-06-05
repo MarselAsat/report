@@ -13,23 +13,25 @@
         }
 
         .main-container {
-            margin-top: 5rem!important;
+            margin-top: 5rem !important;
         }
     </style>
 </head>
 <body>
-    <nav th:replace="fragments/nav"></nav>
-    <div class="main-container container">
-        <div class="col-md-12">
-            <div class="card my-4 border-0">
-                <zing-grid caption="Таблица report_type" src="/api/reportTypes/" lang="ru" editor="false" columns-control>
-                    <zg-column editor=false index="id" header="ID"></zg-column>
-                    <zg-column editor=false index="name" header="Название"></zg-column>
-                    <zg-column index="description" header="Описание"></zg-column>
-                    <zg-column index="active" header="Активный" type="select" type-select-options="[true, false]"></zg-column>
-                </zing-grid>
-            </div>
+<nav th:replace="fragments/nav"></nav>
+<div class="main-container container">
+    <div class="col-md-12">
+        <div class="card my-4 border-0">
+            <zing-grid caption="Типы отчетов (таблица operative_reports.report_type)" src="/api/reportTypes/" lang="ru"
+                       editor="false" columns-control>
+                <zg-column editor=false index="id" header="ID"></zg-column>
+                <zg-column editor=false index="name" header="Название"></zg-column>
+                <zg-column index="description" header="Описание"></zg-column>
+                <zg-column index="active" header="Активный" type="select"
+                           type-select-options="[true, false]"></zg-column>
+            </zing-grid>
         </div>
     </div>
+</div>
 </body>
 </html>

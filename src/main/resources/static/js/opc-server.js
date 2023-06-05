@@ -62,8 +62,7 @@ function reconnect() {
                     icon: 'error',
                     text: 'Нет связи с OPC сервисом'
                 })
-            }
-            else if(response.status >= 500){
+            } else if (response.status >= 500) {
                 Swal.fire({
                     icon: 'error',
                     text: 'Не удалось переподключиться к OPC серверу'
@@ -87,13 +86,13 @@ function reconnect() {
         })
 }
 
-function getTagValue(tagName) {
+function getTagValue(tag) {
     let tagValueField = document.getElementById("tag-value");
     tagValueField.style.display = 'none';
     let $loaderTagValue = $('#loaderTagValue')
     $loaderTagValue.css("display", "block")
 
-    if (tagName === "") {
+    if (tag === "") {
         $loaderTagValue.css("display", "none")
         return;
     }
@@ -101,7 +100,7 @@ function getTagValue(tagName) {
 
     fetch(url, {
             method: 'POST',
-            body: tagName,
+            body: tag,
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             }

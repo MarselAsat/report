@@ -42,21 +42,21 @@ public class RescheduleService {
         log.info("Изменение расписания создания суточных отчетов...");
         scheduledDailyReport.cancel(false);
         scheduledDailyReport = reportsScheduler.scheduleDailyReport(
-                reportsScheduler::generateTagDataForDailyReport);
+                reportsScheduler::generateReportDataForDailyReport);
     }
 
     private void rescheduleMonthReport() {
         log.info("Изменение расписания создания месячных отчетов...");
         scheduledMonthReport.cancel(false);
         scheduledMonthReport = reportsScheduler.scheduleMonthReport(
-                reportsScheduler::generateTagDataForMonthReport);
+                reportsScheduler::generateReportDataForMonthReport);
     }
 
     private void rescheduleYearReport() {
         log.info("Изменение расписания создания годовых отчетов...");
         scheduledYearReport.cancel(false);
         scheduledYearReport = reportsScheduler.scheduleYearReport(
-                reportsScheduler::generateTagDataForYearReport);
+                reportsScheduler::generateReportDataForYearReport);
     }
 
     private void rescheduleShiftReport() {
