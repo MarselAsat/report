@@ -11,10 +11,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import javax.sql.DataSource;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfiguration {
+
+    private final DataSource dataSource;
 
     private final UserDetailsService userDetailsService;
 
@@ -39,6 +44,7 @@ public class WebSecurityConfiguration {
                 .logoutSuccessHandler(customLogoutSuccessHandler)
                 .and()
                 .rememberMe()
+                .tokenRepository(persistentTokenRepository())
                 .userDetailsService(this.userDetailsService)
                 .alwaysRemember(true)
                 .and()
@@ -54,5 +60,12 @@ public class WebSecurityConfiguration {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository(){
+        JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
+        db.setDataSource(dataSource);
+        return db;
     }
 }
