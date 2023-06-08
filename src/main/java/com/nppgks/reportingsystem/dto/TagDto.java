@@ -13,5 +13,5 @@ public class TagDto {
     private String description;
     private String reportTypeName;
     private String meteringNodeName;
-    private String rowNameAndReportType;
+    private String reportTypeConcatRowName;
 }

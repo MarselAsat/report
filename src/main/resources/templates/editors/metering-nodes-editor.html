@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Редактор узлов учета</title>
-    <script th:src="@{/external_libraries/zinggrid.min.js}"></script>
+    <script th:src="@{/external_libraries/zinggrid.min.js}" defer></script>
     <link th:href="@{/css/zinggrid.css}" rel="stylesheet"/>
     <style>
         .card {
@@ -23,7 +23,10 @@
     <div class="col-md-12">
         <div class="card my-4 border-0">
             <zing-grid frozen-columns-left caption="Узлы учета (таблица operative_reports.metering_node)"
-                       src="/api/meteringNodes/" lang="ru" editor-controls="creator remover" editor columns-control>
+                       lang="ru" editor-controls="creator remover" editor columns-control status-persist>
+                <zg-data src="/api/meteringNodes/">
+                    <zg-param name="serverErrorMessage" value="Server Error: [[serverMessage]]"></zg-param>
+                </zg-data>
                 <zg-column index="id" header="ID"></zg-column>
                 <zg-column index="name" header="Название"></zg-column>
             </zing-grid>

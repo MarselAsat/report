@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Редактор тегов</title>
-    <script th:src="@{/external_libraries/zinggrid.min.js}"></script>
+    <script th:src="@{/external_libraries/zinggrid.min.js}" defer></script>
     <link th:href="@{/css/zinggrid.css}" rel="stylesheet"/>
     <style>
         .card {
@@ -22,16 +22,19 @@
 <div class="main-container container">
     <div class="col-md-12">
         <div class="card my-4 border-0">
-            <zing-grid caption="Теги для оперативных отчетов (таблица operative_reports.tag)" src="/api/tags/" lang="ru"
+            <zing-grid caption="Теги для оперативных отчетов (таблица operative_reports.tag)" lang="ru"
                        editor-controls
-                       columns-control search sort>
+                       columns-control search sort status-persist>
+                <zg-data src="/api/tags/">
+                    <zg-param name="serverErrorMessage" value="Server Error: [[serverMessage]]"></zg-param>
+                </zg-data>
                 <zg-column index="address" header="Адрес" width="10%"></zg-column>
                 <zg-column index="description" header="Описание" width="20%"></zg-column>
                 <zg-column id="reportTypes" index="reportTypeName" width="10%" header="Тип отчета" type="select"
                            th:type-select-options="${reportTypes}"></zg-column>
                 <zg-column id="meteringNodes" index="meteringNodeName" width="10%" header="Узел учета" type="select"
                            th:type-select-options="${meteringNodes}"></zg-column>
-                <zg-column id="rows" index="rowNameAndReportType" width="20%" header="Строка в отчете" type="select"
+                <zg-column id="rows" index="reportTypeConcatRowName" width="20%" header="Строка в отчете" type="select"
                            th:type-select-options="${reportRows}"></zg-column>
             </zing-grid>
         </div>

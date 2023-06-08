@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Редактор типов отчетов</title>
-    <script th:src="@{/external_libraries/zinggrid.min.js}"></script>
+    <script th:src="@{/external_libraries/zinggrid.min.js}" defer></script>
     <link th:href="@{/css/zinggrid.css}" rel="stylesheet"/>
     <style>
         .card {
@@ -22,8 +22,11 @@
 <div class="main-container container">
     <div class="col-md-12">
         <div class="card my-4 border-0">
-            <zing-grid caption="Типы отчетов (таблица operative_reports.report_type)" src="/api/reportTypes/" lang="ru"
-                       editor="false" columns-control>
+            <zing-grid caption="Типы отчетов (таблица operative_reports.report_type)" lang="ru"
+                       editor="false" columns-control status-persist>
+                <zg-data src="/api/reportTypes/">
+                    <zg-param name="serverErrorMessage" value="Server Error: [[serverMessage]]"></zg-param>
+                </zg-data>
                 <zg-column editor=false index="id" header="ID"></zg-column>
                 <zg-column editor=false index="name" header="Название"></zg-column>
                 <zg-column index="description" header="Описание"></zg-column>

@@ -1,6 +1,7 @@
 package com.nppgks.reportingsystem.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -37,6 +38,25 @@ public class ControllerExceptionHandler {
         log.error(message, e);
 
         return new ResponseEntity<>(message, HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+    /**
+     * Ловит такие ошибки возникающие в БД, как
+     * "ОШИБКА: значение не умещается в тип character varying(512)"
+     * "ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности"
+     */
+    @ExceptionHandler(PSQLException.class)
+    public ResponseEntity<String> handlePSQLException(PSQLException e) {
+        String message = e.getMessage();
+        log.error(message, e);
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TableDataMismatchException.class)
+    public ResponseEntity<String> handleTableDataMismatchException(TableDataMismatchException e) {
+        String message = e.getMessage();
+        log.error(message, e);
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
 }

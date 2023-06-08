@@ -7,7 +7,9 @@ import com.nppgks.reportingsystem.db.operative_reports.entity.Tag;
 import com.nppgks.reportingsystem.db.operative_reports.repository.MeteringNodeRepository;
 import com.nppgks.reportingsystem.db.operative_reports.repository.ReportTypeRepository;
 import com.nppgks.reportingsystem.db.operative_reports.repository.ReportRowRepository;
+import com.nppgks.reportingsystem.dto.ReportRowDto;
 import com.nppgks.reportingsystem.dto.TagDto;
+import com.nppgks.reportingsystem.exception.TableDataMismatchException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +37,13 @@ public class TagMapper {
     public Tag fromTagReadDtoToTag(TagDto tagDto){
         ReportType reportType = reportTypeRepository.findByName(tagDto.getReportTypeName()).orElseThrow();
         MeteringNode meteringNode = meteringNodeRepository.findByName(tagDto.getMeteringNodeName()).orElseThrow();
-        String rowName = tagDto.getRowNameAndReportType().substring(6);
+        String reportTypeName = reportType.getName();
+        String reportTypeAndRowName = tagDto.getReportTypeConcatRowName();
+        if(!tagDto.getReportTypeConcatRowName().matches(".*"+ReportRowDto.getPartOfReportTypeName(reportTypeName)+".*")){
+            throw new TableDataMismatchException("Столбец 'Тип отчета' (%s) не соответствует типу отчета в столбце 'Строка в отчете' (%s)"
+                    .formatted(reportTypeName, reportTypeAndRowName));
+        }
+        String rowName = tagDto.getReportTypeConcatRowName().substring(6);
         ReportRow row = rowRepository.findByNameAndReportType(rowName, reportType).orElseThrow();
         return new Tag(
                 tagDto.getId(),
