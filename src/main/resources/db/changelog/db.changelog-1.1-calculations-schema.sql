@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS tag
 (
     id             SERIAL PRIMARY KEY,
     permanent_name VARCHAR(256) NOT NULL UNIQUE,
-    address        VARCHAR(256) NOT NULL UNIQUE,
+    address        VARCHAR(256) NOT NULL UNIQUE CHECK (address <> ''),
     description    VARCHAR(512),
     initial        BOOLEAN      NOT NULL,
     calc_method    VARCHAR(32)  NOT NULL

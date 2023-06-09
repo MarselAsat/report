@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS report_type
 
 CREATE TABLE IF NOT EXISTS metering_node
 (
-    id   VARCHAR(32) PRIMARY KEY,
-    name VARCHAR(32) NOT NULL,
+    id   VARCHAR(32) PRIMARY KEY CHECK (id <> ''),
+    name VARCHAR(32) NOT NULL CHECK (name <> ''),
     UNIQUE (name)
 );
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS report_row
 CREATE TABLE IF NOT EXISTS tag
 (
     id               BIGSERIAL PRIMARY KEY,
-    address          VARCHAR(256)                              NOT NULL UNIQUE,
+    address          VARCHAR(256)                              NOT NULL UNIQUE CHECK (address <> ''),
     description      VARCHAR(256),
     report_type_id   VARCHAR(32) REFERENCES report_type (id)   NOT NULL,
     row_id           INTEGER REFERENCES report_row (id)        NOT NULL,
