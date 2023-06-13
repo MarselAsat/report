@@ -122,7 +122,7 @@ public class MI3622CalculationSinglePointTest {
     @Test
     void checkS_0_j() {
         double[] S_0_j = MI3622Calculation.calculateS_0j();
-        double[] S_0_jRef = new double[]{0.001};
+        double[] S_0_jRef = new double[]{0.003};
         for (int j = 0; j < S_0_j.length; j++) {
             assertThat(S_0_j[j]).isCloseTo(S_0_jRef[j], within(0.001));
         }
@@ -131,7 +131,7 @@ public class MI3622CalculationSinglePointTest {
     @Test
     void checkEps_j() {
         double[] eps_j = MI3622Calculation.calculateEps_j();
-        double[] eps_jRef = new double[]{0.003};
+        double[] eps_jRef = new double[]{0.008};
         for (int j = 0; j < eps_j.length; j++) {
             assertThat(eps_j[j]).isCloseTo(eps_jRef[j], within(0.002));
         }

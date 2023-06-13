@@ -76,7 +76,7 @@ VALUES (34, 1, 'daily_mass_bik', 'Средний массовый расход',
        (44, 11, 'daily_vol_increasing_bik', 'Объем нарастающий', 'daily', 'bik');
 SELECT SETVAL('tag_id_seq', (SELECT MAX(id) FROM tag));
 
-INSERT INTO report(id, report_type_id, address, start_dt, end_dt, creation_dt)
+INSERT INTO report(id, report_type_id, name, start_dt, end_dt, creation_dt)
 VALUES (1, 'daily',
         'Суточный отчет за 20.04.2022',
         TO_TIMESTAMP('2022-04-20 10:00', 'YYYY-MM-DD HH24:MI:SS'),

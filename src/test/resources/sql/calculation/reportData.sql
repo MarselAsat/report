@@ -106,7 +106,7 @@ VALUES (1, 'Поверка 3622 за 2022-07-14',
 
 SELECT SETVAL('report_id_seq', (SELECT MAX(id) FROM report));
 
-INSERT INTO report_data(id, "data", tag_name_id, report_name_id)
+INSERT INTO report_data(id, "data", tag_id, report_id)
 VALUES (1, '[1, 2, 3, 4, 5]', 41, 1),
        (2, '[1, 2, 3, 4, 5]', 45, 1),
        (3, '[1, 2, 3, 4, 5]', 46, 1),

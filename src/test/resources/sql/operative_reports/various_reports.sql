@@ -1,3 +1,14 @@
+INSERT INTO settings ("group", name, value)
+VALUES ('report view', 'hour report columns', 'sikn,il1,il2,il3,il4,bik'),
+       ('report view', 'daily report columns', 'sikn,il1,il2,bik'),
+       ('report view', 'shift report columns', 'sikn,il1,il2,il3,il4,bik'),
+       ('report view', 'month report columns', 'sikn,il1,il2,il3,il4,bik'),
+       ('report view', 'year report columns', 'sikn,il1,il2,il3,il4,bik'),
+       ('start time of report', 'start shift report', '1-10:00,2-22:00'),
+       ('start time of report', 'start daily report', '10:00'),
+       ('start time of report', 'start month report', '10:00'),
+       ('start time of report', 'start year report', '10:00');
+
 SET search_path TO operative_reports;
 
 INSERT INTO report_type (id, name, description, active)
@@ -19,7 +30,7 @@ VALUES (1, 'hour_mass_il1', 'масса за час ил1', 'hour'),
 SELECT SETVAL('tag_id_seq', (SELECT MAX(id) FROM tag));
 
 -- часовые отчеты
-INSERT INTO report(id, report_type_id, address, creation_dt, start_dt, end_dt)
+INSERT INTO report(id, report_type_id, name, creation_dt, start_dt, end_dt)
 VALUES (1, 'hour',
         'Часовой отчет за 12:00 20.05.2022',
         TO_TIMESTAMP('2022-05-20 13:00:50', 'YYYY-MM-DD HH24:MI:SS'),
@@ -68,7 +79,7 @@ VALUES (1, 'hour',
 
 
 -- двухчасовые отчеты
-INSERT INTO report(id, report_type_id, address, creation_dt, start_dt, end_dt)
+INSERT INTO report(id, report_type_id, name, creation_dt, start_dt, end_dt)
 VALUES (8, 'twohour',
         'Двухчасовой отчет за период с 12:00 по 14:00 20.05.2022',
         TO_TIMESTAMP('2022-05-20 14:00:50', 'YYYY-MM-DD HH24:MI:SS'),
@@ -95,7 +106,7 @@ VALUES (8, 'twohour',
         TO_TIMESTAMP('2022-05-19 22:00:00', 'YYYY-MM-DD HH24:MI:SS'),
         TO_TIMESTAMP('2022-05-20 00:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report(id, report_type_id, address, creation_dt)
+INSERT INTO report(id, report_type_id, name, creation_dt)
 VALUES (10, 'daily',
         'Суточный отчет за 20.05.2022',
         TO_TIMESTAMP('2022-05-21 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -115,7 +126,7 @@ VALUES (10, 'daily',
         'Суточный отчет за 22.01.2021',
         TO_TIMESTAMP('2021-01-23 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report(id, report_type_id, address, creation_dt)
+INSERT INTO report(id, report_type_id, name, creation_dt)
 VALUES (16, 'month',
         'Месячный отчет за май 2022',
         TO_TIMESTAMP('2022-06-01 12:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -135,7 +146,7 @@ VALUES (16, 'month',
         'Месячный отчет за декабрь 2021',
         TO_TIMESTAMP('2022-01-01 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report(id, report_type_id, address, creation_dt)
+INSERT INTO report(id, report_type_id, name, creation_dt)
 VALUES (22, 'shift',
         'Сменный отчет за I смену 20.08.2022',
         TO_TIMESTAMP('2022-08-20 22:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -146,7 +157,7 @@ VALUES (22, 'shift',
         'Сменный отчет за I смену 20.08.2021',
         TO_TIMESTAMP('2021-08-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report(id, report_type_id, address, creation_dt)
+INSERT INTO report(id, report_type_id, name, creation_dt)
 VALUES (25, 'year',
         'Годовой отчет за 2022',
         TO_TIMESTAMP('2023-01-01 10:00:50', 'YYYY-MM-DD HH24:MI:SS')),
@@ -154,7 +165,7 @@ VALUES (25, 'year',
         'Годовой отчет за 2021',
         TO_TIMESTAMP('2022-01-01 22:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO report(id, report_type_id, address, creation_dt, start_dt, end_dt)
+INSERT INTO report(id, report_type_id, name, creation_dt, start_dt, end_dt)
 VALUES (27, 'twohour',
         'Двухчасовой отчет за период с 10:00 по 12:00 01.03.2023',
         TO_TIMESTAMP('2023-03-01 12:00:50', 'YYYY-MM-DD HH24:MI:SS'),
@@ -166,7 +177,7 @@ VALUES (27, 'twohour',
         TO_TIMESTAMP('2023-03-01 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
         TO_TIMESTAMP('2023-03-01 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
-SELECT SETVAL('report_name_id_seq', (SELECT MAX(id) FROM report));
+SELECT SETVAL('report_id_seq', (SELECT MAX(id) FROM report));
 
 INSERT INTO report_data(data, creation_dt, tag_id, report_id)
 VALUES (80.0, TO_TIMESTAMP('2022-05-20 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 1),

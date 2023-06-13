@@ -26,20 +26,20 @@ public class SettingsService {
                     String value = settings.getValue();
                     return Arrays.stream(value.split(",")).toList();
                 })
-                .orElseThrow(() -> new RuntimeException("No setting with address \""+name+"\""));
+                .orElseThrow(() -> new RuntimeException("В таблице настроек нет настройки с названием \""+name+"\""));
 
     }
 
     public String getStringValueBySettingName(String name){
         return settingsRepository.findByName(name)
                 .map(Settings::getValue)
-                .orElseThrow(() -> new RuntimeException("No setting with address \""+name+"\""));
+                .orElseThrow(() -> new RuntimeException("В таблице настроек нет настройки с названием \""+name+"\""));
 
     }
 
     public LinkedHashMap<String, String> getMapValuesBySettingName(String name){
         Settings setting = settingsRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("No setting with address \""+name+"\""));
+                .orElseThrow(() -> new RuntimeException("В таблице настроек нет настройки с названием \""+name+"\""));
         return Arrays.stream(setting.getValue().split(","))
                 .map(keyVal -> {
                     String[] settingKeyValue = keyVal.split("-");
@@ -57,7 +57,7 @@ public class SettingsService {
                 String settingName = settingEntry.getKey();
                 String settingNewValue = settingEntry.getValue();
                 Settings setting = settingsRepository.findByName(settingName)
-                        .orElseThrow(() -> new RuntimeException("No setting with address "+settingName));
+                        .orElseThrow(() -> new RuntimeException("В таблице настроек нет настройки с названием "+settingName));
                 String settingDbValue = setting.getValue();
                 if(!settingNewValue.equals(settingDbValue)){
                     if(SettingsConstants.START_DAILY_REPORT.equals(settingName)){

@@ -9,42 +9,42 @@ VALUES ('hour', 'Часовой', 'Отчеты фомируемые кажды�
        ('manual', 'Ручной', 'Для поверок', TRUE);
 
 --Для годового отчета
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (127, 1, 'year_mass_sikn', 'Средний массовый расход', 'year'),
-       (128, 2, 'year_temp_sikn', 'Средняя температура', 'year'),
-       (129, 3, 'year_pressure_sikn', 'Среднее давление', 'year');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (127, 'year_mass_sikn', 'Средний массовый расход', 'year'),
+       (128, 'year_temp_sikn', 'Средняя температура', 'year'),
+       (129, 'year_pressure_sikn', 'Среднее давление', 'year');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (130, 1, 'year_mass_il1', 'Средний массовый расход', 'year'),
-       (131, 2, 'year_temp_il1', 'Средняя температура', 'year'),
-       (132, 3, 'year_pressure_il1', 'Среднее давление', 'year'),
-       (133, 4, 'year_density_il1', 'Средняя плотность при текущих t и P', 'year');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (130, 'year_mass_il1', 'Средний массовый расход', 'year'),
+       (131, 'year_temp_il1', 'Средняя температура', 'year'),
+       (132, 'year_pressure_il1', 'Среднее давление', 'year'),
+       (133, 'year_density_il1', 'Средняя плотность при текущих t и P', 'year');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (134, 1, 'year_mass_il2', 'Средний массовый расход', 'year'),
-       (135, 2, 'year_temp_il2', 'Средняя температура', 'year'),
-       (136, 3, 'year_pressure_il2', 'Среднее давление', 'year'),
-       (137, 4, 'year_density_il2', 'Средняя плотность при текущих t и P', 'year');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (134, 'year_mass_il2', 'Средний массовый расход', 'year'),
+       (135, 'year_temp_il2', 'Средняя температура', 'year'),
+       (136, 'year_pressure_il2', 'Среднее давление', 'year'),
+       (137, 'year_density_il2', 'Средняя плотность при текущих t и P', 'year');
 
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (138, 1, 'year_mass_bik', 'Средний массовый расход', 'year'),
-       (139, 2, 'year_temp_bik', 'Средняя температура', 'year'),
-       (140, 3, 'year_pressure_bik', 'Среднее давление', 'year');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (138, 'year_mass_bik', 'Средний массовый расход', 'year'),
+       (139, 'year_temp_bik', 'Средняя температура', 'year'),
+       (140, 'year_pressure_bik', 'Среднее давление', 'year');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (141, 1, 'year_mass_il4', 'Средний массовый расход', 'year'),
-       (142, 2, 'year_temp_il4', 'Средняя температура', 'year'),
-       (143, 3, 'year_pressure_il4', 'Среднее давление', 'year');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (141, 'year_mass_il4', 'Средний массовый расход', 'year'),
+       (142, 'year_temp_il4', 'Средняя температура', 'year'),
+       (143, 'year_pressure_il4', 'Среднее давление', 'year');
 SELECT SETVAL('tag_id_seq', (SELECT MAX(id) FROM tag));
 
-INSERT INTO report(id, report_type_id, address, start_dt, end_dt, creation_dt)
+INSERT INTO report(id, report_type_id, name, start_dt, end_dt, creation_dt)
 VALUES (5, 'year',
         'Годовой отчет за 2021',
         TO_TIMESTAMP('2021-01-01 10:00', 'YYYY-MM-DD HH24:MI:SS'),
         TO_TIMESTAMP('2022-01-01 10:00', 'YYYY-MM-DD HH24:MI:SS'),
         TO_TIMESTAMP('2022-01-01 10:00:50', 'YYYY-MM-DD HH24:MI:SS'));
-SELECT SETVAL('report_name_id_seq', (SELECT MAX(id) FROM report));
+SELECT SETVAL('report_id_seq', (SELECT MAX(id) FROM report));
 
 -- СИКН
 INSERT INTO report_data(data, creation_dt, tag_id, report_id)

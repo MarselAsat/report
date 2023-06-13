@@ -8,35 +8,35 @@ VALUES ('hour', 'Часовой', 'Отчеты фомируемые кажды�
        ('year', 'Годовой', 'Отчеты формируемые за год', TRUE);
 
 --Для сменного отчета
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (93, 1, 'shift_mass_il1', 'Средний массовый расход', 'shift'),
-       (94, 2, 'shift_temp_il1', 'Средняя температура', 'shift'),
-       (95, 3, 'shift_pressure_il1', 'Среднее давление', 'shift'),
-       (96, 4, 'shift_density_il1', 'Средняя плотность при текущих t и P', 'shift');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (93, 'shift_mass_il1', 'Средний массовый расход', 'shift'),
+       (94, 'shift_temp_il1', 'Средняя температура', 'shift'),
+       (95, 'shift_pressure_il1', 'Среднее давление', 'shift'),
+       (96, 'shift_density_il1', 'Средняя плотность при текущих t и P', 'shift');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (97, 1, 'shift_mass_il2', 'Средний массовый расход', 'shift'),
-       (98, 2, 'shift_temp_il2', 'Средняя температура', 'shift'),
-       (99, 3, 'shift_pressure_il2', 'Среднее давление', 'shift'),
-       (100, 4, 'shift_density_il2', 'Средняя плотность при текущих t и P', 'shift');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (97, 'shift_mass_il2', 'Средний массовый расход', 'shift'),
+       (98, 'shift_temp_il2', 'Средняя температура', 'shift'),
+       (99, 'shift_pressure_il2', 'Среднее давление', 'shift'),
+       (100, 'shift_density_il2', 'Средняя плотность при текущих t и P', 'shift');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (101, 1, 'shift_mass_sikn', 'Средний массовый расход', 'shift'),
-       (102, 2, 'shift_temp_sikn', 'Средняя температура', 'shift'),
-       (103, 3, 'shift_pressure_sikn', 'Среднее давление', 'shift');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (101, 'shift_mass_sikn', 'Средний массовый расход', 'shift'),
+       (102, 'shift_temp_sikn', 'Средняя температура', 'shift'),
+       (103, 'shift_pressure_sikn', 'Среднее давление', 'shift');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (104, 1, 'shift_mass_bik', 'Средний массовый расход', 'shift'),
-       (105, 2, 'shift_temp_bik', 'Средняя температура', 'shift'),
-       (106, 3, 'shift_pressure_bik', 'Среднее давление', 'shift');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (104, 'shift_mass_bik', 'Средний массовый расход', 'shift'),
+       (105, 'shift_temp_bik', 'Средняя температура', 'shift'),
+       (106, 'shift_pressure_bik', 'Среднее давление', 'shift');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (107, 1, 'shift_mass_il4', 'Средний массовый расход', 'shift'),
-       (108, 2, 'shift_temp_il4', 'Средняя температура', 'shift'),
-       (109, 3, 'shift_pressure_il4', 'Среднее давление', 'shift');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (107, 'shift_mass_il4', 'Средний массовый расход', 'shift'),
+       (108, 'shift_temp_il4', 'Средняя температура', 'shift'),
+       (109, 'shift_pressure_il4', 'Среднее давление', 'shift');
 SELECT SETVAL('tag_id_seq', (SELECT MAX(id) FROM tag));
 
-INSERT INTO report(id, report_type_id, address, start_dt, end_dt, creation_dt)
+INSERT INTO report(id, report_type_id, name, start_dt, end_dt, creation_dt)
 VALUES (3, 'shift',
         'Сменный отчет за 1 смену 20.04.2022',
         TO_TIMESTAMP('2022-04-20 10:00', 'YYYY-MM-DD HH24:MI:SS'),
@@ -77,35 +77,35 @@ VALUES (35.7, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 107,
        (0.01, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 109, 3);
 
 --Для месячного отчета
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (110, 1, 'month_mass_il1', 'Средний массовый расход', 'month'),
-       (111, 2, 'month_temp_il1', 'Средняя температура', 'month'),
-       (112, 3, 'month_pressure_il1', 'Среднее давление', 'month'),
-       (113, 4, 'month_density_il1', 'Средняя плотность при текущих t и P', 'month');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (110, 'month_mass_il1', 'Средний массовый расход', 'month'),
+       (111, 'month_temp_il1', 'Средняя температура', 'month'),
+       (112, 'month_pressure_il1', 'Среднее давление', 'month'),
+       (113, 'month_density_il1', 'Средняя плотность при текущих t и P', 'month');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (114, 1, 'month_mass_il2', 'Средний массовый расход', 'month'),
-       (115, 2, 'month_temp_il2', 'Средняя температура', 'month'),
-       (116, 3, 'month_pressure_il2', 'Среднее давление', 'month'),
-       (117, 4, 'month_density_il2', 'Средняя плотность при текущих t и P', 'month');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (114, 'month_mass_il2', 'Средний массовый расход', 'month'),
+       (115, 'month_temp_il2', 'Средняя температура', 'month'),
+       (116, 'month_pressure_il2', 'Среднее давление', 'month'),
+       (117, 'month_density_il2', 'Средняя плотность при текущих t и P', 'month');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (118, 1, 'month_mass_sikn', 'Средний массовый расход', 'month'),
-       (119, 2, 'month_temp_sikn', 'Средняя температура', 'month'),
-       (120, 3, 'month_pressure_sikn', 'Среднее давление', 'month');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (118, 'month_mass_sikn', 'Средний массовый расход', 'month'),
+       (119, 'month_temp_sikn', 'Средняя температура', 'month'),
+       (120, 'month_pressure_sikn', 'Среднее давление', 'month');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (121, 1, 'month_mass_bik', 'Средний массовый расход', 'month'),
-       (122, 2, 'month_temp_bik', 'Средняя температура', 'month'),
-       (123, 3, 'month_pressure_bik', 'Среднее давление', 'month');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (121, 'month_mass_bik', 'Средний массовый расход', 'month'),
+       (122, 'month_temp_bik', 'Средняя температура', 'month'),
+       (123, 'month_pressure_bik', 'Среднее давление', 'month');
 
-INSERT INTO tag (id, "order", address, description, report_type_id)
-VALUES (124, 1, 'month_mass_il4', 'Средний массовый расход', 'month'),
-       (125, 2, 'month_temp_il4', 'Средняя температура', 'month'),
-       (126, 3, 'month_pressure_il4', 'Среднее давление', 'month');
+INSERT INTO tag (id, address, description, report_type_id)
+VALUES (124, 'month_mass_il4', 'Средний массовый расход', 'month'),
+       (125, 'month_temp_il4', 'Средняя температура', 'month'),
+       (126, 'month_pressure_il4', 'Среднее давление', 'month');
 SELECT SETVAL('tag_id_seq', (SELECT MAX(id) FROM tag));
 
-INSERT INTO report(id, report_type_id, address, start_dt, end_dt, creation_dt)
+INSERT INTO report(id, report_type_id, name, start_dt, end_dt, creation_dt)
 VALUES (4, 'month',
         'Месячный отчет за 04.2022',
         TO_TIMESTAMP('2022-04-01 10:00', 'YYYY-MM-DD HH24:MI:SS'),

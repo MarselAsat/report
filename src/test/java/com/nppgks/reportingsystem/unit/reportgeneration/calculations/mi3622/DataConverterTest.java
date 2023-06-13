@@ -113,7 +113,7 @@ class DataConverterTest {
         InitialData initialData = DataConverter.convertMapToInitialData(valuesMap, tagsMap);
         InitialData expectedInitialData = new InitialData();
 
-        double[][] arr2Dim = new double[][]{{1, 1, 1, 1, 1}, {2, 2, 2, 2, 2}, {3, 3, 3, 3, 3}};
+        double[][] arr2Dim = new double[][]{{1, 2, 3}, {1, 2, 3}, {1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
         double value = 45.89;
         expectedInitialData.setPointsCount(5);
         expectedInitialData.setMeasureCount(3);
