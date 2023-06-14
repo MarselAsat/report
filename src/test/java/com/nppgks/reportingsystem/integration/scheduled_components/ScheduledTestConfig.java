@@ -24,6 +24,11 @@ public class ScheduledTestConfig {
 
     @PostConstruct
     public void initMock(){
+
+        // В ReportsScheduler есть метод initSchedule, который запускается перед запуском
+        // скриптов SQl этого теста, поэтому нужно замокать все ответы от БД,
+        // которые используются в initSchedule методе
+
         doReturn("10:00").when(settingsService)
                 .getStringValueBySettingName(SettingsConstants.START_DAILY_REPORT);
 
