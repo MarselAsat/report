@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.integration.reportgeneration;
+package com.nppgks.reportingsystem.integration.testconfig;
 
 import com.nppgks.reportingsystem.reportgeneration.operative.ReportsScheduler;
 import org.springframework.boot.test.context.TestConfiguration;

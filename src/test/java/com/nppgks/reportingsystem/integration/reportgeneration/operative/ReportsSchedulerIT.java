@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.integration.scheduled_components;
+package com.nppgks.reportingsystem.integration.reportgeneration.operative;
 
 import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
 import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;

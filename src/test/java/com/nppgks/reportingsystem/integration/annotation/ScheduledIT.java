@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.integration.annotation;
 
-import com.nppgks.reportingsystem.integration.scheduled_components.ScheduledTestConfig;
+import com.nppgks.reportingsystem.integration.testconfig.ScheduledTestConfig;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 

@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.integration.scheduled_components;
+package com.nppgks.reportingsystem.integration.testconfig;
 
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
