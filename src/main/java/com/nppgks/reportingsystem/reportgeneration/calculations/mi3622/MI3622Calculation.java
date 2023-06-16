@@ -84,9 +84,11 @@ public class MI3622Calculation {
 
     public double calculateK_pm() {
         log.info("Рассчет коэффициента преобразования поверяемого СРМ (K_pm, имп/т) согласно п.7.1 по формуле (1) МИ3622-2020");
+
+        double Kpm = f_p_max * 3.6 / Q_p_max;
+
         log.debug("Максимальное значение частоты, установленное в СРМ (f_r_max, Гц) {}", f_p_max);
         log.debug("Максимальное значение расхода (Q_r_max, т/ч) {}", Q_p_max);
-        double Kpm = f_p_max * 3.6 / Q_p_max;
         log.info("K_pm = {}", Kpm);
 
         return Kpm;
@@ -111,18 +113,21 @@ public class MI3622Calculation {
     }
 
     public double[][] calculateM_e_ij() {
+        log.info("Рассчет массы измеряемой среды, измеренная преобразователем массового расхода (M_e, т) согласно п.7.2 по формуле (3) МИ3622-2020");
 
         double[][] K_e = calculateK_e_ij();
-        log.info("Рассчет массы измеряемой среды, измеренная преобразователем массового расхода (M_e, т) согласно п.7.2 по формуле (3) МИ3622-2020");
+        double[][] M_e = getDivisionOfTwoArrays(N_e_i_j, K_e);
+
         log.debug("Кол-во импульсов, поступившее с ПР (N_e, имп) {}", Arrays.deepToString(N_e_i_j));
         log.debug("Коэффициент преобразования ПР, вычисленный по градуировочной характеристике (K_e, имп/т) {}", Arrays.deepToString(K_e));
-
-        double[][] M_e = getDivisionOfTwoArrays(N_e_i_j, K_e);
         log.info("M_e = {}", Arrays.deepToString(M_e));
+
         return M_e;
     }
 
     public double[][] calculateMF_ij() {
+        log.info("Рассчет коэффициента коррекции поверяемого СРМ (MF_ij) согласно п.7.2 по формуле (2) МИ3622-2020");
+
         double[][] MF = null;
         if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
             double Kpm = calculateK_pm();
@@ -133,15 +138,15 @@ public class MI3622Calculation {
                     M[i][j] = N_p_i_j[i][j] * MF_p / Kpm;
                 }
             }
-            log.info("Рассчет коэффициента коррекции поверяемого СРМ (MF_ij) согласно п.7.2 по формуле (2) МИ3622-2020");
-            log.debug("Масса измеряемой среды, измеренная преобразователем массового расхода (M_e, т) {}", Arrays.deepToString(M_e));
-            log.debug("Масса измеряемой среды, измеренная поверяемым СРМ (M_ij, т) {}", Arrays.deepToString(M));
             MF = new double[measureCount][pointsCount];
             for (int i = 0; i < measureCount; i++) {
                 for (int j = 0; j < pointsCount; j++) {
                     MF[i][j] = M_e[i][j] / M[i][j];
                 }
             }
+
+            log.debug("Масса измеряемой среды, измеренная преобразователем массового расхода (M_e, т) {}", Arrays.deepToString(M_e));
+            log.debug("Масса измеряемой среды, измеренная поверяемым СРМ (M_ij, т) {}", Arrays.deepToString(M));
             log.info("MF_ij = {}", Arrays.deepToString(MF));
         }
 
@@ -149,19 +154,22 @@ public class MI3622Calculation {
     }
 
     public Double calculateMF() {
+        log.info("Рассчет среднего значения коэффициента коррекции поверяемого СРМ (MF) согласно п.7.4 по формуле (7) МИ3622-2020");
+
         Double MF = null;
 
         if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
             double[] MF_j = calculateMF_j();
-            log.info("Рассчет среднего значения коэффициента коррекции поверяемого СРМ (MF) согласно п.7.4 по формуле (7) МИ3622-2020");
-            log.debug("Значения коэффициентов коррекции поверяемого СРМ (MF_j) {}", Arrays.toString(MF_j));
-            log.debug("Количество точек (m) {}", pointsCount);
             MF = 0d;
+
             for (int j = 0; j < pointsCount; j++) {
                 MF = MF + MF_j[j];
             }
+
             MF = MF / pointsCount;
 
+            log.debug("Значения коэффициентов коррекции поверяемого СРМ (MF_j) {}", Arrays.toString(MF_j));
+            log.debug("Количество точек (m) {}", pointsCount);
             log.info("MF = {}", MF);
         }
 
@@ -169,13 +177,15 @@ public class MI3622Calculation {
     }
 
     public double[] calculateMF_j() {
+        log.info("Рассчет значения коэффициента коррекции поверяемого СРМ в j-й точке (MF) согласно п.7.3 по формуле (6) МИ3622-2020");
+
         double[] MF_j = null;
         if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
             double[][] MF_ij = calculateMF_ij();
-            log.info("Рассчет значения коэффициента коррекции поверяемого СРМ в j-й точке (MF) согласно п.7.3 по формуле (6) МИ3622-2020");
+            MF_j = getAverageForEachColumn(MF_ij);
+
             log.debug("Значения коэффициентов коррекции поверяемого СРМ (MF) {}", Arrays.deepToString(MF_ij));
             log.debug("Количество измерений (n) {}", measureCount);
-            MF_j = getAverageForEachColumn(MF_ij);
             log.info("MF_j = {}", Arrays.toString(MF_j));
         }
 
@@ -231,10 +241,13 @@ public class MI3622Calculation {
 
     public double[][] calculateF_ij() {
         log.info("Рассчет частоты выходного сигнала поверяемого СРМ (f, Гц) согласно п.7.9 по формуле (12) МИ3622-2020");
+
+        double[][] f_ij = getDivisionOfTwoArrays(N_p_i_j, T_i_j);
+
         log.debug("кол-во импульсов, поступившее с поверяемого СРМ (N_r, имп) {}", Arrays.deepToString(N_p_i_j));
         log.debug("время измерения (T, с) {}", Arrays.deepToString(T_i_j));
-        double[][] f_ij = getDivisionOfTwoArrays(N_p_i_j, T_i_j);
         log.info("f_ij = {}", Arrays.deepToString(f_ij));
+
         return f_ij;
     }
 
@@ -244,6 +257,8 @@ public class MI3622Calculation {
     }
 
     public double[] calculateS_j() {
+        log.info("Рассчет СКО результатов измерений в j-й точке (S_j) согласно п.7.11 по формуле (14) МИ3622-2020");
+
         double[][] MFOrK_ij;
         double[] MFOrK_j;
         if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
@@ -257,10 +272,6 @@ public class MI3622Calculation {
                     .formatted(MFOrK, MI3622Settings.MF, MI3622Settings.K));
         }
 
-        log.info("Рассчет СКО результатов измерений в j-й точке (S_j) согласно п.7.11 по формуле (14) МИ3622-2020");
-        log.debug("Значения коэффициентов преобразования/коррекции поверяемого СРМ (MF_ij или K_ij) {}", Arrays.deepToString(MFOrK_ij));
-        log.debug("Среднее значение коэффициента преобразования/коррекции поверяемого СРМ в j-й точке (MF_j или K_j) {}", Arrays.toString(MFOrK_j));
-        log.debug("Кол-во измерений (n) {}", measureCount);
         double[] S_j = new double[pointsCount];
         for (int j = 0; j < pointsCount; j++) {
             double sum = 0;
@@ -269,7 +280,12 @@ public class MI3622Calculation {
             }
             S_j[j] = 1 / MFOrK_j[j] * Math.sqrt(sum / (measureCount - 1)) * 100;
         }
+
+        log.debug("Значения коэффициентов преобразования/коррекции поверяемого СРМ (MF_ij или K_ij) {}", Arrays.deepToString(MFOrK_ij));
+        log.debug("Среднее значение коэффициента преобразования/коррекции поверяемого СРМ в j-й точке (MF_j или K_j) {}", Arrays.toString(MFOrK_j));
+        log.debug("Кол-во измерений (n) {}", measureCount);
         log.info("S_j = {}", Arrays.toString(S_j));
+
         return S_j;
     }
 
@@ -309,19 +325,25 @@ public class MI3622Calculation {
     }
 
     public double[] calculateS_0j() {
+        log.info("Рассчет СКО среднего значения результатов измерений в j-й точке (S0) согласно п.7.12 по формуле (16) МИ3622-2020");
+
         double[] S_0j = new double[pointsCount];
         double[] S_j = calculateS_j();
-        log.info("Рассчет СКО среднего значения результатов измерений в j-й точке (S0) согласно п.7.12 по формуле (16) МИ3622-2020");
-        log.debug("Значение СКО в j-й точке (S_j) {}", Arrays.toString(S_j));
-        log.debug("Кол-во измерений (n) {}", measureCount);
+
         for (int j = 0; j < pointsCount; j++) {
             S_0j[j] = S_j[j] / Math.sqrt(pointsCount);
         }
+
+        log.debug("Значение СКО в j-й точке (S_j) {}", Arrays.toString(S_j));
+        log.debug("Кол-во измерений (n) {}", measureCount);
         log.info("S_0j = {}", Arrays.toString(S_0j));
+
         return S_0j;
     }
 
     public double[] calculateEps_j() {
+        log.info("Рассчет границы случайной составляющей погрешности СРМ в j-й точке (eps_j) согласно п.7.13 по формуле (17) МИ3622-2020");
+
         double[] S_0j = calculateS_0j();
         double[] t095Arr = calculateT_095();
         double t095 = t095Arr[measureCount - 5];
@@ -330,13 +352,14 @@ public class MI3622Calculation {
         }
         double[] eps_j = new double[pointsCount];
 
-        log.info("Рассчет границы случайной составляющей погрешности СРМ в j-й точке (eps_j) согласно п.7.13 по формуле (17) МИ3622-2020");
-        log.debug("СКО среднего значения результатов измерений в j-й точке (S_0j) {}", Arrays.toString(S_0j));
-        log.debug("Квантиль распределения Стъюдента при доверительной вероятности Р=0.95 (t_0_95) {}", t095);
         for (int j = 0; j < pointsCount; j++) {
             eps_j[j] = t095 * S_0j[j];
         }
+
+        log.debug("СКО среднего значения результатов измерений в j-й точке (S_0j) {}", Arrays.toString(S_0j));
+        log.debug("Квантиль распределения Стъюдента при доверительной вероятности Р=0.95 (t_0_95) {}", t095);
         log.info("eps_j = {}", Arrays.toString(eps_j));
+
         return eps_j;
     }
 
@@ -345,11 +368,14 @@ public class MI3622Calculation {
     }
 
     public double calculateEps_D() {
-        double[] eps_j = calculateEps_j();
         log.info("Рассчет границы случайной составляющей погрешности СРМ в диапазоне измерений (E_d) согласно п.7.14 по формуле (18) МИ3622-2020");
-        log.debug("Значения границ случайной составляющей погрешности СРМ (eps_j) {}", eps_j);
+
+        double[] eps_j = calculateEps_j();
         double eps_d = getMaxInArray(eps_j);
+
+        log.debug("Значения границ случайной составляющей погрешности СРМ (eps_j) {}", eps_j);
         log.info("eps_d = {}", eps_d);
+
         return eps_d;
     }
 
@@ -358,14 +384,13 @@ public class MI3622Calculation {
     }
 
     public double[] calculateTheta_sigma_j() {
+        log.info("Рассчет границы неисключенной систематической погрешности в j-й точке (Theta_sigma_j) согласно п.7.16 по формуле (20) МИ3622-2020");
+
         double[] theta_sigma_j = new double[pointsCount];
         double[] theta_zj = new double[pointsCount];
         if (!zeroStabilityCorr) {
             theta_zj = calculateTheta_zj();
         }
-        log.info("Рассчет границы неисключенной систематической погрешности в j-й точке (Theta_sigma_j) согласно п.7.16 по формуле (20) МИ3622-2020");
-        log.debug("Граница составляющей неисключенной систематической погрешности, обусловленной нестабильностью нуля СРМ в j-ой точке (Theta_jz, %) {}", Arrays.toString(theta_zj));
-        log.debug("Другие параметры: ZS = {}, theta_e = {}, theta_t = {}, theta_P = {}, theta_N = {}", ZS, theta_e, theta_t, theta_p, theta_N);
         for (int j = 0; j < pointsCount; j++) {
             theta_sigma_j[j] = 1.1 * Math.sqrt(
                     Math.pow(theta_e, 2) +
@@ -374,21 +399,27 @@ public class MI3622Calculation {
                             Math.pow(theta_N, 2) +
                             Math.pow(theta_zj[j], 2));
         }
+
+        log.debug("Граница составляющей неисключенной систематической погрешности, обусловленной нестабильностью нуля СРМ в j-ой точке (Theta_jz, %) {}", Arrays.toString(theta_zj));
+        log.debug("Другие параметры: ZS = {}, theta_e = {}, theta_t = {}, theta_P = {}, theta_N = {}", ZS, theta_e, theta_t, theta_p, theta_N);
         log.info("theta_sigma_j = {}", Arrays.toString(theta_sigma_j));
+
         return theta_sigma_j;
     }
 
     public double[] calculateEps_PDk() {
+        log.info("Рассчет границы случайной составляющей погрешности СРМ в к-м поддиапазоне рабочего диапазона измерений (E_PD) согласно п.7.15 по формуле (19) МИ3622-2020");
+
         double[] eps_pdk = null;
         if (pointsCount > 1) {
             double[] eps_j = calculateEps_j();
-            log.info("Рассчет границы случайной составляющей погрешности СРМ в к-м поддиапазоне рабочего диапазона измерений (E_PD) согласно п.7.15 по формуле (19) МИ3622-2020");
-            log.debug("значения границ случайной составляющей погрешности СРМ (eps_j) {}", Arrays.toString(eps_j));
             int subrangeCount = pointsCount - 1;
             eps_pdk = new double[subrangeCount];
             for (int k = 0; k < subrangeCount; k++) {
                 eps_pdk[k] = Math.max(eps_j[k], eps_j[k + 1]);
             }
+
+            log.debug("значения границ случайной составляющей погрешности СРМ (eps_j) {}", Arrays.toString(eps_j));
             log.info("eps_pdk = {}", Arrays.toString(eps_pdk));
         }
 
@@ -396,12 +427,10 @@ public class MI3622Calculation {
     }
 
     public double calculateTheta_sigma_D() {
+        log.info("Рассчет границы неисключенной систематической погрешности (Theta_sigma_D, %) согласно п.7.17 по формуле (22) МИ3622-2020");
+
         double theta_Dz = calculateTheta_Dz();
         double theta_D = calculateTheta_D();
-        log.info("Рассчет границы неисключенной систематической погрешности (Theta_sigma_D, %) согласно п.7.17 по формуле (22) МИ3622-2020");
-        log.debug("Граница составляющей неисключенной систематической погрешности, обусловленной нестабильностью нуля СРМ (theta_D_z, %) {}", theta_Dz);
-        log.debug("Граница составляющей неисключенной систематической погрешности, обусловленной погрешностью аппроксимации градуировочной характеристики (theta_D, %) {}", theta_D);
-        log.debug("Дргуие параметры: ZS = {}, theta_e = {}, theta_Dt = {}, theta_Dp ={}, theta_N = {}", ZS, theta_e, theta_Dt, theta_Dp, theta_N);
         double theta_sigma_D = 1.1 * Math.sqrt(
                 Math.pow(theta_e, 2) +
                         Math.pow(theta_Dt, 2) +
@@ -409,11 +438,18 @@ public class MI3622Calculation {
                         Math.pow(theta_N, 2) +
                         Math.pow(theta_Dz, 2) +
                         Math.pow(theta_D, 2));
+
+        log.debug("Граница составляющей неисключенной систематической погрешности, обусловленной нестабильностью нуля СРМ (theta_D_z, %) {}", theta_Dz);
+        log.debug("Граница составляющей неисключенной систематической погрешности, обусловленной погрешностью аппроксимации градуировочной характеристики (theta_D, %) {}", theta_D);
+        log.debug("Дргуие параметры: ZS = {}, theta_e = {}, theta_Dt = {}, theta_Dp ={}, theta_N = {}", ZS, theta_e, theta_Dt, theta_Dp, theta_N);
         log.info("theta_sigma_D = {}", theta_sigma_D);
+
         return theta_sigma_D;
     }
 
     public double[] calculateTheta_sigma_PDk() {
+        log.info("Рассчет границы неисключенной систематической погрешности в к-м поддиапазоне (theta_sigma_PDk) согласно п.7.17 по формуле (22) МИ3622-2020");
+
         double[] theta_sigma_PDk = null;
         if (pointsCount > 1) {
             int subrangeCount = pointsCount - 1;
@@ -421,8 +457,6 @@ public class MI3622Calculation {
             double[] theta_PDz = new double[subrangeCount];
             if (!zeroStabilityCorr) theta_PDz = calculateTheta_PDz();
             double[] theta_PDk = calculateTheta_PDk();
-            log.info("Рассчет границы неисключенной систематической погрешности в к-м поддиапазоне (theta_sigma_PDk) согласно п.7.17 по формуле (22) МИ3622-2020");
-            log.debug("Используемые данные: ZS = {}, theta_e = {}, theta_PDt = {}, theta_PDp = {}, theta_N = {}", ZS, theta_e, theta_PDt, theta_PDp, theta_N);
             for (int k = 0; k < subrangeCount; k++) {
                 theta_sigma_PDk[k] = 1.1 * Math.sqrt(
                         Math.pow(theta_e, 2) +
@@ -432,6 +466,8 @@ public class MI3622Calculation {
                                 Math.pow(theta_PDz[k], 2) +
                                 Math.pow(theta_PDk[k], 2));
             }
+
+            log.debug("Используемые данные: ZS = {}, theta_e = {}, theta_PDt = {}, theta_PDp = {}, theta_N = {}", ZS, theta_e, theta_PDt, theta_PDp, theta_N);
             log.info("theta_sigma_PDk = {}", Arrays.toString(theta_sigma_PDk));
         }
 
@@ -439,13 +475,13 @@ public class MI3622Calculation {
     }
 
     public double[] calculateDelta_j() {
+        log.info("Рассчет относительной погрешности СРМ (контрольного) в j-й точке диапазона измерений (delta_j) согласно п.7.21 по формуле (28) МИ3622-2020");
+
         double[] delta_j = new double[pointsCount];
         double[] theta_sigma_j = calculateTheta_sigma_j();
         double[] S_0j = calculateS_0j();
         double[] eps_j = calculateEps_j();
 
-        log.info("Рассчет относительной погрешности СРМ (контрольного) в j-й точке диапазона измерений (delta_j) согласно п.7.21 по формуле (28) МИ3622-2020");
-        log.debug("Данные: theta_sigma_j = {}, S_0j = {}", Arrays.toString(theta_sigma_j), Arrays.toString(S_0j));
         double[] S_theta_j = calculateS_theta_j();
         double[] S_sigma_j = calculateS_sigma_j();
         double[] t_sigma_j = calculateT_sigma_j();
@@ -459,7 +495,10 @@ public class MI3622Calculation {
                 delta_j[j] = theta_sigma_j[j];
             }
         }
+
+        log.debug("Данные: theta_sigma_j = {}, S_0j = {}", Arrays.toString(theta_sigma_j), Arrays.toString(S_0j));
         log.info("delta_j = {}", delta_j);
+
         return delta_j;
     }
 
@@ -504,6 +543,8 @@ public class MI3622Calculation {
     }
 
     public double calculateDelta_D() {
+        log.info("Рассчет относительной погрешности СРМ (рабочего) в рабочем диапазоне измерений (delta_D) согласно п.7.22 по формуле (32) МИ3622-2020");
+
         double delta_D = 0;
         double theta_sigma_D = 0;
         if (!zeroStabilityCorr) theta_sigma_D = calculateTheta_sigma_D();
@@ -516,8 +557,9 @@ public class MI3622Calculation {
         } else if (ratio > 8) {
             delta_D = theta_sigma_D;
         }
-        log.info("Рассчет относительной погрешности СРМ (рабочего) в рабочем диапазоне измерений (delta_D) согласно п.7.22 по формуле (32) МИ3622-2020");
+
         log.info("delta_D = {}", delta_D);
+
         return delta_D;
     }
 
@@ -554,6 +596,8 @@ public class MI3622Calculation {
     }
 
     public double[] calculateDelta_PDk() {
+        log.info("Рассчет относительной погрешности СРМ (рабочего) в к-м поддиапазоне рабочего диапазона измерений (delta_PDk, %) согласно п.7.23 по формуле (36) МИ3622-2020");
+
         double[] delta_PDk = null;
         if (pointsCount > 1) {
             int subrangeCount = pointsCount - 1;
@@ -575,7 +619,6 @@ public class MI3622Calculation {
                 }
             }
 
-            log.info("Рассчет относительной погрешности СРМ (рабочего) в к-м поддиапазоне рабочего диапазона измерений (delta_PDk, %) согласно п.7.23 по формуле (36) МИ3622-2020");
             log.info("delta_PDk = {}", Arrays.toString(delta_PDk));
         }
 
