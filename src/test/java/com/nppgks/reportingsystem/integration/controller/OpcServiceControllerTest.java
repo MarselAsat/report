@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @WithMockUser(username = "testName", password = "test", authorities = "ROLE_ADMIN")
-public class OpcServiceControllerTest extends IntegrationBaseTest{
+public class OpcServiceControllerTest extends IntegrationBaseTest {
 
     private final MockMvc mockMvc;
 
