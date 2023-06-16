@@ -23,13 +23,12 @@
     <div class="col-md-12">
         <div class="card my-4 border-0">
             <zing-grid frozen-columns-left caption="Узлы учета (таблица operative_reports.metering_node)"
-                       lang="ru" editor-controls="creator remover" editor columns-control status-persist
-                       validation-required-message="Это поле не может быть пустым">
+                       lang="ru" editor-controls="creator remover" editor columns-control status-persist>
                 <zg-data src="/api/meteringNodes/">
                     <zg-param name="serverErrorMessage" value="Server Error: [[serverMessage]]"></zg-param>
                 </zg-data>
                 <zg-column index="id" header="ID"></zg-column>
-                <zg-column index="name" header="Название" required></zg-column>
+                <zg-column index="name" header="Название"></zg-column>
             </zing-grid>
         </div>
     </div>
