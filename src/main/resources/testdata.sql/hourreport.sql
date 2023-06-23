@@ -1,6 +1,6 @@
 SET search_path TO operative_reports;
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+INSERT INTO tag (id, row_id, address, description, report_type_id, metering_node_id)
 VALUES (45, 12, 'hour_mass_il1', 'Средний массовый расход за час ил1', 'hour', 'il1'),
        (46, 13, 'hour_temp_il1', 'Средняя температура за час ил1', 'hour', 'il1'),
        (47, 14, 'hour_pressure_il1', 'Среднее давление за час ил1', 'hour', 'il1'),
@@ -13,7 +13,7 @@ VALUES (45, 12, 'hour_mass_il1', 'Средний массовый расход �
        (54, 21, 'hour_vol_il1', 'Объем за час за час ил1', 'hour', 'il1'),
        (55, 22, 'hour_vol_increasing_il1', 'Объем нарастающий за час ил1', 'hour', 'il1');
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+INSERT INTO tag (id, row_id, address, description, report_type_id, metering_node_id)
 VALUES (56, 12, 'hour_mass_il2', 'Средний массовый расход за час ил2', 'hour', 'il2'),
        (57, 13, 'hour_temp_il2', 'Средняя температура за час ил2', 'hour', 'il2'),
        (58, 14, 'hour_pressure_il2', 'Среднее давление за час ил2', 'hour', 'il2'),
@@ -26,7 +26,7 @@ VALUES (56, 12, 'hour_mass_il2', 'Средний массовый расход �
        (65, 21, 'hour_vol_il2', 'Объем за час ил2', 'hour', 'il2'),
        (66, 22, 'hour_vol_increasing_il2', 'Объем нарастающий за час ил2', 'hour', 'il2');
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+INSERT INTO tag (id, row_id, address, description, report_type_id, metering_node_id)
 VALUES (67, 12, 'hour_mass_sikn', 'Средний массовый расход за час сикн', 'hour', 'sikn'),
        (68, 13, 'hour_temp_sikn', 'Средняя температура за час сикн', 'hour', 'sikn'),
        (69, 14, 'hour_pressure_sikn', 'Среднее давление за час сикн', 'hour', 'sikn'),
@@ -39,7 +39,7 @@ VALUES (67, 12, 'hour_mass_sikn', 'Средний массовый расход 
        (76, 21, 'hour_vol_sikn', 'Объем за час сикн', 'hour', 'sikn'),
        (77, 22, 'hour_vol_increasing_sikn', 'Объем нарастающий за час сикн', 'hour', 'sikn');
 
-INSERT INTO tag_name (id, row_id, name, description, report_type_id, metering_node_id)
+INSERT INTO tag (id, row_id, address, description, report_type_id, metering_node_id)
 VALUES (78, 12, 'hour_mass_bik', 'Средний массовый расход', 'hour', 'bik'),
        (79, 13, 'hour_temp_bik', 'Средняя температура', 'hour', 'bik'),
        (80, 14, 'hour_pressure_bik', 'Среднее давление', 'hour', 'bik'),
@@ -51,16 +51,16 @@ VALUES (78, 12, 'hour_mass_bik', 'Средний массовый расход',
        (86, 20, 'hour_mass_gross_increasing_bik', 'Масса брутто нарастающая', 'hour', 'bik'),
        (87, 21, 'hour_vol_bik', 'Объем за час', 'hour', 'bik'),
        (88, 22, 'hour_vol_increasing_bik', 'Объем нарастающий', 'hour', 'bik');
-SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
+SELECT SETVAL('tag_id_seq', (SELECT MAX(id) FROM tag));
 
-INSERT INTO report_name(id, report_type_id, name, start_dt, end_dt, creation_dt)
+INSERT INTO report(id, report_type_id, name, start_dt, end_dt, creation_dt)
 VALUES (2, 'hour',
         'Тестовый часовой отчет за 10:00 21.04.2022',
         TO_TIMESTAMP('2022-04-21 09:00', 'YYYY-MM-DD HH24:MI:SS'),
         TO_TIMESTAMP('2022-04-21 10:00', 'YYYY-MM-DD HH24:MI:SS'),
         TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'));
 
-INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
+INSERT INTO report_data(data, creation_dt, tag_id, report_id)
 VALUES (45.9, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 56, 2),
        (36.4, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 57, 2),
        (5.39, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 58, 2),
@@ -73,7 +73,7 @@ VALUES (45.9, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 56, 
        (279, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 65, 2),
        (86360, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 66, 2);
 
-INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
+INSERT INTO report_data(data, creation_dt, tag_id, report_id)
 VALUES (815.0, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 45, 2),
        (818.8, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 46, 2),
        (0, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 47, 2),
@@ -81,7 +81,7 @@ VALUES (815.0, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 45,
        (0, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 49, 2),
        (1978, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 50, 2);
 
-INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
+INSERT INTO report_data(data, creation_dt, tag_id, report_id)
 VALUES (45.9, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 67, 2),
        (36.4, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 68, 2),
        (5.39, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 69, 2),
@@ -93,7 +93,7 @@ VALUES (45.9, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 67, 
        (279, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 75, 2),
        (84382, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 76, 2);
 
-INSERT INTO tag_data(data, creation_dt, tag_name_id, report_name_id)
+INSERT INTO report_data(data, creation_dt, tag_id, report_id)
 VALUES (35.7, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 78, 2),
        (5.33, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 79, 2),
        (807.1, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 80, 2),
@@ -101,5 +101,5 @@ VALUES (35.7, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 78, 
        (818.8, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 82, 2),
        (0.01, TO_TIMESTAMP('2022-04-21 10:00:50', 'YYYY-MM-DD HH24:MI:SS'), 83, 2);
 
-SELECT SETVAL('tag_name_id_seq', (SELECT MAX(id) FROM tag_name));
-SELECT SETVAL('report_name_id_seq', (SELECT MAX(id) FROM report_name));
+SELECT SETVAL('tag_id_seq', (SELECT MAX(id) FROM tag));
+SELECT SETVAL('report_id_seq', (SELECT MAX(id) FROM report));

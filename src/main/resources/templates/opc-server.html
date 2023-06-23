@@ -59,7 +59,7 @@
                     <div class="mb-2">
                         <select id="select" class="select-with-search"
                                 onchange="getTagValue(this.options[this.selectedIndex].value)">
-                            <option th:each="tagName : ${tagNames}" th:value="${tagName}" th:text="${tagName}"></option>
+                            <option th:each="tag : ${tags}" th:value="${tag}" th:text="${tag}"></option>
                         </select>
                     </div>
                     <div class="loader alert" id="loaderTagValue" style="display:none; margin-left: 10pt"></div>

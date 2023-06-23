@@ -9,7 +9,7 @@
         <div class="col-sm-12">
             <p>Дата и время начала отчета: <u th:text="${startReportDate}"></u></p>
             <p>Дата и время окончания отчета: <u th:text="${endReportDate}"></u></p>
-            <p>Дата и время формирования отчета: <u th:text="${reportNameDtCreation}"></u></p>
+            <p>Дата и время формирования отчета: <u th:text="${reportDtCreation}"></u></p>
             <table id = "tag-name-table" class="table table-bordered table-striped">
                 <thead class="table-light" style="font-weight: bold">
                 <tr>
@@ -21,7 +21,7 @@
                 </thead>
 
                 <tbody id="tag-name-tbody">
-                <tr th:each="row: ${reportViewTagData}">
+                <tr th:each="row: ${reportViewReportData}">
                     <td class="align-middle">
                         <span th:text = "${row.description} ?: '-'"/>
                     </td>

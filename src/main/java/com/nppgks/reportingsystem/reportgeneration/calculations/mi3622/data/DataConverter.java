@@ -1,7 +1,8 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data;
 
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
-import com.nppgks.reportingsystem.exception.NotValidTagDataException;
+import com.nppgks.reportingsystem.exception.MissingOpcTagException;
+import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -49,11 +50,11 @@ public class DataConverter {
     /**
      * Возвращается объект Map<String, Object>, построенный на основе значений полей finalData.
      * Каждому полю в FinalData соответствует имя тега, которое знает OPC.
-     * Соответствия имен тегов и имен полей FinalData содержатся в параметре tagNamesMap.
+     * Соответствия имен тегов и имен полей FinalData содержатся в параметре tagsMap.
      * Ключ в map это имя тега из OPC, а значение это значение этого тега,
      * которое берется из соответствующего поля finalData
      */
-    public static Map<String, Object> convertFinalDataToMap(FinalData finalData, Map<String, String> tagNamesMap) {
+    public static Map<String, Object> convertFinalDataToMap(FinalData finalData, Map<String, String> tagsMap) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -67,11 +68,11 @@ public class DataConverter {
                     if (declaredField.getType().equals(double[][].class)) {
                         data = transpose((double[][]) data);
                     }
-                    String tagName = tagNamesMap.get(declaredField.getName());
-                    if (tagName == null) {
-                        throw new MissingDbDataException("There is no " + declaredField.getName() + " (initial = FALSE, type = MI_3622) tag in calculations.tag_name table");
+                    String tag = tagsMap.get(declaredField.getName());
+                    if (tag == null) {
+                        throw new MissingDbDataException("Не существует тега с закрепленным именем" + declaredField.getName() + " (initial = FALSE, type = MI_3622) в таблице calculations.tag");
                     }
-                    map.put(tagNamesMap.get(declaredField.getName()), data);
+                    map.put(tagsMap.get(declaredField.getName()), data);
                 }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
@@ -83,11 +84,11 @@ public class DataConverter {
 
     /**
      * Возвращается объект InitialData, значения которого берутся из dataFromOpc.
-     * В dataFromOpc ключ - это имя тега, а значение - это значение тега.
-     * В tagNamesMap содержатся соответствия имени тега и имени полей в InitialData.
-     * C использованием tagNamesMap и dataFromOpc заполняются поля InitialData.
+     * В dataFromOpc ключ - это адрес тега, а значение - это значение тега.
+     * В tagsMap содержатся соответствия адреса тега и имени полей в InitialData.
+     * C использованием tagsMap и dataFromOpc заполняются поля InitialData.
      */
-    public static InitialData convertMapToInitialData(Map<String, String> dataFromOpc, Map<String, String> tagNamesMap) {
+    public static InitialData convertMapToInitialData(Map<String, String> dataFromOpc, Map<String, String> tagsMap) {
         InitialData initialData = new InitialData();
 
         Field[] declaredFields = InitialData.class.getDeclaredFields();
@@ -95,9 +96,9 @@ public class DataConverter {
         for (Field declaredField : declaredFields) {
             try {
                 declaredField.setAccessible(true);
-                String tagName = tagNamesMap.get(declaredField.getName());
-                if (tagName != null) {
-                    String value = dataFromOpc.get(tagNamesMap.get(declaredField.getName()));
+                String tag = tagsMap.get(declaredField.getName());
+                if (tag != null) {
+                    String value = dataFromOpc.get(tagsMap.get(declaredField.getName()));
 
                     if (value != null && !value.isBlank()) {
                         Class<?> fieldType = declaredField.getType();
@@ -106,7 +107,19 @@ public class DataConverter {
                             // из OPC сервера значения идут в таком виде: каждая строка(!) это множество измерений в 1 точке
                             // а формулы для вычислений предполагают, что каждый столбец(!) это множество измерений в 1 точке
                             // поэтому, нужно транспонировать двумерный массив
-                            double[][] array2Dim = transpose(to2DArray(value));
+                            double[][] array2Dim;
+                            try {
+                                array2Dim = transpose(to2DArray(value));
+                            } catch (Exception e) {
+                                String message = """
+                                        Произошла ошибка во время обработки массива %s.
+                                        Проверьте, что массив соответствует одному из шаблонов
+                                        [a1, a2, a3, ...] или [[a11, a12, a13, ...],[a21, a22, a23, ...], ...]
+                                        и что его длина соответствует количеству точек и измерений
+                                        """.formatted(value);
+                                throw new NotValidTagValueException(message, e);
+                            }
+
                             declaredField.set(initialData, array2Dim);
                         } else if (fieldType.equals(double[].class)) {
                             declaredField.set(initialData, toArray(value));
@@ -124,8 +137,8 @@ public class DataConverter {
                     }
 
                 } else {
-                    log.error("В переданной tagNamesMap не нашлось соответствия с полем {} в InitialData ", declaredField.getName());
-                    log.error("Возможно, в таблице calculations.tag_name нет нужной записи с permanent_name = {} и initial = true", declaredField.getName());
+                    log.error("В переданной tagsMap не нашлось соответствия с полем {} в InitialData ", declaredField.getName());
+                    log.error("Возможно, в таблице calculations.tag нет нужной записи с permanent_name = {} и initial = true", declaredField.getName());
                 }
 
             } catch (IllegalAccessException e) {
@@ -139,28 +152,33 @@ public class DataConverter {
      * Двумерные массивы из OPC приходят в виде одномерного массива: [x, x, x, x, ...]
      * Этот метод меняет вид двумерных массивов (value из dataFromOpc) на [[x, x, ...],[x, x, ...]...]
      */
-    public static void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, Map<String, String> initialTagNamesMap) {
-        int pointsCount = parseInt(dataFromOpc.get(initialTagNamesMap.get("pointsCount")));
-        int measureCount = parseInt(dataFromOpc.get(initialTagNamesMap.get("measureCount")));
+    public static void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, Map<String, String> initialTagsMap) {
+        String pointsCountStr = dataFromOpc.get(initialTagsMap.get("pointsCount"));
+        String measureCountStr = dataFromOpc.get(initialTagsMap.get("measureCount"));
+        if (pointsCountStr == null || measureCountStr == null) {
+            throw new MissingOpcTagException("Теги pointsCount и/или measureCount не инициализированы, либо не существуют на OPC сервере");
+        }
+        int pointsCount = parseInt(pointsCountStr);
+        int measureCount = parseInt(measureCountStr);
+
         Field[] initialDataFields = InitialData.class.getDeclaredFields();
         for (Map.Entry<String, String> entry : dataFromOpc.entrySet()) {
             String value = entry.getValue();
 
-            String permanentTagName = initialTagNamesMap
+            String permanentTagName = initialTagsMap
                     .entrySet()
                     .stream()
                     .filter(en -> en.getValue().equals(entry.getKey()))
                     .map(Map.Entry::getKey)
                     .findFirst()
                     .orElseThrow();
-            Optional<Field> dfOptional= Arrays.stream(initialDataFields)
+            Optional<Field> dfOptional = Arrays.stream(initialDataFields)
                     .filter(df -> df.getName().equals(permanentTagName))
                     .findFirst();
             Class<?> dfType;
-            if(dfOptional.isPresent()){
+            if (dfOptional.isPresent()) {
                 dfType = dfOptional.get().getType();
-            }
-            else{
+            } else {
                 continue;
             }
             if (value.matches(ARRAY_REGEX) && !value.matches(ARRAY_2DIM_REGEX) && dfType.equals(double[][].class)) {
@@ -169,10 +187,9 @@ public class DataConverter {
                     double[][] array2D = fromArrayTo2DArray(valueArr, pointsCount, measureCount);
                     String newValue = fromObjectToJson(array2D);
                     dataFromOpc.put(entry.getKey(), newValue);
-                }
-                else {
-                    throw new NotValidTagDataException("Длина массива %s должна быть равна pointsCount*measureCount = %s"
-                            .formatted(value, pointsCount*measureCount));
+                } else {
+                    throw new NotValidTagValueException("Длина массива %s должна быть равна pointsCount*measureCount = %s"
+                            .formatted(value, pointsCount * measureCount));
                 }
             }
         }

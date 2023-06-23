@@ -22,15 +22,15 @@ public class AdminViewController {
     private final ReportRowService reportRowService;
     private final SettingsService settingsService;
     private final MeteringNodeService meteringNodeService;
-    private final AllTagNamesService allTagNamesService;
+    private final AllTagsService allTagsService;
 
-    @GetMapping("/calc-tag-name-editor")
-    public String getAllcalcTagNames() {
-        return "editors/calc-tag-names-editor";
+    @GetMapping("/calc-tags-editor")
+    public String getAllCalcTags() {
+        return "editors/calc-tags-editor";
     }
 
-    @GetMapping("/operative-tables-editor/tag-names")
-    public String tagNameEditorView(ModelMap modelMap) {
+    @GetMapping("/operative-tables-editor/tags")
+    public String tagEditorView(ModelMap modelMap) {
         modelMap.put("reportTypes",
                 reportTypeService.getAllActiveReportTypes()
                         .stream()
@@ -46,7 +46,7 @@ public class AdminViewController {
                         .stream()
                         .map(ReportRowDto::combineNameAndType)
                         .toList());
-        return "editors/tag-names-editor";
+        return "editors/tags-editor";
     }
     @GetMapping("/operative-tables-editor/report-rows")
     public String reportRowEditorView(ModelMap modelMap) {
@@ -95,7 +95,7 @@ public class AdminViewController {
 
     @GetMapping("/opcServer")
     public String getOpcServerPage(ModelMap modelMap){
-        modelMap.put("tagNames", allTagNamesService.getAllOperativeAndCalculationTagNames());
+        modelMap.put("tags", allTagsService.getAllOperativeAndCalculationTags());
         return "opc-server";
     }
 }

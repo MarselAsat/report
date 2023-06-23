@@ -1,11 +1,11 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
 
-import com.nppgks.reportingsystem.db.calculations.entity.ReportName;
-import com.nppgks.reportingsystem.db.calculations.entity.TagData;
-import com.nppgks.reportingsystem.dto.calc.CalcTagNameForOpc;
+import com.nppgks.reportingsystem.db.calculations.entity.Report;
+import com.nppgks.reportingsystem.db.calculations.entity.ReportData;
+import com.nppgks.reportingsystem.dto.calc.CalcTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.constants.CalcMethod;
-import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagNameService;
+import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagService;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.DataConverter;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.FinalData;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.InitialData;
@@ -25,120 +25,120 @@ import java.util.stream.Collectors;
 public class MI3622Service {
 
     private final OpcServiceRequests opcServiceRequests;
-    private final CalcTagNameService calcTagNameService;
+    private final CalcTagService calcTagService;
     private final MI3622DbService MI3622DbService;
     private boolean isSaved = false;
-    private List<TagData> tagDataList = new ArrayList<>();
-    private ReportName reportName;
+    private List<ReportData> reportDataList = new ArrayList<>();
+    private Report report;
 
-    public List<TagData> calcMI3622() {
-        List<CalcTagNameForOpc> initialTagNames = calcTagNameService.getTagNamesByInitialAndType(true, CalcMethod.MI_3622.name());
-        Map<String, String> initialTagNamesMap = createTagNamesMap(initialTagNames);
+    public List<ReportData> calcMI3622() {
+        List<CalcTagForOpc> initialTags = calcTagService.getTagsByInitialAndCalcMethod(true, CalcMethod.MI_3622.name());
+        Map<String, String> initialTagsMap = createTagsMap(initialTags);
 
-        List<String> initialTagNamesForOpc = initialTagNames
+        List<String> initialTagsForOpc = initialTags
                 .stream()
-                .map(CalcTagNameForOpc::name)
+                .map(CalcTagForOpc::address)
                 .toList();
 
-        Map<String, String> initialDataFromOpc = opcServiceRequests.getTagDataFromOpc(initialTagNamesForOpc);
+        Map<String, String> initialDataFromOpc = opcServiceRequests.getTagValuesFromOpc(initialTagsForOpc);
 
-        DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagNamesMap);
+        DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagsMap);
 
-        InitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagNamesMap);
+        InitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap);
         MI3622Runner MI3622Runner = new MI3622Runner(initialData);
         FinalData finalData = MI3622Runner.run();
 
-        List<CalcTagNameForOpc> finalTagNames = calcTagNameService.getTagNamesByInitialAndType(false, CalcMethod.MI_3622.name());
+        List<CalcTagForOpc> finalTags = calcTagService.getTagsByInitialAndCalcMethod(false, CalcMethod.MI_3622.name());
 
-        Map<String, String> finalTagNamesMap = createTagNamesMap(finalTagNames);
+        Map<String, String> finalTagsMap = createTagsMap(finalTags);
 
-        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(finalData, finalTagNamesMap);
-        opcServiceRequests.sendTagDataToOpc(finalDataForOpc);
+        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(finalData, finalTagsMap);
+        opcServiceRequests.sendTagValuesToOpc(finalDataForOpc);
 
-        prepareAllDataForDB(initialTagNames, initialDataFromOpc, finalTagNames, finalDataForOpc);
+        prepareAllDataForDB(initialTags, initialDataFromOpc, finalTags, finalDataForOpc);
         isSaved = false;
-        return tagDataList;
+        return reportDataList;
     }
 
     public String saveInDb() {
         if (isSaved) {
             return "Эти результаты уже сохранены в базу данных";
         }
-        String response = MI3622DbService.saveCalculations(tagDataList, reportName);
+        String response = MI3622DbService.saveCalculations(reportDataList, report);
         isSaved = true;
         return response;
     }
 
-    private void prepareAllDataForDB(List<CalcTagNameForOpc> initialTagNames,
+    private void prepareAllDataForDB(List<CalcTagForOpc> initialTags,
                                      Map<String, String> initialDataFromOpc,
-                                     List<CalcTagNameForOpc> finalTagNames,
+                                     List<CalcTagForOpc> finalTags,
                                      Map<String, Object> finalDataForOpc) {
 
-        reportName = createReportName();
-        Map<String, CalcTagNameForOpc> initialTagNamesMap = convertListToMap(initialTagNames);
-        Map<String, CalcTagNameForOpc> finalTagNamesMap = convertListToMap(finalTagNames);
+        report = createReport();
+        Map<String, CalcTagForOpc> initialTagsMap = convertListToMap(initialTags);
+        Map<String, CalcTagForOpc> finalTagsMap = convertListToMap(finalTags);
 
-        tagDataList = createListOfTagDataMI3622(
+        reportDataList = createListOfReportDataMI3622(
                 initialDataFromOpc,
                 finalDataForOpc,
-                reportName,
-                initialTagNamesMap,
-                finalTagNamesMap);
+                report,
+                initialTagsMap,
+                finalTagsMap);
     }
 
     /**
-     * конвертация списка объектов CalcTagNameForOpc (id, name, permanentTagName)
-     * в map (key = CalcTagNameForOpc.name, value = calcTagNameForOpc)
+     * конвертация списка объектов CalcTagForOpc (id, address, permanentName)
+     * в map (key = CalcTagForOpc.address, value = calcTagForOpc)
      */
-    private Map<String, CalcTagNameForOpc> convertListToMap(List<CalcTagNameForOpc> tagNames) {
-        return tagNames.stream()
-                .map(tn -> Map.entry(tn.name(), tn))
+    private Map<String, CalcTagForOpc> convertListToMap(List<CalcTagForOpc> tags) {
+        return tags.stream()
+                .map(t -> Map.entry(t.address(), t))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1));
     }
 
-    private List<TagData> createListOfTagDataMI3622(
+    private List<ReportData> createListOfReportDataMI3622(
             Map<String, String> initialDataFromOpc,
             Map<String, Object> finalDataForOpc,
-            ReportName reportName,
-            Map<String, CalcTagNameForOpc> initialTagNamesMap,
-            Map<String, CalcTagNameForOpc> finalTagNamesMap) {
-        List<TagData> tagDataList = new ArrayList<>();
+            Report report,
+            Map<String, CalcTagForOpc> initialTagsMap,
+            Map<String, CalcTagForOpc> finalTagsMap) {
+        List<ReportData> reportDataList = new ArrayList<>();
         for (Map.Entry<String, String> entry : initialDataFromOpc.entrySet()) {
             String value = entry.getValue();
-            TagData tagData = new TagData(
+            ReportData reportData = new ReportData(
                     null,
                     value,
-                    CalcTagNameForOpc.toTagName(initialTagNamesMap.get(entry.getKey())),
-                    reportName
+                    CalcTagForOpc.toTag(initialTagsMap.get(entry.getKey())),
+                    report
             );
-            tagDataList.add(tagData);
+            reportDataList.add(reportData);
         }
 
         for (Map.Entry<String, Object> entry : finalDataForOpc.entrySet()) {
             String value = ArrayParser.fromObjectToJson(entry.getValue());
 
-            TagData tagData = new TagData(
+            ReportData reportData = new ReportData(
                     null,
                     value,
-                    CalcTagNameForOpc.toTagName(finalTagNamesMap.get(entry.getKey())),
-                    reportName
+                    CalcTagForOpc.toTag(finalTagsMap.get(entry.getKey())),
+                    report
             );
-            tagDataList.add(tagData);
+            reportDataList.add(reportData);
         }
-        return tagDataList;
+        return reportDataList;
     }
 
-    private ReportName createReportName() {
+    private Report createReport() {
         LocalDateTime dt = LocalDateTime.now();
-        return new ReportName(
+        return new Report(
                 null,
                 "Поверка МИ3622 от " + SingleDateTimeFormatter.formatToSinglePattern(dt),
                 dt,
                 CalcMethod.MI_3622.name());
     }
 
-    private Map<String, String> createTagNamesMap(List<CalcTagNameForOpc> tagNamesForOpc) {
-        return tagNamesForOpc.stream()
-                .collect(Collectors.toMap(CalcTagNameForOpc::permanentName, CalcTagNameForOpc::name));
+    private Map<String, String> createTagsMap(List<CalcTagForOpc> tagsForOpc) {
+        return tagsForOpc.stream()
+                .collect(Collectors.toMap(CalcTagForOpc::permanentName, CalcTagForOpc::address));
     }
 }

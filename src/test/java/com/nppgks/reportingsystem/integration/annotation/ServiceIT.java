@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.integration.annotation;
 
-import com.nppgks.reportingsystem.integration.reportgeneration.ServiceTestConfig;
+import com.nppgks.reportingsystem.integration.testconfig.ServiceTestConfig;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;

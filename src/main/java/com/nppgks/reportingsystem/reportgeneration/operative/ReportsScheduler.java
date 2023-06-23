@@ -2,10 +2,10 @@ package com.nppgks.reportingsystem.reportgeneration.operative;
 
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportName;
+import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
 import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
-import com.nppgks.reportingsystem.db.operative_reports.entity.TagData;
-import com.nppgks.reportingsystem.db.operative_reports.entity.TagName;
+import com.nppgks.reportingsystem.db.operative_reports.entity.ReportData;
+import com.nppgks.reportingsystem.db.operative_reports.entity.Tag;
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.service.dbservices.*;
@@ -46,13 +46,13 @@ public class ReportsScheduler {
 
     private final TaskScheduler taskScheduler;
 
-    private final TagNameService tagNameService;
+    private final TagService tagService;
 
     private final ReportTypeService reportTypeService;
 
-    private final ReportNameService reportNameService;
+    private final ReportService reportService;
 
-    private final TagDataService tagDataService;
+    private final ReportDataService reportDataService;
 
     private final SettingsService settingsService;
 
@@ -72,17 +72,17 @@ public class ReportsScheduler {
 
     @PostConstruct
     public void initSchedule() {
-        rescheduleService.scheduledHourReport = scheduleHourReport(reportsScheduler::generateTagDataForHourReport);
-        schedule2HourReport(reportsScheduler::generateTagDataFor2HourReport);
-        rescheduleService.scheduledDailyReport = scheduleDailyReport(reportsScheduler::generateTagDataForDailyReport);
-        rescheduleService.scheduledMonthReport = scheduleMonthReport(reportsScheduler::generateTagDataForMonthReport);
-        rescheduleService.scheduledYearReport = scheduleYearReport(reportsScheduler::generateTagDataForYearReport);
+        rescheduleService.scheduledHourReport = scheduleHourReport(reportsScheduler::generateReportDataForHourReport);
+        schedule2HourReport(reportsScheduler::generateReportDataFor2HourReport);
+        rescheduleService.scheduledDailyReport = scheduleDailyReport(reportsScheduler::generateReportDataForDailyReport);
+        rescheduleService.scheduledMonthReport = scheduleMonthReport(reportsScheduler::generateReportDataForMonthReport);
+        rescheduleService.scheduledYearReport = scheduleYearReport(reportsScheduler::generateReportDataForYearReport);
         scheduleAllShiftReports();
     }
 
     // every hour at 00 minutes
     @Transactional
-    public List<TagData> generateTagDataForHourReport() {
+    public List<ReportData> generateReportDataForHourReport() {
         log.info("Создание часового отчета...");
         ReportType hourReportType = reportTypeService.getReportTypeById(ReportTypesEnum.hour.name());
         if (hourReportType.getActive()) {
@@ -93,14 +93,14 @@ public class ReportsScheduler {
                     formatToSinglePattern(startDt.toLocalTime()),
                     formatToSinglePattern(startDt.toLocalDate())
             );
-            return createAndSaveTagData(hourReportType, currentDt, startEndDt, name);
+            return createAndSaveReportData(hourReportType, currentDt, startEndDt, name);
         }
         return List.of();
     }
 
     // every 2 hour at 00 minutes
     @Transactional
-    public List<TagData> generateTagDataFor2HourReport() {
+    public List<ReportData> generateReportDataFor2HourReport() {
         log.info("Создание двухчасового отчета...");
         ReportType twoHourReportType = reportTypeService.getReportTypeById(ReportTypesEnum.twohour.name());
         if (twoHourReportType.getActive()) {
@@ -113,13 +113,13 @@ public class ReportsScheduler {
                     formatToSinglePattern(endDt.toLocalTime()),
                     formatToSinglePattern(startDt.toLocalDate())
             );
-            return createAndSaveTagData(twoHourReportType, currentDt, startEndDt, name);
+            return createAndSaveReportData(twoHourReportType, currentDt, startEndDt, name);
         }
         return List.of();
     }
 
     @Transactional
-    public List<TagData> generateTagDataForDailyReport() {
+    public List<ReportData> generateReportDataForDailyReport() {
         log.info("Создание суточного отчета...");
         ReportType dailyReportType = reportTypeService.getReportTypeById(ReportTypesEnum.daily.name());
         if (dailyReportType.getActive()) {
@@ -127,13 +127,13 @@ public class ReportsScheduler {
             DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForDailyReport(currentDt);
             LocalDateTime startDt = startEndDt.getStartDateTime();
             String reportName = String.format("Суточный отчет за %s", formatToSinglePattern(startDt.toLocalDate()));
-            return createAndSaveTagData(dailyReportType, currentDt, startEndDt, reportName);
+            return createAndSaveReportData(dailyReportType, currentDt, startEndDt, reportName);
         }
         return List.of();
     }
 
     @Transactional
-    public List<TagData> generateTagDataForMonthReport() {
+    public List<ReportData> generateReportDataForMonthReport() {
         log.info("Создание месячного отчета...");
         ReportType monthReportType = reportTypeService.getReportTypeById(ReportTypesEnum.month.name());
         if (monthReportType.getActive()) {
@@ -145,13 +145,13 @@ public class ReportsScheduler {
                             YearMonth.of(
                                     startDt.getYear(),
                                     startDt.getMonthValue())));
-            return createAndSaveTagData(monthReportType, currentDt, startEndDt, reportName);
+            return createAndSaveReportData(monthReportType, currentDt, startEndDt, reportName);
         }
         return List.of();
     }
 
     @Transactional
-    public List<TagData> generateTagDataForYearReport() {
+    public List<ReportData> generateReportDataForYearReport() {
         log.info("Создание годового отчета...");
         ReportType yearReportType = reportTypeService.getReportTypeById(ReportTypesEnum.year.name());
         if (yearReportType.getActive()) {
@@ -159,13 +159,13 @@ public class ReportsScheduler {
             DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForYearReport(currentDt);
             LocalDateTime startDt = startEndDt.getStartDateTime();
             String reportName = String.format("Годовой отчет за %s год", startDt.getYear());
-            return createAndSaveTagData(yearReportType, currentDt, startEndDt, reportName);
+            return createAndSaveReportData(yearReportType, currentDt, startEndDt, reportName);
         }
         return List.of();
     }
 
     @Transactional
-    public List<TagData> generateTagDataForShiftReport(ReportType reportType, String shiftNum) {
+    public List<ReportData> generateReportDataForShiftReport(ReportType reportType, String shiftNum) {
         log.info("Создание сменного отчета...");
         LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         LinkedHashMap<String, String> startShiftReportMap = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
@@ -174,29 +174,29 @@ public class ReportsScheduler {
         LocalDateTime startDt = startEndDt.getStartDateTime();
         String reportNameStr = String.format("Сменный отчет за %s смену %s", shiftNum, formatToSinglePattern(startDt.toLocalDate()));
 
-        return createAndSaveTagData(reportType, currentDt, startEndDt, reportNameStr);
+        return createAndSaveReportData(reportType, currentDt, startEndDt, reportNameStr);
     }
 
-    private List<TagData> createAndSaveTagData(ReportType reportType, LocalDateTime currentDt, DateTimeRange startEndDt, String reportNameStr) {
-        List<TagName> tagNames = tagNameService.getAllTagNamesByReportType(reportType);
-        if(tagNames.isEmpty()){
-            throw new MissingDbDataException("There is not a single "+reportType.getId()+" tag name in DB");
+    private List<ReportData> createAndSaveReportData(ReportType reportType, LocalDateTime currentDt, DateTimeRange startEndDt, String reportName) {
+        List<Tag> tags = tagService.getAllTagsByReportType(reportType);
+        if(tags.isEmpty()){
+            throw new MissingDbDataException("Не получилось сгенерировать %s отчет. Нет ни одного тега в БД с таким типом отчета.".formatted(reportType.getName()));
         }
         LocalDateTime startDt = startEndDt.getStartDateTime();
         LocalDateTime endDt = startEndDt.getEndDateTime();
-        ReportName reportName = new ReportName(null,
-                reportNameStr,
+        Report report = new Report(null,
+                reportName,
                 currentDt,
                 startDt,
                 endDt,
                 reportType);
-        reportNameService.saveReportName(reportName);
+        reportService.saveReport(report);
 
-        List<String> tagNamesStr = tagNames.stream()
-                .map(TagName::getName)
+        List<String> tagAddresses = tags.stream()
+                .map(Tag::getAddress)
                 .toList();
-        Map<String, String> tagDataFromOPC = opcServiceRequests.getTagDataFromOpc(tagNamesStr);
-        return tagDataService.saveTagDataMapByReportName(tagDataFromOPC, reportName, currentDt);
+        Map<String, String> tagValuesFromOPC = opcServiceRequests.getTagValuesFromOpc(tagAddresses);
+        return reportDataService.saveReportValuesForReport(tagValuesFromOPC, report, currentDt);
     }
 
     // every day at hour:minute
@@ -244,7 +244,7 @@ public class ReportsScheduler {
                     .getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT));
             for (Map.Entry<String, String> entry : shiftNumToStartTime.entrySet()) {
                 ScheduledFuture<?> scheduledShiftReport = scheduleShiftReport(
-                        () -> reportsScheduler.generateTagDataForShiftReport(shiftReportType, entry.getKey()),
+                        () -> reportsScheduler.generateReportDataForShiftReport(shiftReportType, entry.getKey()),
                         entry.getValue());
                 rescheduleService.scheduledShiftReportList.add(scheduledShiftReport);
             }

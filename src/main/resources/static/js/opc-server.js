@@ -12,7 +12,8 @@ window.onload = function () {
 }
 
 function testConnection() {
-    $('#loaderTestConnection').css("display", "block")
+    let $loaderTestConnection = $('#loaderTestConnection')
+    $loaderTestConnection.css("display", "block")
     fetch("/opcService/testOpcServerConnection", {
             method: 'GET',
             headers: {
@@ -41,12 +42,13 @@ function testConnection() {
                     text: 'OPC сервер доступен'
                 })
             }
-            $('#loaderTestConnection').css("display", "none")
+            $loaderTestConnection.css("display", "none")
         })
 }
 
 function reconnect() {
-    $('#loaderReconnect').css("display", "block")
+    let $loaderReconnect = $('#loaderReconnect')
+    $loaderReconnect.css("display", "block")
     fetch("/opcService/reconnect", {
             method: 'GET',
             headers: {
@@ -60,8 +62,7 @@ function reconnect() {
                     icon: 'error',
                     text: 'Нет связи с OPC сервисом'
                 })
-            }
-            else if(response.status >= 500){
+            } else if (response.status >= 500) {
                 Swal.fire({
                     icon: 'error',
                     text: 'Не удалось переподключиться к OPC серверу'
@@ -81,47 +82,54 @@ function reconnect() {
                     text: 'Переподключение к OPC серверу прошло успешно'
                 })
             }
-            $('#loaderReconnect').css("display", "none")
+            $loaderReconnect.css("display", "none")
         })
 }
 
-function getTagValue(tagName) {
+function getTagValue(tag) {
     let tagValueField = document.getElementById("tag-value");
     tagValueField.style.display = 'none';
-    $('#loaderTagValue').css("display", "block")
+    let $loaderTagValue = $('#loaderTagValue')
+    $loaderTagValue.css("display", "block")
 
-    if (tagName === "") {
-        $('#loaderTagValue').css("display", "none")
+    if (tag === "") {
+        $loaderTagValue.css("display", "none")
         return;
     }
-    var url = "/opcService/readValue";
+    let url = "/opcService/readValue";
 
     fetch(url, {
             method: 'POST',
-            body: tagName,
+            body: tag,
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             }
         }
     )
-        .then(response => {
-            if (response.status === 503) {
-                tagValueField.style.display = 'block';
-                tagValueField.className = "alert alert-danger";
-                tagValueField.innerText = "Нет связи с OPC сервисом";
+        .then(async response => {
+            if (response.ok) {
+                return await response.text()
+            } else {
+                const error = await response.text();
+                throw new Error(error);
             }
-            return response.text()
         })
         .then(data => {
             if (data === "No data") {
                 tagValueField.style.display = 'block';
                 tagValueField.className = "alert alert-danger";
                 tagValueField.innerText = "Тег не найден";
-            } else if (data !== "OPC service is unavailable") {
+            } else {
                 tagValueField.style.display = 'block';
                 tagValueField.className = "alert alert-secondary";
                 tagValueField.innerText = data;
             }
-            $('#loaderTagValue').css("display", "none")
+            $loaderTagValue.css("display", "none")
+        })
+        .catch((error) => {
+            tagValueField.style.display = 'block';
+            tagValueField.className = "alert alert-danger";
+            tagValueField.innerText = error.message;
+            $loaderTagValue.css("display", "none")
         })
 }

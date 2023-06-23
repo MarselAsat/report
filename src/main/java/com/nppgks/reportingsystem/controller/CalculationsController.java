@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.controller;
 
-import com.nppgks.reportingsystem.db.calculations.entity.TagData;
+import com.nppgks.reportingsystem.db.calculations.entity.ReportData;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Service;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +21,11 @@ public class CalculationsController {
 
     @GetMapping(MI_3622)
     public String calcMI3622(ModelMap modelMap) {
-        List<TagData> tagDataList = MI3622Service.calcMI3622();
-        tagDataList.forEach(td -> {
+        List<ReportData> reportDataList = MI3622Service.calcMI3622();
+        reportDataList.forEach(td -> {
             Object value = ArrayParser.fromJsonToObject(td.getData());
             modelMap.put(
-                    td.getTagName().getPermanentName(), value);
+                    td.getTag().getPermanentName(), value);
         });
         return "report_pages/MI3622-report-page";
     }

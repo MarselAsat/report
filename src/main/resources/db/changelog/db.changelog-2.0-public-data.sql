@@ -6,7 +6,7 @@ VALUES ('admin', '$2a$12$uNrGCD3abAGLrDySH2TTB.17nbxrHZrWZ6ZeuW52sOWQKUniq9hlG',
        ('user', '$2a$12$C9C9MlJl/AOOp4UVYkujn.Lxld46KI4SOGXWG34tb0jBE52nKXMGa', 'ROLE_USER');
 
 --changeset alina.parfenteva:2
-INSERT INTO settings ("group", name,value)
+INSERT INTO settings ("group", name, value)
 VALUES ('report view', 'hour report columns', 'sikn,il1,il2,il3,il4,bik'),
        ('report view', 'twohour report columns', 'sikn,il1,il2,il3,il4,bik'),
        ('report view', 'daily report columns', 'sikn,il1,il2,il3,il4,bik'),

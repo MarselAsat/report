@@ -17,6 +17,10 @@ public class ReportRowDto {
     private String reportTypeName;
 
     public String combineNameAndType(){
-        return "<"+reportTypeName.substring(0, 3)+"> "+ name;
+        return "<"+getPartOfReportTypeName(reportTypeName)+"> "+ name;
+    }
+
+    public static String getPartOfReportTypeName(String reportTypeName){
+        return reportTypeName.substring(0, 3);
     }
 }
