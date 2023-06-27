@@ -2,6 +2,7 @@ package com.nppgks.reportingsystem.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nppgks.reportingsystem.constants.Regexes;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class ArrayParser {
     public static Object fromJsonToObject(String json){
         if (json == null || json.isBlank()) return null;
         try {
-            if(!json.matches("\\[\\[.+]") && !json.matches("\\[.+]")){
+            if(!json.matches(Regexes.ARRAY_2DIM_REGEX) && !json.matches(Regexes.ARRAY_REGEX)){
                 return objectMapper.readValue("\""+json+"\"", Object.class);
             }
             return objectMapper.readValue(json, Object.class);
