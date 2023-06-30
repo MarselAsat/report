@@ -2,13 +2,12 @@ package com.nppgks.reportingsystem.controller;
 
 import com.nppgks.reportingsystem.constants.Regexes;
 import com.nppgks.reportingsystem.db.calculations.entity.ReportData;
-import com.nppgks.reportingsystem.reportgeneration.acts.ActOfAcceptanceGenerator;
+import com.nppgks.reportingsystem.reportgeneration.acts.AcceptanceActGenerator;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,11 +16,11 @@ import java.util.List;
 @RequestMapping("/act")
 public class ActsController {
 
-    private final ActOfAcceptanceGenerator actOfAcceptanceGenerator;
+    private final AcceptanceActGenerator acceptanceActGenerator;
 
-    @GetMapping("/actOfAcceptanceOil/generate")
+    @GetMapping("/acceptanceOilAct/generate")
     public String getActOfAcceptance(ModelMap modelMap) {
-        List<ReportData> reportDataList = actOfAcceptanceGenerator.generateActOfAcceptance();
+        List<ReportData> reportDataList = acceptanceActGenerator.generateActOfAcceptance();
         int colNum = 1;
         Double oilVolSum = null;
         Double oilMassSum = null;
@@ -51,12 +50,15 @@ public class ActsController {
 
             modelMap.put(repData.getTag().getPermanentName(), value);
         }
-        List<String> dtStart_shiftN = List.of("20.20.2020 10.00", "20.20.2020 22:00");
-        List<String> dtEnd_shiftN = List.of("20.20.2020 22.00", "21.20.2020 10:00");
-//        modelMap.put("accAct_dtStart_shiftn", dtStart_shiftN);
-//        modelMap.put("accAct_dtEnd_shiftn", dtEnd_shiftN);
         modelMap.put("colNum", colNum);
 
-        return "report_pages/act-of-acceptance-oil";
+        return "report_pages/acceptance-oil-act";
+    }
+
+    @ResponseBody
+    @GetMapping("/acceptanceOilAct/save")
+    public String saveAcceptanceActData(@RequestParam List<String> dtStartShift, @RequestParam List<String> dtEndShift) {
+        acceptanceActGenerator.updateShiftsDateTimeInReportData(dtStartShift, dtEndShift);
+        return acceptanceActGenerator.saveInDb();
     }
 }

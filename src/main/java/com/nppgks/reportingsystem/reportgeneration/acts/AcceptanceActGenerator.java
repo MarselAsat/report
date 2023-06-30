@@ -8,7 +8,6 @@ import com.nppgks.reportingsystem.db.calculations.entity.Tag;
 import com.nppgks.reportingsystem.dto.calc.CalcTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.service.dbservices.SettingsService;
-import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportService;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +22,18 @@ import static com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter.forma
 
 @Service
 @RequiredArgsConstructor
-public class ActOfAcceptanceGenerator {
+public class AcceptanceActGenerator {
+
+    private final String SHIFT_START_DT_TAGNAME = "accAct_dtStart_shiftn";
+    private final String SHIFT_END_DT_TAGNAME = "accAct_dtEnd_shiftn";
     private final String TAG_NAME_POSTFIX = "shiftn";
     private final String TAG_ADDRESS_POSTFIX = "shift\\d";
     private final SettingsService settingsService;
-    private final ActOfAcceptanceDbService actOfAcceptanceDbService;
+    private final AcceptanceActDbService acceptanceActDbService;
     private final CalcTagService tagService;
     private final OpcServiceRequests opcServiceRequests;
     private List<ReportData> reportDataList = new ArrayList<>();
+    private List<CalcTagForOpc> tags;
     private Report report;
     private boolean isSaved = false;
 
@@ -42,16 +45,15 @@ public class ActOfAcceptanceGenerator {
                 currentDt,
                 CalcMethod.ACCEPTANCE_ACT.name());
 
-        List<CalcTagForOpc> tags = tagService.getTagsByInitialAndCalcMethod(true, CalcMethod.ACCEPTANCE_ACT.name());
+        tags = tagService.getTagsByInitialAndCalcMethod(true, CalcMethod.ACCEPTANCE_ACT.name());
         List<String> tagAddressesForOpc = new ArrayList<>();
         int numOfShiftColumns = computeNumOfShiftColumns(currentDt);
-        for(CalcTagForOpc tag: tags){
-            if(tag.address().matches(".*"+ TAG_NAME_POSTFIX)){
-                for(int i = 1; i<=numOfShiftColumns; i++){
-                    tagAddressesForOpc.add(tag.address().replace(TAG_NAME_POSTFIX,"shift"+i));
+        for (CalcTagForOpc tag : tags) {
+            if (tag.address().matches(".*" + TAG_NAME_POSTFIX)) {
+                for (int i = 1; i <= numOfShiftColumns; i++) {
+                    tagAddressesForOpc.add(tag.address().replace(TAG_NAME_POSTFIX, "shift" + i));
                 }
-            }
-            else tagAddressesForOpc.add(tag.address());
+            } else tagAddressesForOpc.add(tag.address());
         }
 
         Map<String, String> tagValuesFromOpc = opcServiceRequests.getTagValuesFromOpc(tagAddressesForOpc);
@@ -59,14 +61,65 @@ public class ActOfAcceptanceGenerator {
         return reportDataList;
     }
 
+    public void updateShiftsDateTimeInReportData(List<String> dtStartShifts, List<String> dtEndShifts) {
+        boolean startDtExists = false;
+        boolean endDtExists = false;
+        String dtStartShiftsJson = ArrayParser.fromObjectToJson(dtStartShifts);
+        String dtEndShiftsJson = ArrayParser.fromObjectToJson(dtEndShifts);
+        for (ReportData rd : reportDataList) {
+            if (rd.getTag().getPermanentName().equals(SHIFT_START_DT_TAGNAME)) {
+                if(!rd.getData().equals(dtStartShiftsJson)){
+                    isSaved = false;
+                    rd.setData(dtStartShiftsJson);
+                }
+                startDtExists = true;
+            }
+            if (rd.getTag().getPermanentName().equals(SHIFT_END_DT_TAGNAME)) {
+                if(!rd.getData().equals(dtEndShiftsJson)){
+                    isSaved = false;
+                    rd.setData(dtEndShiftsJson);
+                }
+                endDtExists = true;
+            }
+        }
+
+        Tag shiftStartDtTag = null;
+        Tag shiftEndDtTag = null;
+
+        for (CalcTagForOpc t : tags) {
+            if (t.permanentName().equals(SHIFT_START_DT_TAGNAME)) {
+                shiftStartDtTag = CalcTagForOpc.toTag(t);
+            }
+            if (t.permanentName().equals(SHIFT_END_DT_TAGNAME)) {
+                shiftEndDtTag = CalcTagForOpc.toTag(t);
+            }
+        }
+
+        if (!startDtExists) {
+            reportDataList.add(new ReportData(
+                    null,
+                    dtStartShiftsJson,
+                    shiftStartDtTag,
+                    report));
+        }
+        if (!endDtExists) {
+            reportDataList.add(new ReportData(
+                    null,
+                    dtStartShiftsJson,
+                    shiftEndDtTag,
+                    report));
+        }
+    }
+
     public String saveInDb() {
         if (isSaved) {
             return "Эти результаты уже сохранены в базу данных";
         }
-        String response = actOfAcceptanceDbService.saveReportData(reportDataList, report);
+        String response = acceptanceActDbService.saveReportData(reportDataList, report);
         isSaved = true;
         return response;
     }
+
 
     private int computeNumOfShiftColumns(LocalDateTime currentDt) {
         LinkedHashMap<String, String> shiftNumToStartTime = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
@@ -116,18 +169,16 @@ public class ActOfAcceptanceGenerator {
         for (Map.Entry<String, String> tagAddressToValue : tagValuesFromOpc.entrySet()) {
             String tagAddress = tagAddressToValue.getKey();
             String tagValue = tagAddressToValue.getValue();
-            if(tagAddress.matches(".*" + TAG_ADDRESS_POSTFIX)){
+            if (tagAddress.matches(".*" + TAG_ADDRESS_POSTFIX)) {
                 Tag tagForMultipleValues = addressToTag.get(tagAddress.replaceAll(TAG_ADDRESS_POSTFIX, TAG_NAME_POSTFIX));
-                if(tagToMultipleValues.containsKey(tagForMultipleValues)){
+                if (tagToMultipleValues.containsKey(tagForMultipleValues)) {
                     tagToMultipleValues.get(tagForMultipleValues).add(tagValue);
-                }
-                else{
+                } else {
                     List<String> values = new ArrayList<>();
                     values.add(tagValue);
                     tagToMultipleValues.put(tagForMultipleValues, values);
                 }
-            }
-            else{
+            } else {
                 reportDataList.add(
                         new ReportData(
                                 null,
@@ -137,7 +188,7 @@ public class ActOfAcceptanceGenerator {
             }
         }
 
-        for (Map.Entry<Tag, List<String>> entry : tagToMultipleValues.entrySet()){
+        for (Map.Entry<Tag, List<String>> entry : tagToMultipleValues.entrySet()) {
             String values = ArrayParser.fromObjectToJson(entry.getValue());
             reportDataList.add(
                     new ReportData(

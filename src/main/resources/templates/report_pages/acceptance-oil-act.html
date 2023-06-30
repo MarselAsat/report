@@ -3,12 +3,17 @@
 <head th:insert="fragments/header"></head>
 <head>
     <script type="text/javascript" th:src="@{/js/print-content.js}"></script>
+    <script type="text/javascript" th:src="@{/js/acceptance-oil-act.js}"></script>
+
+    <!--  sweetAlert library-->
+    <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
+    <link th:href="@{/external_libraries/sweetalert/sweetalert2.min.css}" rel="stylesheet">
 </head>
 <body>
 <div class="card">
     <div class="card-header">
         <button type="button" onclick="printContent()" class="btn btn-primary">Печать</button>
-        <button type="button" onclick="printReport()" class="btn btn-primary">Сохранить в базу данных</button>
+        <button type="button" onclick="saveInDB()" class="btn btn-primary">Сохранить в базу данных</button>
     </div>
     <div class="card-body" id="report-content">
 <!--        Здесь head внутри div, чтобы при печати отчета сохранялось форматирование bootstrap-->
@@ -95,14 +100,14 @@
                         </tr>
                         <tr>
                             <td th:each="value, i : ${accAct_dtStart_shiftn}" class="td-center-bottom">
-                                <p th:text="${accAct_dtStart_shiftn[i.index]}"></p>
-                                <p th:text="${accAct_dtEnd_shiftn[i.index]}"></p>
+                                <p th:text="${accAct_dtStart_shiftn[i.index]}" class="shifts-start-dt"></p>
+                                <p th:text="${accAct_dtEnd_shiftn[i.index]}" class="shifts-end-dt"></p>
                             </td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
                                 th:if="${accAct_dtStart_shiftn == null}"
                                 class="td-center-bottom" contenteditable='true'>
-                                <p>dd.MM.yyyy hh:mm</p>
-                                <p>dd.MM.yyyy hh:mm</p>
+                                <p class="shifts-start-dt">dd.MM.yyyy hh:mm</p>
+                                <p class="shifts-end-dt">dd.MM.yyyy hh:mm</p>
                             </td>
                         </tr>
                         </thead>

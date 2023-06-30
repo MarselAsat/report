@@ -44,6 +44,12 @@ VALUES ('accAct_acceptanceActNumber', 'WinCC_OA.acts.' || 'accAct_acceptanceActN
         TRUE, 'ACCEPTANCE_ACT'),
 
     -- показатели нефти
+       ('accAct_dtStart_shiftn', 'WinCC_OA.acts.' || 'accAct_dtStart_shiftn',
+        'Дата и время начала смены n. Вместо n будет подставлен номер смены. Например, адрес тега для первой смены будет WinCC_OA.acts.accAct_dtStart_shift1',
+        TRUE, 'ACCEPTANCE_ACT'),
+       ('accAct_dtEnd_shiftn', 'WinCC_OA.acts.' || 'accAct_dtEnd_shiftn',
+        'Дата и время окончания смены n. Вместо n будет подставлен номер смены. Например, адрес тега для первой смены будет WinCC_OA.acts.accAct_dtEnd_shift1',
+        TRUE, 'ACCEPTANCE_ACT'),
        ('accAct_prevEndVol_shiftn', 'WinCC_OA.acts.' || 'accAct_prevEndVol_shiftn',
         'Результаты измерений СИКН: объем на время окончания предыдущей сдачи (смена n). Вместо n будет подставлен номер смены. Например, адрес тега для первой смены будет WinCC_OA.acts.accAct_prevEndVol_shift1',
         TRUE, 'ACCEPTANCE_ACT'),

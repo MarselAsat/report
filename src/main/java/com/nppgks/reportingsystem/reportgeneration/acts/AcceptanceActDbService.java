@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ActOfAcceptanceDbService {
+public class AcceptanceActDbService {
     private final ReportRepository reportRepository;
     private final ReportDataRepository reportDataRepository;
 

@@ -10,12 +10,12 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ActOfAcceptanceGeneratorTest {
+class AcceptanceActGeneratorTest {
 
     @ParameterizedTest
     @MethodSource("provideArgumentsForGetCurrentShift")
     void getCurrentShift(LinkedHashMap<String, String> shiftNumToSTartTime, LocalTime currentTime, int expected) {
-        int actual = ActOfAcceptanceGenerator.getCurrentShift(currentTime, shiftNumToSTartTime);
+        int actual = AcceptanceActGenerator.getCurrentShift(currentTime, shiftNumToSTartTime);
         assertThat(actual).isEqualTo(expected);
     }
 
