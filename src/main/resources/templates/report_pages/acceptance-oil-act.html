@@ -16,7 +16,7 @@
         <button type="button" onclick="saveInDB()" class="btn btn-primary">Сохранить в базу данных</button>
     </div>
     <div class="card-body" id="report-content">
-<!--        Здесь head внутри div, чтобы при печати отчета сохранялось форматирование bootstrap-->
+        <!--        Здесь head внутри div, чтобы при печати отчета сохранялось форматирование bootstrap-->
         <head th:replace="fragments/header"></head>
         <head>
             <style>
@@ -48,6 +48,7 @@
                 table {
                     padding: 0.15rem 0.15rem !Important;
                 }
+
 
                 h6 {
                     margin-bottom: 0;
@@ -91,7 +92,11 @@
                                 th:text="${accAct_receiverProxyNumber}"></u> принял
                         нефть следующего количества и качества:</p>
                     <table id="tag-name-table" class="table table-sm table-bordered table-striped">
-                        <thead class="table-light" style="font-weight: bold">
+                        <thead class="table-light"
+                               style="
+                                font-weight: bold;
+                                text-align: center;
+                                vertical-align: middle;">
                         <tr>
                             <td rowspan="2">Показатели</td>
                             <td rowspan="2">Ед. изм.</td>
