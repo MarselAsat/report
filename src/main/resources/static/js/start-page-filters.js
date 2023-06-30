@@ -19,7 +19,7 @@ function getReportData(element, reportId) {
         return response.text();
     }).then(function (html) {
         // This is the HTML from our response as a text string
-        document.getElementById("includedContent").innerHTML = html
+        document.getElementById("report-content").innerHTML = html
     }).catch(function (err) {
         // There was an error
         console.warn('Something went wrong.', err);
