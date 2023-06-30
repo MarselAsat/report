@@ -46,8 +46,9 @@ public class ArrayParser {
     public static Object fromJsonToObject(String json){
         if (json == null || json.isBlank()) return null;
         try {
+            // если это не массив, а просто строка
             if(!json.matches(Regexes.ARRAY_2DIM_REGEX) && !json.matches(Regexes.ARRAY_REGEX)){
-                return objectMapper.readValue("\""+json+"\"", Object.class);
+                return json;
             }
             return objectMapper.readValue(json, Object.class);
         } catch (JsonProcessingException e) {
