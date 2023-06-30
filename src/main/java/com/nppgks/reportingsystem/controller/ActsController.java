@@ -42,7 +42,6 @@ public class ActsController {
                     case "accAct_grossOilMass_shiftn" -> oilMassSum = sum;
                     case "accAct_ballastMass_shiftn" -> ballastMassSum = sum;
                     case "accAct_oilNetMass_shiftn" -> oilNetMassSum = sum;
-
                 }
             }
             modelMap.put("oilVolSum", oilVolSum);
@@ -52,6 +51,10 @@ public class ActsController {
 
             modelMap.put(repData.getTag().getPermanentName(), value);
         }
+        List<String> dtStart_shiftN = List.of("20.20.2020 10.00", "20.20.2020 22:00");
+        List<String> dtEnd_shiftN = List.of("20.20.2020 22.00", "21.20.2020 10:00");
+//        modelMap.put("accAct_dtStart_shiftn", dtStart_shiftN);
+//        modelMap.put("accAct_dtEnd_shiftn", dtEnd_shiftN);
         modelMap.put("colNum", colNum);
 
         return "report_pages/act-of-acceptance-oil";
