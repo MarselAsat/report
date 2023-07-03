@@ -105,7 +105,6 @@ public class ReportViewController {
                                   @PathVariable Long reportId){
         var reportDataList = calcReportDataService.getReportDataList(reportId);
         ModelMapFiller.fillForAcceptanceAct(modelMap, reportDataList);
-        modelMap.put("printSaveButtonsRequired", false);
         return "report_pages/acceptance-oil-act";
     }
 
