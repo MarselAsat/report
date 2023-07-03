@@ -2,7 +2,6 @@
 <html lang="en">
 <head th:insert="fragments/header"></head>
 <head>
-    <script type="text/javascript" th:src="@{/js/print-content.js}"></script>
     <script type="text/javascript" th:src="@{/js/acceptance-oil-act.js}"></script>
 
     <!--  sweetAlert library-->
@@ -11,9 +10,8 @@
 </head>
 <body>
 <div class="card">
-    <div class="card-header">
-        <button type="button" onclick="printContent()" class="btn btn-primary">Печать</button>
-        <button type="button" onclick="saveInDB()" class="btn btn-primary">Сохранить в базу данных</button>
+    <div th:if="${printSaveButtonsRequired}">
+        <div class="card-header" th:replace="fragments/print-save-buttons"></div>
     </div>
     <div class="card-body" id="report-content">
         <!--        Здесь head внутри div, чтобы при печати отчета сохранялось форматирование bootstrap-->
@@ -32,7 +30,7 @@
                     padding-left: 8em;
                 }
 
-                p {
+                .report-body p {
                     margin-bottom: 0;
                 }
 
@@ -41,22 +39,21 @@
                     text-align: center;
                 }
 
-                table, body, td {
+                .report-body, .report-body table, .report-body td {
                     font-size: 0.6rem;
                 }
 
-                table {
+                .report-body table {
                     padding: 0.15rem 0.15rem !Important;
                 }
 
-
-                h6 {
+                .report-body h6 {
                     margin-bottom: 0;
                 }
             </style>
         </head>
         <body>
-        <div class="container">
+        <div class="container report-body">
             <div class="row">
                 <h6 style="text-align: center;">Акт приема-сдачи нефти №<span
                         th:text="${accAct_acceptanceActNumber}"></span>

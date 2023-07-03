@@ -1,5 +1,6 @@
 package com.nppgks.reportingsystem.controller.view;
 
+import com.nppgks.reportingsystem.constants.CalcMethod;
 import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
 import com.nppgks.reportingsystem.service.dbservices.ReportService;
 import com.nppgks.reportingsystem.service.dbservices.ReportTypeService;
@@ -36,8 +37,12 @@ public class StartPageViewController {
         if(date == null && reportTypeId == null) {
             return "redirect:/";
         }
-        else if(reportTypeId != null && reportTypeId.equals("poverki")) {
-            var calcReports = calcReportService.findReportByDate(date);
+        else if(reportTypeId != null && reportTypeId.equals("mi3622")) {
+            var calcReports = calcReportService.findReportByDateAndType(date, CalcMethod.MI_3622.name());
+            modelMap.put("reports", calcReports);
+        }
+        else if(reportTypeId != null && reportTypeId.equals("acceptanceAct")) {
+            var calcReports = calcReportService.findReportByDateAndType(date, CalcMethod.ACCEPTANCE_ACT.name());
             modelMap.put("reports", calcReports);
         }
         else if(reportTypeId != null){

@@ -1,5 +1,6 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
 
+import com.nppgks.reportingsystem.constants.CalcMethod;
 import com.nppgks.reportingsystem.db.calculations.entity.Report;
 import com.nppgks.reportingsystem.db.calculations.entity.ReportData;
 import com.nppgks.reportingsystem.db.calculations.repository.ReportRepository;
@@ -27,7 +28,7 @@ public class MI3622DbService {
             return "Нет данных для сохранения!";
         }
         LocalDate creationDate = report.getCreationDt().toLocalDate();
-        List<Report> reports = reportRepository.findByDateRange(creationDate.atStartOfDay(), creationDate.atTime(LocalTime.MAX));
+        List<Report> reports = reportRepository.findByDateRangeAndReportType(creationDate.atStartOfDay(), creationDate.atTime(LocalTime.MAX), CalcMethod.MI_3622.name());
         String response = "В базе данных успешно создан отчет поверки и сохранены результаты!";
         if (!reports.isEmpty()) {
             deleteReport(reports.get(0).getId());
