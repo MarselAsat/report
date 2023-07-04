@@ -13,7 +13,7 @@ plugins {
 }
 
 group = 'com.nppgks'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 archivesBaseName = 'reporting_system'
 
 repositories {
