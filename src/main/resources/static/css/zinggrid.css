@@ -10,3 +10,6 @@ zg-watermark{
 zing-grid{
     border-radius: 0.5rem!important;
 }
+zg-cell{
+    word-break: break-word;
+}
