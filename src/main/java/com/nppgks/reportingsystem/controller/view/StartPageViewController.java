@@ -1,10 +1,12 @@
 package com.nppgks.reportingsystem.controller.view;
 
+import com.nppgks.reportingsystem.certification.CRCGenerator;
 import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
 import com.nppgks.reportingsystem.service.dbservices.ReportService;
 import com.nppgks.reportingsystem.service.dbservices.ReportTypeService;
 import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StartPageViewController {
 
+    private final BuildProperties buildProperties;
     private final ReportTypeService reportTypeService;
     private final ReportService reportService;
 
@@ -50,6 +53,8 @@ public class StartPageViewController {
     }
 
     void setCommonParams(ModelMap model){
+        model.put("version", buildProperties.get("version"));
+        model.put("crc", CRCGenerator.getCertificationAlgorithmsCrc());
         model.put("reportTypes", reportTypeService.getAllActiveReportTypes());
     }
 }

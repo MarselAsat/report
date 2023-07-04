@@ -71,6 +71,21 @@
                 </li>
             </ul>
             <ul class="navbar-nav navbar-right dropdown-menu-end" id="userDropdown">
+                <li class="nav-item dropdown">
+                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/images/info-circle.png" alt="" width="35" height="35">
+                    </a>
+                    <ul class="dropdown-menu" style="padding: 0; border: 0">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">ReportViz</h5>
+                                <p class="card-text">Версия:
+                                    <span th:text="${version}"></span>
+                                    <br>CRC: <span th:text="${crc}"></span></p>
+                            </div>
+                        </div>
+                    </ul>
+                </li>
                 <li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link"> Войти</a>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
