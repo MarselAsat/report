@@ -12,9 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,9 +59,15 @@ public class StartPageViewController {
         return "start-page";
     }
 
+    @ResponseBody
+    @GetMapping("/info")
+    public Map<String, String> getAppInfo(){
+        String version = buildProperties.get("version");
+        return Map.of("version", version,
+                "crc", CRCGenerator.getCertificationAlgorithmsCrc(version)+"");
+    }
+
     void setCommonParams(ModelMap model){
-        model.put("version", buildProperties.get("version"));
-        model.put("crc", CRCGenerator.getCertificationAlgorithmsCrc());
         model.put("reportTypes", reportTypeService.getAllActiveReportTypes());
     }
 }

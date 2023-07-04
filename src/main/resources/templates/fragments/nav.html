@@ -4,11 +4,11 @@
 
 <head>
     <style>
-        #userDropdown li:hover ul {
-            left: auto;
-            right: 0;
-            margin-right: -10px;
-        }
+        /*#userDropdown li:hover ul {*/
+        /*    left: auto;*/
+        /*    right: 0;*/
+        /*    margin-right: -10px;*/
+        /*}*/
 
         .dropdown-submenu {
             position: relative;
@@ -22,12 +22,29 @@
     </style>
     <script>
         $(document).ready(function () {
-            $('.dropdown-submenu a.test').on("click", function (e) {
+            $('.dropdown-submenu a.submenu-main').on("click", function (e) {
                 $(this).next('ul').toggle();
                 e.stopPropagation();
                 e.preventDefault();
             });
         });
+
+        function getAppInfo(){
+            fetch("/info", {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    }
+                }
+            )
+                .then(response => {
+                    return response.json()
+                })
+                .then(json => {
+                    $("#app-version").text(json.version);
+                    $("#app-crc").text(json.crc);
+                })
+        }
     </script>
 
 </head>
@@ -46,7 +63,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="editTagsDropdown">
                         <li class="dropdown-submenu dropend">
-                            <a tabindex="-1" class="test dropdown-item dropdown-toggle">Оперативные отчеты</a>
+                            <a tabindex="-1" class="submenu-main dropdown-item dropdown-toggle">Оперативные отчеты</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" tabindex="-1"
                                        th:href="@{/admin/operative-tables-editor/tags}">Теги</a></li>
@@ -70,18 +87,18 @@
                     <a th:href="@{/admin/settings}" class="nav-link">Настройки</a>
                 </li>
             </ul>
-            <ul class="navbar-nav navbar-right dropdown-menu-end" id="userDropdown">
+            <ul class="navbar-nav navbar-right dropdown-menu-end">
                 <li class="nav-item dropdown">
-                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a onclick="getAppInfo()" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="/images/info-circle.png" alt="" width="35" height="35">
                     </a>
-                    <ul class="dropdown-menu" style="padding: 0; border: 0">
-                        <div class="card" style="width: 18rem;">
+                    <ul class="dropdown-menu dropdown-menu-end" style="padding: 0; border: 0">
+                        <div class="card" style="width: 15rem;">
                             <div class="card-body">
                                 <h5 class="card-title">ReportViz</h5>
                                 <p class="card-text">Версия:
-                                    <span th:text="${version}"></span>
-                                    <br>CRC: <span th:text="${crc}"></span></p>
+                                    <span id="app-version"></span>
+                                    <br>CRC: <span id="app-crc"></span></p>
                             </div>
                         </div>
                     </ul>

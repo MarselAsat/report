@@ -8,6 +8,6 @@ public class CrcGeneratorTest {
 
     @Test
     void generate(){
-        Assertions.assertThat(CRCGenerator.getCertificationAlgorithmsCrc()).isEqualTo(-1);
+        Assertions.assertThat(CRCGenerator.getCertificationAlgorithmsCrc("1.0.0")).isEqualTo(-1);
     }
 }

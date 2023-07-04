@@ -12,10 +12,10 @@ public class CRCGenerator {
     public static String fileName = "BOOT-INF/classes/com/nppgks/reportingsystem/certification/CertificationAlgorithms.class";
 
     @SneakyThrows
-    public static long getCertificationAlgorithmsCrc() {
+    public static long getCertificationAlgorithmsCrc(String appVersion) {
         long crc = -1;
         try {
-            String path = new java.io.File(".").getCanonicalPath() + "\\reporting_system-1.0.0.jar";
+            String path = new java.io.File(".").getCanonicalPath() + "\\reporting_system-"+appVersion+".jar";
             ZipFile file = new ZipFile(path);
             Enumeration<? extends ZipEntry> entries = file.entries();
             while (entries.hasMoreElements()) {
