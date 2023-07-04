@@ -1,5 +1,6 @@
 package com.nppgks.reportingsystem.controller.view;
 
+import com.nppgks.reportingsystem.controller.ModelMapFiller;
 import com.nppgks.reportingsystem.db.operative_reports.entity.MeteringNode;
 import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
@@ -79,9 +80,9 @@ public class ReportViewController {
         return "report_pages/year-report-page";
     }
 
-    @GetMapping(value = "/poverkiReport/{reportId}")
-    public String getPoverkiReport(ModelMap modelMap,
-                                @PathVariable Long reportId){
+    @GetMapping(value = "/mi3622Report/{reportId}")
+    public String getMi3622Report(ModelMap modelMap,
+                                  @PathVariable Long reportId){
         var report = calcReportService.findReportById(reportId);
 
         LocalDate creationDate = report.getCreationDt().toLocalDate();
@@ -97,6 +98,14 @@ public class ReportViewController {
         });
 
         return "report_pages/MI3622-report-page";
+    }
+
+    @GetMapping(value = "/acceptanceActReport/{reportId}")
+    public String getAcceptanceActReport(ModelMap modelMap,
+                                  @PathVariable Long reportId){
+        var reportDataList = calcReportDataService.getReportDataList(reportId);
+        ModelMapFiller.fillForAcceptanceAct(modelMap, reportDataList);
+        return "report_pages/acceptance-oil-act";
     }
 
     private void fillModelMapForReportView(ModelMap modelMap, Long reportId, String columnsFromSetting) {

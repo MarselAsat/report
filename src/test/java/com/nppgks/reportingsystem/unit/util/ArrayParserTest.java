@@ -52,6 +52,7 @@ public class ArrayParserTest {
         Object o = ArrayParser.fromJsonToObject("[1,2,3,4,5]");
         Object o1 = ArrayParser.fromJsonToObject("[[1,2,3],[1,2,3]]");
         Object o2 = ArrayParser.fromJsonToObject("hello");
+        Object o3 = ArrayParser.fromJsonToObject("hello \"Company\"");
         System.out.println();
     }
 }

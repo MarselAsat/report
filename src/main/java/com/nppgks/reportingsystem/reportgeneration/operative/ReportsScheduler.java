@@ -240,7 +240,7 @@ public class ReportsScheduler {
     public void scheduleAllShiftReports() {
         ReportType shiftReportType = reportTypeService.getReportTypeById(ReportTypesEnum.shift.name());
         if (shiftReportType.getActive()) {
-            LinkedHashMap<String, String> shiftNumToStartTime = moveShiftTime(settingsService
+            LinkedHashMap<String, String> shiftNumToStartTime = getShiftNumToEndTime(settingsService
                     .getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT));
             for (Map.Entry<String, String> entry : shiftNumToStartTime.entrySet()) {
                 ScheduledFuture<?> scheduledShiftReport = scheduleShiftReport(
@@ -252,7 +252,12 @@ public class ReportsScheduler {
     }
 
 
-    public LinkedHashMap<String, String> moveShiftTime(LinkedHashMap<String, String> shiftNumToStartTime){
+    // В настройках сменного отчета указывается номер смены и время ее начала.
+    // Отчет формируется в конце смены.
+    // Поэтому, этот метод сдвигает номера смен относительно времени
+    // и получается map, где key - это номер смены и value - время ее окончания
+    // Например, ("1", "10:00),("2", "22:00") превращается в ("2", "10:00"), ("1", "22:00")
+    public LinkedHashMap<String, String> getShiftNumToEndTime(LinkedHashMap<String, String> shiftNumToStartTime){
         LinkedHashMap<String, String> shiftNumToStartTimeCopy = (LinkedHashMap<String, String>) shiftNumToStartTime.clone();
         int size = shiftNumToStartTimeCopy.size();
         if(size > 1){

@@ -161,7 +161,7 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
         shiftNumToTime.put("1", "10:00");
         shiftNumToTime.put("2", "18:00");
         shiftNumToTime.put("3", "02:00");
-        LinkedHashMap<String, String> resultMap = reportsScheduler.moveShiftTime(shiftNumToTime);
+        LinkedHashMap<String, String> resultMap = reportsScheduler.getShiftNumToEndTime(shiftNumToTime);
         assertThat(resultMap).containsEntry("1", "18:00")
                 .containsEntry("2", "02:00")
                 .containsEntry("3", "10:00")
@@ -170,14 +170,14 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
         LinkedHashMap<String, String> shiftNumToTime1 = new LinkedHashMap<>();
         shiftNumToTime1.put("1", "10:00");
         shiftNumToTime1.put("2", "22:00");
-        LinkedHashMap<String, String> resultMap1 = reportsScheduler.moveShiftTime(shiftNumToTime1);
+        LinkedHashMap<String, String> resultMap1 = reportsScheduler.getShiftNumToEndTime(shiftNumToTime1);
         assertThat(resultMap1).containsEntry("1", "22:00")
                 .containsEntry("2", "10:00")
                 .hasSize(2);
 
         LinkedHashMap<String, String> shiftNumToTime2 = new LinkedHashMap<>();
         shiftNumToTime2.put("1", "10:00");
-        LinkedHashMap<String, String> resultMap2 = reportsScheduler.moveShiftTime(shiftNumToTime2);
+        LinkedHashMap<String, String> resultMap2 = reportsScheduler.getShiftNumToEndTime(shiftNumToTime2);
         assertThat(resultMap2).containsEntry("1", "10:00")
                 .hasSize(1);
 
@@ -186,7 +186,7 @@ public class ReportsSchedulerIT extends IntegrationBaseTest {
         shiftNumToTime3.put("2", "18:00");
         shiftNumToTime3.put("3", "02:00");
         shiftNumToTime3.put("4", "05:00");
-        LinkedHashMap<String, String> resultMap3 = reportsScheduler.moveShiftTime(shiftNumToTime3);
+        LinkedHashMap<String, String> resultMap3 = reportsScheduler.getShiftNumToEndTime(shiftNumToTime3);
         assertThat(resultMap3).containsEntry("1", "18:00")
                 .containsEntry("2", "02:00")
                 .containsEntry("3", "05:00")

@@ -27,6 +27,7 @@ public class CalculationsController {
             modelMap.put(
                     td.getTag().getPermanentName(), value);
         });
+        modelMap.put("printSaveButtonsRequired", true);
         return "report_pages/MI3622-report-page";
     }
 
