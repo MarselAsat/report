@@ -1,7 +1,6 @@
 package com.nppgks.reportingsystem.unit.certification;
 
 import com.nppgks.reportingsystem.certification.CertificationAlgorithms;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,13 +10,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class CertificationAlgorithmsTest {
 
     @ParameterizedTest
     @MethodSource("provideArgumentsForDensity15")
     void calculateDensity15(String product, double p, double temp, double overpressure, double expected) {
         double actual = CertificationAlgorithms.calculateDensity15(product, p, temp, overpressure);
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.01));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.01));
     }
 
 //    @ParameterizedTest
@@ -40,33 +41,67 @@ class CertificationAlgorithmsTest {
         );
     }
 
+    @Test
+    void calculateMass_Net(){
+        double M = 100;
+        double W_B = 5;
+        double W_MP = 2;
+        double W_XC = 2;
+
+        double actual = CertificationAlgorithms.calculateMass_Net(M, W_B, W_MP, W_XC);
+        double expected = 91;
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+    }
+
+    @Test
+    void calculateMass_ballast(){
+        double M = 100;
+        double W_B = 5;
+        double W_MP = 2;
+        double W_XC = 2;
+
+        double actual = CertificationAlgorithms.calculateMass_ballast(M, W_B, W_MP, W_XC);
+        double expected = 9;
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+    }
+
     @ParameterizedTest
-    @MethodSource("provideArgumentsForCTLandCPL")
+    @MethodSource("provideArgumentsForCTL")
     void calculateCTL(String product, double p15, double temp, double expected) {
         double actual = CertificationAlgorithms.calculateCTL(product, p15, temp);
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
     @ParameterizedTest
-    @MethodSource("provideArgumentsForCTLandCPL")
+    @MethodSource("provideArgumentsForCPL")
     void calculateCPL(double p15, double temp, double overpressure, double expected) {
         double actual = CertificationAlgorithms.calculateCPL(p15, temp, overpressure);
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
-    private static Stream<Arguments> provideArgumentsForCTLandCPL() {
+    private static Stream<Arguments> provideArgumentsForCTL() {
         return Stream.of(
-                Arguments.of(611.2, 15, 1),
-                Arguments.of(1163.7999, 15, 1),
-                Arguments.of(887.5, 15, 1)
+                Arguments.of("нефть", 611.2, 15, 1),
+                Arguments.of("нефть", 1163.7999, 15, 1),
+                Arguments.of("нефть", 887.5, 15, 1)
         );
     }
+
+    private static Stream<Arguments> provideArgumentsForCPL() {
+        return Stream.of(
+                Arguments.of(611.2, 15, 0, 1),
+                Arguments.of(1163.7999, 15, 0, 1),
+                Arguments.of(887.5, 15, 0, 1)
+        );
+    }
+
+
 
     @ParameterizedTest
     @MethodSource("provideArgumentsForBeta")
     void calculateBeta(String product, double p15, double expected) {
         double actual = CertificationAlgorithms.calculateBeta(product, p15);
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
     private static Stream<Arguments> provideArgumentsForBeta() {
@@ -81,7 +116,7 @@ class CertificationAlgorithmsTest {
     @MethodSource("provideArgumentsForGamma")
     void calculateGamma(double p15, double temp, double expected) {
         double actual = CertificationAlgorithms.calculateGamma(p15, temp);
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
     private static Stream<Arguments> provideArgumentsForGamma() {
@@ -96,14 +131,14 @@ class CertificationAlgorithmsTest {
     void calculateWaterFraction() {
         double actual = CertificationAlgorithms.calculateWaterFraction(0.5, 1000, 850.5);
         double expected = 0.5879;
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.015));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.015));
     }
 
     @Test
     void calculateChlorideSaltsFraction() {
         double actual = CertificationAlgorithms.calculateChlorideSaltsFraction(100, 850.5);
         double expected = 0.0118;
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.015));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.015));
     }
 
     @Test
@@ -121,7 +156,7 @@ class CertificationAlgorithmsTest {
 
         for (int i = 0; i < M_pu_ij.length; i++) {
             for (int j = 0; j < M_pu_ij[0].length; j++) {
-                Assertions.assertThat(actual[i][j]).isCloseTo(expected[i][j], Offset.offset(0.005));
+                assertThat(actual[i][j]).isCloseTo(expected[i][j], Offset.offset(0.005));
             }
         }
     }
@@ -131,7 +166,7 @@ class CertificationAlgorithmsTest {
         double[] Q_j = new double[]{450, 560, 345};
         double actual = CertificationAlgorithms.calculateQ_min(Q_j);
         double expected = 345;
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
     @Test
@@ -139,7 +174,7 @@ class CertificationAlgorithmsTest {
         double[] Q_j = new double[]{450, 560, 345};
         double actual = CertificationAlgorithms.calculateQ_max(Q_j);
         double expected = 560;
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
     @Test
@@ -156,7 +191,7 @@ class CertificationAlgorithmsTest {
 
         for (int i = 0; i < N_ij.length; i++) {
             for (int j = 0; j < N_ij[0].length; j++) {
-                Assertions.assertThat(actual[i][j]).isCloseTo(expected[i][j], Offset.offset(0.005));
+                assertThat(actual[i][j]).isCloseTo(expected[i][j], Offset.offset(0.005));
             }
         }
     }
@@ -179,7 +214,7 @@ class CertificationAlgorithmsTest {
 
         for (int i = 0; i < N_ij1.length; i++) {
             for (int j = 0; j < N_ij1[0].length; j++) {
-                Assertions.assertThat(actual[i][j]).isCloseTo(expected[i][j], Offset.offset(0.005));
+                assertThat(actual[i][j]).isCloseTo(expected[i][j], Offset.offset(0.005));
             }
         }
     }
@@ -196,7 +231,7 @@ class CertificationAlgorithmsTest {
         double[] expected = new double[]{103729.4115, 78850.8195, 46542.857};
 
         for (int j = 0; j < M_e_ij[0].length; j++) {
-            Assertions.assertThat(actual[j]).isCloseTo(expected[j], Offset.offset(0.005));
+            assertThat(actual[j]).isCloseTo(expected[j], Offset.offset(0.005));
         }
     }
 
@@ -212,7 +247,7 @@ class CertificationAlgorithmsTest {
         double actual = CertificationAlgorithms.calculateK_M(M_pu_ij, M_ij, K_m_yct);
         double expected = 225.7;
 
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
     @Test
@@ -227,7 +262,7 @@ class CertificationAlgorithmsTest {
         double actual = CertificationAlgorithms.calculateMF(M_pu_ij, M_ij, MF_yct);
         double expected = 1;
 
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
     @Test
@@ -240,7 +275,7 @@ class CertificationAlgorithmsTest {
         double[] expected = new double[]{0.070746, 0.0070714, 0.0141435};
 
         for (int j = 0; j < MF_ij[0].length; j++) {
-            Assertions.assertThat(actual[j]).isCloseTo(expected[j], Offset.offset(0.005));
+            assertThat(actual[j]).isCloseTo(expected[j], Offset.offset(0.005));
         }
     }
 
@@ -252,7 +287,7 @@ class CertificationAlgorithmsTest {
         double[] expected = new double[]{0.05002, 0.00500023, 0.009998};
 
         for (int j = 0; j < S_j.length; j++) {
-            Assertions.assertThat(actual[j]).isCloseTo(expected[j], Offset.offset(0.005));
+            assertThat(actual[j]).isCloseTo(expected[j], Offset.offset(0.005));
         }
     }
 
@@ -263,7 +298,7 @@ class CertificationAlgorithmsTest {
         double actual = CertificationAlgorithms.calculateEps(t095_j, S0_j);
         double expected = 0.00514;
 
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
     @Test
@@ -274,20 +309,20 @@ class CertificationAlgorithmsTest {
         double actual = CertificationAlgorithms.calculateDelta(eps, theta, S0, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01);
         double expected = 0.09093;
 
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
     @Test
     void calculateQ_mass() {
         double actual = CertificationAlgorithms.calculateQ_mass(1000.001, 850.5001);
         double expected = 850.5001;
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 
     @Test
     void calculateKinematicViscosity() {
         double actual = CertificationAlgorithms.calculateKinematicViscosity(50.00001, 850.5001);
         double expected = 58.789;
-        Assertions.assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
+        assertThat(actual).isCloseTo(expected, Offset.offset(0.005));
     }
 }

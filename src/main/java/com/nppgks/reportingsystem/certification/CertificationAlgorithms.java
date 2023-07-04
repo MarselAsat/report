@@ -31,6 +31,21 @@ public class CertificationAlgorithms {
     }
 
     /**
+     * Вычисление массы нетто нефти
+     */
+    public static double calculateMass_Net(double M, double W_B, double W_MP, double W_XC) {
+        return M * (1 - (W_B + W_MP + W_XC) / 100);
+    }
+
+    /**
+     * Вычисление массы балласта
+     */
+    public static double calculateMass_ballast(double M, double W_B, double W_MP, double W_XC) {
+        return M * (W_B + W_MP + W_XC) / 100;
+    }
+
+
+    /**
      * Вычисление поправочного коэффициента CTL,
      * учитывающий влияние температуры нефти/нефтепродуктов на их объем
      */
