@@ -2,7 +2,7 @@ package com.nppgks.reportingsystem.integration.reportgeneration.calculations.mi3
 
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ServiceIT;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Service;
+import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Generator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -12,18 +12,18 @@ import org.springframework.test.context.jdbc.Sql;
 @ServiceIT
 @ExtendWith(MockitoExtension.class)
 @Sql({"classpath:sql/calculation/calc-MI3622.sql"})
-class MI3622ServiceTest extends IntegrationBaseTest {
+class MI3622GeneratorTest extends IntegrationBaseTest {
 
-    private final MI3622Service MI3622Service;
+    private final MI3622Generator MI3622Generator;
 
     @Autowired
-    MI3622ServiceTest(MI3622Service MI3622Service) {
-        this.MI3622Service = MI3622Service;
+    MI3622GeneratorTest(MI3622Generator MI3622Generator) {
+        this.MI3622Generator = MI3622Generator;
     }
 
     @Test
     //@Disabled
     void calcMI3622() {
-        MI3622Service.calcMI3622();
+        MI3622Generator.generateMI3622Report();
     }
 }

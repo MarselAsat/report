@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MI3622Service {
+public class MI3622Generator {
 
     private final OpcServiceRequests opcServiceRequests;
     private final CalcTagService calcTagService;
@@ -31,7 +31,7 @@ public class MI3622Service {
     private List<ReportData> reportDataList = new ArrayList<>();
     private Report report;
 
-    public List<ReportData> calcMI3622() {
+    public List<ReportData> generateMI3622Report() {
         List<CalcTagForOpc> initialTags = calcTagService.getTagsByInitialAndCalcMethod(true, CalcMethod.MI_3622.name());
         Map<String, String> initialTagsMap = createTagsMap(initialTags);
 

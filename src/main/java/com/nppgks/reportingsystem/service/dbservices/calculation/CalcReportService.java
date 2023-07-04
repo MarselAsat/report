@@ -22,13 +22,14 @@ public class CalcReportService {
                 () -> new MissingDbDataException("В таблице calculations.report нет отчета с id = " + id));
     }
 
-    public List<Report> findReportByDate(LocalDate date) {
+    public List<Report> findReportByDateAndType(LocalDate date, String reportType) {
         if (date == null) {
-            return reportRepository.findBy();
+            return reportRepository.findByReportType(reportType);
         } else {
-            return reportRepository.findByDateRange(
+            return reportRepository.findByDateRangeAndReportType(
                     LocalDateTime.of(date, LocalTime.MIN),
-                    LocalDateTime.of(date, LocalTime.MAX));
+                    LocalDateTime.of(date, LocalTime.MAX),
+                    reportType);
         }
 
     }

@@ -1,5 +1,6 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data;
 
+import com.nppgks.reportingsystem.constants.Regexes;
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import com.nppgks.reportingsystem.exception.MissingOpcTagException;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
@@ -21,10 +22,6 @@ import static java.lang.Integer.parseInt;
 
 @Slf4j
 public class DataConverter {
-
-    private static final String ARRAY_REGEX = "\\[.*]";
-    private static final String ARRAY_2DIM_REGEX = "\\[\\[.*]]";
-
     private static final String CALCULATE_METHOD_PREFIX = "calculate";
 
     /**
@@ -181,7 +178,7 @@ public class DataConverter {
             } else {
                 continue;
             }
-            if (value.matches(ARRAY_REGEX) && !value.matches(ARRAY_2DIM_REGEX) && dfType.equals(double[][].class)) {
+            if (value.matches(Regexes.ARRAY_REGEX) && !value.matches(Regexes.ARRAY_2DIM_REGEX) && dfType.equals(double[][].class)) {
                 double[] valueArr = toArray(value);
                 if (valueArr.length == pointsCount * measureCount) {
                     double[][] array2D = fromArrayTo2DArray(valueArr, pointsCount, measureCount);

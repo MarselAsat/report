@@ -12,6 +12,8 @@ databaseChangeLog:
   - include:
       - file: db/changelog/db.changelog-2.2-calculations-data.sql
   - include:
-      - file: db/changelog/db.changelog-3.0-report-row-data.sql
+      - file: db/changelog/db.changelog-3.0-report_row-data.sql
   - include:
       - file: db/changelog/db.changelog-4.0-create-persistent_logins-table.sql
+  - include:
+      - file: db/changelog/db.changelog-5.0-act-of-acceptance-tags.sql

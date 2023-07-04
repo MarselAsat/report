@@ -13,13 +13,15 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     @Query("""
             FROM calc_report
             WHERE creationDt BETWEEN :startDt AND :endDt
+            AND calcMethod = :reportType
             ORDER BY creationDt desc
             """)
-    List<Report> findByDateRange(LocalDateTime startDt, LocalDateTime endDt);
+    List<Report> findByDateRangeAndReportType(LocalDateTime startDt, LocalDateTime endDt, String reportType);
 
     @Query("""
             FROM calc_report
+            WHERE calcMethod = :reportType
             ORDER BY creationDt desc
             """)
-    List<Report> findBy();
+    List<Report> findByReportType(String reportType);
 }
