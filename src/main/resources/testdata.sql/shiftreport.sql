@@ -1,4 +1,4 @@
-SET search_path TO operative_reports;
+SET search_path TO scheduled_reports;
 
 insert into operative_reports.report_row (id, name, "order", report_type_id)
 values (23, 'Средний массовый расход', 11,'shift'),

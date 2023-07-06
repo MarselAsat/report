@@ -1,14 +1,14 @@
 package com.nppgks.reportingsystem.reportgeneration.acts;
 
-import com.nppgks.reportingsystem.constants.CalcMethod;
+import com.nppgks.reportingsystem.constants.ManualReportTypes;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
-import com.nppgks.reportingsystem.db.calculations.entity.Report;
-import com.nppgks.reportingsystem.db.calculations.entity.ReportData;
-import com.nppgks.reportingsystem.db.calculations.entity.Tag;
-import com.nppgks.reportingsystem.dto.calc.CalcTagForOpc;
+import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
+import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
+import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
+import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.service.dbservices.SettingsService;
-import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagService;
+import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,16 +24,16 @@ import static com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter.forma
 @RequiredArgsConstructor
 public class AcceptanceActGenerator {
 
-    private final String SHIFT_START_DT_TAGNAME = "accAct_dtStart_shiftn";
-    private final String SHIFT_END_DT_TAGNAME = "accAct_dtEnd_shiftn";
+    private final String SHIFT_START_DT_TAGNAME = "dtStart_shiftn";
+    private final String SHIFT_END_DT_TAGNAME = "dtEnd_shiftn";
     private final String TAG_NAME_POSTFIX = "shiftn";
     private final String TAG_ADDRESS_POSTFIX = "shift\\d";
     private final SettingsService settingsService;
     private final AcceptanceActDbService acceptanceActDbService;
-    private final CalcTagService tagService;
+    private final ManualTagService tagService;
     private final OpcServiceRequests opcServiceRequests;
     private List<ReportData> reportDataList = new ArrayList<>();
-    private List<CalcTagForOpc> tags;
+    private List<ManualTagForOpc> tags;
     private Report report;
     private boolean isSaved = false;
 
@@ -43,12 +43,12 @@ public class AcceptanceActGenerator {
                 null,
                 "Акт приема-сдачи нефти от %s".formatted(formatToSinglePattern(currentDt)),
                 currentDt,
-                CalcMethod.ACCEPTANCE_ACT.name());
+                ManualReportTypes.ACCEPTANCE_ACT.name());
 
-        tags = tagService.getTagsByInitialAndCalcMethod(true, CalcMethod.ACCEPTANCE_ACT.name());
+        tags = tagService.getTagsByInitialAndReportType(true, ManualReportTypes.ACCEPTANCE_ACT.name());
         List<String> tagAddressesForOpc = new ArrayList<>();
         int numOfShiftColumns = computeNumOfShiftColumns(currentDt);
-        for (CalcTagForOpc tag : tags) {
+        for (ManualTagForOpc tag : tags) {
             if (tag.address().matches(".*" + TAG_NAME_POSTFIX)) {
                 for (int i = 1; i <= numOfShiftColumns; i++) {
                     tagAddressesForOpc.add(tag.address().replace(TAG_NAME_POSTFIX, "shift" + i));
@@ -86,12 +86,12 @@ public class AcceptanceActGenerator {
         Tag shiftStartDtTag = null;
         Tag shiftEndDtTag = null;
 
-        for (CalcTagForOpc t : tags) {
+        for (ManualTagForOpc t : tags) {
             if (t.permanentName().equals(SHIFT_START_DT_TAGNAME)) {
-                shiftStartDtTag = CalcTagForOpc.toTag(t);
+                shiftStartDtTag = ManualTagForOpc.toTag(t);
             }
             if (t.permanentName().equals(SHIFT_END_DT_TAGNAME)) {
-                shiftEndDtTag = CalcTagForOpc.toTag(t);
+                shiftEndDtTag = ManualTagForOpc.toTag(t);
             }
         }
 
@@ -105,7 +105,7 @@ public class AcceptanceActGenerator {
         if (!endDtExists) {
             reportDataList.add(new ReportData(
                     null,
-                    dtStartShiftsJson,
+                    dtEndShiftsJson,
                     shiftEndDtTag,
                     report));
         }
@@ -159,9 +159,9 @@ public class AcceptanceActGenerator {
         return currentShift;
     }
 
-    private List<ReportData> convertTagValuesToReportData(Map<String, String> tagValuesFromOpc, List<CalcTagForOpc> tags, Report report) {
+    private List<ReportData> convertTagValuesToReportData(Map<String, String> tagValuesFromOpc, List<ManualTagForOpc> tags, Report report) {
         Map<String, Tag> addressToTag = tags.stream()
-                .map(t -> Map.entry(t.address(), CalcTagForOpc.toTag(t)))
+                .map(t -> Map.entry(t.address(), ManualTagForOpc.toTag(t)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1));
 
         Map<Tag, List<String>> tagToMultipleValues = new HashMap<>();

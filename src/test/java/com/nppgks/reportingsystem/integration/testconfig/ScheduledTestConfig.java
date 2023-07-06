@@ -2,7 +2,7 @@ package com.nppgks.reportingsystem.integration.testconfig;
 
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportType;
 import com.nppgks.reportingsystem.service.dbservices.ReportTypeService;
 import com.nppgks.reportingsystem.service.dbservices.SettingsService;
 import org.springframework.boot.test.context.TestConfiguration;

@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.controller;
 
 import com.nppgks.reportingsystem.constants.Regexes;
-import com.nppgks.reportingsystem.db.calculations.entity.ReportData;
+import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import org.springframework.ui.ModelMap;
 

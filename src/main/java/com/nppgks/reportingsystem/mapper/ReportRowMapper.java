@@ -1,8 +1,8 @@
 package com.nppgks.reportingsystem.mapper;
 
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportRow;
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
-import com.nppgks.reportingsystem.db.operative_reports.repository.ReportTypeRepository;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportRow;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportType;
+import com.nppgks.reportingsystem.db.scheduled_reports.repository.ReportTypeRepository;
 import com.nppgks.reportingsystem.dto.ReportRowDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

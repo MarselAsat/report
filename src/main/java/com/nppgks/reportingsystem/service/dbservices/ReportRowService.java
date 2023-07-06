@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.service.dbservices;
 
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportRow;
-import com.nppgks.reportingsystem.db.operative_reports.repository.ReportRowRepository;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportRow;
+import com.nppgks.reportingsystem.db.scheduled_reports.repository.ReportRowRepository;
 import com.nppgks.reportingsystem.dto.ReportRowDto;
 import com.nppgks.reportingsystem.mapper.ReportRowMapper;
 import lombok.RequiredArgsConstructor;

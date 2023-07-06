@@ -1,11 +1,11 @@
 package com.nppgks.reportingsystem.service.dbservices;
 
-import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportData;
-import com.nppgks.reportingsystem.db.operative_reports.entity.Tag;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.Report;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportData;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.Tag;
 import com.nppgks.reportingsystem.dto.*;
-import com.nppgks.reportingsystem.db.operative_reports.repository.ReportDataRepository;
-import com.nppgks.reportingsystem.db.operative_reports.repository.TagRepository;
+import com.nppgks.reportingsystem.db.scheduled_reports.repository.ReportDataRepository;
+import com.nppgks.reportingsystem.db.scheduled_reports.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,24 +27,6 @@ public class ReportDataServiceImpl implements ReportDataService {
     public ReportDataServiceImpl(ReportDataRepository reportDataRepository, TagRepository tagRepository) {
         this.reportDataRepository = reportDataRepository;
         this.tagRepository = tagRepository;
-    }
-
-    @Override
-    public List<ReportDataDto> getDataByReport(Long reportId) {
-        List<ReportData> resultList = reportDataRepository.findByReportId(reportId);
-        return resultList.stream()
-                .map(ReportDataDto::fromTagData) // в fromTagData происходит изменение времени в зависимости от часового пояса
-                .toList();
-    }
-
-    @Override
-    public List<ReportData> findAll() {
-        return reportDataRepository.findAll();
-    }
-
-    @Override
-    public ReportData saveReportData(ReportData reportData) {
-        return reportDataRepository.save(reportData);
     }
 
     @Override

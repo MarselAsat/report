@@ -11,7 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 @ServiceIT
 @ExtendWith(MockitoExtension.class)
-@Sql({"classpath:sql/calculation/calc-MI3622.sql"})
+@Sql({"classpath:sql/manual_reports/MI3622.sql"})
 class MI3622GeneratorTest extends IntegrationBaseTest {
 
     private final MI3622Generator MI3622Generator;
@@ -23,7 +23,7 @@ class MI3622GeneratorTest extends IntegrationBaseTest {
 
     @Test
     //@Disabled
-    void calcMI3622() {
+    void calcualteMI3622() {
         MI3622Generator.generateMI3622Report();
     }
 }

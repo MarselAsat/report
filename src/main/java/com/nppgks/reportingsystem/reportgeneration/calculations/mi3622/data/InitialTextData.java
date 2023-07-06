@@ -9,8 +9,8 @@ public class InitialTextData {
     private String CPM_name;
     private String CPM_number;
     private String CPM_owner;
-    private String calc_method;
-    private String calc_place;
+    private String poverka_method;
+    private String poverka_place;
     private String[] PR_name;
     private String[] PR_number;
     private String check_leakproofness;

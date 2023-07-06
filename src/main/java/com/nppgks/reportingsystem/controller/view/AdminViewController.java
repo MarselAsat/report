@@ -2,8 +2,8 @@ package com.nppgks.reportingsystem.controller.view;
 
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
-import com.nppgks.reportingsystem.db.operative_reports.entity.MeteringNode;
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.MeteringNode;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportType;
 import com.nppgks.reportingsystem.dto.ReportRowDto;
 import com.nppgks.reportingsystem.service.dbservices.*;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +24,12 @@ public class AdminViewController {
     private final MeteringNodeService meteringNodeService;
     private final AllTagsService allTagsService;
 
-    @GetMapping("/calc-tags-editor")
-    public String getAllCalcTags() {
-        return "editors/calc-tags-editor";
+    @GetMapping("/manual-tags-editor")
+    public String getManualTagsEditor() {
+        return "editors/manual-tags-editor";
     }
 
-    @GetMapping("/operative-tables-editor/tags")
+    @GetMapping("/scheduled-tables-editor/tags")
     public String tagEditorView(ModelMap modelMap) {
         modelMap.put("reportTypes",
                 reportTypeService.getAllActiveReportTypes()
@@ -48,7 +48,7 @@ public class AdminViewController {
                         .toList());
         return "editors/tags-editor";
     }
-    @GetMapping("/operative-tables-editor/report-rows")
+    @GetMapping("/scheduled-tables-editor/report-rows")
     public String reportRowEditorView(ModelMap modelMap) {
         modelMap.put("reportTypes", reportTypeService.getAllActiveReportTypes()
                 .stream()
@@ -57,12 +57,12 @@ public class AdminViewController {
         return "editors/report-rows-editor";
     }
 
-    @GetMapping("/operative-tables-editor/report-types")
+    @GetMapping("/scheduled-tables-editor/report-types")
     public String reportTypeEditorView() {
         return "editors/report-types-editor";
     }
 
-    @GetMapping("/operative-tables-editor/metering-nodes")
+    @GetMapping("/scheduled-tables-editor/metering-nodes")
     public String meteringNodeEditorView() {
         return "editors/metering-nodes-editor";
     }
@@ -95,7 +95,7 @@ public class AdminViewController {
 
     @GetMapping("/opcServer")
     public String getOpcServerPage(ModelMap modelMap){
-        modelMap.put("tags", allTagsService.getAllOperativeAndCalculationTags());
+        modelMap.put("tags", allTagsService.getAllScheduledAndManualTags());
         return "opc-server";
     }
 }

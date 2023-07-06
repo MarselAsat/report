@@ -1,9 +1,9 @@
 package com.nppgks.reportingsystem.reportgeneration.acts;
 
-import com.nppgks.reportingsystem.db.calculations.entity.Report;
-import com.nppgks.reportingsystem.db.calculations.entity.ReportData;
-import com.nppgks.reportingsystem.db.calculations.repository.ReportDataRepository;
-import com.nppgks.reportingsystem.db.calculations.repository.ReportRepository;
+import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
+import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
+import com.nppgks.reportingsystem.db.manual_reports.repository.ReportDataRepository;
+import com.nppgks.reportingsystem.db.manual_reports.repository.ReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

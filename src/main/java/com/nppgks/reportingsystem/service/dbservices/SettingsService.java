@@ -4,7 +4,7 @@ import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
 import com.nppgks.reportingsystem.db.common.entity.Settings;
 import com.nppgks.reportingsystem.db.common.repository.SettingsRepository;
-import com.nppgks.reportingsystem.reportgeneration.operative.RescheduleService;
+import com.nppgks.reportingsystem.reportgeneration.scheduled_reports.RescheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

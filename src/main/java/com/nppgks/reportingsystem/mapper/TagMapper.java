@@ -1,12 +1,12 @@
 package com.nppgks.reportingsystem.mapper;
 
-import com.nppgks.reportingsystem.db.operative_reports.entity.MeteringNode;
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportRow;
-import com.nppgks.reportingsystem.db.operative_reports.entity.Tag;
-import com.nppgks.reportingsystem.db.operative_reports.repository.MeteringNodeRepository;
-import com.nppgks.reportingsystem.db.operative_reports.repository.ReportTypeRepository;
-import com.nppgks.reportingsystem.db.operative_reports.repository.ReportRowRepository;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.MeteringNode;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportType;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportRow;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.Tag;
+import com.nppgks.reportingsystem.db.scheduled_reports.repository.MeteringNodeRepository;
+import com.nppgks.reportingsystem.db.scheduled_reports.repository.ReportTypeRepository;
+import com.nppgks.reportingsystem.db.scheduled_reports.repository.ReportRowRepository;
 import com.nppgks.reportingsystem.dto.ReportRowDto;
 import com.nppgks.reportingsystem.dto.TagDto;
 import com.nppgks.reportingsystem.exception.TableDataMismatchException;

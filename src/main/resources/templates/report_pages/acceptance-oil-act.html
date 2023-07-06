@@ -56,8 +56,8 @@
         <div class="container report-body">
             <div class="row">
                 <h6 style="text-align: center;">Акт приема-сдачи нефти №<span
-                        th:text="${accAct_acceptanceActNumber}"></span>
-                    от <span th:text="${accAct_acceptanceActDate}"></span>г. (сдача по СИКН)
+                        th:text="${acceptanceActNumber}"></span>
+                    от <span th:text="${acceptanceActDate}"></span>г. (сдача по СИКН)
                 </h6>
                 <p style="text-align: center;" class="mb-3">(для оформления валовых объемов нефти)</p>
                 <div class="col-sm-12">
@@ -67,26 +67,26 @@
                                 Пункт приема-сдачи нефти:
                             </div>
                             <div class="col">
-                                <u th:text="${accAct_oilAcceptancePoint}"></u>
+                                <u th:text="${oilAcceptancePoint}"></u>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6 first-col"> Предприятие (владелец) ПСП:</div>
-                            <div class="col"><u th:text="${accAct_pointOwner}"></u></div>
+                            <div class="col"><u th:text="${pointOwner}"></u></div>
                         </div>
                         <div class="row">
                             <div class="col-6 first-col">СИКН:</div>
-                            <div class="col"><u th:text="${accAct_SIKN}"></u></div>
+                            <div class="col"><u th:text="${SIKN}"></u></div>
                         </div>
                     </div>
-                    <p>Уполномоченный представитель сдающей стороны <u th:text="${accAct_deliverOrg}"></u>, <u
-                            th:text="${accAct_deliverNameTitle}"></u> (Фамилия И.О.)
-                        действующий на основании доверенности от <u th:text="${accAct_deliverProxyDate}"></u> №<u
-                                th:text="${accAct_deliverProxyNumber}"></u> сдал, а
-                        Уполномоченный представитель принимающей стороны <u th:text="${accAct_receiverOrg}"></u>, <u
-                                th:text="${accAct_receiverNameTitle}"></u> (Фамилия И.О.)
-                        действующий на основании доверенности от <u th:text="${accAct_receiverProxyDate}"></u> №<u
-                                th:text="${accAct_receiverProxyNumber}"></u> принял
+                    <p>Уполномоченный представитель сдающей стороны <u th:text="${deliverOrg}"></u>, <u
+                            th:text="${deliverNameTitle}"></u> (Фамилия И.О.)
+                        действующий на основании доверенности от <u th:text="${deliverProxyDate}"></u> №<u
+                                th:text="${deliverProxyNumber}"></u> сдал, а
+                        Уполномоченный представитель принимающей стороны <u th:text="${receiverOrg}"></u>, <u
+                                th:text="${receiverNameTitle}"></u> (Фамилия И.О.)
+                        действующий на основании доверенности от <u th:text="${receiverProxyDate}"></u> №<u
+                                th:text="${receiverProxyNumber}"></u> принял
                         нефть следующего количества и качества:</p>
                     <table id="tag-name-table" class="table table-sm table-bordered table-striped">
                         <thead class="table-light"
@@ -101,12 +101,12 @@
                             <td rowspan="2">Итого за сутки</td>
                         </tr>
                         <tr>
-                            <td th:each="value, i : ${accAct_dtStart_shiftn}" class="td-center-bottom">
-                                <p th:text="${accAct_dtStart_shiftn[i.index]}" class="shifts-start-dt"></p>
-                                <p th:text="${accAct_dtEnd_shiftn[i.index]}" class="shifts-end-dt"></p>
+                            <td th:each="value, i : ${dtStart_shiftn}" class="td-center-bottom">
+                                <p th:text="${dtStart_shiftn[i.index]}" class="shifts-start-dt"></p>
+                                <p th:text="${dtEnd_shiftn[i.index]}" class="shifts-end-dt"></p>
                             </td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_dtStart_shiftn == null}"
+                                th:if="${dtStart_shiftn == null}"
                                 class="td-center-bottom" contenteditable='true'>
                                 <p class="shifts-start-dt">dd.MM.yyyy hh:mm</p>
                                 <p class="shifts-end-dt">dd.MM.yyyy hh:mm</p>
@@ -121,10 +121,10 @@
                                 <p class="level-3">объем</p>
                             </td>
                             <td class="td-center-bottom">м<sup>3</sup></td>
-                            <td th:each="value : ${accAct_prevEndVol_shiftn}" th:text="${value}"
+                            <td th:each="value : ${prevEndVol_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_prevEndVol_shiftn == null}"
+                                th:if="${prevEndVol_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
@@ -133,10 +133,10 @@
                                 <p class="level-3">масса</p>
                             </td>
                             <td class="td-center-bottom">т</td>
-                            <td th:each="value : ${accAct_prevEndMass_shiftn}" th:text="${value}"
+                            <td th:each="value : ${prevEndMass_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_prevEndMass_shiftn == null}"
+                                th:if="${prevEndMass_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
@@ -146,10 +146,10 @@
                                 <p class="level-3">объем</p>
                             </td>
                             <td class="td-center-bottom">м<sup>3</sup></td>
-                            <td th:each="value : ${accAct_currentEndVol_shiftn}" th:text="${value}"
+                            <td th:each="value : ${currentEndVol_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_currentEndVol_shiftn == null}"
+                                th:if="${currentEndVol_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
@@ -158,10 +158,10 @@
                                 <p class="level-3">масса</p>
                             </td>
                             <td class="td-center-bottom">т</td>
-                            <td th:each="value : ${accAct_currentEndMass_shiftn}" th:text="${value}"
+                            <td th:each="value : ${currentEndMass_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_currentEndMass_shiftn == null}"
+                                th:if="${currentEndMass_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
@@ -171,10 +171,10 @@
                                 <p class="level-3">объем</p>
                             </td>
                             <td class="td-center-bottom">м<sup>3</sup></td>
-                            <td th:each="value : ${accAct_grossOilVol_shiftn}" th:text="${value}"
+                            <td th:each="value : ${grossOilVol_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_grossOilVol_shiftn == null}"
+                                th:if="${grossOilVol_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td th:text="${oilVolSum}" class="td-center-bottom"></td>
                         </tr>
@@ -183,70 +183,70 @@
                                 <p class="level-3">масса</p>
                             </td>
                             <td class="td-center-bottom">т</td>
-                            <td th:each="value : ${accAct_grossOilMass_shiftn}" th:text="${value}"
+                            <td th:each="value : ${grossOilMass_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_grossOilMass_shiftn == null}"
+                                th:if="${grossOilMass_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td th:text="${oilMassSum}" class="td-center-bottom"></td>
                         </tr>
                         <tr>
                             <td>Температура нефти при условиях измерений объема</td>
                             <td class="td-center-bottom">ºC</td>
-                            <td th:each="value : ${accAct_oilTemp_shiftn}" th:text="${value}"
+                            <td th:each="value : ${oilTemp_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_oilTemp_shiftn == null}"
+                                th:if="${oilTemp_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>Давление нефти при условиях измерений объема</td>
                             <td class="td-center-bottom">МПа</td>
-                            <td th:each="value : ${accAct_oilPressure_shiftn}" th:text="${value}"
+                            <td th:each="value : ${oilPressure_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_oilPressure_shiftn == null}"
+                                th:if="${oilPressure_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>Плотность нефти при температуре и давлении при условиях измерений объема</td>
                             <td class="td-center-bottom">кг/м³</td>
-                            <td th:each="value : ${accAct_oilDensity_shiftn}" th:text="${value}"
+                            <td th:each="value : ${oilDensity_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_oilDensity_shiftn == null}"
+                                th:if="${oilDensity_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>Поправка на плотность *)</td>
                             <td class="td-center-bottom">кг/м³</td>
-                            <td th:each="value : ${accAct_correctionForDensity_shiftn}" th:text="${value}"
+                            <td th:each="value : ${correctionForDensity_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_correctionForDensity_shiftn == null}"
+                                th:if="${correctionForDensity_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>№ паспорта качества нефти</td>
                             <td></td>
-                            <td th:each="value : ${accAct_oilPassportNumber_shiftn}" th:text="${value}"
+                            <td th:each="value : ${oilPassportNumber_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_oilPassportNumber_shiftn == null}"
+                                th:if="${oilPassportNumber_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>Массовая доля балласта всего</td>
                             <td class="td-center-bottom">%</td>
-                            <td th:each="value : ${accAct_massFractionBallast_shiftn}" th:text="${value}"
+                            <td th:each="value : ${massFractionBallast_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_massFractionBallast_shiftn == null}"
+                                th:if="${massFractionBallast_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
@@ -256,10 +256,10 @@
                                 <p class="level-3">воды</p>
                             </td>
                             <td class="td-center-bottom">%</td>
-                            <td th:each="value : ${accAct_massFractionWater_shiftn}" th:text="${value}"
+                            <td th:each="value : ${massFractionWater_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_massFractionWater_shiftn == null}"
+                                th:if="${massFractionWater_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
@@ -268,10 +268,10 @@
                                 <p class="level-3">хлористых солей</p>
                             </td>
                             <td class="td-center-bottom">%</td>
-                            <td th:each="value : ${accAct_massFractionChlorideSalt_shiftn}" th:text="${value}"
+                            <td th:each="value : ${massFractionChlorideSalt_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_massFractionChlorideSalt_shiftn == null}"
+                                th:if="${massFractionChlorideSalt_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
@@ -280,64 +280,64 @@
                                 <p class="level-3">мех.примесей</p>
                             </td>
                             <td class="td-center-bottom">%</td>
-                            <td th:each="value : ${accAct_massFractionAdmixture_shiftn}" th:text="${value}"
+                            <td th:each="value : ${massFractionAdmixture_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_massFractionAdmixture_shiftn == null}"
+                                th:if="${massFractionAdmixture_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>Массовая доля серы</td>
                             <td class="td-center-bottom">%</td>
-                            <td th:each="value : ${accAct_massFractionSulfur_shiftn}" th:text="${value}"
+                            <td th:each="value : ${massFractionSulfur_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_massFractionSulfur_shiftn == null}"
+                                th:if="${massFractionSulfur_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>Концентрация хлористых солей</td>
                             <td class="td-center-bottom">мг/дм³</td>
-                            <td th:each="value : ${accAct_concentrationChlorideSalt_shiftn}" th:text="${value}"
+                            <td th:each="value : ${concentrationChlorideSalt_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_concentrationChlorideSalt_shiftn == null}"
+                                th:if="${concentrationChlorideSalt_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>Масса балласта</td>
                             <td class="td-center-bottom">т</td>
-                            <td th:each="value : ${accAct_ballastMass_shiftn}" th:text="${value}"
+                            <td th:each="value : ${ballastMass_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_ballastMass_shiftn == null}"
+                                th:if="${ballastMass_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td th:text="${ballastMassSum}" class="td-center-bottom"></td>
                         </tr>
                         <tr>
                             <td>Масса нефти нетто</td>
                             <td class="td-center-bottom">т</td>
-                            <td th:each="value : ${accAct_oilNetMass_shiftn}" th:text="${value}"
+                            <td th:each="value : ${oilNetMass_shiftn}" th:text="${value}"
                                 class="td-center-bottom"></td>
                             <td th:each="i:${#numbers.sequence(1, colNum)}"
-                                th:if="${accAct_oilNetMass_shiftn == null}"
+                                th:if="${oilNetMass_shiftn == null}"
                                 class="td-center-bottom"></td>
                             <td th:text="${oilNetMassSum}" class="td-center-bottom"></td>
                         </tr>
                         </tbody>
                     </table>
-                    <p class="mt-3">Масса нефти нетто (прописью): <u th:text="${accAct_oilNetMassInWords}"></u></p>
-                    <p>Обозначение нефти по ГОСТ Р 51858-2002: <u th:text="${accAct_GOST}"></u></p>
+                    <p class="mt-3">Масса нефти нетто (прописью): <u th:text="${oilNetMassInWords}"></u></p>
+                    <p>Обозначение нефти по ГОСТ Р 51858-2002: <u th:text="${GOST}"></u></p>
                     <div class="container mb-2 mt-3">
                         <div class="row">
                             <div class="col-6 first-col">
                                 Представитель сдающей стороны:
                             </div>
                             <div class="col">
-                                <u th:text="${accAct_deliverOrg}"></u>
+                                <u th:text="${deliverOrg}"></u>
                             </div>
                             <div class="col"></div>
                         </div>
@@ -349,7 +349,7 @@
                         <div class="row">
                             <div class="col-6 first-col"></div>
                             <div class="col">_________________</div>
-                            <div class="col"><u th:text="${accAct_deliverNameFooter}"></u></div>
+                            <div class="col"><u th:text="${deliverNameFooter}"></u></div>
                         </div>
                         <div class="row">
                             <div class="col-6 first-col"></div>
@@ -363,7 +363,7 @@
                                 Представитель принимающей стороны:
                             </div>
                             <div class="col">
-                                <u th:text="${accAct_receiverOrg}"></u>
+                                <u th:text="${receiverOrg}"></u>
                             </div>
                             <div class="col"></div>
                         </div>
@@ -375,7 +375,7 @@
                         <div class="row">
                             <div class="col-6 first-col"></div>
                             <div class="col">_________________</div>
-                            <div class="col"><u th:text="${accAct_receiverNameFooter}"></u></div>
+                            <div class="col"><u th:text="${receiverNameFooter}"></u></div>
                         </div>
                         <div class="row">
                             <div class="col-6 first-col"></div>

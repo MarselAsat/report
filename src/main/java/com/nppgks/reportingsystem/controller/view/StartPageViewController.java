@@ -1,11 +1,11 @@
 package com.nppgks.reportingsystem.controller.view;
 
-import com.nppgks.reportingsystem.certification.CRCGenerator;
-import com.nppgks.reportingsystem.constants.CalcMethod;
-import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
+import com.nppgks.reportingsystem.certification.CrcGenerator;
+import com.nppgks.reportingsystem.constants.ManualReportTypes;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.Report;
 import com.nppgks.reportingsystem.service.dbservices.ReportService;
 import com.nppgks.reportingsystem.service.dbservices.ReportTypeService;
-import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportService;
+import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ public class StartPageViewController {
     private final ReportTypeService reportTypeService;
     private final ReportService reportService;
 
-    private final CalcReportService calcReportService;
+    private final ManualReportService manualReportService;
 
 
     @GetMapping
@@ -43,11 +43,11 @@ public class StartPageViewController {
             return "redirect:/";
         }
         else if(reportTypeId != null && reportTypeId.equals("mi3622")) {
-            var calcReports = calcReportService.findReportByDateAndType(date, CalcMethod.MI_3622.name());
+            var calcReports = manualReportService.findReportByDateAndType(date, ManualReportTypes.MI3622.name());
             modelMap.put("reports", calcReports);
         }
         else if(reportTypeId != null && reportTypeId.equals("acceptanceAct")) {
-            var calcReports = calcReportService.findReportByDateAndType(date, CalcMethod.ACCEPTANCE_ACT.name());
+            var calcReports = manualReportService.findReportByDateAndType(date, ManualReportTypes.ACCEPTANCE_ACT.name());
             modelMap.put("reports", calcReports);
         }
         else if(reportTypeId != null){
@@ -64,7 +64,7 @@ public class StartPageViewController {
     public Map<String, String> getAppInfo(){
         String version = buildProperties.get("version");
         return Map.of("version", version,
-                "crc", CRCGenerator.getCertificationAlgorithmsCrc(version)+"");
+                "crc", CrcGenerator.getCertificationAlgorithmsCrc(version)+"");
     }
 
     void setCommonParams(ModelMap model){

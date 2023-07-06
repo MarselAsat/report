@@ -4,12 +4,6 @@
 
 <head>
     <style>
-        /*#userDropdown li:hover ul {*/
-        /*    left: auto;*/
-        /*    right: 0;*/
-        /*    margin-right: -10px;*/
-        /*}*/
-
         .dropdown-submenu {
             position: relative;
         }
@@ -63,20 +57,20 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="editTagsDropdown">
                         <li class="dropdown-submenu dropend">
-                            <a tabindex="-1" class="submenu-main dropdown-item dropdown-toggle">Оперативные отчеты</a>
+                            <a tabindex="-1" class="submenu-main dropdown-item dropdown-toggle">Отчеты по расписанию</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" tabindex="-1"
-                                       th:href="@{/admin/operative-tables-editor/tags}">Теги</a></li>
+                                       th:href="@{/admin/scheduled-tables-editor/tags}">Теги</a></li>
                                 <li><a class="dropdown-item" tabindex="-1"
-                                       th:href="@{/admin/operative-tables-editor/report-types}">Типы отчетов</a></li>
+                                       th:href="@{/admin/scheduled-tables-editor/report-types}">Типы отчетов</a></li>
                                 <li><a class="dropdown-item" tabindex="-1"
-                                       th:href="@{/admin/operative-tables-editor/report-rows}">Строки в отчете</a></li>
+                                       th:href="@{/admin/scheduled-tables-editor/report-rows}">Строки в отчете</a></li>
                                 <li><a class="dropdown-item" tabindex="-1"
-                                       th:href="@{/admin/operative-tables-editor/metering-nodes}">Узлы учета</a></li>
+                                       th:href="@{/admin/scheduled-tables-editor/metering-nodes}">Узлы учета</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a th:href="@{/admin/calc-tags-editor}" class="dropdown-item">Теги для поверок</a>
+                            <a th:href="@{/admin/manual-tags-editor}" class="dropdown-item">Теги для поверок, актов, кмх</a>
                         </li>
                     </ul>
                 </li>

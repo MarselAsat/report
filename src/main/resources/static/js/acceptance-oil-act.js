@@ -1,6 +1,6 @@
 function saveInDB(){
     let shiftsStartDtElements = document.getElementsByClassName("shifts-start-dt");
-    let shiftsEndDtElements = document.getElementsByClassName("shifts-start-dt");
+    let shiftsEndDtElements = document.getElementsByClassName("shifts-end-dt");
     var shiftStartDtArray = [];
     var shiftEndDtArray = [];
 

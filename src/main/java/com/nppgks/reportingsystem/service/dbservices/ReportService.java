@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.service.dbservices;
 
-import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.Report;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.nppgks.reportingsystem.controller.view;
 
 import com.nppgks.reportingsystem.controller.ModelMapFiller;
-import com.nppgks.reportingsystem.db.operative_reports.entity.MeteringNode;
-import com.nppgks.reportingsystem.db.operative_reports.entity.Report;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.MeteringNode;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.Report;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
 import com.nppgks.reportingsystem.dto.ReportViewReportData;
 import com.nppgks.reportingsystem.service.dbservices.MeteringNodeService;
@@ -10,8 +10,8 @@ import com.nppgks.reportingsystem.util.ArrayParser;
 import com.nppgks.reportingsystem.service.dbservices.ReportService;
 import com.nppgks.reportingsystem.service.dbservices.SettingsService;
 import com.nppgks.reportingsystem.service.dbservices.ReportDataService;
-import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportService;
-import com.nppgks.reportingsystem.service.dbservices.calculation.CalcReportDataService;
+import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportService;
+import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportDataService;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -29,9 +29,9 @@ public class ReportViewController {
 
     private final ReportService reportService;
 
-    private final CalcReportService calcReportService;
+    private final ManualReportService manualReportService;
 
-    private final CalcReportDataService calcReportDataService;
+    private final ManualReportDataService manualReportDataService;
     private final ReportDataService reportDataService;
 
     private final SettingsService settingsService;
@@ -83,13 +83,13 @@ public class ReportViewController {
     @GetMapping(value = "/mi3622Report/{reportId}")
     public String getMi3622Report(ModelMap modelMap,
                                   @PathVariable Long reportId){
-        var report = calcReportService.findReportById(reportId);
+        var report = manualReportService.findReportById(reportId);
 
         LocalDate creationDate = report.getCreationDt().toLocalDate();
 
         modelMap.put("date", SingleDateTimeFormatter.formatToSinglePattern(creationDate));
 
-        var reportDataList = calcReportDataService.getReportDataList(reportId);
+        var reportDataList = manualReportDataService.getReportDataList(reportId);
 
         reportDataList.forEach(rd -> {
             Object value = ArrayParser.fromJsonToObject(rd.getData());
@@ -103,7 +103,7 @@ public class ReportViewController {
     @GetMapping(value = "/acceptanceActReport/{reportId}")
     public String getAcceptanceActReport(ModelMap modelMap,
                                   @PathVariable Long reportId){
-        var reportDataList = calcReportDataService.getReportDataList(reportId);
+        var reportDataList = manualReportDataService.getReportDataList(reportId);
         ModelMapFiller.fillForAcceptanceAct(modelMap, reportDataList);
         return "report_pages/acceptance-oil-act";
     }

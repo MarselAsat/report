@@ -1,11 +1,11 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
 
-import com.nppgks.reportingsystem.db.calculations.entity.Report;
-import com.nppgks.reportingsystem.db.calculations.entity.ReportData;
-import com.nppgks.reportingsystem.dto.calc.CalcTagForOpc;
+import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
+import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
+import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
-import com.nppgks.reportingsystem.constants.CalcMethod;
-import com.nppgks.reportingsystem.service.dbservices.calculation.CalcTagService;
+import com.nppgks.reportingsystem.constants.ManualReportTypes;
+import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.DataConverter;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.FinalData;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.InitialData;
@@ -25,19 +25,19 @@ import java.util.stream.Collectors;
 public class MI3622Generator {
 
     private final OpcServiceRequests opcServiceRequests;
-    private final CalcTagService calcTagService;
+    private final ManualTagService manualTagService;
     private final MI3622DbService MI3622DbService;
     private boolean isSaved = false;
     private List<ReportData> reportDataList = new ArrayList<>();
     private Report report;
 
     public List<ReportData> generateMI3622Report() {
-        List<CalcTagForOpc> initialTags = calcTagService.getTagsByInitialAndCalcMethod(true, CalcMethod.MI_3622.name());
+        List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypes.MI3622.name());
         Map<String, String> initialTagsMap = createTagsMap(initialTags);
 
         List<String> initialTagsForOpc = initialTags
                 .stream()
-                .map(CalcTagForOpc::address)
+                .map(ManualTagForOpc::address)
                 .toList();
 
         Map<String, String> initialDataFromOpc = opcServiceRequests.getTagValuesFromOpc(initialTagsForOpc);
@@ -48,7 +48,7 @@ public class MI3622Generator {
         MI3622Runner MI3622Runner = new MI3622Runner(initialData);
         FinalData finalData = MI3622Runner.run();
 
-        List<CalcTagForOpc> finalTags = calcTagService.getTagsByInitialAndCalcMethod(false, CalcMethod.MI_3622.name());
+        List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypes.MI3622.name());
 
         Map<String, String> finalTagsMap = createTagsMap(finalTags);
 
@@ -69,14 +69,14 @@ public class MI3622Generator {
         return response;
     }
 
-    private void prepareAllDataForDB(List<CalcTagForOpc> initialTags,
+    private void prepareAllDataForDB(List<ManualTagForOpc> initialTags,
                                      Map<String, String> initialDataFromOpc,
-                                     List<CalcTagForOpc> finalTags,
+                                     List<ManualTagForOpc> finalTags,
                                      Map<String, Object> finalDataForOpc) {
 
         report = createReport();
-        Map<String, CalcTagForOpc> initialTagsMap = convertListToMap(initialTags);
-        Map<String, CalcTagForOpc> finalTagsMap = convertListToMap(finalTags);
+        Map<String, ManualTagForOpc> initialTagsMap = convertListToMap(initialTags);
+        Map<String, ManualTagForOpc> finalTagsMap = convertListToMap(finalTags);
 
         reportDataList = createListOfReportDataMI3622(
                 initialDataFromOpc,
@@ -90,7 +90,7 @@ public class MI3622Generator {
      * конвертация списка объектов CalcTagForOpc (id, address, permanentName)
      * в map (key = CalcTagForOpc.address, value = calcTagForOpc)
      */
-    private Map<String, CalcTagForOpc> convertListToMap(List<CalcTagForOpc> tags) {
+    private Map<String, ManualTagForOpc> convertListToMap(List<ManualTagForOpc> tags) {
         return tags.stream()
                 .map(t -> Map.entry(t.address(), t))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1));
@@ -100,15 +100,15 @@ public class MI3622Generator {
             Map<String, String> initialDataFromOpc,
             Map<String, Object> finalDataForOpc,
             Report report,
-            Map<String, CalcTagForOpc> initialTagsMap,
-            Map<String, CalcTagForOpc> finalTagsMap) {
+            Map<String, ManualTagForOpc> initialTagsMap,
+            Map<String, ManualTagForOpc> finalTagsMap) {
         List<ReportData> reportDataList = new ArrayList<>();
         for (Map.Entry<String, String> entry : initialDataFromOpc.entrySet()) {
             String value = entry.getValue();
             ReportData reportData = new ReportData(
                     null,
                     value,
-                    CalcTagForOpc.toTag(initialTagsMap.get(entry.getKey())),
+                    ManualTagForOpc.toTag(initialTagsMap.get(entry.getKey())),
                     report
             );
             reportDataList.add(reportData);
@@ -120,7 +120,7 @@ public class MI3622Generator {
             ReportData reportData = new ReportData(
                     null,
                     value,
-                    CalcTagForOpc.toTag(finalTagsMap.get(entry.getKey())),
+                    ManualTagForOpc.toTag(finalTagsMap.get(entry.getKey())),
                     report
             );
             reportDataList.add(reportData);
@@ -134,11 +134,11 @@ public class MI3622Generator {
                 null,
                 "Поверка МИ3622 от " + SingleDateTimeFormatter.formatToSinglePattern(dt),
                 dt,
-                CalcMethod.MI_3622.name());
+                ManualReportTypes.MI3622.name());
     }
 
-    private Map<String, String> createTagsMap(List<CalcTagForOpc> tagsForOpc) {
+    private Map<String, String> createTagsMap(List<ManualTagForOpc> tagsForOpc) {
         return tagsForOpc.stream()
-                .collect(Collectors.toMap(CalcTagForOpc::permanentName, CalcTagForOpc::address));
+                .collect(Collectors.toMap(ManualTagForOpc::permanentName, ManualTagForOpc::address));
     }
 }

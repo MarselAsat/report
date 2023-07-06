@@ -1,24 +1,28 @@
 function saveInDB(){
-    fetch("/calc/MI3622/save", {
+    fetch("/mi3622/save", {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             }
         }
     )
-        .then(response => {
-            if (response.status >= 500) {
-                Swal.fire({
-                    icon: 'error',
-                    text: 'Что-то пошло не так'
-                })
+        .then(async response => {
+            if (response.ok) {
+                return await response.text()
+            } else {
+                throw new Error();
             }
-            return response.text()
         })
         .then(data => {
             Swal.fire({
                 icon: 'success',
                 text: data
+            })
+        })
+        .catch((error) => {
+            Swal.fire({
+                icon: 'error',
+                text: 'Что-то пошло не так'
             })
         })
 }
