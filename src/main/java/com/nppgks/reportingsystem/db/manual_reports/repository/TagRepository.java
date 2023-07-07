@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository("TagManualRepository")
 public interface TagRepository extends JpaRepository<Tag, Integer> {
@@ -24,4 +25,6 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
     List<ManualTagForOpc> findAllByInitialAndReportType(Boolean initial, String reportType);
 
     List<Tag> findByOrderByPermanentName();
+
+    Optional<Tag> findByPermanentNameAndReportType(String name, String reportType);
 }

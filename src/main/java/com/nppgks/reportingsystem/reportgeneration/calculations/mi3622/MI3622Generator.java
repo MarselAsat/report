@@ -2,6 +2,7 @@ package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
+import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.constants.ManualReportTypes;
@@ -32,6 +33,8 @@ public class MI3622Generator {
     private Report report;
 
     public List<ReportData> generateMI3622Report() {
+        Tag isFinishedTag = manualTagService.getTagByNameAndReportType("isFinished", ManualReportTypes.MI3622.name());
+        opcServiceRequests.sendTagValuesToOpc(Map.of(isFinishedTag.getAddress(), false));
         List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypes.MI3622.name());
         Map<String, String> initialTagsMap = createTagsMap(initialTags);
 
@@ -53,6 +56,7 @@ public class MI3622Generator {
         Map<String, String> finalTagsMap = createTagsMap(finalTags);
 
         Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(finalData, finalTagsMap);
+        finalDataForOpc.put(isFinishedTag.getAddress(), true);
         opcServiceRequests.sendTagValuesToOpc(finalDataForOpc);
 
         prepareAllDataForDB(initialTags, initialDataFromOpc, finalTags, finalDataForOpc);

@@ -29,6 +29,18 @@ public class ManualTagService {
         return tagRepository.findAllByInitialAndReportType(initial, type);
     }
 
+    public List<ManualTagDto> getAllTags() {
+        return tagRepository.findByOrderByPermanentName()
+                .stream()
+                .map(ManualTagDto::fromTag)
+                .toList();
+    }
+
+    public Tag getTagByNameAndReportType(String name, String reportType){
+        return tagRepository.findByPermanentNameAndReportType(name, reportType)
+                .orElseThrow(() -> new RuntimeException("В таблице manual_reports.tag нет тега с именем %s и типом %s"
+                        .formatted(name, reportType)));
+    }
     public Integer saveTag(ManualTagDto tagNameDto) {
         try{
             return tagRepository.save(ManualTagDto.toTag(tagNameDto)).getId();
@@ -36,13 +48,6 @@ public class ManualTagService {
         catch(Exception e){
             return null;
         }
-    }
-
-    public List<ManualTagDto> getAllTags() {
-        return tagRepository.findByOrderByPermanentName()
-                .stream()
-                .map(ManualTagDto::fromTag)
-                .toList();
     }
 
     public Map<Integer, Boolean> updateTags(List<ManualTagDto> tagNames) {
