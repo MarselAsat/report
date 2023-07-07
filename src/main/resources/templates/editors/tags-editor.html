@@ -24,17 +24,17 @@
         <div class="card my-4 border-0">
             <zing-grid caption="Теги для отчетов по расписанию (таблица scheduled_reports.tag)" lang="ru"
                        editor-controls
-                       columns-control search sort status-persist>
+                       columns-control search sort status-persist column-resizable>
                 <zg-data src="/api/tags/">
                     <zg-param name="serverErrorMessage" value="Server Error: [[serverMessage]]"></zg-param>
                 </zg-data>
-                <zg-column index="address" header="Адрес" width="10%"></zg-column>
-                <zg-column index="description" header="Описание" width="20%"></zg-column>
-                <zg-column id="reportTypes" index="reportTypeName" width="10%" header="Тип отчета" type="select"
+                <zg-column index="address" header="Адрес" width="140px"></zg-column>
+                <zg-column index="description" header="Описание" width="278px"></zg-column>
+                <zg-column id="reportTypes" index="reportTypeName" width="140px" header="Тип отчета" type="select"
                            th:type-select-options="${reportTypes}"></zg-column>
-                <zg-column id="meteringNodes" index="meteringNodeName" width="10%" header="Узел учета" type="select"
+                <zg-column id="meteringNodes" index="meteringNodeName" width="140px" header="Узел учета" type="select"
                            th:type-select-options="${meteringNodes}"></zg-column>
-                <zg-column id="rows" index="reportTypeConcatRowName" width="20%" header="Строка в отчете" type="select"
+                <zg-column id="rows" index="reportTypeConcatRowName" width="278px" header="Строка в отчете" type="select"
                            th:type-select-options="${reportRows}"></zg-column>
             </zing-grid>
         </div>
