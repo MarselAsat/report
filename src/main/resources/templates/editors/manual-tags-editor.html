@@ -17,7 +17,7 @@
     <div class="row justify-content-start">
         <div id="tags">
             <zing-grid caption="Теги для поверок, актов, кмх (таблица manual_reports.tag)" lang="ru" editor-controls="editor"
-                       columns-control search sort status-persist compact column-resizable>
+                       columns-control search sort status-persist compact column-resizable filter>
                 <zg-data src="/api/manualTags/">
                     <zg-param name="serverErrorMessage" value="Server Error: [[serverMessage]]"></zg-param>
                 </zg-data>
@@ -25,7 +25,8 @@
                            width="296px"></zg-column>
                 <zg-column index="address" header="Адрес" width="173px"></zg-column>
                 <zg-column index="description" header="Описание" width="229px"></zg-column>
-                <zg-column editor=false index="reportType" header="Тип отчета" width="157px"></zg-column>
+                <zg-column editor=false index="reportType" header="Тип отчета" type="select"
+                           type-select-options="ACCEPTANCE_ACT, MI3622, MI3272" width="157px"></zg-column>
                 <zg-column editor=false index="initial" header="Исходные данные?" width="206px"></zg-column>
             </zing-grid>
         </div>

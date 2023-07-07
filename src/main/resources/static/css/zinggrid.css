@@ -13,3 +13,9 @@ zing-grid{
 zg-cell{
     word-break: break-word;
 }
+zg-filter{
+    padding: 0 16px;
+}
+zg-filter select{
+    max-width: 200px;
+}
