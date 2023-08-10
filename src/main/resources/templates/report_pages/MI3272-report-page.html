@@ -14,10 +14,11 @@
     <div th:if="${printSaveButtonsRequired}">
         <div class="card-header" th:replace="fragments/print-save-buttons"></div>
     </div>
-    <div class="card-body" id="report-content">
+    <div class="card-body overflow-auto" id="report-content">
         <head th:replace="fragments/header"></head>
         <head>
             <style>
+
                 .report-body p {
                     font-size: smaller;
                 }
@@ -416,7 +417,7 @@
                             <td colspan=4 style="text-align: center">Результаты измерений</td>
                         </tr>
                         <tr>
-                            <td><i>ρ<sup>ПП</sup><sub>ij</sub> , кг/м<sup>3</sup></i></td>
+                            <td><i>ρ<sup>ПП</sup><sub>пр ij</sub> , кг/м<sup>3</sup></i></td>
                             <td><i>M<sup>рэ</sup><sub>ij</sub> , т</i></td>
                             <td><i>M<sup>мас</sup><sub>ij</sub> , т</i></td>
                             <td th:if="${calibrCharImpl == 'ПЭП'}"><i>MF<sub>ij</sub></i></td>
@@ -607,7 +608,7 @@
                             <td>Точка расхода (j)</i></td>
                             <td><i><i style="text-decoration: overline">Q</i><sub>j</sub> , т/ч</i></td>
                             <td><i><i style="text-decoration: overline">KF</i><sub>j</sub> , имп/т</i></td>
-                            <td>№ поддиапазона (k) (j)</i></td>
+                            <td>№ поддиапазона (k)</i></td>
                             <td><i>Q<sub>kmin</sub></i></td>
                             <td><i>Q<sub>kmax</sub></i></td>
                             <td><i>S<sup>KF</sup><sub>k</sub> , %</i></td>
@@ -646,7 +647,7 @@
                         <tr>
                             <td class="pb-0" style="text-align: left">Заключение: счетчик-расходомер (массомер) к дальнейшей эксплуатации</td>
                             <td class="col-4 pb-0" th:text="${conclusion}"></td>
-                            <td style="width: 20px"> в качестве </td>
+                            <td style="width: 100px"> в качестве </td>
                             <td class="col-4 pb-0" th:text="${usedAs}"></td>
                         </tr>
                         <tr>

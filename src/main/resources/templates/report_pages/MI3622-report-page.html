@@ -14,7 +14,7 @@
     <div th:if="${printSaveButtonsRequired}">
         <div class="card-header" th:replace="fragments/print-save-buttons"></div>
     </div>
-    <div class="card-body" id="report-content">
+    <div class="card-body overflow-auto" id="report-content">
         <head th:replace="fragments/header"></head>
         <head>
             <style>
