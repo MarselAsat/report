@@ -50,6 +50,10 @@ public class StartPageViewController {
             var calcReports = manualReportService.findReportByDateAndType(date, ManualReportTypes.ACCEPTANCE_ACT.name());
             modelMap.put("reports", calcReports);
         }
+        else if(reportTypeId != null && reportTypeId.equals("mi3272")) {
+            var calcReports = manualReportService.findReportByDateAndType(date, ManualReportTypes.MI3272.name());
+            modelMap.put("reports", calcReports);
+        }
         else if(reportTypeId != null){
             List<Report> reports = reportService.getReportsByDateAndReportId(reportTypeId, date);
             modelMap.put("reports", reports);
