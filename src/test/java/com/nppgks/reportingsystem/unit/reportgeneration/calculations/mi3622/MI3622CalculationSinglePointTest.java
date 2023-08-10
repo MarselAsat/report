@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.unit.reportgeneration.calculations.mi3622;
 
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.InitialData;
+import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.MI3622InitialData;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -16,7 +16,7 @@ public class MI3622CalculationSinglePointTest {
 
     @BeforeAll
     void prepareData() {
-        InitialData initialData = new InitialData();
+        MI3622InitialData MI3622InitialData = new MI3622InitialData();
         double[][] Q_ij = new double[][]{
                 {87.5, 87.5, 87.5, 87.5, 87.6}
         };
@@ -47,23 +47,23 @@ public class MI3622CalculationSinglePointTest {
         double theta_e = 0.11;
         double theta_N = 0.02;
         double ZS = 0.041;
-        initialData.setMeasureCount(Q_ij.length);
-        initialData.setPointsCount(Q_ij[0].length);
-        initialData.setQ_ij(Q_ij);
-        initialData.setN_e_ij(N_e_ij);
-        initialData.setN_p_ij(N_p_ij);
-        initialData.setT_ij(T_ij);
-        initialData.setM_ij(M_ij);
-        initialData.setF_p_max(f_p_max);
-        initialData.setQ_p_max(Q_p_max);
-        initialData.setMF_p(MF_p);
-        initialData.setK_e_arr(K_e_arr);
-        initialData.setQ_e_arr(Q_e_arr);
-        initialData.setTheta_e(theta_e);
-        initialData.setTheta_N(theta_N);
-        initialData.setZS(ZS);
-        initialData.setZeroStabilityCorr(true);
-        MI3622Calculation = new MI3622Calculation(initialData);
+        MI3622InitialData.setMeasureCount(Q_ij.length);
+        MI3622InitialData.setPointsCount(Q_ij[0].length);
+        MI3622InitialData.setQ_ij(Q_ij);
+        MI3622InitialData.setN_e_ij(N_e_ij);
+        MI3622InitialData.setN_p_ij(N_p_ij);
+        MI3622InitialData.setT_ij(T_ij);
+        MI3622InitialData.setM_ij(M_ij);
+        MI3622InitialData.setF_p_max(f_p_max);
+        MI3622InitialData.setQ_p_max(Q_p_max);
+        MI3622InitialData.setMF_p(MF_p);
+        MI3622InitialData.setK_e_arr(K_e_arr);
+        MI3622InitialData.setQ_e_arr(Q_e_arr);
+        MI3622InitialData.setTheta_e(theta_e);
+        MI3622InitialData.setTheta_N(theta_N);
+        MI3622InitialData.setZS(ZS);
+        MI3622InitialData.setZeroStabilityCorr(true);
+        MI3622Calculation = new MI3622Calculation(MI3622InitialData);
     }
 
     @Test

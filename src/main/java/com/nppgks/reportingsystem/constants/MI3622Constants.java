@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.constants;
 
-public class MI3622Settings {
+public class MI3622Constants {
 
     public static final String MF = "MF";
     public static final String K = "K";

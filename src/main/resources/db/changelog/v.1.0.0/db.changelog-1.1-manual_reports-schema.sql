@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS tag
     description    VARCHAR(512),
     initial        BOOLEAN      NOT NULL,
     report_type    VARCHAR(32)  NOT NULL,
-    UNIQUE(permanent_name, report_type)
+    UNIQUE(permanent_name, report_type, initial)
 );
 
 --changeset alina.parfenteva:3

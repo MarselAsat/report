@@ -4,6 +4,8 @@ import com.nppgks.reportingsystem.constants.Regexes;
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import com.nppgks.reportingsystem.exception.MissingOpcTagException;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
+import com.nppgks.reportingsystem.reportgeneration.calculations.FinalData;
+import com.nppgks.reportingsystem.reportgeneration.calculations.InitialData;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -27,21 +29,21 @@ public class DataConverter {
     /**
      * Возвращается объект FinalData, поля которого высчитываются по формулам из MI3622Calculation
      */
-    public static FinalData calculateFinalData(MI3622Calculation calc) {
-        FinalData finalData = new FinalData();
-        Field[] finalDataFields = FinalData.class.getDeclaredFields();
+    public static MI3622FinalData calculateFinalData(MI3622Calculation calc) {
+        MI3622FinalData MI3622FinalData = new MI3622FinalData();
+        Field[] finalDataFields = MI3622FinalData.class.getDeclaredFields();
         Class<? extends MI3622Calculation> calcClass = calc.getClass();
         for (Field field : finalDataFields) {
             try {
                 field.setAccessible(true);
                 String methodName = CALCULATE_METHOD_PREFIX + StringUtils.capitalize(field.getName());
                 var value = calcClass.getMethod(methodName).invoke(calc);
-                field.set(finalData, value);
+                field.set(MI3622FinalData, value);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }
-        return finalData;
+        return MI3622FinalData;
     }
 
     /**
@@ -51,11 +53,11 @@ public class DataConverter {
      * Ключ в map это имя тега из OPC, а значение это значение этого тега,
      * которое берется из соответствующего поля finalData
      */
-    public static Map<String, Object> convertFinalDataToMap(FinalData finalData, Map<String, String> tagsMap) {
+    public static <F> Map<String, Object> convertFinalDataToMap(F finalData, Map<String, String> tagsMap) {
 
         Map<String, Object> map = new HashMap<>();
 
-        Field[] declaredFields = FinalData.class.getDeclaredFields();
+        Field[] declaredFields = finalData.getClass().getDeclaredFields();
 
         for (Field declaredField : declaredFields) {
             try {
@@ -67,7 +69,7 @@ public class DataConverter {
                     }
                     String tag = tagsMap.get(declaredField.getName());
                     if (tag == null) {
-                        throw new MissingDbDataException("Не существует тега с закрепленным именем" + declaredField.getName() + " (initial = FALSE, type = MI_3622) в таблице calculations.tag");
+                        throw new MissingDbDataException("Не существует тега с закрепленным именем " + declaredField.getName() + " (initial = FALSE) в таблице manual_reports.tag");
                     }
                     map.put(tagsMap.get(declaredField.getName()), data);
                 }
@@ -85,10 +87,16 @@ public class DataConverter {
      * В tagsMap содержатся соответствия адреса тега и имени полей в InitialData.
      * C использованием tagsMap и dataFromOpc заполняются поля InitialData.
      */
-    public static InitialData convertMapToInitialData(Map<String, String> dataFromOpc, Map<String, String> tagsMap) {
-        InitialData initialData = new InitialData();
+    public static <I> I convertMapToInitialData(Map<String, String> dataFromOpc, Map<String, String> tagsMap, Class<I> type) {
+        I initialData = null;
+        try {
+            initialData = type.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
 
-        Field[] declaredFields = InitialData.class.getDeclaredFields();
+        Field[] declaredFields = type.getDeclaredFields();
 
         for (Field declaredField : declaredFields) {
             try {
@@ -120,9 +128,9 @@ public class DataConverter {
                             declaredField.set(initialData, array2Dim);
                         } else if (fieldType.equals(double[].class)) {
                             declaredField.set(initialData, toArray(value));
-                        } else if (fieldType.equals(int.class)) {
+                        } else if (fieldType.equals(int.class) || fieldType.equals(Integer.class)) {
                             declaredField.set(initialData, parseInt(value));
-                        } else if (fieldType.equals(double.class)) {
+                        } else if (fieldType.equals(double.class) || fieldType.equals(Double.class)) {
                             declaredField.set(initialData, parseDouble(value));
                         } else if (fieldType.equals(boolean.class)) {
                             declaredField.set(initialData, parseBoolean(value));
@@ -135,7 +143,7 @@ public class DataConverter {
 
                 } else {
                     log.error("В переданной tagsMap не нашлось соответствия с полем {} в InitialData ", declaredField.getName());
-                    log.error("Возможно, в таблице calculations.tag нет нужной записи с permanent_name = {} и initial = true", declaredField.getName());
+                    log.error("Возможно, в таблице manual_reports.tag нет нужной записи с permanent_name = {} и initial = true", declaredField.getName());
                 }
 
             } catch (IllegalAccessException e) {
@@ -149,7 +157,7 @@ public class DataConverter {
      * Двумерные массивы из OPC приходят в виде одномерного массива: [x, x, x, x, ...]
      * Этот метод меняет вид двумерных массивов (value из dataFromOpc) на [[x, x, ...],[x, x, ...]...]
      */
-    public static void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, Map<String, String> initialTagsMap) {
+    public static <I> void putInOrder2DArraysInOpcData(Map<String, String> dataFromOpc, Map<String, String> initialTagsMap, Class<I> initialDataType) {
         String pointsCountStr = dataFromOpc.get(initialTagsMap.get("pointsCount"));
         String measureCountStr = dataFromOpc.get(initialTagsMap.get("measureCount"));
         if (pointsCountStr == null || measureCountStr == null) {
@@ -158,7 +166,7 @@ public class DataConverter {
         int pointsCount = parseInt(pointsCountStr);
         int measureCount = parseInt(measureCountStr);
 
-        Field[] initialDataFields = InitialData.class.getDeclaredFields();
+        Field[] initialDataFields = initialDataType.getDeclaredFields();
         for (Map.Entry<String, String> entry : dataFromOpc.entrySet()) {
             String value = entry.getValue();
 

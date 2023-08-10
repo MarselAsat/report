@@ -1,11 +1,12 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data;
 
+import com.nppgks.reportingsystem.reportgeneration.calculations.FinalData;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 
 @FieldNameConstants
 @Data
-public class FinalData {
+public class MI3622FinalData implements FinalData {
 
     private Double K_pm;
     private double[][] M_e_ij;

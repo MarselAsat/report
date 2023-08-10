@@ -1,11 +1,12 @@
 package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data;
 
+import com.nppgks.reportingsystem.reportgeneration.calculations.InitialData;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 
 @Data
 @FieldNameConstants
-public class InitialData {
+public class MI3622InitialData implements InitialData {
 
     private int measureCount;
     private int pointsCount;
