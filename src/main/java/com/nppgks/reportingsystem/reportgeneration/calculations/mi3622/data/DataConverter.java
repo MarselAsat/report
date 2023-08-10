@@ -4,8 +4,6 @@ import com.nppgks.reportingsystem.constants.Regexes;
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import com.nppgks.reportingsystem.exception.MissingOpcTagException;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
-import com.nppgks.reportingsystem.reportgeneration.calculations.FinalData;
-import com.nppgks.reportingsystem.reportgeneration.calculations.InitialData;
 import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -88,7 +86,7 @@ public class DataConverter {
      * C использованием tagsMap и dataFromOpc заполняются поля InitialData.
      */
     public static <I> I convertMapToInitialData(Map<String, String> dataFromOpc, Map<String, String> tagsMap, Class<I> type) {
-        I initialData = null;
+        I initialData;
         try {
             initialData = type.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |

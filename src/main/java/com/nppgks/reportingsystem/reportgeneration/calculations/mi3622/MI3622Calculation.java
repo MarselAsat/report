@@ -99,9 +99,7 @@ public class MI3622Calculation {
         int eLen = K_e_arr.length;
         if (eLen == 1) {
             for (int i = 0; i < measureCount; i++) {
-                for (int j = 0; j < pointsCount; j++) {
-                    K_e_ij[i][j] = K_e_arr[0];
-                }
+                Arrays.fill(K_e_ij[i], K_e_arr[0]);
             }
         } else {
             if (eLen != Q_e_arr.length)

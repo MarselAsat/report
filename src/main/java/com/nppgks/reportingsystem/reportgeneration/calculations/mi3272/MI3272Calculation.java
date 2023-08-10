@@ -420,12 +420,12 @@ public class MI3272Calculation {
         for (int j = 0; j < pointsCount; j++) {
             double max = K_TPR_ij[0][j];
             double min = K_TPR_ij[0][j];
-            for (int i = 0; i < measureCount; i++) {
-                if (K_TPR_ij[i][j] > max) {
-                    max = K_TPR_ij[i][j];
+            for (double[] doubles : K_TPR_ij) {
+                if (doubles[j] > max) {
+                    max = doubles[j];
                 }
-                if (K_TPR_ij[i][j] < min) {
-                    min = K_TPR_ij[i][j];
+                if (doubles[j] < min) {
+                    min = doubles[j];
                 }
             }
             K_TPR_j_max[j] = max;
@@ -443,8 +443,8 @@ public class MI3272Calculation {
         double[] K_TPR_j = new double[pointsCount];
         for (int j = 0; j < pointsCount; j++) {
             double sum = 0;
-            for (int i = 0; i < measureCount; i++) {
-                sum = sum + K_TPR_ij[i][j];
+            for (double[] doubles : K_TPR_ij) {
+                sum = sum + doubles[j];
             }
             K_TPR_j[j] = sum / measureCount;
         }
@@ -551,13 +551,12 @@ public class MI3272Calculation {
         double sum = 0;
         for (int j = 0; j < pointsCount; j++) {
             double sum1 = 0;
-            for (int i = 0; i < measureCount; i++) {
-                sum1 += Math.pow((MF_ij[i][j] - MF_j_avg[j]) / MF_j_avg[j], 2);
+            for (double[] doubles : MF_ij) {
+                sum1 += Math.pow((doubles[j] - MF_j_avg[j]) / MF_j_avg[j], 2);
             }
             sum += sum1;
         }
-        double S_MF_range = Math.sqrt(sum / (sigma_n_j - 1)) * 100;
-        return S_MF_range;
+        return Math.sqrt(sum / (sigma_n_j - 1)) * 100;
     }
 
     // формула 18
@@ -591,8 +590,8 @@ public class MI3272Calculation {
         double sigma_n_j = pointsCount * measureCount;
         for (int j = 0; j < pointsCount; j++) {
             double sum1 = 0;
-            for (int i = 0; i < measureCount; i++) {
-                sum1 += Math.pow((KF_ij[i][j] - KF_j_avg[j]) / KF_j_avg[j], 2);
+            for (double[] doubles : KF_ij) {
+                sum1 += Math.pow((doubles[j] - KF_j_avg[j]) / KF_j_avg[j], 2);
             }
             sum += sum1;
         }
@@ -608,8 +607,8 @@ public class MI3272Calculation {
             double sum = 0;
             for (int j = k; j <= k + 1; j++) {
                 double sum1 = 0;
-                for (int i = 0; i < measureCount; i++) {
-                    sum1 += Math.pow((KF_ij[i][j] - KF_j_avg[j]) / KF_j_avg[j], 2);
+                for (double[] doubles : KF_ij) {
+                    sum1 += Math.pow((doubles[j] - KF_j_avg[j]) / KF_j_avg[j], 2);
                 }
                 sum += sum1;
             }

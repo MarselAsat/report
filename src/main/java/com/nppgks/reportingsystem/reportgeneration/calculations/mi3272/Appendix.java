@@ -8,7 +8,7 @@ import java.util.Map;
 //@Component
 public class Appendix {
     private static final Map<Integer, Double> tableG_1 = new HashMap<>();
-    private static Map<Double, Double> tableG_2 = Map.of(0.5, 0.81,
+    private static final Map<Double, Double> tableG_2 = Map.of(0.5, 0.81,
             0.75, 0.77,
             1.0, 0.74,
             2.0, 0.71,
