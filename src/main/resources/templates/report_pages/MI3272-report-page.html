@@ -3,7 +3,7 @@
 
 <head th:replace="fragments/header"></head>
 <head>
-    <script type="text/javascript" th:src="@{/js/MI3622-report-page.js}"></script>
+    <script type="text/javascript" th:src="@{/js/MI3272-report-page.js}"></script>
 
     <!--  sweetAlert library-->
     <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
@@ -18,13 +18,19 @@
         <head th:replace="fragments/header"></head>
         <head>
             <style>
+                @media print {
+                    thead {
+                        display: table-row-group;
+                    }
+                }
 
                 .report-body p {
-                    font-size: smaller;
+                    font-size: 0.6rem;
                 }
 
                 .report-body td {
-                    padding: 0.25rem;
+                    width: auto;
+                    padding: 0.1rem;
                     text-align: center;
                     overflow: hidden;
                 }
@@ -35,7 +41,7 @@
                 }
 
                 .report-body table {
-                    font-size: smaller;
+                    font-size: 0.6rem;
                 }
 
                 .report-body caption {
@@ -256,17 +262,17 @@
                             <td style="text-align: center">Массомера</td>
                         </tr>
                         <tr>
-                            <td><i>V<sup>КП</sup><sub>0</sub> , м<sup>3</sup></i></td>
-                            <td><i>δ<sub>КП</sub> , %</i></td>
-                            <td><i>D , мм</i></td>
-                            <td><i>s , мм</i></td>
-                            <td><i>E , Мпа</i></td>
-                            <td><i>Δt<sub>КП</sub> , ºC</i></td>
-                            <td><i>δ<sub>ПП</sub> , %</i></td>
-                            <td><i>Δt<sub>ПП</sub> , ºC</i></td>
-                            <td><i>δ<sup>УОИ</sup><sub>К</sub> , %</i></td>
-                            <td><i>KF<sub>конф</sub> , имп/т</i></td>
-                            <td><i>ZS , т/ч</i></td>
+                            <td><i>V<sup>КП</sup><sub>0</sub> ,<br> м<sup>3</sup></i></td>
+                            <td><i>δ<sub>КП</sub> ,<br> %</i></td>
+                            <td><i>D ,<br> мм</i></td>
+                            <td><i>s ,<br> мм</i></td>
+                            <td><i>E ,<br> Мпа</i></td>
+                            <td><i>Δt<sub>КП</sub> ,<br> ºC</i></td>
+                            <td><i>δ<sub>ПП</sub> ,<br> %</i></td>
+                            <td><i>Δt<sub>ПП</sub> ,<br> ºC</i></td>
+                            <td><i>δ<sup>УОИ</sup><sub>К</sub> ,<br> %</i></td>
+                            <td><i>KF<sub>конф</sub> ,<br> имп/т</i></td>
+                            <td><i>ZS ,<br> т/ч</i></td>
                         </tr>
                         </thead>
                         <tbody>
@@ -293,19 +299,19 @@
                         </caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td rowspan=2>№ точки / № серии (j/i)</td>
+                            <td rowspan=2>№ точки /<br> № серии (j/i)</td>
                             <td rowspan=2><i>Q<sub>ij</sub>, т/ч</i></td>
                             <td colspan=8 style="text-align: center">Результаты измерений</td>
                         </tr>
                         <tr>
-                            <td><i><i style="text-decoration: overline">N</i><sup>ТПР</sup><sub>ij</sub>, имп</i></td>
-                            <td><i><i style="text-decoration: overline">t</i><sup>ТПР</sup><sub>ij</sub>, ºC</i></td>
-                            <td><i><i style="text-decoration: overline">P</i><sup>ТПР</sup><sub>ij</sub>, МПа</i></td>
-                            <td><i><i style="text-decoration: overline">t</i><sup>КП</sup><sub>ij</sub>, ºC</i></td>
-                            <td><i><i style="text-decoration: overline">P</i><sup>КП</sup><sub>ij</sub>, МПа</i></td>
-                            <td><i>t<sup>ст</sup><sub>ij</sub>, ºC</i></td>
-                            <td><i>W<sub>в</sub>(W<sub>вi</sub>), %</i></td>
-                            <td><i>W<sub>хс</sub>, %</i></td>
+                            <td><i><i style="text-decoration: overline">N</i><sup>ТПР</sup><sub>ij</sub>,<br> имп</i></td>
+                            <td><i><i style="text-decoration: overline">t</i><sup>ТПР</sup><sub>ij</sub>,<br> ºC</i></td>
+                            <td><i><i style="text-decoration: overline">P</i><sup>ТПР</sup><sub>ij</sub>,<br> МПа</i></td>
+                            <td><i><i style="text-decoration: overline">t</i><sup>КП</sup><sub>ij</sub>,<br> ºC</i></td>
+                            <td><i><i style="text-decoration: overline">P</i><sup>КП</sup><sub>ij</sub>,<br> МПа</i></td>
+                            <td><i>t<sup>ст</sup><sub>ij</sub>,<br> ºC</i></td>
+                            <td><i>W<sub>в</sub>(W<sub>вi</sub>),<br> %</i></td>
+                            <td><i>W<sub>хс</sub>,<br> %</i></td>
                         </tr>
                         </thead>
 
@@ -333,16 +339,16 @@
                         </caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td rowspan=2>№ точки / № серии (j/i)</td>
+                            <td rowspan=2>№ точки /<br> № серии (j/i)</td>
                             <td colspan=6 style="text-align: center">Результаты измерений</td>
                         </tr>
                         <tr>
-                            <td><i>V<sup>КП</sup><sub>ij</sub> , м<sup>3</sup></i></td>
-                            <td><i>K<sup>ТПР</sup><sub>ij</sub> , имп/м<sup>3</sup></i></td>
-                            <td><i>Π<sub>j</sub> , %</i></td>
-                            <td><i>K<sup>ТПР</sup><sub>j</sub> , имп/м<sup>3</sup></i></td>
-                            <td><i>K<sup>''комп</sup><sub>j</sub> , имп/м<sup>3</sup></i></td>
-                            <td><i>δ<sup>K</sup><sub>j</sub> , %</i></td>
+                            <td><i>V<sup>КП</sup><sub>ij</sub> ,<br> м<sup>3</sup></i></td>
+                            <td><i>K<sup>ТПР</sup><sub>ij</sub> ,<br> имп/м<sup>3</sup></i></td>
+                            <td><i>Π<sub>j</sub> ,<br> %</i></td>
+                            <td><i>K<sup>ТПР</sup><sub>j</sub> ,<br> имп/м<sup>3</sup></i></td>
+                            <td><i>K<sup>''комп</sup><sub>j</sub> ,<br> имп/м<sup>3</sup></i></td>
+                            <td><i>δ<sup>K</sup><sub>j</sub> ,<br> %</i></td>
                         </tr>
                         </thead>
 
@@ -361,7 +367,6 @@
                         </div>
                         </tbody>
                     </table>
-
                     <!-- Продолжение таблицы 2 с ТПР. МХ массомера-->
                     <table th:if="${usedTPR}" class="table table-bordered">
                         <caption>Продолжение таблицы 2<br>
@@ -369,21 +374,21 @@
                         </caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td rowspan=2>№ точки / № отсч. (j/i)</td>
+                            <td rowspan=2>№ точки /<br> № отсч. (j/i)</td>
                             <td rowspan=2><i>Q<sub>ij</sub> , т/ч</i></td>
                             <td colspan=2 style="text-align: center">Задания ТПР</td>
                             <td colspan=7 style="text-align: center">Результаты измерений</td>
                         </tr>
-                        <tr>>
-                            <td><i>K<sup>ТПР</sup><sub>j</sub> , имп/м<sup>3</sup></i></td>
-                            <td><i>N<sup>ТПР</sup><sub>задj</sub> , имп</i></td>
-                            <td><i>V<sup>ТПР</sup><sub>ij</sub> , м<sup>3</sup></i></td>
-                            <td><i>t<sup>ТПР</sup><sub>ij</sub> , имп</i></td>
-                            <td><i>P<sup>ТПР</sup><sub>ij</sub> , имп</i></td>
-                            <td><i>N<sup>мас</sup><sub>ij</sub> , имп</i></td>
-                            <td><i>ρ<sup>ПП</sup><sub>ij</sub> , имп</i></td>
-                            <td><i>t<sup>ПП</sup><sub>ij</sub> , имп</i></td>
-                            <td><i>P<sup>ПП</sup><sub>ij</sub> , имп</i></td>
+                        <tr>
+                            <td><i>K<sup>ТПР</sup><sub>j</sub> ,<br> имп/м<sup>3</sup></i></td>
+                            <td><i>N<sup>ТПР</sup><sub>задj</sub> ,<br> имп</i></td>
+                            <td><i>V<sup>ТПР</sup><sub>ij</sub> ,<br> м<sup>3</sup></i></td>
+                            <td><i>t<sup>ТПР</sup><sub>ij</sub> ,<br> ºC</i></td>
+                            <td><i>P<sup>ТПР</sup><sub>ij</sub> ,<br> МПа</i></td>
+                            <td><i>N<sup>мас</sup><sub>ij</sub> ,<br> имп</i></td>
+                            <td><i>ρ<sup>ПП</sup><sub>ij</sub> ,<br> кг/м<sup>3</sup></i></td>
+                            <td><i>t<sup>ПП</sup><sub>ij</sub> ,<br> ºC</i></td>
+                            <td><i>P<sup>ПП</sup><sub>ij</sub> ,<br> МПа</i></td>
                         </tr>
                         </thead>
 
@@ -413,13 +418,13 @@
                         </caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td rowspan=2>№ точки / № серии (j/i)</td>
+                            <td rowspan=2>№ точки /<br> № серии <br> (j/i)</td>
                             <td colspan=4 style="text-align: center">Результаты измерений</td>
                         </tr>
                         <tr>
-                            <td><i>ρ<sup>ПП</sup><sub>пр ij</sub> , кг/м<sup>3</sup></i></td>
-                            <td><i>M<sup>рэ</sup><sub>ij</sub> , т</i></td>
-                            <td><i>M<sup>мас</sup><sub>ij</sub> , т</i></td>
+                            <td><i>ρ<sup>ПП</sup><sub>пр ij</sub> ,<br> кг/м<sup>3</sup></i></td>
+                            <td><i>M<sup>рэ</sup><sub>ij</sub> ,<br> т</i></td>
+                            <td><i>M<sup>мас</sup><sub>ij</sub> ,<br> т</i></td>
                             <td th:if="${calibrCharImpl == 'ПЭП'}"><i>MF<sub>ij</sub></i></td>
                             <td th:unless="${calibrCharImpl == 'ПЭП'}"><i>KF<sub>ij</sub></i></td>
                         </tr>
@@ -445,19 +450,19 @@
                         </caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td rowspan=2>№ точки / № серии (j/i)</td>
+                            <td rowspan=2>№ точки /<br> № серии <br>(j/i)</td>
                             <td rowspan=2><i>Q<sub>ij</sub> , т/ч</i></td>
                             <td colspan=8 style="text-align: center">Результаты измерений</td>
                         </tr>
                         <tr>
-                            <td><i><i style="text-decoration: overline">N</i><sup>мас</sup><sub>ij</sub> , имп</i></td>
-                            <td><i><i style="text-decoration: overline">t</i><sup>КП</sup><sub>ij</sub> , ºC</i></td>
-                            <td><i><i style="text-decoration: overline">P</i><sup>КП</sup><sub>ij</sub> , МПа</i></td>
-                            <td><i><i style="text-decoration: overline">ρ</i><sup>ПП</sup><sub>ij</sub> , кг/м<sup>3</sup></i></td>
-                            <td><i><i style="text-decoration: overline">t</i><sup>ПП</sup><sub>ij</sub> , ºC</i></td>
-                            <td><i><i style="text-decoration: overline">P</i><sup>ПП</sup><sub>ij</sub> , МПа</i></td>
-                            <td><i>W<sub>в</sub>(W<sub>вi</sub>) , %</i></td>
-                            <td><i>W<sub>хс</sub> , %</i></td>
+                            <td><i><i style="text-decoration: overline">N</i><sup>мас</sup><sub>ij</sub> ,<br> имп</i></td>
+                            <td><i><i style="text-decoration: overline">t</i><sup>КП</sup><sub>ij</sub> ,<br> ºC</i></td>
+                            <td><i><i style="text-decoration: overline">P</i><sup>КП</sup><sub>ij</sub> ,<br> МПа</i></td>
+                            <td><i><i style="text-decoration: overline">ρ</i><sup>ПП</sup><sub>ij</sub> ,<br> кг/м<sup>3</sup></i></td>
+                            <td><i><i style="text-decoration: overline">t</i><sup>ПП</sup><sub>ij</sub> ,<br> ºC</i></td>
+                            <td><i><i style="text-decoration: overline">P</i><sup>ПП</sup><sub>ij</sub> ,<br> МПа</i></td>
+                            <td><i>W<sub>в</sub>(W<sub>вi</sub>) ,<br> %</i></td>
+                            <td><i>W<sub>хс</sub> ,<br> %</i></td>
                         </tr>
                         </thead>
                         <tbody>
@@ -512,9 +517,9 @@
                         <caption>Таблица 3 - Значения коэффициентов, использованных при вычислениях</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td><i>α<sup>цил</sup><sub>t</sub> , ºC<sup>-1</sup></i></td>
-                            <td><i>α<sup>цил</sup><sub>tкв</sub> , ºC<sup>-1</sup></i></td>
-                            <td><i>α<sup>ст</sup><sub>t</sub> , ºC<sup>-1</sup></i></td>
+                            <td><i>α<sup>цил</sup><sub>t</sub> ,<br> ºC<sup>-1</sup></i></td>
+                            <td><i>α<sup>цил</sup><sub>tкв</sub> ,<br> ºC<sup>-1</sup></i></td>
+                            <td><i>α<sup>ст</sup><sub>t</sub> ,<br> ºC<sup>-1</sup></i></td>
                             <td><i>t<sub>(P, n))</sub></i></td>
                             <td th:if="${Z_P != null}"><i>Z<sub>(P)</sub></i></td>
                             <td th:if="${Z_P_k != null}" th:each="z_k,k : ${Z_P_k}"><i>Z<sub>(P)<i th:text="${k.index+1}"></i></sub></i></td>
@@ -537,16 +542,16 @@
                         <caption>Таблица 4 - Результаты поверки (при реализации ГХ в ПЭП)</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td>Точка расхода (j)</i></td>
-                            <td><i><i style="text-decoration: overline">Q</i><sub>j</sub> , т/ч</i></td>
+                            <td>Точка расхода<br>(j)</i></td>
+                            <td><i><i style="text-decoration: overline">Q</i><sub>j</sub> ,<br> т/ч</i></td>
                             <td><i><i style="text-decoration: overline">MF</i><sub>j</sub></i></td>
-                            <td><i>S<sup>MF</sup><sub>диап</sub> , %</i></td>
-                            <td><i>δ<sup>мас</sup><sub>0</sub> , %</i></td>
+                            <td><i>S<sup>MF</sup><sub>диап</sub> ,<br> %</i></td>
+                            <td><i>δ<sup>мас</sup><sub>0</sub> ,<br> %</i></td>
                             <td><i>MF<sub>диап</sub></i></td>
                             <td><i>K<sub>гр</sub></i></td>
-                            <td><i>ε , %</i></td>
-                            <td><i>θ<sub>Σ</sub> , %</i></td>
-                            <td><i>δ , %</i></td>
+                            <td><i>ε ,<br> %</i></td>
+                            <td><i>θ<sub>Σ</sub> ,<br> %</i></td>
+                            <td><i>δ ,<br> %</i></td>
                         </tr>
                         </thead>
                         <tbody>
@@ -571,16 +576,16 @@
                         <caption>Таблица 4 - Результаты поверки (при реализации ГХ в СОИ в виде постоянного значения К-фактора в рабочем диапазоне)</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td>Точка расхода (j)</i></td>
-                            <td><i><i style="text-decoration: overline">Q</i><sub>j</sub> , т/ч</i></td>
-                            <td><i><i style="text-decoration: overline">KF</i><sub>j</sub> , имп/т</i></td>
-                            <td><i>S<sup>KF</sup><sub>диап</sub> , %</i></td>
-                            <td><i>δ<sup>мас</sup><sub>0</sub> , %</i></td>
+                            <td>Точка расхода<br> (j)</i></td>
+                            <td><i><i style="text-decoration: overline">Q</i><sub>j</sub> ,<br> т/ч</i></td>
+                            <td><i><i style="text-decoration: overline">KF</i><sub>j</sub> ,<br> имп/т</i></td>
+                            <td><i>S<sup>KF</sup><sub>диап</sub> ,<br> %</i></td>
+                            <td><i>δ<sup>мас</sup><sub>0</sub> ,<br> %</i></td>
                             <td><i>KF<sub>диап</sub></i></td>
                             <td><i>θ<sup>KF</sup><sub>диап</sub></i></td>
-                            <td><i>ε , %</i></td>
-                            <td><i>θ<sub>Σ</sub> , %</i></td>
-                            <td><i>δ , %</i></td>
+                            <td><i>ε ,<br> %</i></td>
+                            <td><i>θ<sub>Σ</sub> ,<br> %</i></td>
+                            <td><i>δ ,<br> %</i></td>
                         </tr>
                         </thead>
                         <tbody>
@@ -605,18 +610,18 @@
                         <caption>Таблица 4 - Результаты поверки (при реализации ГХ в СОИ в виде кусочно-линейной аппроксимации значений <i style="text-decoration: overline">KF</i><sub>j</sub>)</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td>Точка расхода (j)</i></td>
-                            <td><i><i style="text-decoration: overline">Q</i><sub>j</sub> , т/ч</i></td>
-                            <td><i><i style="text-decoration: overline">KF</i><sub>j</sub> , имп/т</i></td>
-                            <td>№ поддиапазона (k)</i></td>
+                            <td>Точка расхода<br> (j)</i></td>
+                            <td><i><i style="text-decoration: overline">Q</i><sub>j</sub> ,<br> т/ч</i></td>
+                            <td><i><i style="text-decoration: overline">KF</i><sub>j</sub> ,<br> имп/т</i></td>
+                            <td>№ поддиапазона<br> (k)</i></td>
                             <td><i>Q<sub>kmin</sub></i></td>
                             <td><i>Q<sub>kmax</sub></i></td>
-                            <td><i>S<sup>KF</sup><sub>k</sub> , %</i></td>
-                            <td><i>δ<sup>мас</sup><sub>0k</sub> , %</i></td>
-                            <td><i>θ<sup>KF</sup><sub>k</sub> , %</i></td>
-                            <td><i>ε<sub>k</sub> , %</i></td>
-                            <td><i>θ<sub>Σk</sub> , %</i></td>
-                            <td><i>δ<sub>k</sub> , %</i></td>
+                            <td><i>S<sup>KF</sup><sub>k</sub> ,<br> %</i></td>
+                            <td><i>δ<sup>мас</sup><sub>0k</sub> ,<br> %</i></td>
+                            <td><i>θ<sup>KF</sup><sub>k</sub> ,<br> %</i></td>
+                            <td><i>ε<sub>k</sub> ,<br> %</i></td>
+                            <td><i>θ<sub>Σk</sub> ,<br> %</i></td>
+                            <td><i>δ<sub>k</sub> ,<br> %</i></td>
                         </tr>
                         </thead>
                         <tbody>

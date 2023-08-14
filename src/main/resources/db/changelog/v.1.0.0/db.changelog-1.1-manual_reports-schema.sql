@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS report
 CREATE TABLE IF NOT EXISTS report_data
 (
     id        BIGINT PRIMARY KEY,
-    data      VARCHAR(512) NOT NULL,
+    data      VARCHAR(1024) NOT NULL,
     tag_id    INTEGER      NOT NULL REFERENCES tag (id),
     report_id BIGINT       NOT NULL REFERENCES report (id)
 );

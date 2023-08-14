@@ -18,13 +18,19 @@
         <head th:replace="fragments/header"></head>
         <head>
             <style>
+                @media print {
+                    thead {
+                        display: table-row-group;
+                    }
+                }
 
                 .report-body p {
                     font-size: smaller;
                 }
 
                 .report-body td {
-                    padding: 0.25rem !important;
+                    width: auto;
+                    padding: 0.1rem !important;
                     text-align: center;
                     overflow: hidden;
                 }
@@ -100,16 +106,16 @@
                             <td colspan="9" style="text-align: center">СРМ</td>
                         </tr>
                         <tr>
-                            <td><i>Q<sub>pmax</sub>, т/ч</i></td>
-                            <td><i>f<sub>pmax</sub>, Гц</i></td>
-                            <td><i>K<sub>пм</sub>, имп/т</i></td>
-                            <td><i>ZS, т/ч</i></td>
+                            <td><i>Q<sub>pmax</sub>,<br> т/ч</i></td>
+                            <td><i>f<sub>pmax</sub>,<br> Гц</i></td>
+                            <td><i>K<sub>пм</sub>,<br> имп/т</i></td>
+                            <td><i>ZS,<br> т/ч</i></td>
                             <td><i>δ<sub>tдоп</sub></i></td>
                             <td><i>δ<sub>Рдоп</sub></i></td>
-                            <td><i>t<sub>min</sub>, ºC</i></td>
-                            <td><i>t<sub>max</sub>, ºC</i></td>
-                            <td><i>P<sub>min</sub>, МПа</i></td>
-                            <td><i>P<sub>max</sub>, МПа</i></td>
+                            <td><i>t<sub>min</sub>,<br> ºC</i></td>
+                            <td><i>t<sub>max</sub>,<br> ºC</i></td>
+                            <td><i>P<sub>min</sub>,<br> МПа</i></td>
+                            <td><i>P<sub>max</sub>,<br> МПа</i></td>
                         </tr>
                         </thead>
 
@@ -133,10 +139,10 @@
                         <caption>Таблица А.2 - Установленные коэффициенты СРМ (градуировочная характеристика)</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td><i>Q, т/ч</i></td>
-                            <td><i>f<sub>p</sub>, Гц</i></td>
-                            <td><i>K<sub>y</sub> (при MF<sub>p</sub>=1)</i></td>
-                            <td><i>MF<sub>p</sub> (при K<sub>пм</sub>)</i></td>
+                            <td><i>Q,<br> т/ч</i></td>
+                            <td><i>f<sub>p</sub>,<br> Гц</i></td>
+                            <td><i>K<sub>y</sub><br>(при MF<sub>p</sub>=1)</i></td>
+                            <td><i>MF<sub>p</sub><br>(при K<sub>пм</sub>)</i></td>
                         </tr>
                         </thead>
 
@@ -154,10 +160,10 @@
                         <caption>Таблица А.3 - Установленные коэффициенты ПР1 (2..g)</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td><i>Q<sub>э</sub>, т/ч</i></td>
-                            <td><i>f<sub>э</sub>, Гц</i></td>
-                            <td><i>K<sub>э</sub> (при MF<sub>э</sub>=1)</i></td>
-                            <td><i>MF<sub>э</sub> (при K<sup>э</sup><sub>пм</sub> )</i></td>
+                            <td><i>Q<sub>э</sub>,<br> т/ч</i></td>
+                            <td><i>f<sub>э</sub>,<br> Гц</i></td>
+                            <td><i>K<sub>э</sub><br>(при MF<sub>э</sub>=1)</i></td>
+                            <td><i>MF<sub>э</sub><br>(при K<sup>э</sup><sub>пм</sub>)</i></td>
                         </tr>
                         </thead>
 
@@ -185,17 +191,17 @@
                         <caption>Таблица А.4 - Результаты измерений и вычислений</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td style="width: 7rem;">№ точ/№ изм</td>
-                            <td><i>Q<sub>ij</sub>, т/ч</i></td>
-                            <td><i>T<sub>ij</sub>, с</i></td>
-                            <td><i>t<sub>ij</sub>, ºC</i></td>
-                            <td><i>P<sub>ij</sub>, МПа</i></td>
-                            <td><i>N<sub>pij</sub>, имп</i></td>
-                            <td><i>N<sub>э1ij</sub>, имп</i></td>
-                            <td><i>f<sub>ij</sub>, Гц</i></td>
-                            <td><i>M<sub>ij</sub>, т</i></td>
-                            <td><i>M<sup>э</sup><sub>ij</sub>, т</i></td>
-                            <td><i>K<sub>ij</sub>, имп/т</i></td>
+                            <td>№ точ/№ изм</td>
+                            <td><i>Q<sub>ij</sub>,<br> т/ч</i></td>
+                            <td><i>T<sub>ij</sub>,<br> с</i></td>
+                            <td><i>t<sub>ij</sub>,<br> ºC</i></td>
+                            <td><i>P<sub>ij</sub>,<br> МПа</i></td>
+                            <td><i>N<sub>pij</sub>,<br> имп</i></td>
+                            <td><i>N<sub>э1ij</sub>,<br> имп</i></td>
+                            <td><i>f<sub>ij</sub>,<br> Гц</i></td>
+                            <td><i>M<sub>ij</sub>,<br> т</i></td>
+                            <td><i>M<sup>э</sup><sub>ij</sub>,<br> т</i></td>
+                            <td><i>K<sub>ij</sub>,<br> имп/т</i></td>
                             <td><i>MF<sub>ij</sub></i></td>
                         </tr>
                         </thead>
@@ -224,21 +230,21 @@
                         <caption>Таблица А.5 - результаты поверки в точках рабочего диапазона измерений</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td style="width: 4rem;">№ точки</td>
-                            <td><i>Q<sub>j</sub>, т/ч</i></td>
-                            <td><i>f<sub>j</sub>, Гц</i></td>
-                            <td style="width: 5rem;"><i>K<sub>j</sub>, имп/т</i></td>
+                            <td>№ точки</td>
+                            <td><i>Q<sub>j</sub>,<br> т/ч</i></td>
+                            <td><i>f<sub>j</sub>,<br> Гц</i></td>
+                            <td><i>K<sub>j</sub>,<br> имп/т</i></td>
                             <td><i>MF<sub>j</sub></i></td>
-                            <td><i>S<sub>j</sub>, %</i></td>
-                            <td><i>S<sub>0j</sub>, %</i></td>
+                            <td><i>S<sub>j</sub>,<br> %</i></td>
+                            <td><i>S<sub>0j</sub>,<br> %</i></td>
                             <td><i>n</i></td>
-                            <td style="width: 6rem;"><i>t<sub>0,95</sub>, имп/т</i></td>
-                            <td><i>ε<sub>j</sub>, %</i></td>
-                            <td><i>Θ<sub>э</sub>, %</i></td>
-                            <td><i>Θ<sub>t</sub>, %</i></td>
-                            <td><i>Θ<sub>p</sub>, %</i></td>
-                            <td><i>Θ<sub>N</sub>, %</i></td>
-                            <td><i>Θ<sub>jz</sub>, %</i></td>
+                            <td><i>t<sub>0,95</sub>,<br> имп/т</i></td>
+                            <td><i>ε<sub>j</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>э</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>t</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>p</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>N</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>jz</sub>,<br> %</i></td>
                         </tr>
                         </thead>
 
@@ -272,11 +278,11 @@
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
                             <td>№ точки</td>
-                            <td><i>Θ<sub>Σj</sub>, %</i></td>
-                            <td><i>S<sub>Θj</sub>, %</i></td>
-                            <td><i>S<sub>Σj</sub>, %</i></td>
+                            <td><i>Θ<sub>Σj</sub>,<br> %</i></td>
+                            <td><i>S<sub>Θj</sub>,<br> %</i></td>
+                            <td><i>S<sub>Σj</sub>,<br> %</i></td>
                             <td><i>t<sub>Σj</sub></i></td>
-                            <td><i>δ<sub>j</sub>, %</i></td>
+                            <td><i>δ<sub>j</sub>,<br> %</i></td>
                         </tr>
                         </thead>
 
@@ -298,19 +304,19 @@
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
                             <td>Поддиапазон</td>
-                            <td style="width: 5rem;"><i>Q<sub>min</sub>, т/ч</i></td>
-                            <td style="width: 5rem;"><i>Q<sub>max</sub>, т/ч</i></td>
-                            <td><i>ε<sub>ПДk</sub>, %</i></td>
-                            <td><i>S<sub>ПДk</sub>, %</i></td>
-                            <td><i>Θ<sub>ПДt</sub>, %</i></td>
-                            <td><i>Θ<sub>ПДp</sub>, %</i></td>
-                            <td><i>Θ<sub>ПДk</sub>, %</i></td>
-                            <td><i>Θ<sub>ПДz</sub>, %</i></td>
-                            <td><i>Θ<sub>ΣПДk</sub>, %</i></td>
-                            <td><i>S<sub>ΘПДk</sub>, %</i></td>
-                            <td><i>S<sub>ΣПДk</sub>, %</i></td>
-                            <td><i>t<sub>ΣПДk</sub>, %</i></td>
-                            <td><i>δ<sub>ПДk</sub>, %</i></td>
+                            <td><i>Q<sub>min</sub>,<br> т/ч</i></td>
+                            <td><i>Q<sub>max</sub>,<br> т/ч</i></td>
+                            <td><i>ε<sub>ПДk</sub>,<br> %</i></td>
+                            <td><i>S<sub>ПДk</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>ПДt</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>ПДp</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>ПДk</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>ПДz</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>ΣПДk</sub>,<br> %</i></td>
+                            <td><i>S<sub>ΘПДk</sub>,<br> %</i></td>
+                            <td><i>S<sub>ΣПДk</sub>,<br> %</i></td>
+                            <td><i>t<sub>ΣПДk</sub>,<br> %</i></td>
+                            <td><i>δ<sub>ПДk</sub>,<br> %</i></td>
                         </tr>
                         </thead>
 
@@ -343,22 +349,22 @@
                         <caption>Таблица А.7 - Результаты поверки в рабочем диапазоне измерений</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td style="width: 5rem;"><i>Q<sub>min</sub>, т/ч</i></td>
-                            <td style="width: 5rem;"><i>Q<sub>max</sub>, т/ч</i></td>
-                            <td style="width: 5rem;"><i>K, имп/т</i></td>
+                            <td><i>Q<sub>min</sub>,<br> т/ч</i></td>
+                            <td><i>Q<sub>max</sub>,<br> т/ч</i></td>
+                            <td><i>K,<br> имп/т</i></td>
                             <td><i>MF</i></td>
                             <td><i>MF'</i></td>
-                            <td><i>ε<sub>Д</sub>, %</i></td>
-                            <td><i>S<sub>Д</sub>, %</i></td>
-                            <td><i>Θ<sub>Дt</sub>, %</i></td>
-                            <td><i>Θ<sub>Дp</sub>, %</i></td>
-                            <td><i>Θ<sub>Д</sub>, %</i></td>
-                            <td><i>Θ<sub>Дz</sub>, %</i></td>
-                            <td><i>Θ<sub>ΣД</sub>, %</i></td>
-                            <td><i>S<sub>ΘД</sub>, %</i></td>
-                            <td><i>S<sub>ΣД</sub>, %</i></td>
-                            <td><i>t<sub>ΣД</sub>, %</i></td>
-                            <td><i>δ<sub>Д</sub>, %</i></td>
+                            <td><i>ε<sub>Д</sub>,<br> %</i></td>
+                            <td><i>S<sub>Д</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>Дt</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>Дp</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>Д</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>Дz</sub>,<br> %</i></td>
+                            <td><i>Θ<sub>ΣД</sub>,<br> %</i></td>
+                            <td><i>S<sub>ΘД</sub>,<br> %</i></td>
+                            <td><i>S<sub>ΣД</sub>,<br> %</i></td>
+                            <td><i>t<sub>ΣД</sub>,<br> %</i></td>
+                            <td><i>δ<sub>Д</sub>,<br> %</i></td>
                         </tr>
                         </thead>
 

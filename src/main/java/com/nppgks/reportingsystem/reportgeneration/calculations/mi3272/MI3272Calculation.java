@@ -327,7 +327,9 @@ public class MI3272Calculation {
                     }
                     MI3272FinalData.setConclusion(MI3272Constants.FIT);
                 }
-                MI3272FinalData.setConclusion(MI3272Constants.UNFIT);
+                else{
+                    MI3272FinalData.setConclusion(MI3272Constants.UNFIT);
+                }
             }
         }
 
@@ -817,7 +819,7 @@ public class MI3272Calculation {
 
     private boolean checkDelta_k_j(double[] delta_k_j) {
         for (double el : delta_k_j) {
-            if (el > 0.02) return false;
+            if (Math.abs(el) > 0.02) return false;
         }
         return true;
     }
