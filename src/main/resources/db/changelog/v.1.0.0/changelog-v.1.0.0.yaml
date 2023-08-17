@@ -17,3 +17,5 @@ databaseChangeLog:
       - file: db/changelog/v.1.0.0/db.changelog-4.0-act-of-acceptance-tags.sql
   - include:
       - file: db/changelog/v.1.0.0/db.changelog-5.0-mi3272-data.sql
+  - include:
+      - file: db/changelog/v.1.0.0/db.changelog-6.0-kmh-viscometer-tags.sql
