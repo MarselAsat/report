@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.controller;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
-import com.nppgks.reportingsystem.reportgeneration.acts.AcceptanceActGenerator;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.acts.AcceptanceActGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.poverki.mi3272.calculations;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations;
 
 public class OperatingFluid {
     public static final String OIL = "нефть";

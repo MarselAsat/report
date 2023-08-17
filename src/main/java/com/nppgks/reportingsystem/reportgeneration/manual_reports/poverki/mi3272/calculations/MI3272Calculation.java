@@ -1,8 +1,8 @@
-package com.nppgks.reportingsystem.reportgeneration.poverki.mi3272.calculations;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations;
 
 import com.nppgks.reportingsystem.constants.MI3272Constants;
 import com.nppgks.reportingsystem.exception.MissingOpcTagException;
-import com.nppgks.reportingsystem.reportgeneration.poverki.CommonFunctions;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.CommonFunctions;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;

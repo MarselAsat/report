@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.acts;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.acts;
 
 import com.nppgks.reportingsystem.constants.ManualReportTypes;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
@@ -7,8 +7,8 @@ import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
-import com.nppgks.reportingsystem.reportgeneration.poverki.ManualReportGenerator;
-import com.nppgks.reportingsystem.reportgeneration.poverki.SaveReportStrategy;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
 import com.nppgks.reportingsystem.service.dbservices.SettingsService;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;

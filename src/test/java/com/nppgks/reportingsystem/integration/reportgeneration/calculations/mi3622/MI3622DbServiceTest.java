@@ -6,7 +6,7 @@ import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
 import com.nppgks.reportingsystem.dto.manual.ManualTagDto;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ServiceIT;
-import com.nppgks.reportingsystem.reportgeneration.poverki.SaveOnceADayStrategy;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveOnceADayStrategy;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

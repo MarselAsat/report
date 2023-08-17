@@ -1,11 +1,11 @@
-package com.nppgks.reportingsystem.reportgeneration.poverki;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki;
 
 import com.nppgks.reportingsystem.constants.Regexes;
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import com.nppgks.reportingsystem.exception.MissingOpcTagException;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622Calculation;
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622FinalData;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622Calculation;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622FinalData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 

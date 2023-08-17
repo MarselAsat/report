@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.poverki.mi3622;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
@@ -6,12 +6,12 @@ import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.constants.ManualReportTypes;
-import com.nppgks.reportingsystem.reportgeneration.poverki.ManualReportGenerator;
-import com.nppgks.reportingsystem.reportgeneration.poverki.SaveReportStrategy;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.DataConverter;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622FinalData;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622InitialData;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
-import com.nppgks.reportingsystem.reportgeneration.poverki.DataConverter;
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622FinalData;
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622InitialData;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
 import org.springframework.beans.factory.annotation.Qualifier;

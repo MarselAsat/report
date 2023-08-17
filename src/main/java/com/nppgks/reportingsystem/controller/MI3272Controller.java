@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.controller;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
-import com.nppgks.reportingsystem.reportgeneration.poverki.ManualReportGenerator;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;

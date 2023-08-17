@@ -2,7 +2,7 @@ package com.nppgks.reportingsystem.integration.reportgeneration.calculations.mi3
 
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ServiceIT;
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.MI3622ReportGenerator;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.MI3622ReportGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

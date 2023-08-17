@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.poverki.mi3272;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272;
 
 import com.nppgks.reportingsystem.constants.ManualReportTypes;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
@@ -6,10 +6,13 @@ import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
-import com.nppgks.reportingsystem.reportgeneration.poverki.*;
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3272.calculations.MI3272Calculation;
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3272.calculations.MI3272FinalData;
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3272.calculations.MI3272InitialData;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.DataConverter;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.DataRounder;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272Calculation;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272FinalData;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272InitialData;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;

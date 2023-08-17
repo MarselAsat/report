@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.unit.reportgeneration.calculations.mi3622;
 
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622InitialData;
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622Calculation;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622InitialData;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622Calculation;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.poverki;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;

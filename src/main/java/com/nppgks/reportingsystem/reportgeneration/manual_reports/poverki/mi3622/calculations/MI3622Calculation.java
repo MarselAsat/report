@@ -1,13 +1,11 @@
-package com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations;
 
 import com.nppgks.reportingsystem.constants.MI3622Constants;
-import com.nppgks.reportingsystem.reportgeneration.poverki.CommonFunctions;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.CommonFunctions;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
-
-import static com.nppgks.reportingsystem.reportgeneration.poverki.CommonFunctions.*;
 
 @SuppressWarnings("unused")
 @Slf4j
@@ -104,7 +102,7 @@ public class MI3622Calculation {
             if (eLen != Q_e_arr.length)
                 throw new NotValidTagValueException("Длины массивов Q_e_arr=%s и K_e_arr=%s должны совпадать"
                         .formatted(Arrays.toString(Q_e_arr), Arrays.toString(K_e_arr)));
-            K_e_ij = linearInterpolation(Q_i_j, Q_e_arr, K_e_arr);
+            K_e_ij = CommonFunctions.linearInterpolation(Q_i_j, Q_e_arr, K_e_arr);
         }
         return K_e_ij;
     }
@@ -113,7 +111,7 @@ public class MI3622Calculation {
         log.info("Рассчет массы измеряемой среды, измеренная преобразователем массового расхода (M_e, т) согласно п.7.2 по формуле (3) МИ3622-2020");
 
         double[][] K_e = calculateK_e_ij();
-        double[][] M_e = getDivisionOfTwoArrays(N_e_i_j, K_e);
+        double[][] M_e = CommonFunctions.getDivisionOfTwoArrays(N_e_i_j, K_e);
 
         log.debug("Кол-во импульсов, поступившее с ПР (N_e, имп) {}", Arrays.deepToString(N_e_i_j));
         log.debug("Коэффициент преобразования ПР, вычисленный по градуировочной характеристике (K_e, имп/т) {}", Arrays.deepToString(K_e));
@@ -179,7 +177,7 @@ public class MI3622Calculation {
         double[] MF_j = null;
         if (MFOrK.equalsIgnoreCase(MI3622Constants.MF)) {
             double[][] MF_ij = calculateMF_ij();
-            MF_j = getAverageForEachColumn(MF_ij);
+            MF_j = CommonFunctions.getAverageForEachColumn(MF_ij);
 
             log.debug("Значения коэффициентов коррекции поверяемого СРМ (MF) {}", Arrays.deepToString(MF_ij));
             log.debug("Количество измерений (n) {}", measureCount);
@@ -207,7 +205,7 @@ public class MI3622Calculation {
         double[] Kj = null;
         if (MFOrK.equalsIgnoreCase(MI3622Constants.K)) {
             double[][] K_ij = calculateK_ij();
-            Kj = getAverageForEachColumn(K_ij);
+            Kj = CommonFunctions.getAverageForEachColumn(K_ij);
         }
 
         return Kj;
@@ -239,7 +237,7 @@ public class MI3622Calculation {
     public double[][] calculateF_ij() {
         log.info("Рассчет частоты выходного сигнала поверяемого СРМ (f, Гц) согласно п.7.9 по формуле (12) МИ3622-2020");
 
-        double[][] f_ij = getDivisionOfTwoArrays(N_p_i_j, T_i_j);
+        double[][] f_ij = CommonFunctions.getDivisionOfTwoArrays(N_p_i_j, T_i_j);
 
         log.debug("кол-во импульсов, поступившее с поверяемого СРМ (N_r, имп) {}", Arrays.deepToString(N_p_i_j));
         log.debug("время измерения (T, с) {}", Arrays.deepToString(T_i_j));
@@ -250,7 +248,7 @@ public class MI3622Calculation {
 
     public double[] calculateF_j() {
         double[][] f_ij = calculateF_ij();
-        return getAverageForEachColumn(f_ij);
+        return CommonFunctions.getAverageForEachColumn(f_ij);
     }
 
     public double[] calculateS_j() {
@@ -288,7 +286,7 @@ public class MI3622Calculation {
 
     public boolean checkS_j() {
         double[] S_j = calculateS_j();
-        return getMaxInArray(S_j) <= 0.03;
+        return CommonFunctions.getMaxInArray(S_j) <= 0.03;
     }
 
     public String calculateConclusion() {
@@ -304,7 +302,7 @@ public class MI3622Calculation {
                 if (delta_PDk == null) {
                     return "Не может быть вычислено delta_PDk, т.к. кол-во точек < 2";
                 } else {
-                    if (getMaxInArray(delta_PDk) <= 0.25) return isValid;
+                    if (CommonFunctions.getMaxInArray(delta_PDk) <= 0.25) return isValid;
                     else return isNotValid;
                 }
             } else {
@@ -313,7 +311,7 @@ public class MI3622Calculation {
             }
         } else if (operatingOrControlCPM.equalsIgnoreCase(MI3622Constants.CONTROL)) {
             double[] delta_j = calculateDelta_j();
-            if (getMaxInArray(delta_j) <= 0.2) return isValid;
+            if (CommonFunctions.getMaxInArray(delta_j) <= 0.2) return isValid;
             else return isNotValid;
         } else {
             throw new NotValidTagValueException("Значение поля operatingOrControl=%s, но оно должно быть либо '%s', либо '%s'"
@@ -368,7 +366,7 @@ public class MI3622Calculation {
         log.info("Рассчет границы случайной составляющей погрешности СРМ в диапазоне измерений (E_d) согласно п.7.14 по формуле (18) МИ3622-2020");
 
         double[] eps_j = calculateEps_j();
-        double eps_d = getMaxInArray(eps_j);
+        double eps_d = CommonFunctions.getMaxInArray(eps_j);
 
         log.debug("Значения границ случайной составляющей погрешности СРМ (eps_j) {}", eps_j);
         log.info("eps_d = {}", eps_d);
@@ -377,7 +375,7 @@ public class MI3622Calculation {
     }
 
     public double[] calculateQ_j() {
-        return getAverageForEachColumn(Q_i_j);
+        return CommonFunctions.getAverageForEachColumn(Q_i_j);
     }
 
     public double[] calculateTheta_sigma_j() {
@@ -569,7 +567,7 @@ public class MI3622Calculation {
     }
 
     public double calculateS_D() {
-        return getMaxInArray(calculateS_0j());
+        return CommonFunctions.getMaxInArray(calculateS_0j());
     }
 
     public double calculateS_sigma_D() {
@@ -697,12 +695,12 @@ public class MI3622Calculation {
     public boolean checkIfWorkingSRMIsFit() {
         double delta_D = calculateDelta_D();
         double[] delta_Pdk = calculateDelta_PDk();
-        return Math.max(getMaxInArray(delta_Pdk), delta_D) <= 0.25;
+        return Math.max(CommonFunctions.getMaxInArray(delta_Pdk), delta_D) <= 0.25;
     }
 
     public boolean checkIfControlSRMIsFit(boolean theta_zjIsRequired) {
         double[] delta_j = calculateDelta_j();
-        return getMaxInArray(delta_j) <= 0.2;
+        return CommonFunctions.getMaxInArray(delta_j) <= 0.2;
     }
 
     public double[] calculateTheta_zj() {

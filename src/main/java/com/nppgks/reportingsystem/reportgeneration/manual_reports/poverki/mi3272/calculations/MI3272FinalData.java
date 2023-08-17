@@ -1,6 +1,6 @@
-package com.nppgks.reportingsystem.reportgeneration.poverki.mi3272.calculations;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations;
 
-import com.nppgks.reportingsystem.reportgeneration.poverki.FinalData;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.FinalData;
 import lombok.Data;
 
 @Data

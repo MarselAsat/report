@@ -1,6 +1,6 @@
-package com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations;
 
-import com.nppgks.reportingsystem.reportgeneration.poverki.FinalData;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.FinalData;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 
