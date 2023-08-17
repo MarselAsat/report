@@ -1,9 +1,9 @@
 package com.nppgks.reportingsystem.unit.reportgeneration.calculations.mi3622;
 
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.DataConverter;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.MI3622FinalData;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.MI3622InitialData;
+import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622Calculation;
+import com.nppgks.reportingsystem.reportgeneration.poverki.DataConverter;
+import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622FinalData;
+import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622InitialData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -26,7 +26,7 @@ class DataConverterTest {
         Mockito.doReturn(arr2Dim).when(poverkaMock).calculateM_e_ij();
         Mockito.doReturn(singleVal).when(poverkaMock).calculateK();
 
-        MI3622FinalData MI3622FinalData = DataConverter.calculateFinalData(poverkaMock);
+        MI3622FinalData MI3622FinalData = DataConverter.calculateMI3622FinalData(poverkaMock);
 
         assertThat(MI3622FinalData.getS_0j()).isEqualTo(arr1Dim);
         assertThat(MI3622FinalData.getEps_j()).isEqualTo(arr1Dim);

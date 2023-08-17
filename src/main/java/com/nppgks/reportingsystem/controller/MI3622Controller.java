@@ -1,9 +1,9 @@
 package com.nppgks.reportingsystem.controller;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Generator;
+import com.nppgks.reportingsystem.reportgeneration.poverki.ManualReportGenerator;
 import com.nppgks.reportingsystem.util.ArrayParser;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/mi3622")
 public class MI3622Controller {
-    private final MI3622Generator MI3622Generator;
+    private final ManualReportGenerator MI3622Generator;
+
+    public MI3622Controller(@Qualifier("MI3622ReportGenerator") ManualReportGenerator reportGenerator) {
+        this.MI3622Generator = reportGenerator;
+    }
 
     @GetMapping
     public String calculateMI3622(ModelMap modelMap) {
-        List<ReportData> reportDataList = MI3622Generator.generateMI3622Report();
+        List<ReportData> reportDataList = MI3622Generator.generateReport();
         reportDataList.forEach(td -> {
             Object value = ArrayParser.fromJsonToObject(td.getData());
             modelMap.put(
@@ -33,6 +36,6 @@ public class MI3622Controller {
     @ResponseBody
     @GetMapping("/save")
     public String saveMI3622Data() {
-        return MI3622Generator.saveInDb();
+        return MI3622Generator.saveReportInDb();
     }
 }

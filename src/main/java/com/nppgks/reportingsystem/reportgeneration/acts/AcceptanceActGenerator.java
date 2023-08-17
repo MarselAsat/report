@@ -7,10 +7,12 @@ import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
+import com.nppgks.reportingsystem.reportgeneration.poverki.ManualReportGenerator;
+import com.nppgks.reportingsystem.reportgeneration.poverki.SaveReportStrategy;
 import com.nppgks.reportingsystem.service.dbservices.SettingsService;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,31 +23,32 @@ import java.util.stream.Collectors;
 import static com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter.formatToSinglePattern;
 
 @Service
-@RequiredArgsConstructor
-public class AcceptanceActGenerator {
+public class AcceptanceActGenerator extends ManualReportGenerator {
 
     private final String SHIFT_START_DT_TAGNAME = "dtStart_shiftn";
     private final String SHIFT_END_DT_TAGNAME = "dtEnd_shiftn";
     private final String TAG_NAME_POSTFIX = "shiftn";
     private final String TAG_ADDRESS_POSTFIX = "shift\\d";
     private final SettingsService settingsService;
-    private final AcceptanceActDbService acceptanceActDbService;
-    private final ManualTagService tagService;
+    private final ManualTagService manualTagService;
     private final OpcServiceRequests opcServiceRequests;
-    private List<ReportData> reportDataList = new ArrayList<>();
     private List<ManualTagForOpc> tags;
-    private Report report;
-    private boolean isSaved = false;
 
-    public List<ReportData> generateActOfAcceptance() {
+    public AcceptanceActGenerator(@Qualifier("saveManyTimesADayStrategy") SaveReportStrategy saveReportStrategy,
+                                  OpcServiceRequests opcServiceRequests, ManualTagService manualTagService,
+                                  SettingsService settingsService) {
+        super(saveReportStrategy);
+        this.opcServiceRequests = opcServiceRequests;
+        this.manualTagService = manualTagService;
+        this.settingsService = settingsService;
+    }
+
+    @Override
+    protected List<ReportData> generateReportDataList() {
         LocalDateTime currentDt = LocalDateTime.now();
-        report = new Report(
-                null,
-                "Акт приема-сдачи нефти от %s".formatted(formatToSinglePattern(currentDt)),
-                currentDt,
-                ManualReportTypes.ACCEPTANCE_ACT.name());
+        report = createReport(currentDt);
 
-        tags = tagService.getTagsByInitialAndReportType(true, ManualReportTypes.ACCEPTANCE_ACT.name());
+        tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypes.ACCEPTANCE_ACT.name());
         List<String> tagAddressesForOpc = new ArrayList<>();
         int numOfShiftColumns = computeNumOfShiftColumns(currentDt);
         for (ManualTagForOpc tag : tags) {
@@ -57,8 +60,17 @@ public class AcceptanceActGenerator {
         }
 
         Map<String, String> tagValuesFromOpc = opcServiceRequests.getTagValuesFromOpc(tagAddressesForOpc);
-        reportDataList = convertTagValuesToReportData(tagValuesFromOpc, tags, report);
+        reportDataList = convertTagValuesToReportData(tagValuesFromOpc, tags, this.report);
         return reportDataList;
+    }
+
+    @Override
+    protected Report createReport(LocalDateTime currentDt) {
+        return new Report(
+                null,
+                "Акт приема-сдачи нефти от %s".formatted(formatToSinglePattern(currentDt)),
+                currentDt,
+                ManualReportTypes.ACCEPTANCE_ACT.name());
     }
 
     public void updateShiftsDateTimeInReportData(List<String> dtStartShifts, List<String> dtEndShifts) {
@@ -111,16 +123,6 @@ public class AcceptanceActGenerator {
         }
     }
 
-    public String saveInDb() {
-        if (isSaved) {
-            return "Эти результаты уже сохранены в базу данных";
-        }
-        String response = acceptanceActDbService.saveReportData(reportDataList, report);
-        isSaved = true;
-        return response;
-    }
-
-
     private int computeNumOfShiftColumns(LocalDateTime currentDt) {
         LinkedHashMap<String, String> shiftNumToStartTime = settingsService.getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT);
         int shiftCount = shiftNumToStartTime.size();
@@ -150,7 +152,7 @@ public class AcceptanceActGenerator {
                 currentShift = shiftNumPrev;
                 break;
             }
-            if ((shiftNum + "").equals(shiftNumToStartTimeSorted.get(shiftsCount - 1).getKey())) {
+            if ((String.valueOf(shiftNum)).equals(shiftNumToStartTimeSorted.get(shiftsCount - 1).getKey())) {
                 currentShift = shiftNum;
             }
             shiftTimePrev = shiftTime;

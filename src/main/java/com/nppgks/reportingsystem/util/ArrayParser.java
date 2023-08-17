@@ -4,9 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.nppgks.reportingsystem.constants.Regexes;
-import com.nppgks.reportingsystem.reportgeneration.calculations.Double2DimArraySerializer;
-import com.nppgks.reportingsystem.reportgeneration.calculations.DoubleArraySerializer;
-import com.nppgks.reportingsystem.reportgeneration.calculations.DoubleSerializer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

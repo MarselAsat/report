@@ -6,7 +6,7 @@ import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
 import com.nppgks.reportingsystem.dto.manual.ManualTagDto;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ServiceIT;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622DbService;
+import com.nppgks.reportingsystem.reportgeneration.poverki.SaveOnceADayStrategy;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ import java.util.List;
 @Sql({"classpath:sql/manual_reports/MI3622.sql"})
 class MI3622DbServiceTest extends IntegrationBaseTest {
 
-    private final MI3622DbService MI3622DbService;
+    private final SaveOnceADayStrategy saveOnceADayStrategy;
     private final ManualTagService tagService;
 
     @Autowired
-    MI3622DbServiceTest(MI3622DbService MI3622DbService, ManualTagService tagService) {
-        this.MI3622DbService = MI3622DbService;
+    MI3622DbServiceTest(SaveOnceADayStrategy saveOnceADayStrategy, ManualTagService tagService) {
+        this.saveOnceADayStrategy = saveOnceADayStrategy;
         this.tagService = tagService;
     }
 
@@ -46,6 +46,6 @@ class MI3622DbServiceTest extends IntegrationBaseTest {
                 new ReportData(null, "78", ManualTagDto.toTag(tags.get(4)), report)
         );
 
-        MI3622DbService.saveCalculations(reportDataList, report);
+        saveOnceADayStrategy.saveReportDataInDb(reportDataList, report);
     }
 }
