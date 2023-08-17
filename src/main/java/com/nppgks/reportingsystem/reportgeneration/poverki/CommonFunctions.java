@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.calculations;
+package com.nppgks.reportingsystem.reportgeneration.poverki;
 
 import java.util.Arrays;
 

@@ -8,6 +8,10 @@
         .pointer {
             cursor: pointer;
         }
+        .report-sub-type{
+            padding-left: 2rem !Important;
+            color: gray;
+        }
     </style>
 </head>
 
@@ -21,9 +25,19 @@
                th:text="${reportType.name}" class="list-group-item pointer" th:id="'reportType-'+${reportType.id}"
                onclick="reportTypeIsChanged(this)">
             </a>
-            <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer" id="reportType-mi3622">МИ3622</a>
-            <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer" id="reportType-acceptanceAct">Акты приема-сдачи</a>
-            <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer" id="reportType-mi3272">МИ3272</a>
+            <a class="list-group-item pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapsePoverki" role="button" aria-expanded="false" aria-controls="collapsePoverki">
+                Поверки
+            </a>
+            <div class="collapse" id="collapsePoverki">
+                <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer report-sub-type" id="reportType-mi3622">МИ3622</a>
+                <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer report-sub-type" id="reportType-mi3272">МИ3272</a>
+            </div>
+            <a class="list-group-item pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapseActs" role="button" aria-expanded="false" aria-controls="collapseActs">
+                Акты
+            </a>
+            <div class="collapse" id="collapseActs">
+                <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer report-sub-type" id="reportType-acceptanceAct">Акты приема-сдачи</a>
+            </div>
         </div>
     </div>
 

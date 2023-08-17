@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.unit.reportgeneration.calculations.mi3622;
 
-import com.nppgks.reportingsystem.reportgeneration.calculations.CommonFunctions;
+import com.nppgks.reportingsystem.reportgeneration.poverki.CommonFunctions;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;

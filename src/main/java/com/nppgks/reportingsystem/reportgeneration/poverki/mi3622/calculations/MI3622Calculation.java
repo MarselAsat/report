@@ -1,14 +1,14 @@
-package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
+package com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations;
 
-import com.nppgks.reportingsystem.constants.MI3622Settings;
-import com.nppgks.reportingsystem.reportgeneration.calculations.CommonFunctions;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.InitialData;
+import com.nppgks.reportingsystem.constants.MI3622Constants;
+import com.nppgks.reportingsystem.reportgeneration.poverki.CommonFunctions;
+import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622InitialData;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 
-import static com.nppgks.reportingsystem.reportgeneration.calculations.CommonFunctions.*;
+import static com.nppgks.reportingsystem.reportgeneration.poverki.CommonFunctions.*;
 
 @SuppressWarnings("unused")
 @Slf4j
@@ -55,7 +55,7 @@ public class MI3622Calculation {
      */
     private final String rangeType;
 
-    public MI3622Calculation(InitialData data) {
+    public MI3622Calculation(MI3622InitialData data) {
         this.Q_i_j = data.getQ_ij();
         this.N_e_i_j = data.getN_e_ij();
         this.N_p_i_j = data.getN_p_ij();
@@ -76,10 +76,10 @@ public class MI3622Calculation {
         measureCount = data.getMeasureCount();
         pointsCount = data.getPointsCount();
         Q_e_arr = data.getQ_e_arr();
-        this.MFOrK = (data.getMFOrK() == null || data.getMFOrK().isBlank()) ? MI3622Settings.MF : data.getMFOrK();
+        this.MFOrK = (data.getMFOrK() == null || data.getMFOrK().isBlank()) ? MI3622Constants.MF : data.getMFOrK();
         this.zeroStabilityCorr = data.isZeroStabilityCorr();
-        this.operatingOrControlCPM = (data.getOperatingOrControlCPM() == null || data.getOperatingOrControlCPM().isBlank()) ? MI3622Settings.OPERATING : data.getOperatingOrControlCPM();
-        this.rangeType = (data.getRangeType() == null || data.getRangeType().isBlank()) ? MI3622Settings.OPERATING_RANGE : data.getRangeType();
+        this.operatingOrControlCPM = (data.getOperatingOrControlCPM() == null || data.getOperatingOrControlCPM().isBlank()) ? MI3622Constants.OPERATING : data.getOperatingOrControlCPM();
+        this.rangeType = (data.getRangeType() == null || data.getRangeType().isBlank()) ? MI3622Constants.OPERATING_RANGE : data.getRangeType();
     }
 
     public double calculateK_pm() {
@@ -99,9 +99,7 @@ public class MI3622Calculation {
         int eLen = K_e_arr.length;
         if (eLen == 1) {
             for (int i = 0; i < measureCount; i++) {
-                for (int j = 0; j < pointsCount; j++) {
-                    K_e_ij[i][j] = K_e_arr[0];
-                }
+                Arrays.fill(K_e_ij[i], K_e_arr[0]);
             }
         } else {
             if (eLen != Q_e_arr.length)
@@ -129,7 +127,7 @@ public class MI3622Calculation {
         log.info("Рассчет коэффициента коррекции поверяемого СРМ (MF_ij) согласно п.7.2 по формуле (2) МИ3622-2020");
 
         double[][] MF = null;
-        if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
+        if (MFOrK.equalsIgnoreCase(MI3622Constants.MF)) {
             double Kpm = calculateK_pm();
             double[][] M_e = calculateM_e_ij();
             double[][] M = new double[measureCount][pointsCount];
@@ -158,7 +156,7 @@ public class MI3622Calculation {
 
         Double MF = null;
 
-        if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
+        if (MFOrK.equalsIgnoreCase(MI3622Constants.MF)) {
             double[] MF_j = calculateMF_j();
             MF = 0d;
 
@@ -180,7 +178,7 @@ public class MI3622Calculation {
         log.info("Рассчет значения коэффициента коррекции поверяемого СРМ в j-й точке (MF) согласно п.7.3 по формуле (6) МИ3622-2020");
 
         double[] MF_j = null;
-        if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
+        if (MFOrK.equalsIgnoreCase(MI3622Constants.MF)) {
             double[][] MF_ij = calculateMF_ij();
             MF_j = getAverageForEachColumn(MF_ij);
 
@@ -194,7 +192,7 @@ public class MI3622Calculation {
 
     public Double calculateK() {
         Double K = null;
-        if (MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
+        if (MFOrK.equalsIgnoreCase(MI3622Constants.K)) {
             double[] Kj = calculateK_j();
             K = 0d;
             for (int j = 0; j < pointsCount; j++) {
@@ -208,7 +206,7 @@ public class MI3622Calculation {
 
     public double[] calculateK_j() {
         double[] Kj = null;
-        if (MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
+        if (MFOrK.equalsIgnoreCase(MI3622Constants.K)) {
             double[][] K_ij = calculateK_ij();
             Kj = getAverageForEachColumn(K_ij);
         }
@@ -218,7 +216,7 @@ public class MI3622Calculation {
 
     public double[][] calculateK_ij() {
         double[][] K_ij = null;
-        if (MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
+        if (MFOrK.equalsIgnoreCase(MI3622Constants.K)) {
             K_ij = new double[measureCount][pointsCount];
             double[][] M_e_ij = calculateM_e_ij();
             for (int i = 0; i < measureCount; i++) {
@@ -233,7 +231,7 @@ public class MI3622Calculation {
 
     public Double calculateMF_prime() {
         Double MF_prime = null;
-        if (MFOrK.equalsIgnoreCase(MI3622Settings.MF) && MF_p != null) {
+        if (MFOrK.equalsIgnoreCase(MI3622Constants.MF) && MF_p != null) {
             return MF_p * calculateMF();
         }
         return MF_prime;
@@ -261,15 +259,15 @@ public class MI3622Calculation {
 
         double[][] MFOrK_ij;
         double[] MFOrK_j;
-        if (MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
+        if (MFOrK.equalsIgnoreCase(MI3622Constants.MF)) {
             MFOrK_ij = calculateMF_ij();
             MFOrK_j = calculateMF_j();
-        } else if (MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
+        } else if (MFOrK.equalsIgnoreCase(MI3622Constants.K)) {
             MFOrK_ij = calculateK_ij();
             MFOrK_j = calculateK_j();
         } else {
             throw new NotValidTagValueException("Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
-                    .formatted(MFOrK, MI3622Settings.MF, MI3622Settings.K));
+                    .formatted(MFOrK, MI3622Constants.MF, MI3622Constants.K));
         }
 
         double[] S_j = new double[pointsCount];
@@ -297,12 +295,12 @@ public class MI3622Calculation {
     public String calculateConclusion() {
         String isValid = "годен";
         String isNotValid = "не годен";
-        if (operatingOrControlCPM.equalsIgnoreCase(MI3622Settings.OPERATING)) {
-            if (rangeType.equalsIgnoreCase(MI3622Settings.OPERATING_RANGE)) {
+        if (operatingOrControlCPM.equalsIgnoreCase(MI3622Constants.OPERATING)) {
+            if (rangeType.equalsIgnoreCase(MI3622Constants.OPERATING_RANGE)) {
                 double delta_D = calculateDelta_D();
                 if (delta_D <= 0.25) return isValid;
                 else return isNotValid;
-            } else if (rangeType.equalsIgnoreCase(MI3622Settings.SUBRANGE)) {
+            } else if (rangeType.equalsIgnoreCase(MI3622Constants.SUBRANGE)) {
                 double[] delta_PDk = calculateDelta_PDk();
                 if (delta_PDk == null) {
                     return "Не может быть вычислено delta_PDk, т.к. кол-во точек < 2";
@@ -312,15 +310,15 @@ public class MI3622Calculation {
                 }
             } else {
                 throw new NotValidTagValueException("Значение поля rangeType=%s, но оно должно быть либо '%s', либо '%s'".
-                        formatted(rangeType, MI3622Settings.OPERATING_RANGE, MI3622Settings.SUBRANGE));
+                        formatted(rangeType, MI3622Constants.OPERATING_RANGE, MI3622Constants.SUBRANGE));
             }
-        } else if (operatingOrControlCPM.equalsIgnoreCase(MI3622Settings.CONTROL)) {
+        } else if (operatingOrControlCPM.equalsIgnoreCase(MI3622Constants.CONTROL)) {
             double[] delta_j = calculateDelta_j();
             if (getMaxInArray(delta_j) <= 0.2) return isValid;
             else return isNotValid;
         } else {
             throw new NotValidTagValueException("Значение поля operatingOrControl=%s, но оно должно быть либо '%s', либо '%s'"
-                    .formatted(operatingOrControlCPM, MI3622Settings.OPERATING, MI3622Settings.CONTROL));
+                    .formatted(operatingOrControlCPM, MI3622Constants.OPERATING, MI3622Constants.CONTROL));
         }
     }
 
@@ -769,15 +767,15 @@ public class MI3622Calculation {
     public double calculateTheta_D() {
         double[] MFOrK_j;
         double MFOrKValue;
-        if (this.MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
+        if (this.MFOrK.equalsIgnoreCase(MI3622Constants.MF)) {
             MFOrK_j = calculateMF_j();
             MFOrKValue = calculateMF();
-        } else if (this.MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
+        } else if (this.MFOrK.equalsIgnoreCase(MI3622Constants.K)) {
             MFOrK_j = calculateK_j();
             MFOrKValue = calculateK();
         } else {
             throw new NotValidTagValueException("Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
-                    .formatted(this.MFOrK, MI3622Settings.MF, MI3622Settings.K));
+                    .formatted(this.MFOrK, MI3622Constants.MF, MI3622Constants.K));
         }
 
         return Arrays.stream(MFOrK_j)
@@ -804,13 +802,13 @@ public class MI3622Calculation {
         double[] theta_PDk = null;
         if (pointsCount > 1) {
             double[] MFOrK_j;
-            if (this.MFOrK.equalsIgnoreCase(MI3622Settings.MF)) {
+            if (this.MFOrK.equalsIgnoreCase(MI3622Constants.MF)) {
                 MFOrK_j = calculateMF_j();
-            } else if (this.MFOrK.equalsIgnoreCase(MI3622Settings.K)) {
+            } else if (this.MFOrK.equalsIgnoreCase(MI3622Constants.K)) {
                 MFOrK_j = calculateK_j();
             } else {
                 throw new NotValidTagValueException("Значение поля MForK=%s, но оно должно быть либо '%s', либо '%s'"
-                        .formatted(this.MFOrK, MI3622Settings.MF, MI3622Settings.K));
+                        .formatted(this.MFOrK, MI3622Constants.MF, MI3622Constants.K));
             }
 
             int subrangeCount = pointsCount - 1;

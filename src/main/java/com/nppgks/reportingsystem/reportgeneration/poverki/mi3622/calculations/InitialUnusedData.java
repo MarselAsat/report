@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data;
+package com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations;
 
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;

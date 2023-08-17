@@ -1,12 +1,15 @@
-package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data;
+package com.nppgks.reportingsystem.reportgeneration.poverki;
 
 import org.decimal4j.util.DoubleRounder;
+
 import java.lang.reflect.Field;
 
 public class DataRounder {
 
-    private final static int PRECISION = 4;
+    private final static int MIN_PRECISION = 4;
+    private final static int MAX_PRECISION = 8;
 
+    // округляет double, double[] и double[][] поля объекта
     public static void round(Object o) {
         Field[] declaredFields = o.getClass().getDeclaredFields();
         try {
@@ -21,7 +24,7 @@ public class DataRounder {
                     double[] array = (double[]) field.get(o);
                     double[] roundedArray = roundDoubleArray(array);
                     field.set(o, roundedArray);
-                } else if (field.getType().equals(Double.class)) {
+                } else if (field.getType().equals(Double.class) || field.getType().equals(double.class)) {
                     Double value = (Double) field.get(o);
                     Double roundedValue = roundDouble(value);
                     field.set(o, roundedValue);
@@ -33,8 +36,12 @@ public class DataRounder {
     }
 
     private static Double roundDouble(Double value) {
-        if(value != null){
-            return DoubleRounder.round(value, PRECISION);
+        if (value != null) {
+            if (value < 0.0009) {
+                return DoubleRounder.round(value, MAX_PRECISION);
+            } else {
+                return DoubleRounder.round(value, MIN_PRECISION);
+            }
         }
         return value;
     }
@@ -42,7 +49,7 @@ public class DataRounder {
     private static double[] roundDoubleArray(double[] array) {
         if (array != null) {
             for (int i = 0; i < array.length; i++) {
-                array[i] = DoubleRounder.round(array[i], PRECISION);
+                array[i] = roundDouble(array[i]);
             }
         }
         return array;
@@ -52,7 +59,7 @@ public class DataRounder {
         if (array2D != null) {
             for (int i = 0; i < array2D.length; i++) {
                 for (int j = 0; j < array2D[0].length; j++) {
-                    array2D[i][j] = DoubleRounder.round(array2D[i][j], PRECISION);
+                    array2D[i][j] = roundDouble(array2D[i][j]);
                 }
             }
         }

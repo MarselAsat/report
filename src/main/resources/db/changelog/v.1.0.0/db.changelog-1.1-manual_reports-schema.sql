@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS tag
     description    VARCHAR(512),
     initial        BOOLEAN      NOT NULL,
     report_type    VARCHAR(32)  NOT NULL,
-    UNIQUE(permanent_name, report_type)
+    UNIQUE(permanent_name, report_type, initial)
 );
 
 --changeset alina.parfenteva:3
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS report
 CREATE TABLE IF NOT EXISTS report_data
 (
     id        BIGINT PRIMARY KEY,
-    data      VARCHAR(512) NOT NULL,
+    data      VARCHAR(1024) NOT NULL,
     tag_id    INTEGER      NOT NULL REFERENCES tag (id),
     report_id BIGINT       NOT NULL REFERENCES report (id)
 );

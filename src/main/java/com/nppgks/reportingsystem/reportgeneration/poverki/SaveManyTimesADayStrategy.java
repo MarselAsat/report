@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.acts;
+package com.nppgks.reportingsystem.reportgeneration.poverki;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
@@ -6,22 +6,24 @@ import com.nppgks.reportingsystem.db.manual_reports.repository.ReportDataReposit
 import com.nppgks.reportingsystem.db.manual_reports.repository.ReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AcceptanceActDbService {
+public class SaveManyTimesADayStrategy implements SaveReportStrategy{
     private final ReportRepository reportRepository;
     private final ReportDataRepository reportDataRepository;
-
+    @Override
     @Transactional
-    public String saveReportData(List<ReportData> reportDataList, Report report) {
+    public String saveReportDataInDb(List<ReportData> reportDataList, Report report) {
         if (reportDataList == null || report == null) {
             return "Нет данных для сохранения!";
         }
-        String response = "В базе данных успешно создан отчет акта приема-сдачи нефти и сохранены результаты!";
+        String response = "В базе данных успешно создан отчет и сохранены результаты!";
         reportRepository.save(report);
         reportDataRepository.saveAll(reportDataList);
         return response;

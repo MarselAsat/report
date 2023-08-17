@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
+package com.nppgks.reportingsystem.reportgeneration.poverki.mi3622;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
@@ -6,13 +6,15 @@ import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.constants.ManualReportTypes;
+import com.nppgks.reportingsystem.reportgeneration.poverki.ManualReportGenerator;
+import com.nppgks.reportingsystem.reportgeneration.poverki.SaveReportStrategy;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.DataConverter;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.FinalData;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.InitialData;
+import com.nppgks.reportingsystem.reportgeneration.poverki.DataConverter;
+import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622FinalData;
+import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622InitialData;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,22 +24,23 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-public class MI3622Generator {
+public class MI3622ReportGenerator extends ManualReportGenerator {
 
     private final OpcServiceRequests opcServiceRequests;
     private final ManualTagService manualTagService;
-    private final MI3622DbService MI3622DbService;
-    private boolean isSaved = false;
-    private List<ReportData> reportDataList = new ArrayList<>();
-    private Report report;
 
-    public List<ReportData> generateMI3622Report() {
+    public MI3622ReportGenerator(@Qualifier("saveOnceADayStrategy") SaveReportStrategy saveReportStrategy, OpcServiceRequests opcServiceRequests, ManualTagService manualTagService) {
+        super(saveReportStrategy);
+        this.opcServiceRequests = opcServiceRequests;
+        this.manualTagService = manualTagService;
+    }
+
+    @Override
+    protected List<ReportData> generateReportDataList() {
         Tag isFinishedTag = manualTagService.getTagByNameAndReportType("isFinished", ManualReportTypes.MI3622.name());
         opcServiceRequests.sendTagValuesToOpc(Map.of(isFinishedTag.getAddress(), false));
-        List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypes.MI3622.name());
-        Map<String, String> initialTagsMap = createTagsMap(initialTags);
 
+        List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypes.MI3622.name());
         List<String> initialTagsForOpc = initialTags
                 .stream()
                 .map(ManualTagForOpc::address)
@@ -45,32 +48,33 @@ public class MI3622Generator {
 
         Map<String, String> initialDataFromOpc = opcServiceRequests.getTagValuesFromOpc(initialTagsForOpc);
 
-        DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagsMap);
+        Map<String, String> initialTagsMap = createTagsMap(initialTags);
+        DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagsMap, MI3622InitialData.class);
 
-        InitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap);
-        MI3622Runner MI3622Runner = new MI3622Runner(initialData);
-        FinalData finalData = MI3622Runner.run();
+        MI3622InitialData MI3622InitialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap, MI3622InitialData.class);
+        MI3622Runner MI3622Runner = new MI3622Runner(MI3622InitialData);
+        MI3622FinalData MI3622FinalData = MI3622Runner.run();
 
         List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypes.MI3622.name());
 
         Map<String, String> finalTagsMap = createTagsMap(finalTags);
 
-        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(finalData, finalTagsMap);
+        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(MI3622FinalData, finalTagsMap);
         finalDataForOpc.put(isFinishedTag.getAddress(), true);
         opcServiceRequests.sendTagValuesToOpc(finalDataForOpc);
 
         prepareAllDataForDB(initialTags, initialDataFromOpc, finalTags, finalDataForOpc);
-        isSaved = false;
+
         return reportDataList;
     }
 
-    public String saveInDb() {
-        if (isSaved) {
-            return "Эти результаты уже сохранены в базу данных";
-        }
-        String response = MI3622DbService.saveCalculations(reportDataList, report);
-        isSaved = true;
-        return response;
+    @Override
+    protected Report createReport(LocalDateTime currentDt) {
+        return new Report(
+                null,
+                "Поверка МИ3622 от " + SingleDateTimeFormatter.formatToSinglePattern(currentDt),
+                currentDt,
+                ManualReportTypes.MI3622.name());
     }
 
     private void prepareAllDataForDB(List<ManualTagForOpc> initialTags,
@@ -78,7 +82,6 @@ public class MI3622Generator {
                                      List<ManualTagForOpc> finalTags,
                                      Map<String, Object> finalDataForOpc) {
 
-        report = createReport();
         Map<String, ManualTagForOpc> initialTagsMap = convertListToMap(initialTags);
         Map<String, ManualTagForOpc> finalTagsMap = convertListToMap(finalTags);
 
@@ -91,8 +94,8 @@ public class MI3622Generator {
     }
 
     /**
-     * конвертация списка объектов CalcTagForOpc (id, address, permanentName)
-     * в map (key = CalcTagForOpc.address, value = calcTagForOpc)
+     * конвертация списка объектов ManualTagForOpc (id, address, permanentName)
+     * в map (key = ManualTagForOpc.address, value = manualTagForOpc)
      */
     private Map<String, ManualTagForOpc> convertListToMap(List<ManualTagForOpc> tags) {
         return tags.stream()
@@ -130,15 +133,6 @@ public class MI3622Generator {
             reportDataList.add(reportData);
         }
         return reportDataList;
-    }
-
-    private Report createReport() {
-        LocalDateTime dt = LocalDateTime.now();
-        return new Report(
-                null,
-                "Поверка МИ3622 от " + SingleDateTimeFormatter.formatToSinglePattern(dt),
-                dt,
-                ManualReportTypes.MI3622.name());
     }
 
     private Map<String, String> createTagsMap(List<ManualTagForOpc> tagsForOpc) {

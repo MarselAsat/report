@@ -14,11 +14,11 @@ import java.util.List;
 @RequestMapping("/act")
 public class ActsController {
 
-    private final AcceptanceActGenerator acceptanceActGenerator;
+    private final AcceptanceActGenerator actReportGenerator;
 
-    @GetMapping("/acceptanceOilAct/generate")
+    @GetMapping("/acceptanceOilAct")
     public String getAcceptanceAct(ModelMap modelMap) {
-        List<ReportData> reportDataList = acceptanceActGenerator.generateActOfAcceptance();
+        List<ReportData> reportDataList = actReportGenerator.generateReport();
         ModelMapFiller.fillForAcceptanceAct(modelMap, reportDataList);
         modelMap.put("printSaveButtonsRequired", true);
         return "report_pages/acceptance-oil-act";
@@ -27,7 +27,7 @@ public class ActsController {
     @ResponseBody
     @GetMapping("/acceptanceOilAct/save")
     public String saveAcceptanceActData(@RequestParam List<String> dtStartShift, @RequestParam List<String> dtEndShift) {
-        acceptanceActGenerator.updateShiftsDateTimeInReportData(dtStartShift, dtEndShift);
-        return acceptanceActGenerator.saveInDb();
+        actReportGenerator.updateShiftsDateTimeInReportData(dtStartShift, dtEndShift);
+        return actReportGenerator.saveReportInDb();
     }
 }

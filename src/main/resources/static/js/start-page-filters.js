@@ -12,6 +12,7 @@ function getReportData(element, reportId) {
     let path = window.location.search;
     const urlParams = new URLSearchParams(path);
     let reportTypeId = urlParams.get("reportTypeId");
+
     const url = "/"+reportTypeId+"Report/"+reportId;
 
     fetch(url).then(function (response) {

@@ -1,9 +1,9 @@
 package com.nppgks.reportingsystem.unit.reportgeneration.calculations.mi3622;
 
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.MI3622Calculation;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.DataConverter;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.FinalData;
-import com.nppgks.reportingsystem.reportgeneration.calculations.mi3622.data.InitialData;
+import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622Calculation;
+import com.nppgks.reportingsystem.reportgeneration.poverki.DataConverter;
+import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622FinalData;
+import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622InitialData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -26,27 +26,27 @@ class DataConverterTest {
         Mockito.doReturn(arr2Dim).when(poverkaMock).calculateM_e_ij();
         Mockito.doReturn(singleVal).when(poverkaMock).calculateK();
 
-        FinalData finalData = DataConverter.calculateFinalData(poverkaMock);
+        MI3622FinalData MI3622FinalData = DataConverter.calculateMI3622FinalData(poverkaMock);
 
-        assertThat(finalData.getS_0j()).isEqualTo(arr1Dim);
-        assertThat(finalData.getEps_j()).isEqualTo(arr1Dim);
-        assertThat(finalData.getM_e_ij()).isEqualTo(arr2Dim);
-        assertThat(finalData.getK()).isEqualTo(singleVal);
+        assertThat(MI3622FinalData.getS_0j()).isEqualTo(arr1Dim);
+        assertThat(MI3622FinalData.getEps_j()).isEqualTo(arr1Dim);
+        assertThat(MI3622FinalData.getM_e_ij()).isEqualTo(arr2Dim);
+        assertThat(MI3622FinalData.getK()).isEqualTo(singleVal);
     }
 
     @Test
     void convertFinalDataToMap() {
-        FinalData finalData = new FinalData();
+        MI3622FinalData MI3622FinalData = new MI3622FinalData();
         double[] arr1Dim = new double[]{2, 2, 2, 2, 2};
         double[][] arr2Dim = new double[][]{{1, 1, 1, 1, 1}, {2, 2, 2, 2, 2}, {3, 3, 3, 3, 3}};
         System.out.println(Arrays.deepToString(arr2Dim));
         System.out.println(Arrays.toString(arr1Dim));
-        finalData.setDelta_j(arr1Dim);
-        finalData.setF_ij(arr2Dim);
-        finalData.setEps_PDk(arr1Dim);
+        MI3622FinalData.setDelta_j(arr1Dim);
+        MI3622FinalData.setF_ij(arr2Dim);
+        MI3622FinalData.setEps_PDk(arr1Dim);
         Map<String, String> tagsMap = new HashMap<>();
         fillInTagsMap(tagsMap);
-        Map<String, Object> actualResult = DataConverter.convertFinalDataToMap(finalData, tagsMap);
+        Map<String, Object> actualResult = DataConverter.convertFinalDataToMap(MI3622FinalData, tagsMap);
         assertThat(actualResult).hasSize(4);
     }
 
@@ -110,18 +110,18 @@ class DataConverterTest {
                 "pointsCount", "WinCC_pointsCount",
                 "measureCount", "WinCC_measureCount",
                 "Q_ij", "WinCC_Q");
-        InitialData initialData = DataConverter.convertMapToInitialData(valuesMap, tagsMap);
-        InitialData expectedInitialData = new InitialData();
+        MI3622InitialData MI3622InitialData = DataConverter.convertMapToInitialData(valuesMap, tagsMap, MI3622InitialData.class);
+        MI3622InitialData expectedMI3622InitialData = new MI3622InitialData();
 
         double[][] arr2Dim = new double[][]{{1, 2, 3}, {1, 2, 3}, {1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
         double value = 45.89;
-        expectedInitialData.setPointsCount(5);
-        expectedInitialData.setMeasureCount(3);
-        expectedInitialData.setN_p_ij(arr2Dim);
-        expectedInitialData.setQ_ij(arr2Dim);
-        expectedInitialData.setN_e_ij(arr2Dim);
-        expectedInitialData.setF_p_max(value);
-        assertThat(initialData).isEqualTo(expectedInitialData);
+        expectedMI3622InitialData.setPointsCount(5);
+        expectedMI3622InitialData.setMeasureCount(3);
+        expectedMI3622InitialData.setN_p_ij(arr2Dim);
+        expectedMI3622InitialData.setQ_ij(arr2Dim);
+        expectedMI3622InitialData.setN_e_ij(arr2Dim);
+        expectedMI3622InitialData.setF_p_max(value);
+        assertThat(MI3622InitialData).isEqualTo(expectedMI3622InitialData);
     }
 
     @Test
@@ -135,7 +135,7 @@ class DataConverterTest {
         tagsMap.put("pointsCount", "tag.pointsCount");
         tagsMap.put("measureCount", "tag.measureCount");
         tagsMap.put("Q_ij", "tag.Q_ij");
-        DataConverter.putInOrder2DArraysInOpcData(dataFromOpc, tagsMap);
+        DataConverter.putInOrder2DArraysInOpcData(dataFromOpc, tagsMap, MI3622InitialData.class);
         assertThat(dataFromOpc.get("tag.Q_ij")).isEqualTo("[[1.0,2.0,3.0],[4.0,5.0,6.0]]");
     }
 

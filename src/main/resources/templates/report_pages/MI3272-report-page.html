@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header"></head>
+<head>
+    <script type="text/javascript" th:src="@{/js/MI3272-report-page.js}"></script>
+
+    <!--  sweetAlert library-->
+    <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
+    <link th:href="@{/external_libraries/sweetalert/sweetalert2.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="card">
+    <div th:if="${printSaveButtonsRequired}">
+        <div class="card-header" th:replace="fragments/print-save-buttons"></div>
+    </div>
+    <div class="card-body overflow-auto" id="report-content">
+        <head th:replace="fragments/header"></head>
+        <head>
+            <style>
+                @media print {
+                    thead {
+                        display: table-row-group;
+                    }
+                }
+
+                .report-body p {
+                    font-size: 0.6rem;
+                }
+
+                .report-body td {
+                    width: auto;
+                    padding: 0.1rem;
+                    text-align: center;
+                    overflow: hidden;
+                }
+
+                .report-body tr {
+                    white-space: nowrap;
+                    height: 2px;
+                }
+
+                .report-body table {
+                    font-size: 0.6rem;
+                }
+
+                .report-body caption {
+                    font-size: small;
+                    padding-bottom: 5px;
+                    caption-side: top;
+                    text-align: left;
+                }
+
+                .footer-table {
+                    padding-right: 1rem;
+                    white-space: break-spaces;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                }
+
+                .footer-label {
+                    border-top: 1px solid #000;
+                    text-align: center;
+                    font-size: 0.5rem;
+                    padding-top: 0 !important;
+                }
+            </style>
+        </head>
+        <div class="container report-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5 style="text-align: center; padding-bottom: 3%;">ПРОТОКОЛ ПОВЕРКИ №<span
+                            th:text="${protocolNumber}"></span></h5>
+                    <h5 style="text-align: center; padding-bottom: 3%;">Счетчика-расходомера массового (массомера) модели <span
+                            th:text="${massmeterModel}"></span> по МИ 3272-2010</h5>
+
+                    <table class="mt-3 table table-borderless footer-table" style="width: 70%">
+                        <tbody>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Место проведения поверки</td>
+                            <td class="col-4 pb-0" th:text="${place_name}"></td>
+                            <td style="width: 20px"></td>
+                            <td class="col-4 pb-0" th:text="${place_owner}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">наименование объекта (ПСП)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">наименование владельца объекта (ПСП)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-borderless footer-table">
+                        <tbody>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Поверяемый массомер:</td>
+                            <td class="pb-0" style="text-align: right">сенсор</td>
+                            <td class="pb-0" th:text="${massmeterSensor}"></td>
+                            <td class="pb-0">,</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" style="text-align: left">Ду</td>
+                            <td class="pb-0" th:text="${massmeterDu}"></td>
+                            <td class="pb-0">мм,</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" style="text-align: right">зав. №</td>
+                            <td class="pb-0" th:text="${massmeterNumber}"></td>
+                            <td class="pb-0">;</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" style="text-align: right">ПЭП</td>
+                            <td class="pb-0" th:text="${pepModel}"></td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" style="text-align: right">зав. №</td>
+                            <td class="pb-0" th:text="${pepNumber}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0">модель</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0">модель</td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="2" class="pb-0" style="text-align: right">установлен на</td>
+                            <td colspan="4" class="pb-0" th:text="${installedOn}"></td>
+                            <td class="pb-0">,</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" style="text-align: right">ИЛ №</td>
+                            <td class="pb-0" th:text="${ilNumber}"></td>
+                            <td style="width: 20px"></td>
+                            <td colspan="3" class="pb-0" style="text-align: right">Рабочая жидкость</td>
+                            <td colspan="3" class="pb-0" th:text="${operatingFluid}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="2" class="pb-0"></td>
+                            <td colspan="4" class="footer-label pt-0"> СИКН (СИКНП, СИЖУ, СИКНС)</td>
+                            <td class="pb-0"></td>
+                            <td></td>
+                            <td class="pb-0"></td>
+                            <td class="footer-label pt-0"></td>
+                            <td></td>
+                            <td colspan="3" class="pb-0"></td>
+                            <td colspan="3" class="footer-label pt-0"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-borderless footer-table">
+                        <tbody>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Средства поверки:</td>
+                            <td class="pb-0" style="text-align: right">компакт-прувер типа</td>
+                            <td class="pb-0" th:text="${cpType}"></td>
+                            <td class="pb-0">,</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" style="text-align: right">разряд</td>
+                            <td class="pb-0" th:text="${cpGrade}"></td>
+                            <td class="pb-0">,</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" style="text-align: right">зав. №</td>
+                            <td class="pb-0" th:text="${cpNumber}"></td>
+                            <td class="pb-0">,</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" style="text-align: right">дата поверки</td>
+                            <td class="pb-0" th:text="${cpDate}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="pb-0" style="text-align: right">ТПР типа</td>
+                            <td class="pb-0" th:text="${tprType}"></td>
+                            <td class="pb-0">,</td>
+                            <td style="width: 20px"></td>
+                            <td colspan="4" class="pb-0" style="text-align: right">диапазон измерений</td>
+                            <td colspan="2" class="pb-0" th:text="${tprRange}"></td>
+                            <td class="pb-0">м<sup>3</sup>/ч,</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" style="text-align: right">зав. №</td>
+                            <td class="pb-0" th:text="${tprNumber}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="4"></td>
+                            <td colspan="2" class="footer-label pt-0"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="pb-0" style="text-align: right">поточный ПП типа</td>
+                            <td class="pb-0" th:text="${ppType}"></td>
+                            <td class="pb-0">,</td>
+                            <td style="width: 20px"></td>
+                            <td colspan="4" class="pb-0" style="text-align: right">зав. №</td>
+                            <td colspan="2" class="pb-0" th:text="${ppNumber}"></td>
+                            <td class="pb-0">,</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" style="text-align: right">дата поверки</td>
+                            <td class="pb-0" th:text="${ppDate}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="4"></td>
+                            <td colspan="2" class="footer-label pt-0"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Таблица 1-->
+                    <table class="table table-bordered">
+                        <caption>Таблица 1 - Исходные данные</caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td colspan=6 style="text-align: center">Компакт-прувера</td>
+                            <td colspan=2 style="text-align: center">Поточного ПП</td>
+                            <td colspan=2 style="text-align: center">УОИ</td>
+                            <td style="text-align: center">Массомера</td>
+                        </tr>
+                        <tr>
+                            <td><i>V<sup>КП</sup><sub>0</sub> ,<br> м<sup>3</sup></i></td>
+                            <td><i>δ<sub>КП</sub> ,<br> %</i></td>
+                            <td><i>D ,<br> мм</i></td>
+                            <td><i>s ,<br> мм</i></td>
+                            <td><i>E ,<br> Мпа</i></td>
+                            <td><i>Δt<sub>КП</sub> ,<br> ºC</i></td>
+                            <td><i>δ<sub>ПП</sub> ,<br> %</i></td>
+                            <td><i>Δt<sub>ПП</sub> ,<br> ºC</i></td>
+                            <td><i>δ<sup>УОИ</sup><sub>К</sub> ,<br> %</i></td>
+                            <td><i>KF<sub>конф</sub> ,<br> имп/т</i></td>
+                            <td><i>ZS ,<br> т/ч</i></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text="${V_KP_0} ?: '-'"></td>
+                            <td th:text="${delta_KP} ?: '-'"></td>
+                            <td th:text="${D} ?: '-'"></td>
+                            <td th:text="${s} ?: '-'"></td>
+                            <td th:text="${E} ?: '-'"></td>
+                            <td th:text="${delta_t_KP} ?: '-'"></td>
+                            <td th:text="${delta_PP} ?: '-'"></td>
+                            <td th:text="${delta_t_PP} ?: '-'"></td>
+                            <td th:text="${delta_UOI_K} ?: '-'"></td>
+                            <td th:text="${KF_conf} ?: '-'"></td>
+                            <td th:text="${ZS} ?: '-'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Таблица 2 с ТПР-->
+                    <table th:if="${usedTPR}" class="table table-bordered">
+                        <caption>Таблица 2 - Результаты единичных измерений и вычислений с применением ТПР<br>
+                            Часть I - Определение коэффициента преобразования ТПР
+                        </caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td rowspan=2>№ точки /<br> № серии (j/i)</td>
+                            <td rowspan=2><i>Q<sub>ij</sub>, т/ч</i></td>
+                            <td colspan=8 style="text-align: center">Результаты измерений</td>
+                        </tr>
+                        <tr>
+                            <td><i><i style="text-decoration: overline">N</i><sup>ТПР</sup><sub>ij</sub>,<br> имп</i></td>
+                            <td><i><i style="text-decoration: overline">t</i><sup>ТПР</sup><sub>ij</sub>,<br> ºC</i></td>
+                            <td><i><i style="text-decoration: overline">P</i><sup>ТПР</sup><sub>ij</sub>,<br> МПа</i></td>
+                            <td><i><i style="text-decoration: overline">t</i><sup>КП</sup><sub>ij</sub>,<br> ºC</i></td>
+                            <td><i><i style="text-decoration: overline">P</i><sup>КП</sup><sub>ij</sub>,<br> МПа</i></td>
+                            <td><i>t<sup>ст</sup><sub>ij</sub>,<br> ºC</i></td>
+                            <td><i>W<sub>в</sub>(W<sub>вi</sub>),<br> %</i></td>
+                            <td><i>W<sub>хс</sub>,<br> %</i></td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <div th:each="qj,j : ${Q_ij_TPR}" th:with="len=${#lists.size(Q_ij_TPR[0])}">
+                            <tr th:each="qi,i : ${qj}">
+                                <td th:text="|${j.index+1}/${i.index+1} сер|"></td>
+                                <td th:text="${Q_ij_TPR != null} ? ${Q_ij_TPR[j.index][i.index]} : '-'"></td>
+                                <td th:text="${N_TPR_ij_avg != null} ? ${N_TPR_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${t_TPR_ij_avg != null} ? ${t_TPR_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${P_TPR_ij_avg != null} ? ${P_TPR_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${t_KP_ij_avg != null} ? ${t_KP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${P_KP_ij_avg != null} ? ${P_KP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${t_st_ij != null} ? ${t_st_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${W_w != null} ? ${W_w[j.index][i.index]} : '-'"></td>
+                                <td th:text="${W_chs != null} ? ${W_chs[j.index][i.index]} : '-'"></td></tr>
+                        </div>
+                        </tbody>
+                    </table>
+
+                    <!-- Продолжение таблицы 2 с ТПР-->
+                    <table th:if="${usedTPR}" class="table table-bordered">
+                        <caption>Продолжение таблицы 2<br>
+                            Часть I - Определение коэффициента преобразования ТПР
+                        </caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td rowspan=2>№ точки /<br> № серии (j/i)</td>
+                            <td colspan=6 style="text-align: center">Результаты измерений</td>
+                        </tr>
+                        <tr>
+                            <td><i>V<sup>КП</sup><sub>ij</sub> ,<br> м<sup>3</sup></i></td>
+                            <td><i>K<sup>ТПР</sup><sub>ij</sub> ,<br> имп/м<sup>3</sup></i></td>
+                            <td><i>Π<sub>j</sub> ,<br> %</i></td>
+                            <td><i>K<sup>ТПР</sup><sub>j</sub> ,<br> имп/м<sup>3</sup></i></td>
+                            <td><i>K<sup>''комп</sup><sub>j</sub> ,<br> имп/м<sup>3</sup></i></td>
+                            <td><i>δ<sup>K</sup><sub>j</sub> ,<br> %</i></td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <div th:each="qj,j : ${Q_ij_TPR}" th:with="len=${#lists.size(Q_ij_TPR[0])}">
+                            <tr th:each="qi,i : ${qj}">
+                                <td th:text="|${j.index+1}/${i.index+1} сер|"></td>
+                                <td th:text="${V_KP_pr_ij != null} ? ${V_KP_pr_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${K_TPR_ij != null} ? ${K_TPR_ij[j.index][i.index]} : '-'"></td>
+
+                                <td th:if="${i.index == 0}" th:rowspan="${len}" th:text="${Pi_j != null} ? ${Pi_j[j.index]} : '-'"></td>
+                                <td th:if="${i.index == 0}" th:rowspan="${len}" th:text="${K_TPR_j != null} ? ${K_TPR_j[j.index]} : '-'"></td>
+                                <td th:if="${i.index == 0}" th:rowspan="${len}" th:text="${K2_TPR_j != null} ? ${K2_TPR_j[j.index]} : '-'"></td>
+                                <td th:if="${i.index == 0}" th:rowspan="${len}" th:text="${delta_K_j != null} ? ${delta_K_j[j.index]} : '-'"></td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+                    <!-- Продолжение таблицы 2 с ТПР. МХ массомера-->
+                    <table th:if="${usedTPR}" class="table table-bordered">
+                        <caption>Продолжение таблицы 2<br>
+                            Часть II - Определение МХ массомера
+                        </caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td rowspan=2>№ точки /<br> № отсч. (j/i)</td>
+                            <td rowspan=2><i>Q<sub>ij</sub> , т/ч</i></td>
+                            <td colspan=2 style="text-align: center">Задания ТПР</td>
+                            <td colspan=7 style="text-align: center">Результаты измерений</td>
+                        </tr>
+                        <tr>
+                            <td><i>K<sup>ТПР</sup><sub>j</sub> ,<br> имп/м<sup>3</sup></i></td>
+                            <td><i>N<sup>ТПР</sup><sub>задj</sub> ,<br> имп</i></td>
+                            <td><i>V<sup>ТПР</sup><sub>ij</sub> ,<br> м<sup>3</sup></i></td>
+                            <td><i>t<sup>ТПР</sup><sub>ij</sub> ,<br> ºC</i></td>
+                            <td><i>P<sup>ТПР</sup><sub>ij</sub> ,<br> МПа</i></td>
+                            <td><i>N<sup>мас</sup><sub>ij</sub> ,<br> имп</i></td>
+                            <td><i>ρ<sup>ПП</sup><sub>ij</sub> ,<br> кг/м<sup>3</sup></i></td>
+                            <td><i>t<sup>ПП</sup><sub>ij</sub> ,<br> ºC</i></td>
+                            <td><i>P<sup>ПП</sup><sub>ij</sub> ,<br> МПа</i></td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <div th:each="qj,j : ${Q_ij}" th:with="len=${#lists.size(Q_ij[0])}">
+                            <tr th:each="qi,i : ${qj}">
+                                <td th:text="|${j.index+1}/${i.index+1} отсч.|"></td>
+                                <td th:text="${Q_ij != null} ? ${Q_ij[j.index][i.index]} : '-'"></td>
+                                <td th:if="${i.index == 0}" th:rowspan="${len}" th:text="${K_TPR_j != null} ? ${K_TPR_j[j.index]} : '-'"></td>
+                                <td th:text="${N_TPR_ij_zad != null} ? ${N_TPR_ij_zad[j.index][i.index]} : '-'"></td>
+                                <td th:text="${V_TPR_ij != null} ? ${V_TPR_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${t_TPR_ij != null} ? ${t_TPR_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${P_TPR_ij != null} ? ${P_TPR_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${N_mas_ij != null} ? ${N_mas_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${ro_PP_ij != null} ? ${ro_PP_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${t_PP_ij != null} ? ${t_PP_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${P_PP_ij != null} ? ${P_PP_ij[j.index][i.index]} : '-'"></td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+
+                    <!-- Продолжение таблицы 2 с ТПР. МХ массомера-->
+                    <table th:if="${usedTPR}" class="table table-bordered">
+                        <caption>Продолжение таблицы 2<br>
+                            Часть II - Определение МХ массомера
+                        </caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td rowspan=2>№ точки /<br> № серии <br> (j/i)</td>
+                            <td colspan=4 style="text-align: center">Результаты измерений</td>
+                        </tr>
+                        <tr>
+                            <td><i>ρ<sup>ПП</sup><sub>пр ij</sub> ,<br> кг/м<sup>3</sup></i></td>
+                            <td><i>M<sup>рэ</sup><sub>ij</sub> ,<br> т</i></td>
+                            <td><i>M<sup>мас</sup><sub>ij</sub> ,<br> т</i></td>
+                            <td th:if="${calibrCharImpl == 'ПЭП'}"><i>MF<sub>ij</sub></i></td>
+                            <td th:unless="${calibrCharImpl == 'ПЭП'}"><i>KF<sub>ij</sub></i></td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <div th:each="qj,j : ${Q_ij}" th:with="len=${#lists.size(Q_ij[0])}">
+                            <tr th:each="qi,i : ${qj}">
+                                <td th:text="|${j.index+1}/${i.index+1} отсч.|"></td>
+                                <td th:text="${ro_PP_pr_ij != null} ? ${ro_PP_pr_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${M_re_ij != null} ? ${M_re_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${M_mas_ij != null} ? ${M_mas_ij[j.index][i.index]} : '-'"></td>
+                                <td th:if="${calibrCharImpl == 'ПЭП'}" th:text="${MF_ij != null} ? ${MF_ij[j.index][i.index]} : '-'"></td>
+                                <td th:unless="${calibrCharImpl == 'ПЭП'}" th:text="${KF_ij != null} ? ${KF_ij[j.index][i.index]} : '-'"></td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+
+                    <!-- Таблица 2 без ТПР-->
+                    <table th:unless="${usedTPR}" class="table table-bordered">
+                        <caption>Таблица 2 - Результаты единичных измерений и вычислений без применения ТПР<br>
+                        </caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td rowspan=2>№ точки /<br> № серии <br>(j/i)</td>
+                            <td rowspan=2><i>Q<sub>ij</sub> , т/ч</i></td>
+                            <td colspan=8 style="text-align: center">Результаты измерений</td>
+                        </tr>
+                        <tr>
+                            <td><i><i style="text-decoration: overline">N</i><sup>мас</sup><sub>ij</sub> ,<br> имп</i></td>
+                            <td><i><i style="text-decoration: overline">t</i><sup>КП</sup><sub>ij</sub> ,<br> ºC</i></td>
+                            <td><i><i style="text-decoration: overline">P</i><sup>КП</sup><sub>ij</sub> ,<br> МПа</i></td>
+                            <td><i><i style="text-decoration: overline">ρ</i><sup>ПП</sup><sub>ij</sub> ,<br> кг/м<sup>3</sup></i></td>
+                            <td><i><i style="text-decoration: overline">t</i><sup>ПП</sup><sub>ij</sub> ,<br> ºC</i></td>
+                            <td><i><i style="text-decoration: overline">P</i><sup>ПП</sup><sub>ij</sub> ,<br> МПа</i></td>
+                            <td><i>W<sub>в</sub>(W<sub>вi</sub>) ,<br> %</i></td>
+                            <td><i>W<sub>хс</sub> ,<br> %</i></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <div th:each="qj,j : ${Q_ij}" th:with="len=${#lists.size(Q_ij[0])}">
+                            <tr th:each="qi,i : ${qj}">
+                                <td th:text="|${j.index+1}/${i.index+1} сер|"></td>
+                                <td th:text="${Q_ij != null} ? ${Q_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${N_mas_ij_avg != null} ? ${N_mas_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${t_KP_ij_avg != null} ? ${t_KP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${P_KP_ij_avg != null} ? ${P_KP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${ro_PP_ij_avg != null} ? ${ro_PP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${t_PP_ij_avg != null} ? ${t_PP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${P_PP_ij_avg != null} ? ${P_PP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${W_w != null} ? ${W_w[j.index][i.index]} : '-'"></td>
+                                <td th:text="${W_chs != null} ? ${W_chs[j.index][i.index]} : '-'"></td></tr>
+                        </div>
+                        </tbody>
+                    </table>
+
+                    <!-- Продолжение таблицы 2 без ТПР-->
+                    <table th:unless="${usedTPR}" class="table table-bordered">
+                        <caption>Продолжение таблицы 2 (без применения ТПР)<br>
+                        </caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td rowspan=2>№ точки / № серии (j/i)</td>
+                            <td colspan=5 style="text-align: center">Результаты измерений</td>
+                        </tr>
+                        <tr>
+                            <td><i>V<sup>КП</sup><sub>ij</sub> , м<sup>3</sup></i></td>
+                            <td><i>ρ<sup>ПП</sup><sub>прij</sub> , кг/м<sup>3</sup></i></td>
+                            <td><i>M<sup>рэ</sup><sub>ij</sub> , т</i></td>
+                            <td><i>M<sup>мас</sup><sub>ij</sub> , т</i></td>
+                            <td><i>MF<sub>ij</sub></i></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <div th:each="qj,j : ${Q_ij}" th:with="len=${#lists.size(Q_ij[0])}">
+                            <tr th:each="qi,i : ${qj}">
+                                <td th:text="|${j.index+1}/${i.index+1} сер|"></td>
+                                <td th:text="${V_KP_pr_ij != null} ? ${V_KP_pr_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${ro_PP_pr_ij != null} ? ${ro_PP_pr_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${M_re_ij != null} ? ${M_re_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${M_mas_ij != null} ? ${M_mas_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${MF_ij != null} ? ${MF_ij[j.index][i.index]} : '-'"></td>
+                        </div>
+                        </tbody>
+                    </table>
+
+                    <!-- Таблица 3 - Значения коэффициентов, использованных при вычислениях-->
+                    <table class="table table-bordered">
+                        <caption>Таблица 3 - Значения коэффициентов, использованных при вычислениях</caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td><i>α<sup>цил</sup><sub>t</sub> ,<br> ºC<sup>-1</sup></i></td>
+                            <td><i>α<sup>цил</sup><sub>tкв</sub> ,<br> ºC<sup>-1</sup></i></td>
+                            <td><i>α<sup>ст</sup><sub>t</sub> ,<br> ºC<sup>-1</sup></i></td>
+                            <td><i>t<sub>(P, n))</sub></i></td>
+                            <td th:if="${Z_P != null}"><i>Z<sub>(P)</sub></i></td>
+                            <td th:if="${Z_P_k != null}" th:each="z_k,k : ${Z_P_k}"><i>Z<sub>(P)<i th:text="${k.index+1}"></i></sub></i></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text="${alpha_cyl_t} ?: '-'"></td>
+                            <td th:text="${alpha_cyl_t_sq} ?: '-'"></td>
+                            <td th:text="${alpha_st_t} ?: '-'"></td>
+                            <td th:text="${t_P_n} ?: '-'"></td>
+                            <td th:if="${Z_P != null}" th:text="${Z_P} ?: '-'"></td>
+                            <td th:if="${Z_P_k != null}" th:each="z_k,k : ${Z_P_k}" th:text="${z_k == -1} ? '-': ${z_k}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Таблица 4 - Результаты поверки (при реализации ГХ в ПЭП)-->
+                    <table th:if="${calibrCharImpl == 'ПЭП'}" class="table table-bordered">
+                        <caption>Таблица 4 - Результаты поверки (при реализации ГХ в ПЭП)</caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td>Точка расхода<br>(j)</i></td>
+                            <td><i><i style="text-decoration: overline">Q</i><sub>j</sub> ,<br> т/ч</i></td>
+                            <td><i><i style="text-decoration: overline">MF</i><sub>j</sub></i></td>
+                            <td><i>S<sup>MF</sup><sub>диап</sub> ,<br> %</i></td>
+                            <td><i>δ<sup>мас</sup><sub>0</sub> ,<br> %</i></td>
+                            <td><i>MF<sub>диап</sub></i></td>
+                            <td><i>K<sub>гр</sub></i></td>
+                            <td><i>ε ,<br> %</i></td>
+                            <td><i>θ<sub>Σ</sub> ,<br> %</i></td>
+                            <td><i>δ ,<br> %</i></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="qj,j : ${Q_j_avg}" th:with="len=${#lists.size(Q_j_avg)}" class="align-middle">
+                            <td th:text="${j.index+1}"></td>
+                            <td th:text="${Q_j_avg != null} ? ${Q_j_avg[j.index]} : '-'"></td>
+                            <td th:text="${MForKF_j_avg != null} ? ${MForKF_j_avg[j.index]} : '-'"></td>
+
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${S_MForKF_range} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${delta_mas_0} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${MForKF_range} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${K_gr} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${epsilon} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${theta_sigma} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${delta} ?: '-'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Таблица 4 - ГХ в СОИ в виде постоянного значения К-фактора в рабочем диапазоне-->
+                    <table th:if="${calibrCharImpl == 'СОИ рабочий диапазон'}" class="table table-bordered">
+                        <caption>Таблица 4 - Результаты поверки (при реализации ГХ в СОИ в виде постоянного значения К-фактора в рабочем диапазоне)</caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td>Точка расхода<br> (j)</i></td>
+                            <td><i><i style="text-decoration: overline">Q</i><sub>j</sub> ,<br> т/ч</i></td>
+                            <td><i><i style="text-decoration: overline">KF</i><sub>j</sub> ,<br> имп/т</i></td>
+                            <td><i>S<sup>KF</sup><sub>диап</sub> ,<br> %</i></td>
+                            <td><i>δ<sup>мас</sup><sub>0</sub> ,<br> %</i></td>
+                            <td><i>KF<sub>диап</sub></i></td>
+                            <td><i>θ<sup>KF</sup><sub>диап</sub></i></td>
+                            <td><i>ε ,<br> %</i></td>
+                            <td><i>θ<sub>Σ</sub> ,<br> %</i></td>
+                            <td><i>δ ,<br> %</i></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="qj,j : ${Q_j_avg}" th:with="len=${#lists.size(Q_j_avg)}" class="align-middle">
+                            <td th:text="${j.index+1}"></td>
+                            <td th:text="${Q_j_avg != null} ? ${Q_j_avg[j.index]} : '-'"></td>
+                            <td th:text="${MForKF_j_avg != null} ? ${MForKF_j_avg[j.index]} : '-'"></td>
+
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${S_MForKF_range} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${delta_mas_0} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${MForKF_range} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${theta_KF_range} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${epsilon} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${theta_sigma} ?: '-'"></td>
+                            <td th:if="${j.index == 0}" th:rowspan="${len}" th:text="${delta} ?: '-'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Таблица 4 - Результаты поверки (при реализации ГХ в ПЭП)-->
+                    <table th:if="${calibrCharImpl != 'ПЭП' && calibrCharImpl != 'СОИ рабочий диапазон'}" class="table table-bordered">
+                        <caption>Таблица 4 - Результаты поверки (при реализации ГХ в СОИ в виде кусочно-линейной аппроксимации значений <i style="text-decoration: overline">KF</i><sub>j</sub>)</caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td>Точка расхода<br> (j)</i></td>
+                            <td><i><i style="text-decoration: overline">Q</i><sub>j</sub> ,<br> т/ч</i></td>
+                            <td><i><i style="text-decoration: overline">KF</i><sub>j</sub> ,<br> имп/т</i></td>
+                            <td>№ поддиапазона<br> (k)</i></td>
+                            <td><i>Q<sub>kmin</sub></i></td>
+                            <td><i>Q<sub>kmax</sub></i></td>
+                            <td><i>S<sup>KF</sup><sub>k</sub> ,<br> %</i></td>
+                            <td><i>δ<sup>мас</sup><sub>0k</sub> ,<br> %</i></td>
+                            <td><i>θ<sup>KF</sup><sub>k</sub> ,<br> %</i></td>
+                            <td><i>ε<sub>k</sub> ,<br> %</i></td>
+                            <td><i>θ<sub>Σk</sub> ,<br> %</i></td>
+                            <td><i>δ<sub>k</sub> ,<br> %</i></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="eps,k : ${epsilon_k}">
+                            <td th:text="${k.index+1}"></td>
+                            <td th:text="${Q_j_avg != null} ? ${Q_j_avg[k.index]} : '-'"></td>
+                            <td th:text="${MForKF_j_avg != null} ? ${MForKF_j_avg[k.index]} : '-'"></td>
+                            <td th:text="${k.index+1}"></td>
+                            <td th:text="${Q_kmin != null} ? ${Q_kmin[k.index]} : '-'"></td>
+                            <td th:text="${Q_kmax != null} ? ${Q_kmax[k.index]} : '-'"></td>
+                            <td th:text="${S_KF_k != null} ? ${S_KF_k[k.index]} : '-'"></td>
+                            <td th:text="${delta_mas_0k != null} ? ${delta_mas_0k[k.index]} : '-'"></td>
+                            <td th:text="${theta_KF_k != null} ? ${theta_KF_k[k.index]} : '-'"></td>
+                            <td th:text="${epsilon_k != null} ? ${epsilon_k[k.index]} : '-'"></td>
+                            <td th:text="${theta_sigma_k != null} ? ${theta_sigma_k[k.index]} : '-'"></td>
+                            <td th:text="${delta_k != null} ? ${delta_k[k.index]} : '-'"></td>
+                        </tr>
+                        <tr th:with="len=${#lists.size(Q_j_avg)}">
+                            <td th:text="${len}"></td>
+                            <td th:text="${Q_j_avg != null} ? ${Q_j_avg[len - 1]} : '-'"></td>
+                            <td th:text="${MForKF_j_avg != null} ? ${MForKF_j_avg[len - 1]} : '-'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="mt-3 table table-borderless footer-table">
+                        <tbody>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Заключение: счетчик-расходомер (массомер) к дальнейшей эксплуатации</td>
+                            <td class="col-4 pb-0" th:text="${conclusion}"></td>
+                            <td style="width: 100px"> в качестве </td>
+                            <td class="col-4 pb-0" th:text="${usedAs}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">годен или не годен</td>
+                            <td></td>
+                            <td class="footer-label pt-0">рабочего и контрольно-резервного (контрольного) или рабочего</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p>Выдано свидетельство о поверке от ___________________20____г. №_______________ (заполняют только при положительных результатах поверки)</p>
+                    <table class="mt-3 table table-borderless footer-table" style="width: 70%">
+                        <tbody>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Поверитель</td>
+                            <td class="col-4 pb-0" th:text="${companyName}"></td>
+                            <td style="width: 20px"></td>
+                            <td style="width: 100px"></td>
+                            <td style="width: 20px"></td>
+                            <td class="col-4 pb-0" th:text="${verifierName}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">наименование поверяющей организации</td>
+                            <td style="width: 20px"></td>
+                            <td class="footer-label pt-0">подпись</td>
+                            <td style="width: 20px"></td>
+                            <td class="footer-label pt-0">инициалы, фамилия</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p>Дата поверки "<span th:text="${dateDay}"></span>" <span th:text="${dateMonth}"></span> <span th:text="${dateYear}"></span> года</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

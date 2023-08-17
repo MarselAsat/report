@@ -13,29 +13,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/mi3622")
-public class MI3622Controller {
-    private final ManualReportGenerator MI3622Generator;
+@RequestMapping("/mi3272")
+public class MI3272Controller {
 
-    public MI3622Controller(@Qualifier("MI3622ReportGenerator") ManualReportGenerator reportGenerator) {
-        this.MI3622Generator = reportGenerator;
+    private final ManualReportGenerator reportGenerator;
+
+    public MI3272Controller(@Qualifier("MI3272ReportGenerator") ManualReportGenerator reportGenerator) {
+        this.reportGenerator = reportGenerator;
     }
 
     @GetMapping
-    public String calculateMI3622(ModelMap modelMap) {
-        List<ReportData> reportDataList = MI3622Generator.generateReport();
-        reportDataList.forEach(td -> {
-            Object value = ArrayParser.fromJsonToObject(td.getData());
+    public String getMI3272Page(ModelMap modelMap){
+        List<ReportData> reportDataList = reportGenerator.generateReport();
+        reportDataList.forEach(rd -> {
+            Object value = ArrayParser.fromJsonToObject(rd.getData());
             modelMap.put(
-                    td.getTag().getPermanentName(), value);
+                    rd.getTag().getPermanentName(), value);
         });
         modelMap.put("printSaveButtonsRequired", true);
-        return "report_pages/MI3622-report-page";
+        return "report_pages/MI3272-report-page";
     }
 
     @ResponseBody
     @GetMapping("/save")
-    public String saveMI3622Data() {
-        return MI3622Generator.saveReportInDb();
+    public String saveMI3272Data() {
+        return reportGenerator.saveReportInDb();
     }
 }

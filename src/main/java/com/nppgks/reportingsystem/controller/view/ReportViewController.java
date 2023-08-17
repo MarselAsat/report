@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -98,6 +100,42 @@ public class ReportViewController {
         });
 
         return "report_pages/MI3622-report-page";
+    }
+
+    @GetMapping(value = "/mi3272Report/{reportId}")
+    public String getMi3272Report(ModelMap modelMap,
+                                  @PathVariable Long reportId){
+        var report = manualReportService.findReportById(reportId);
+
+        LocalDate creationDate = report.getCreationDt().toLocalDate();
+
+        Map<Integer, String> monthsInRussian = new HashMap<>();
+        monthsInRussian.put(1, "Января");
+        monthsInRussian.put(2, "Февраля");
+        monthsInRussian.put(3, "Марта");
+        monthsInRussian.put(4, "Апреля");
+        monthsInRussian.put(5, "Мая");
+        monthsInRussian.put(6, "Июня");
+        monthsInRussian.put(7, "Июля");
+        monthsInRussian.put(8, "Августа");
+        monthsInRussian.put(9, "Сентября");
+        monthsInRussian.put(10, "Октября");
+        monthsInRussian.put(11, "Ноября");
+        monthsInRussian.put(12, "Декабря");
+
+        modelMap.put("dateDay", creationDate.getDayOfMonth());
+        modelMap.put("dateYear", creationDate.getYear());
+        modelMap.put("dateMonth", monthsInRussian.get(creationDate.getMonthValue()));
+
+        var reportDataList = manualReportDataService.getReportDataList(reportId);
+
+        reportDataList.forEach(rd -> {
+            Object value = ArrayParser.fromJsonToObject(rd.getData());
+            modelMap.put(
+                    rd.getTag().getPermanentName(), value);
+        });
+
+        return "report_pages/MI3272-report-page";
     }
 
     @GetMapping(value = "/acceptanceActReport/{reportId}")

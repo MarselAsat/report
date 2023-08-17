@@ -1,35 +1,31 @@
-package com.nppgks.reportingsystem.reportgeneration.calculations.mi3622;
+package com.nppgks.reportingsystem.reportgeneration.poverki;
 
-import com.nppgks.reportingsystem.constants.ManualReportTypes;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
-import com.nppgks.reportingsystem.db.manual_reports.repository.ReportRepository;
 import com.nppgks.reportingsystem.db.manual_reports.repository.ReportDataRepository;
+import com.nppgks.reportingsystem.db.manual_reports.repository.ReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-/**
- * Класс, отвечающий за сохранение данных МИ3622 (исходные данные + результаты вычислений) в базу данных
- */
 @Service
 @RequiredArgsConstructor
-public class MI3622DbService {
+public class SaveOnceADayStrategy implements SaveReportStrategy{
     private final ReportRepository reportRepository;
     private final ReportDataRepository reportDataRepository;
-
+    @Override
     @Transactional
-    public String saveCalculations(List<ReportData> reportDataList, Report report) {
+    public String saveReportDataInDb(List<ReportData> reportDataList, Report report) {
         if (reportDataList == null || report == null) {
             return "Нет данных для сохранения!";
         }
         LocalDate creationDate = report.getCreationDt().toLocalDate();
-        List<Report> reports = reportRepository.findByDateRangeAndReportType(creationDate.atStartOfDay(), creationDate.atTime(LocalTime.MAX), ManualReportTypes.MI3622.name());
-        String response = "В базе данных успешно создан отчет поверки и сохранены результаты!";
+        List<Report> reports = reportRepository.findByDateRangeAndReportType(creationDate.atStartOfDay(), creationDate.atTime(LocalTime.MAX), report.getReportType());
+        String response = "В базе данных успешно создан отчет и сохранены результаты!";
         if (!reports.isEmpty()) {
             deleteReport(reports.get(0).getId());
             response = "Результаты поверки успешно перезаписаны!";
@@ -38,8 +34,7 @@ public class MI3622DbService {
         reportDataRepository.saveAll(reportDataList);
         return response;
     }
-
-    public void deleteReport(Long id) {
+    private void deleteReport(Long id) {
         reportDataRepository.deleteByReportId(id);
         reportRepository.deleteById(id);
     }

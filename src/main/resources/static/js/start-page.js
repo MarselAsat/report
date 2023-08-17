@@ -1,8 +1,19 @@
+var reportTypeToGroup =
+    {mi3272: "poverki", mi3622: "poverki", acceptanceAct: "acts"};
+
 window.onload = function () {
     path = window.location.search;
     const urlParams = new URLSearchParams(path);
     if(urlParams.has('reportTypeId')){
         const reportTypeId = urlParams.get('reportTypeId')
+
+        if(reportTypeToGroup[reportTypeId] === "poverki"){
+            $("#collapsePoverki").collapse("show");
+        }
+        if(reportTypeToGroup[reportTypeId] === "acts"){
+            $("#collapseActs").collapse("show");
+        }
+
         var reportTypeA = document.getElementById("reportType-"+reportTypeId);
         reportTypeA.classList.add("active");
     }
