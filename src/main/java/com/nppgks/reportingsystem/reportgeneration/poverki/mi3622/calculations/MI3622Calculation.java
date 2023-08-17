@@ -2,7 +2,6 @@ package com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations;
 
 import com.nppgks.reportingsystem.constants.MI3622Constants;
 import com.nppgks.reportingsystem.reportgeneration.poverki.CommonFunctions;
-import com.nppgks.reportingsystem.reportgeneration.poverki.mi3622.calculations.MI3622InitialData;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import lombok.extern.slf4j.Slf4j;
 
