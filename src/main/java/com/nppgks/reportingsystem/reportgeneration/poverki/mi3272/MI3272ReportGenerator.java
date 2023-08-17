@@ -13,7 +13,6 @@ import com.nppgks.reportingsystem.reportgeneration.poverki.mi3272.calculations.M
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
