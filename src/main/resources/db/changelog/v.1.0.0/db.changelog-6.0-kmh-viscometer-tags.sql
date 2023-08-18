@@ -4,6 +4,7 @@
 SET search_path TO manual_reports;
 
 --changeset alina.parfenteva:2
+-- Входные данные
 INSERT INTO tag (permanent_name, address, description, initial, report_type)
 VALUES ('protocolNumber', 'kmhVisc.' || 'protocolNumber',
         'Номер протокола',
@@ -84,3 +85,12 @@ VALUES ('protocolNumber', 'kmhVisc.' || 'protocolNumber',
        ('serviceName', 'kmhVisc.' || 'serviceName',
         'Фамилия И.О. лица от сервисной организации',
         TRUE, 'KMH_VISCOMETER');
+
+-- выходные данные
+INSERT INTO tag (permanent_name, address, description, initial, report_type)
+VALUES ('v_PVz_minus_v_il', 'kmhVisc.' || 'v_PVz_minus_v_il',
+        'Модуль разности v_PVZ и v_il',
+        FALSE, 'KMH_VISCOMETER'),
+       ('conclusion', 'kmhVisc.' || 'conclusion',
+        'годен/не годен',
+        FALSE, 'KMH_VISCOMETER');
