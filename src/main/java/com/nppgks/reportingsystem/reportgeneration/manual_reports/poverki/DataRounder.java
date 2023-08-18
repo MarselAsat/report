@@ -10,7 +10,7 @@ public class DataRounder {
     private final static int MAX_PRECISION = 8;
 
     // округляет double, double[] и double[][] поля объекта
-    public static void round(Object o) {
+    public static void roundPojo(Object o) {
         Field[] declaredFields = o.getClass().getDeclaredFields();
         try {
             for (Field field : declaredFields) {
@@ -46,7 +46,7 @@ public class DataRounder {
         return value;
     }
 
-    private static double[] roundDoubleArray(double[] array) {
+    public static double[] roundDoubleArray(double[] array) {
         if (array != null) {
             for (int i = 0; i < array.length; i++) {
                 array[i] = roundDouble(array[i]);

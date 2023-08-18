@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.unit.reportgeneration.calculations.mi3622;
 
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622Calculation;
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.DataConverter;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.DataConverter;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622FinalData;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622InitialData;
 import org.junit.jupiter.api.Test;

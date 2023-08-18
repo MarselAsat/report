@@ -1,6 +1,7 @@
-package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports;
 
 import com.nppgks.reportingsystem.constants.Regexes;
+import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import com.nppgks.reportingsystem.exception.MissingOpcTagException;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
@@ -11,10 +12,8 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.nppgks.reportingsystem.util.ArrayParser.*;
 import static java.lang.Boolean.parseBoolean;
@@ -45,6 +44,35 @@ public class DataConverter {
         return MI3622FinalData;
     }
 
+    /**
+     * Конвертирует объект List<ManualTagForOpc> в List<String>,
+     * где хранятся только адреса тегов - manualTagForOpc.address
+     */
+    public static List<String> convertTagsToListOfAddresses(List<ManualTagForOpc> tags){
+        return tags
+                .stream()
+                .map(ManualTagForOpc::address)
+                .toList();
+    }
+
+    /**
+     * конвертация списка объектов ManualTagForOpc (id, address, permanentName)
+     * в map (key = ManualTagForOpc.address, value = manualTagForOpc)
+     */
+    public static Map<String, ManualTagForOpc> convertTagListToMapWithAddressKey(List<ManualTagForOpc> tags) {
+        return tags.stream()
+                .map(t -> Map.entry(t.address(), t))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1));
+    }
+
+    /**
+     * конвертация списка объектов ManualTagForOpc (id, address, permanentName)
+     * в map (key = ManualTagForOpc.permanentName, value = ManualTagForOpc.address)
+     */
+    public static Map<String, String> createPermanentNameToAddressMap(List<ManualTagForOpc> tagsForOpc) {
+        return tagsForOpc.stream()
+                .collect(Collectors.toMap(ManualTagForOpc::permanentName, ManualTagForOpc::address));
+    }
     /**
      * Возвращается объект Map<String, Object>, построенный на основе значений полей finalData.
      * Каждому полю в FinalData соответствует имя тега, которое знает OPC.

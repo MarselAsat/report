@@ -8,7 +8,7 @@ import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.constants.ManualReportTypes;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.DataConverter;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.DataConverter;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622FinalData;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622InitialData;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class MI3622ReportGenerator extends ManualReportGenerator {
@@ -41,14 +40,11 @@ public class MI3622ReportGenerator extends ManualReportGenerator {
         opcServiceRequests.sendTagValuesToOpc(Map.of(isFinishedTag.getAddress(), false));
 
         List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypes.MI3622.name());
-        List<String> initialTagsForOpc = initialTags
-                .stream()
-                .map(ManualTagForOpc::address)
-                .toList();
+        List<String> initialTagsForOpc = DataConverter.convertTagsToListOfAddresses(initialTags);
 
         Map<String, String> initialDataFromOpc = opcServiceRequests.getTagValuesFromOpc(initialTagsForOpc);
 
-        Map<String, String> initialTagsMap = createTagsMap(initialTags);
+        Map<String, String> initialTagsMap = DataConverter.createPermanentNameToAddressMap(initialTags);
         DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagsMap, MI3622InitialData.class);
 
         MI3622InitialData MI3622InitialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap, MI3622InitialData.class);
@@ -57,7 +53,7 @@ public class MI3622ReportGenerator extends ManualReportGenerator {
 
         List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypes.MI3622.name());
 
-        Map<String, String> finalTagsMap = createTagsMap(finalTags);
+        Map<String, String> finalTagsMap = DataConverter.createPermanentNameToAddressMap(finalTags);
 
         Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(MI3622FinalData, finalTagsMap);
         finalDataForOpc.put(isFinishedTag.getAddress(), true);
@@ -82,25 +78,15 @@ public class MI3622ReportGenerator extends ManualReportGenerator {
                                      List<ManualTagForOpc> finalTags,
                                      Map<String, Object> finalDataForOpc) {
 
-        Map<String, ManualTagForOpc> initialTagsMap = convertListToMap(initialTags);
-        Map<String, ManualTagForOpc> finalTagsMap = convertListToMap(finalTags);
+        Map<String, ManualTagForOpc> addressToinitialTagMap = DataConverter.convertTagListToMapWithAddressKey(initialTags);
+        Map<String, ManualTagForOpc> addressTofinalTagMap = DataConverter.convertTagListToMapWithAddressKey(finalTags);
 
         reportDataList = createListOfReportDataMI3622(
                 initialDataFromOpc,
                 finalDataForOpc,
                 report,
-                initialTagsMap,
-                finalTagsMap);
-    }
-
-    /**
-     * конвертация списка объектов ManualTagForOpc (id, address, permanentName)
-     * в map (key = ManualTagForOpc.address, value = manualTagForOpc)
-     */
-    private Map<String, ManualTagForOpc> convertListToMap(List<ManualTagForOpc> tags) {
-        return tags.stream()
-                .map(t -> Map.entry(t.address(), t))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1));
+                addressToinitialTagMap,
+                addressTofinalTagMap);
     }
 
     private List<ReportData> createListOfReportDataMI3622(
@@ -133,10 +119,5 @@ public class MI3622ReportGenerator extends ManualReportGenerator {
             reportDataList.add(reportData);
         }
         return reportDataList;
-    }
-
-    private Map<String, String> createTagsMap(List<ManualTagForOpc> tagsForOpc) {
-        return tagsForOpc.stream()
-                .collect(Collectors.toMap(ManualTagForOpc::permanentName, ManualTagForOpc::address));
     }
 }
