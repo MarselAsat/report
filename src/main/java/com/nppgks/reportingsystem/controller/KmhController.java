@@ -33,36 +33,52 @@ public class KmhController {
         });
         modelMap.put("printSaveButtonsRequired", true);
 
-//        modelMap.put("protocolNumber", "018-19");
-//        modelMap.put("siknNumber", "1516");
-//        modelMap.put("place_name", "ПСП Марковское ООО «ИНК»");
-//        modelMap.put("transmitter_type", "Solartron 7829");
-//        modelMap.put("viscometer_type", "ВНЖ");
-//        modelMap.put("transmitter_number", "14462515");
-//        modelMap.put("viscometer_number", "32");
-//        modelMap.put("transmitter_date", "12.02.2018");
-//        modelMap.put("viscometer_date", "25.03.2015");
-//        modelMap.put("delta_v_PVz", "0.2");
-//        modelMap.put("delta_v_il", "0.7");
-//        modelMap.put("t_bik", new double[]{15.0, 15.0, 15.0});
-//        modelMap.put("ro_bik", new double[]{824.7, 824.7, 824.7});
-//        modelMap.put("eta_PVz", new double[]{6.08, 6.08, 6.08});
-//        modelMap.put("v_PVz", new double[]{7.36, 7.36, 7.363});
-//        modelMap.put("v_il", new double[]{7.34, 7.37, 7.306});
-//        modelMap.put("v_PVz_minus_v_il", new double[]{0.02, 0.01, 0.057});
-//        modelMap.put("conclusion", "годен");
-//        modelMap.put("kmh_date", "06.02.2019");
-//        modelMap.put("deliverOrg", "ООО \"ИНК\"");
-//        modelMap.put("metrologistName", "Титов А.В.");
-//        modelMap.put("chemistName", "Рабинович Ю.Д.");
-//        modelMap.put("receiverOrg", "ООО \"Транснефть-Восток\"");
-//        modelMap.put("receiverPosition", "Мастер ПСП НПС-7");
-//        modelMap.put("receiverName", "Ермолаев К.В.");
-//        modelMap.put("serviceOrg", "ЗАО НИЦ \"Инкомсистем\"");
-//        modelMap.put("servicePosition", "Инженер ТО и С");
-//        modelMap.put("serviceName", "Рахматуллин Р.Ф.");
-//        modelMap.put("printSaveButtonsRequired", true);
         return "report_pages/kmh-viscometer-report-page";
+    }
+
+    @GetMapping("/moisturemeter")
+    public String getKmhMoistureMeterPage(ModelMap modelMap){
+
+        modelMap.put("protocolNumber", "020-19");
+        modelMap.put("siknNumber", "1516");
+        modelMap.put("place_name", "ПСП Марковское ООО «ИНК»");
+        modelMap.put("reserve_mm_type", "УДВН-1пм");
+        modelMap.put("working_mm_type", "УДВН-1пм");
+        modelMap.put("reserve_mm_number", "2207");
+        modelMap.put("working_mm_number", "2208");
+        modelMap.put("reserve_mm_date", "02.07.2018");
+        modelMap.put("working_mm_date", "25.04.2018");
+        modelMap.put("reserve_mm_delta_W_kv", "0.06");
+        modelMap.put("working_mm_delta_W_kv", "0.06");
+        modelMap.put("reserve_mm_delta_W_0", "0.14");
+        modelMap.put("working_mm_delta_W_0", "0.14");
+
+        modelMap.put("measure_time", new String[]{"4:48", "4:58", "5:08"});
+        modelMap.put("work_mm_phi_v", new double[]{0.02, 0.02, 0.01});
+        modelMap.put("reserve_mm_phi_v", new double[]{0.0, 0.0, 0.0});
+
+        modelMap.put("work_mm_W_kv", new double[]{0.02, 0.02, 0.01});
+        modelMap.put("reserve_mm_W_kv", new double[]{0.0, 0.0, 0.0});
+        modelMap.put("W_0", new double[]{0.03, 0.06, 0.03});
+        modelMap.put("rho_v", new double[]{824.2, 824.2, 824.2});
+
+        modelMap.put("work_mm_W_id", new double[]{0.01, 0.04, 0.02});
+        modelMap.put("reserve_mm_W_id", new double[]{0.03, 0.06, 0.03});
+
+        modelMap.put("working_mm_conclusion", "годен");
+        modelMap.put("reserve_mm_conclusion", "годен");
+        modelMap.put("kmh_date", "07.02.2019");
+        modelMap.put("deliverOrg", "ООО \"ИНК\"");
+        modelMap.put("metrologistName", "Титов А.В.");
+        modelMap.put("chemistName", "Рабинович Ю.Д.");
+        modelMap.put("receiverOrg", "ООО \"Транснефть-Восток\"");
+        modelMap.put("receiverPosition", "Мастер ПСП НПС-7");
+        modelMap.put("receiverName", "Ермолаев К.В.");
+        modelMap.put("serviceOrg", "ЗАО НИЦ \"Инкомсистем\"");
+        modelMap.put("servicePosition", "Инженер ТО и С");
+        modelMap.put("serviceName", "Рахматуллин Р.Ф.");
+        modelMap.put("printSaveButtonsRequired", true);
+        return "report_pages/kmh-moisture-meter-report-page";
     }
 
     @ResponseBody

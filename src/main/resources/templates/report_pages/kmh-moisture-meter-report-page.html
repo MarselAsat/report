@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header"></head>
+<head>
+    <script type="text/javascript" th:src="@{/js/KmhViscometer-report-page.js}"></script>
+
+    <!--  sweetAlert library-->
+    <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
+    <link th:href="@{/external_libraries/sweetalert/sweetalert2.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="card">
+    <div th:if="${printSaveButtonsRequired}">
+        <div class="card-header" th:replace="fragments/print-save-buttons"></div>
+    </div>
+    <div class="card-body overflow-auto" id="report-content">
+        <head th:replace="fragments/header"></head>
+        <head>
+            <style>
+                @media print {
+                    thead {
+                        display: table-row-group;
+                    }
+                }
+
+                .report-body p {
+                    font-size: 0.8rem;
+                }
+
+                .report-body td {
+                    width: auto;
+                    padding: 0.1rem;
+                    vertical-align: middle;
+                    text-align: center;
+                    overflow: hidden;
+                }
+
+                .report-body tr {
+                    white-space: nowrap;
+                    height: 2px;
+                }
+
+                .report-body table {
+                    font-size: 0.8rem;
+                }
+
+                .report-body caption {
+                    font-size: small;
+                    padding-bottom: 5px;
+                    caption-side: top;
+                    text-align: left;
+                }
+
+                .footer-table {
+                    padding-right: 1rem;
+                    white-space: break-spaces;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                }
+
+                .footer-label {
+                    border-top: 1px solid #000;
+                    text-align: center;
+                    font-size: 0.5rem;
+                    padding-top: 0 !important;
+                }
+            </style>
+        </head>
+        <div class="container report-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5 style="text-align: center; padding-bottom: 3%;">ПРОТОКОЛ №<span
+                            th:text="${protocolNumber}"></span></h5>
+                    <h5 style="text-align: center; padding-bottom: 3%;">контроля метрологических характеристик рабочего
+                        и резервного влагомера по лабораторным измерениям</h5>
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <td style="text-align: left; border-right: 0">
+                                СИКН №"<span th:text="${siknNumber}"></span>
+                            </td>
+                            <td style="text-align: right; border-left: 0">
+                                <span th:text="${place_name}"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <p>Условие контроля: |W<sub>кв</sub> - W<sub>0</sub>|≤|ΔW<sub>кв</sub> + ΔW<sub>о</sub>| (для
+                        каждого измерения)</p>
+
+                    <!-- Таблица 1-->
+                    <h6 style="text-align: center;">1. Исходные данные</h6>
+                    <table class="table table-bordered">
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td>№ пп</td>
+                            <td>Данные</td>
+                            <td style="text-align: center">Поточный влагомер резервный</td>
+                            <td style="text-align: center">Поточный влагомер рабочий</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td style="text-align: left">Тип, марка</td>
+                            <td th:text="${reserve_mm_type} ?: '-'"></td>
+                            <td th:text="${working_mm_type} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td style="text-align: left">Заводской №</td>
+                            <td th:text="${reserve_mm_number} ?: '-'"></td>
+                            <td th:text="${working_mm_number} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td style="text-align: left">Дата последней поверки</td>
+                            <td th:text="${reserve_mm_date} ?: '-'"></td>
+                            <td th:text="${working_mm_date} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td style="text-align: left">Предел абсолютной погрешности измерений<br>
+                                массовой доли воды в нефти, ΔW<sub>кв</sub> %
+                            </td>
+                            <td th:text="${reserve_mm_delta_W_kv} ?: '-'"></td>
+                            <td th:text="${working_mm_delta_W_kv} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td style="text-align: left">Предел допускаемой абсолютной погрешности определения <br>
+                                массовой доли воды в ХАЛ по ГОСТ 2477, ΔW<sub>0</sub> %
+                            </td>
+                            <td th:text="${reserve_mm_delta_W_0} ?: '-'"></td>
+                            <td th:text="${working_mm_delta_W_0} ?: '-'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Таблица 2-->
+                    <h6 style="text-align: center;">2. Результаты измерений и контроля</h6>
+                    <table class="table table-bordered">
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td>№ пп</td>
+                            <td>Время <br>проведения <br>замеров <br>(московское)</td>
+                            <td>Поточный <br>влагомер</td>
+                            <td>Значение <br>влагосодержания <br>φ<sub>в</sub> по влагомеру, <br>(% объемных)</td>
+                            <td>Значение <br>влагосодержания <br>W<sub>кв</sub> по влагомеру, <br>(% массовых)</td>
+                            <td>Значение <br>влагосодержания <br>W<sub>0</sub>, по анализам ХАЛ, <br>(% массовых)</td>
+                            <td>Плотность <br>нефти <br>по СИКН, <br>ρ<sub>v</sub>, кг/м<sup>3</sup></td>
+                            <td>Расхождение <br>результатов <br>измерений <br>Ŵ<sub>id</sub> =|W<sub>кв</sub> – W<sub>0</sub>|, <br>(%)</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="m,i : ${measure_time}">
+                            <td th:text="${i.index+1}"></td>
+                            <td th:text="${measure_time != null} ? ${measure_time[i.index]} : '-'"></td>
+                            <td>
+                                <table style="margin: 0 auto;">
+                                    <tr>
+                                        <td>Рабочий</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Резервный</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table style="margin: 0 auto;">
+                                    <tr>
+                                        <td th:text="${work_mm_phi_v != null} ? ${work_mm_phi_v[i.index]}  : '-'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${reserve_mm_phi_v != null} ? ${reserve_mm_phi_v[i.index]}  : '-'"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table style="margin: 0 auto;">
+                                    <tr>
+                                        <td th:text="${work_mm_W_kv != null} ? ${work_mm_W_kv[i.index]}  : '-'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${reserve_mm_W_kv != null} ? ${reserve_mm_W_kv[i.index]}  : '-'"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td th:text="${W_0 != null} ? ${W_0[i.index]}  : '-'"></td>
+                            <td th:text="${rho_v != null} ? ${rho_v[i.index]}  : '-'"></td>
+                            <td>
+                                <table style="margin: 0 auto;">
+                                    <tr>
+                                        <td th:text="${work_mm_W_id != null} ? ${work_mm_W_id[i.index]}  : '-'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${reserve_mm_W_id != null} ? ${reserve_mm_W_id[i.index]}  : '-'"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                           </tr>
+                        </tbody>
+                    </table>
+
+                    <h6 style="text-align: center;">3. Заключение</h6>
+                    <p>Рабочий влагомер <span th:text="${working_mm_conclusion}" style="font-weight:bold"></span> к дальнейшей эксплуатации</p>
+                    <p>Резервный влагомер <span th:text="${reserve_mm_conclusion}" style="font-weight:bold"></span> к дальнейшей эксплуатации</p>
+                    <p class="mt-4">Дата проведения КМХ: <span th:text="${kmh_date}"></span></p>
+                    <p class="mt-4">Подписи лиц, проводивших КМХ:</p>
+                    <p class="mt-2">От сдающей стороны <span th:text="${deliverOrg}"></span></p>
+                    <table class="mt-2 table table-borderless footer-table" style="width: 70%">
+                        <tbody>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Инженер-метролог</td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${metrologistName}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Инженер-химик</td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${chemistName}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p class="mt-2">От принимающей стороны <span th:text="${receiverOrg}"></span></p>
+                    <table class="mt-2 table table-borderless footer-table" style="width: 70%">
+                        <tbody>
+                        <tr>
+                            <td class="col-4 pb-0" style="text-align: left" th:text="${receiverPosition}"></td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${receiverName}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p class="mt-2">От сервисной организации <span th:text="${serviceOrg}"></span></p>
+                    <table class="mt-2 table table-borderless footer-table" style="width: 70%">
+                        <tbody>
+                        <tr>
+                            <td class="col-4 pb-0" style="text-align: left" th:text="${servicePosition}"></td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${serviceName}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
