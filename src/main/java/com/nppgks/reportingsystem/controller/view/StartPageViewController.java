@@ -72,7 +72,7 @@ public class StartPageViewController {
     public Map<String, String> getAppInfo(){
         String version = buildProperties.get("version");
         return Map.of("version", version,
-                "crc", CrcGenerator.getCertificationAlgorithmsCrc(version)+"");
+                "crc", String.valueOf(CrcGenerator.getCertificationAlgorithmsCrc(version)));
     }
 
     void setCommonParams(ModelMap model){

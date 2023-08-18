@@ -22,30 +22,30 @@
         <h4 class="card-header">Типы отчетов</h4>
         <div class="list-group">
             <a th:each="reportType: ${reportTypes}"
-               th:text="${reportType.name}" class="list-group-item pointer" th:id="'reportType-'+${reportType.id}"
+               th:text="${reportType.name}" class="list-group-item list-group-item-action pointer" th:id="'reportType-'+${reportType.id}"
                onclick="reportTypeIsChanged(this)">
             </a>
 
-            <a class="list-group-item pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapsePoverki" role="button" aria-expanded="false" aria-controls="collapsePoverki">
+            <a class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapsePoverki" role="button" aria-expanded="false" aria-controls="collapsePoverki">
                 Поверки
             </a>
             <div class="collapse" id="collapsePoverki">
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer report-sub-type" id="reportType-mi3622">МИ3622</a>
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer report-sub-type" id="reportType-mi3272">МИ3272</a>
+                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-mi3622">МИ3622</a>
+                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-mi3272">МИ3272</a>
             </div>
 
-            <a class="list-group-item pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapseActs" role="button" aria-expanded="false" aria-controls="collapseActs">
+            <a class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapseActs" role="button" aria-expanded="false" aria-controls="collapseActs">
                 Акты
             </a>
             <div class="collapse" id="collapseActs">
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer report-sub-type" id="reportType-acceptanceAct">Акты приема-сдачи</a>
+                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action list-group-item-action pointer report-sub-type" id="reportType-acceptanceAct">Акты приема-сдачи</a>
             </div>
 
-            <a class="list-group-item pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapseKmh" role="button" aria-expanded="false" aria-controls="collapseKmh">
+            <a class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapseKmh" role="button" aria-expanded="false" aria-controls="collapseKmh">
                 КМХ
             </a>
             <div class="collapse" id="collapseKmh">
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer report-sub-type" id="reportType-kmhViscometer">КМХ преобразователя вязкости по вискозиметру</a>
+                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-kmhViscometer">КМХ преобразователя вязкости по вискозиметру</a>
             </div>
         </div>
     </div>
@@ -59,10 +59,13 @@
     <!-- Report Names -->
     <div class="card my-4">
         <h5 class="card-header">Отчеты</h5>
+        <div class="list-group" th:if="${#lists.size(reports)} == 0">
+            <a class="list-group-item disabled">Нет отчетов, удовлетворяющих фильтрам</a>
+        </div>
         <div class="list-group" id="reports">
             <a th:each="report: ${reports}"
                th:text="${report.name}" th:onclick="|getReportData(this,'${report.id}')|"
-               class="list-group-item pointer"></a>
+               class="list-group-item list-group-item-action pointer"></a>
         </div>
     </div>
 </div>
