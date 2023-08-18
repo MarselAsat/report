@@ -25,7 +25,7 @@
                 }
 
                 .report-body p {
-                    font-size: 0.6rem;
+                    font-size: 0.8rem;
                 }
 
                 .report-body td {
@@ -41,7 +41,7 @@
                 }
 
                 .report-body table {
-                    font-size: 0.6rem;
+                    font-size: 0.8rem;
                 }
 
                 .report-body caption {
@@ -155,7 +155,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="t,i : ${t_bik}">
-                            <td th:text="${i.index}"></td>
+                            <td th:text="${i.index+1}"></td>
                             <td th:text="${t_bik != null} ? ${t_bik[i.index]} : '-'"></td>
                             <td th:text="${ro_bik != null} ? ${ro_bik[i.index]}  : '-'"></td>
                             <td th:text="${eta_PVz != null} ? ${eta_PVz[i.index]}  : '-'"></td>
