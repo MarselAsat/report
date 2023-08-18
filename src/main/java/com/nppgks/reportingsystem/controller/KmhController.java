@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/kmh")
-public class KMHController {
+public class KmhController {
 
     @GetMapping("/viscometer")
     public String getKmhViscometerPage(ModelMap modelMap){
@@ -40,6 +40,6 @@ public class KMHController {
         modelMap.put("servicePosition", "Инженер ТО и С");
         modelMap.put("serviceName", "Рахматуллин Р.Ф.");
         modelMap.put("printSaveButtonsRequired", true);
-        return "report_pages/KMHViscometer-report-page.html";
+        return "report_pages/kmh-viscometer-report-page";
     }
 }
