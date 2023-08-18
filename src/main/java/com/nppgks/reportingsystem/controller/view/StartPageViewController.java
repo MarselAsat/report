@@ -43,16 +43,20 @@ public class StartPageViewController {
             return "redirect:/";
         }
         else if(reportTypeId != null && reportTypeId.equals("mi3622")) {
-            var calcReports = manualReportService.findReportByDateAndType(date, ManualReportTypes.MI3622.name());
-            modelMap.put("reports", calcReports);
+            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypes.MI3622.name());
+            modelMap.put("reports", reports);
         }
         else if(reportTypeId != null && reportTypeId.equals("acceptanceAct")) {
-            var calcReports = manualReportService.findReportByDateAndType(date, ManualReportTypes.ACCEPTANCE_ACT.name());
-            modelMap.put("reports", calcReports);
+            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypes.ACCEPTANCE_ACT.name());
+            modelMap.put("reports", reports);
         }
         else if(reportTypeId != null && reportTypeId.equals("mi3272")) {
-            var calcReports = manualReportService.findReportByDateAndType(date, ManualReportTypes.MI3272.name());
-            modelMap.put("reports", calcReports);
+            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypes.MI3272.name());
+            modelMap.put("reports", reports);
+        }
+        else if(reportTypeId != null && reportTypeId.equals("kmhViscometer")) {
+            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypes.KMH_VISCOMETER.name());
+            modelMap.put("reports", reports);
         }
         else if(reportTypeId != null){
             List<Report> reports = reportService.getReportsByDateAndReportId(reportTypeId, date);

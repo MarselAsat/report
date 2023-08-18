@@ -1,5 +1,5 @@
 var reportTypeToGroup =
-    {mi3272: "poverki", mi3622: "poverki", acceptanceAct: "acts"};
+    {mi3272: "poverki", mi3622: "poverki", acceptanceAct: "acts", kmhViscometer: "kmh"};
 
 window.onload = function () {
     path = window.location.search;
@@ -12,6 +12,9 @@ window.onload = function () {
         }
         if(reportTypeToGroup[reportTypeId] === "acts"){
             $("#collapseActs").collapse("show");
+        }
+        if(reportTypeToGroup[reportTypeId] === "kmh"){
+            $("#collapseKmh").collapse("show");
         }
 
         var reportTypeA = document.getElementById("reportType-"+reportTypeId);
