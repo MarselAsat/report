@@ -19,3 +19,5 @@ databaseChangeLog:
       - file: db/changelog/v.1.0.0/db.changelog-5.0-mi3272-data.sql
   - include:
       - file: db/changelog/v.1.0.0/db.changelog-6.0-kmh-viscometer-tags.sql
+  - include:
+      - file: db/changelog/v.1.0.0/db.changelog-7.0-kmh-moisture-meter-tags.sql
