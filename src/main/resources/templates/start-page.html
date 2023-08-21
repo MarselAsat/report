@@ -8,6 +8,7 @@
   <script type="text/javascript" th:src="@{/js/start-page-filters.js}"></script>
   <script type="text/javascript" th:src="@{/js/start-page.js}"></script>
   <script type="text/javascript" th:src="@{/js/print-content.js}"></script>
+  <link th:href="@{/css/loader.css}" rel="stylesheet"/>
   <style>
     .sidenav{
       height: 100%;
@@ -17,6 +18,10 @@
     }
     table{
       width: 100%;
+    }
+    .loader{
+      margin-left: 50%;
+      margin-right: 50%
     }
   </style>
 </head>
@@ -36,7 +41,8 @@
             </div>
           </div>
           <div class="card-body" id="report-content">
-            <p style="color: #6c757d; text-align: center">Выберите отчет для отображения</p>
+            <div class="loader" id="loaderDisplayReport" style="display:none"></div>
+            <p style="color: #6c757d; text-align: center" id="infoDisplayReport">Выберите отчет для отображения</p>
           </div>
         </div>
       </div>

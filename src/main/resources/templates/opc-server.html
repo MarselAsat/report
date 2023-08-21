@@ -4,6 +4,7 @@
 <head>
     <title id="pageTitle">OPC сервер</title>
     <script type="text/javascript" th:src="@{/js/opc-server.js}"></script>
+    <link th:href="@{/css/loader.css}" rel="stylesheet"/>
 
     <!--  sweetAlert library-->
     <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
@@ -24,24 +25,6 @@
 
         #tag-value {
             overflow-wrap: break-word;
-        }
-
-        .loader {
-            border: 3px solid #f3f3f3; /* Light grey */
-            border-top: 3px solid #0d6efd; /* Blue */
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
         }
     </style>
 </head>
