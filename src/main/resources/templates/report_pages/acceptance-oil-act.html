@@ -14,10 +14,24 @@
         <div class="card-header" th:replace="fragments/print-save-buttons"></div>
     </div>
     <div class="card-body" id="report-content">
-        <!--        Здесь head внутри div, чтобы при печати отчета сохранялось форматирование bootstrap-->
+        <!-- Здесь head внутри div, чтобы при печати отчета сохранялось форматирование bootstrap-->
         <head th:replace="fragments/header"></head>
         <head>
             <style>
+                .footer-table {
+                    padding-right: 1rem;
+                    white-space: break-spaces;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                }
+
+                .footer-label {
+                    border-top: 1px solid #000;
+                    text-align: center;
+                    font-size: 0.5rem;
+                    padding-top: 0 !important;
+                }
+
                 .first-col {
                     padding-left: 0;
                 }
@@ -41,6 +55,14 @@
 
                 .report-body, .report-body table, .report-body td {
                     font-size: 0.6rem;
+                }
+
+                .report-body td {
+                    width: auto;
+                    padding: 0.1rem;
+                    vertical-align: middle;
+                    text-align: center;
+                    overflow: hidden;
                 }
 
                 .report-body table {
@@ -331,58 +353,66 @@
                     </table>
                     <p class="mt-3">Масса нефти нетто (прописью): <u th:text="${oilNetMassInWords}"></u></p>
                     <p>Обозначение нефти по ГОСТ Р 51858-2002: <u th:text="${GOST}"></u></p>
-                    <div class="container mb-2 mt-3">
-                        <div class="row">
-                            <div class="col-6 first-col">
-                                Представитель сдающей стороны:
-                            </div>
-                            <div class="col">
-                                <u th:text="${deliverOrg}"></u>
-                            </div>
-                            <div class="col"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 first-col"></div>
-                            <div class="col">предприятие</div>
-                            <div class="col"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 first-col"></div>
-                            <div class="col">_________________</div>
-                            <div class="col"><u th:text="${deliverNameFooter}"></u></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 first-col"></div>
-                            <div class="col">подпись</div>
-                            <div class="col">И.О. Фамилия</div>
-                        </div>
-                    </div>
-                    <div class="container mb-2">
-                        <div class="row">
-                            <div class="col-6 first-col">
-                                Представитель принимающей стороны:
-                            </div>
-                            <div class="col">
-                                <u th:text="${receiverOrg}"></u>
-                            </div>
-                            <div class="col"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 first-col"></div>
-                            <div class="col">предприятие</div>
-                            <div class="col"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 first-col"></div>
-                            <div class="col">_________________</div>
-                            <div class="col"><u th:text="${receiverNameFooter}"></u></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 first-col"></div>
-                            <div class="col">подпись</div>
-                            <div class="col">И.О. Фамилия</div>
-                        </div>
-                    </div>
+                    <table class="mt-2 table table-borderless footer-table" style="width: 70%">
+                        <tbody>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Представитель сдающей стороны:</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" th:text="${deliverOrg}" style="text-align: center"></td>
+                            <td style="width: 20px"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0">предприятие</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="pb-0" th:text="${deliverNameFooter}" style="text-align: center"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0">подпись</td>
+                            <td></td>
+                            <td class="footer-label pt-0">И.О. Фамилия</td>
+                        </tr>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Представитель принимающей стороны:</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0" th:text="${receiverOrg}" style="text-align: center"></td>
+                            <td style="width: 20px"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0">предприятие</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="pb-0" th:text="${receiverNameFooter}" style="text-align: center"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0">подпись</td>
+                            <td></td>
+                            <td class="footer-label pt-0">И.О. Фамилия</td>
+                        </tr>
+                        </tbody>
+                    </table>
                     <p><small>*) заполняют при отказе поточного преобразователя плотности</small></p>
                 </div>
             </div>
