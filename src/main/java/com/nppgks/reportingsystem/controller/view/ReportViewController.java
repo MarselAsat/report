@@ -151,7 +151,7 @@ public class ReportViewController {
                                          @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
-        modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt()));
+        modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt().toLocalDate()));
 
         reportDataList.forEach(rd -> {
             Object value = ArrayParser.fromJsonToObject(rd.getData());
@@ -166,7 +166,7 @@ public class ReportViewController {
                                          @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
-        modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt()));
+        modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt().toLocalDate()));
 
         reportDataList.forEach(rd -> {
             Object value = ArrayParser.fromJsonToObject(rd.getData());
