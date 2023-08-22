@@ -441,16 +441,7 @@ public class MI3272Calculation {
 
     // формула 9
     public double[] calculateK_TPR_j(double[][] K_TPR_ij) {
-        int measureCount = K_TPR_ij.length;
-        double[] K_TPR_j = new double[pointsCount];
-        for (int j = 0; j < pointsCount; j++) {
-            double sum = 0;
-            for (double[] doubles : K_TPR_ij) {
-                sum = sum + doubles[j];
-            }
-            K_TPR_j[j] = sum / measureCount;
-        }
-        return K_TPR_j;
+        return CommonFunctions.getAverageForEachColumn(K_TPR_ij);
     }
 
     // формула 10

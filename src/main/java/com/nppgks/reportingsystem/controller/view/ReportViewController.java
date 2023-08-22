@@ -151,7 +151,7 @@ public class ReportViewController {
                                          @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
-        modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt()));
+        modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt().toLocalDate()));
 
         reportDataList.forEach(rd -> {
             Object value = ArrayParser.fromJsonToObject(rd.getData());
@@ -160,6 +160,22 @@ public class ReportViewController {
         });
         return "report_pages/kmh-viscometer-report-page";
     }
+
+    @GetMapping(value = "/kmhMoisturemeterReport/{reportId}")
+    public String getkmhMoisturemeterReport(ModelMap modelMap,
+                                         @PathVariable Long reportId){
+        var reportDataList = manualReportDataService.getReportDataList(reportId);
+        var report = manualReportService.findReportById(reportId);
+        modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt().toLocalDate()));
+
+        reportDataList.forEach(rd -> {
+            Object value = ArrayParser.fromJsonToObject(rd.getData());
+            modelMap.put(
+                    rd.getTag().getPermanentName(), value);
+        });
+        return "report_pages/kmh-moisturemeter-report-page";
+    }
+
 
     private void fillModelMapForReportView(ModelMap modelMap, Long reportId, String columnsFromSetting) {
         Report report = reportService.getById(reportId);

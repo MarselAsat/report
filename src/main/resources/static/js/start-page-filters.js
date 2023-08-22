@@ -1,4 +1,8 @@
 function getReportData(element, reportId) {
+    let $loaderDisplayReport = $('#loaderDisplayReport')
+    $loaderDisplayReport.css("display", "block")
+    $('#infoDisplayReport').css("display", "none")
+
     let activeClass = "active";
     if(!element.classList.contains(activeClass)){
         let reportsDiv = document.getElementById("reports");
@@ -23,9 +27,11 @@ function getReportData(element, reportId) {
         html = html.replace("id=\"report-content\"", "");
         html = html.replace("class=\"card\"", "");
         document.getElementById("report-content").innerHTML = html;
+        $loaderDisplayReport.css("display", "none")
     }).catch(function (err) {
         // There was an error
         console.warn('Something went wrong.', err);
+        $loaderDisplayReport.css("display", "none")
     });
 }
 

@@ -60,8 +60,7 @@ public class AcceptanceActGenerator extends ManualReportGenerator {
         }
 
         Map<String, String> tagValuesFromOpc = opcServiceRequests.getTagValuesFromOpc(tagAddressesForOpc);
-        reportDataList = convertTagValuesToReportData(tagValuesFromOpc, tags, this.report);
-        return reportDataList;
+        return convertTagValuesToReportData(tagValuesFromOpc, tags, this.report);
     }
 
     @Override
@@ -78,7 +77,7 @@ public class AcceptanceActGenerator extends ManualReportGenerator {
         boolean endDtExists = false;
         String dtStartShiftsJson = ArrayParser.fromObjectToJson(dtStartShifts);
         String dtEndShiftsJson = ArrayParser.fromObjectToJson(dtEndShifts);
-        for (ReportData rd : reportDataList) {
+        for (ReportData rd : this.getReportDataList()) {
             if (rd.getTag().getPermanentName().equals(SHIFT_START_DT_TAGNAME)) {
                 if(!rd.getData().equals(dtStartShiftsJson)){
                     isSaved = false;
@@ -108,14 +107,14 @@ public class AcceptanceActGenerator extends ManualReportGenerator {
         }
 
         if (!startDtExists) {
-            reportDataList.add(new ReportData(
+            this.getReportDataList().add(new ReportData(
                     null,
                     dtStartShiftsJson,
                     shiftStartDtTag,
                     report));
         }
         if (!endDtExists) {
-            reportDataList.add(new ReportData(
+            this.getReportDataList().add(new ReportData(
                     null,
                     dtEndShiftsJson,
                     shiftEndDtTag,

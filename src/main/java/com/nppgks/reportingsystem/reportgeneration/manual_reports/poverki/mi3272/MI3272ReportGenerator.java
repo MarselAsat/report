@@ -58,32 +58,20 @@ public class MI3272ReportGenerator extends ManualReportGenerator {
         Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(mi3272FinalData, finalTagsMap);
         finalDataForOpc.put(isFinishedTag.getAddress(), true);
         opcServiceRequests.sendTagValuesToOpc(finalDataForOpc);
-        prepareAllDataForDB(initialTags, initialDataFromOpc, finalTags, finalDataForOpc);
-        return reportDataList;
+        return createListOfReportDataMI3272(initialTags, finalTags, initialDataFromOpc, finalDataForOpc, report);
     }
 
-    private void prepareAllDataForDB(List<ManualTagForOpc> initialTags,
-                                     Map<String, String> initialDataFromOpc,
-                                     List<ManualTagForOpc> finalTags,
-                                     Map<String, Object> finalDataForOpc) {
+
+    private List<ReportData> createListOfReportDataMI3272(
+            List<ManualTagForOpc> initialTags,
+            List<ManualTagForOpc> finalTags,
+            Map<String, String> initialDataFromOpc,
+            Map<String, Object> finalDataForOpc,
+            Report report) {
 
         Map<String, ManualTagForOpc> addressToinitialTagMap = DataConverter.convertTagListToMapWithAddressKey(initialTags);
         Map<String, ManualTagForOpc> addressTofinalTagMap = DataConverter.convertTagListToMapWithAddressKey(finalTags);
 
-        reportDataList = createListOfReportDataMI3272(
-                initialDataFromOpc,
-                finalDataForOpc,
-                report,
-                addressToinitialTagMap,
-                addressTofinalTagMap);
-    }
-
-    private List<ReportData> createListOfReportDataMI3272(
-            Map<String, String> initialDataFromOpc,
-            Map<String, Object> finalDataForOpc,
-            Report report,
-            Map<String, ManualTagForOpc> initialTagsMap,
-            Map<String, ManualTagForOpc> finalTagsMap) {
         List<ReportData> reportDataList = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : initialDataFromOpc.entrySet()) {
@@ -91,7 +79,7 @@ public class MI3272ReportGenerator extends ManualReportGenerator {
             ReportData reportData = new ReportData(
                     null,
                     value,
-                    ManualTagForOpc.toTag(initialTagsMap.get(entry.getKey())),
+                    ManualTagForOpc.toTag(addressToinitialTagMap.get(entry.getKey())),
                     report
             );
             reportDataList.add(reportData);
@@ -102,7 +90,7 @@ public class MI3272ReportGenerator extends ManualReportGenerator {
             ReportData reportData = new ReportData(
                     null,
                     value,
-                    ManualTagForOpc.toTag(finalTagsMap.get(entry.getKey())),
+                    ManualTagForOpc.toTag(addressTofinalTagMap.get(entry.getKey())),
                     report
             );
             reportDataList.add(reportData);
