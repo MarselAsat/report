@@ -2,6 +2,7 @@ package com.nppgks.reportingsystem.reportgeneration.manual_reports;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,12 @@ import java.util.List;
 public abstract class ManualReportGenerator {
     private final SaveReportStrategy saveReportStrategy;
     protected boolean isSaved = false;
-    protected List<ReportData> reportDataList = new ArrayList<>();
+    @Getter
+    private List<ReportData> reportDataList = new ArrayList<>();
     protected Report report;
 
     public List<ReportData> generateReport() {
+
         LocalDateTime currentDt = LocalDateTime.now();
         report = createReport(currentDt);
         reportDataList = generateReportDataList();

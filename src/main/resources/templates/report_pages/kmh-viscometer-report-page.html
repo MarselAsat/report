@@ -3,7 +3,7 @@
 
 <head th:replace="fragments/header"></head>
 <head>
-    <script type="text/javascript" th:src="@{/js/KmhViscometer-report-page.js}"></script>
+    <script type="text/javascript" th:src="@{/js/kmh-viscometer-report-page.js}"></script>
 
     <!--  sweetAlert library-->
     <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
@@ -77,14 +77,14 @@
                     <table class="table table-bordered">
                         <tr>
                             <td style="text-align: left; border-right: 0">
-                                СИКН №"<span th:text="${siknNumber}"></span>
+                                СИКН №<span th:text="${siknNumber}"></span>
                             </td>
                             <td style="text-align: right; border-left: 0">
                                 <span th:text="${place_name}"></span>
                             </td>
                         </tr>
                     </table>
-                    <p>Условие контроля: |v<sub>ПВз</sub> - v<sub>ил</sub>|≤|Δv<sub>ПВз</sub> + Δv<sub>ил</sub>| (для
+                    <p>Условие контроля: |v<sub>ПВз</sub> - v<sub>ил</sub>|≤Δv<sub>ПВз</sub> + Δv<sub>ил</sub> (для
                         каждого измерения)</p>
 
                     <!-- Таблица 1-->
@@ -94,8 +94,8 @@
                         <tr>
                             <td>№ пп</td>
                             <td>Данные</td>
-                            <td style="text-align: center">Преобразователь вязкости</td>
-                            <td style="text-align: center">Вискозиметр лабораторный</td>
+                            <td style="text-align: center">Преобразователь<br>вязкости</td>
+                            <td style="text-align: center">Вискозиметр<br>лабораторный</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -145,9 +145,9 @@
                             <td colspan="4">Вязкость нефти</td>
                         </tr>
                         <tr>
-                            <td>t<sub>бик</sub> , °C</td>
-                            <td>ρ<sub>бик</sub> , кг/м<sup>3</sup></td>
-                            <td>η<sub>ПВз</sub> , мПа∙с (сПз)</td>
+                            <td>t<sub>бик</sub> , <br>°C</td>
+                            <td>ρ<sub>бик</sub> , <br>кг/м<sup>3</sup></td>
+                            <td>η<sub>ПВз</sub> , <br>мПа∙с (сПз)</td>
                             <td>v<sub>ПВз</sub> ,<br>мм<sup>2</sup>/с (сСт)</td>
                             <td>v<sub>ил</sub> ,<br>мм<sup>2</sup>/с (сСт)</td>
                             <td>|Δv<sub>ПВз</sub> + Δv<sub>ил</sub>| ,<br>мм<sup>2</sup>/с (сСт)</td>

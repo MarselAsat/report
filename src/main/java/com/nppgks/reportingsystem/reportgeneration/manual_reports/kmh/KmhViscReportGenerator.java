@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,7 @@ public class KmhViscReportGenerator extends ManualReportGenerator {
 
     @Override
     protected List<ReportData> generateReportDataList() {
+        List<ReportData> reportDataList = new ArrayList<>();
         List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypes.KMH_VISCOMETER.name());
         List<String> tagAddresses = DataConverter.convertTagsToListOfAddresses(tags);
         Map<String, String> tagValuesFromOpc = opcServiceRequests.getTagValuesFromOpc(tagAddresses);

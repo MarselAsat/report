@@ -46,6 +46,7 @@
             </a>
             <div class="collapse" id="collapseKmh">
                 <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-kmhViscometer">КМХ преобразователя вязкости по вискозиметру</a>
+                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-kmhMoisturemeter">КМХ рабочего и резервного влагомеров по лабораторным измерениям</a>
             </div>
         </div>
     </div>
@@ -56,7 +57,7 @@
         <input type="date" id="datePicker" onchange="dateIsChanged(this)"/>
     </div>
 
-    <!-- Report Names -->
+    <!-- Reports -->
     <div class="card my-4">
         <h5 class="card-header">Отчеты</h5>
         <div class="list-group" th:if="${reports} == null">

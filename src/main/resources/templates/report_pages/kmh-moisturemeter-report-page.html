@@ -3,7 +3,8 @@
 
 <head th:replace="fragments/header"></head>
 <head>
-    <script type="text/javascript" th:src="@{/js/KmhViscometer-report-page.js}"></script>
+    <script type="text/javascript" th:src="@{/js/kmh-moisturemeter-report-page.js}"></script>
+    <script type="text/javascript" th:src="@{/js/save-report-in-db.js}"></script>
 
     <!--  sweetAlert library-->
     <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
@@ -25,7 +26,7 @@
                 }
 
                 .report-body p {
-                    font-size: 0.8rem;
+                    font-size: 0.7rem;
                 }
 
                 .report-body td {
@@ -42,7 +43,7 @@
                 }
 
                 .report-body table {
-                    font-size: 0.8rem;
+                    font-size: 0.7rem;
                 }
 
                 .report-body caption {
@@ -65,27 +66,30 @@
                     font-size: 0.5rem;
                     padding-top: 0 !important;
                 }
+                .h6{
+                    font-size: 0.9rem;
+                }
             </style>
         </head>
         <div class="container report-body">
             <div class="row">
                 <div class="col-sm-12">
-                    <h5 style="text-align: center; padding-bottom: 3%;">ПРОТОКОЛ №<span
-                            th:text="${protocolNumber}"></span></h5>
-                    <h5 style="text-align: center; padding-bottom: 3%;">контроля метрологических характеристик рабочего
-                        и резервного влагомера по лабораторным измерениям</h5>
+                    <h6 style="text-align: center; padding-bottom: 0.5%;">ПРОТОКОЛ №<span
+                            th:text="${protocolNumber}"></span></h6>
+                    <h6 style="text-align: center; padding-bottom: 0.5%;">контроля метрологических характеристик рабочего
+                        и резервного влагомера по лабораторным измерениям</h6>
 
                     <table class="table table-bordered">
                         <tr>
                             <td style="text-align: left; border-right: 0">
-                                СИКН №"<span th:text="${siknNumber}"></span>
+                                СИКН №<span th:text="${siknNumber}"></span>
                             </td>
                             <td style="text-align: right; border-left: 0">
                                 <span th:text="${place_name}"></span>
                             </td>
                         </tr>
                     </table>
-                    <p>Условие контроля: |W<sub>кв</sub> - W<sub>0</sub>|≤|ΔW<sub>кв</sub> + ΔW<sub>о</sub>| (для
+                    <p>Условие контроля: |W<sub>кв</sub> - W<sub>0</sub>|≤ΔW<sub>кв</sub> + ΔW<sub>о</sub> (для
                         каждого измерения)</p>
 
                     <!-- Таблица 1-->
@@ -95,8 +99,8 @@
                         <tr>
                             <td>№ пп</td>
                             <td>Данные</td>
-                            <td style="text-align: center">Поточный влагомер резервный</td>
-                            <td style="text-align: center">Поточный влагомер рабочий</td>
+                            <td style="text-align: center">Поточный влагомер <br>резервный</td>
+                            <td style="text-align: center">Поточный влагомер <br>рабочий</td>
                         </tr>
                         </thead>
                         <tbody>
