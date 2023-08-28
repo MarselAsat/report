@@ -1,7 +1,8 @@
 var reportTypeToGroup =
     {mi3272: "poverki", mi3622: "poverki", acceptanceAct: "acts",
         kmhViscometer: "kmh",
-    kmhMoisturemeter: "kmh"};
+    kmhMoisturemeter: "kmh",
+        kmhMassByMass: "kmh"};
 
 window.onload = function () {
     path = window.location.search;

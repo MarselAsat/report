@@ -83,7 +83,7 @@ VALUES ('protocolNumber', 'kmhMassByMass.' || 'protocolNumber',
        ('service_org', 'kmhMassByMass.' || 'service_org',
         'Название сервисной организации',
         TRUE, 'KMH_MASSM_BY_MASSM'),
-       ('service_mame', 'kmhMassByMass.' || 'service_mame',
+       ('service_name', 'kmhMassByMass.' || 'service_name',
         'Фамилия И.О. лица от сервисной организации',
         TRUE, 'KMH_MASSM_BY_MASSM');
 
