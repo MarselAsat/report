@@ -14,7 +14,7 @@ import java.util.Objects;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "report_data", schema = "manual_reports")
+@Table(name = "report_data", schema = "manual_reports", indexes = @Index(columnList = "report_id"))
 public class ReportData {
 
     @Id
