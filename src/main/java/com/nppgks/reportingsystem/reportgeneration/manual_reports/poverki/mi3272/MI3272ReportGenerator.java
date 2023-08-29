@@ -10,7 +10,7 @@ import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGe
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.DataConverter;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.DataRounder;
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272Calculation;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272Calculator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272FinalData;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272InitialData;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
@@ -47,8 +47,8 @@ public class MI3272ReportGenerator extends ManualReportGenerator {
         DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagsMap, MI3272InitialData.class);
 
         MI3272InitialData MI3272InitialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap, MI3272InitialData.class);
-        MI3272Calculation MI3272Calculation = new MI3272Calculation(MI3272InitialData);
-        MI3272FinalData mi3272FinalData = MI3272Calculation.calculate();
+        MI3272Calculator MI3272Calculator = new MI3272Calculator(MI3272InitialData);
+        MI3272FinalData mi3272FinalData = MI3272Calculator.calculate();
         DataRounder.roundPojo(mi3272FinalData);
 
         List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypes.MI3272.name());

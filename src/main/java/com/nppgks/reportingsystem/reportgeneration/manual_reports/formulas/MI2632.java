@@ -1,4 +1,6 @@
-package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas;
+
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.OperatingFluid;
 
 import java.util.Map;
 
