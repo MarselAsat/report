@@ -3,7 +3,7 @@
 
 <head th:replace="fragments/header"></head>
 <head>
-    <script type="text/javascript" th:src="@{/js/kmh-viscometer-report-page.js}"></script>
+    <script type="text/javascript" th:src="@{/js/kmh-massm-by-massm-report-page.js}"></script>
     <script type="text/javascript" th:src="@{/js/save-report-in-db.js}"></script>
 
     <!--  sweetAlert library-->
@@ -70,10 +70,9 @@
         <div class="container report-body">
             <div class="row">
                 <div class="col-sm-12">
-                    <h5 style="text-align: center; padding-bottom: 3%;">ПРОТОКОЛ №<span
-                            th:text="${protocolNumber}"></span></h5>
+                    <h5 style="text-align: center; padding-bottom: 3%;">ПРОТОКОЛ №<span th:text="${protocolNumber}"></span></h5>
                     <h5 style="text-align: center; padding-bottom: 3%;">контроля метрологических характеристик рабочего
-                        преобразователя вязкости по вискозиметру</h5>
+                        МПР(ИЛ№<span th:text="${ilNumber}"></span>) по контрольному</h5>
 
                     <table class="table table-bordered">
                         <tr>
@@ -85,55 +84,59 @@
                             </td>
                         </tr>
                     </table>
-                    <p>Условие контроля: |v<sub>ПВз</sub> - v<sub>ил</sub>|≤Δv<sub>ПВз</sub> + Δv<sub>ил</sub> (для
-                        каждого измерения)</p>
 
                     <!-- Таблица 1-->
                     <table class="table table-bordered">
                         <caption>1. Исходные данные</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td>№ пп</td>
-                            <td>Данные</td>
-                            <td style="text-align: center">Преобразователь<br>вязкости</td>
-                            <td style="text-align: center">Вискозиметр<br>лабораторный</td>
+                            <td rowspan="2">№ пп</td>
+                            <td rowspan="2">Данные</td>
+                            <td style="text-align: center" colspan="2">Рабочий МПР</td>
+                            <td style="text-align: center" colspan="2">Контрольный МПР</td>
+                        </tr>
+                        <tr>
+                            <td>Сенсор</td>
+                            <td>ПЭП</td>
+                            <td>Сенсор</td>
+                            <td>ПЭП</td>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td>1</td>
                             <td style="text-align: left">Тип, марка</td>
-                            <td th:text="${transmitter_type} ?: '-'"></td>
-                            <td th:text="${viscometer_type} ?: '-'"></td>
+                            <td th:text="${work_mpr_sensor_type} ?: '-'"></td>
+                            <td th:text="${work_mpr_pep_type} ?: '-'"></td>
+                            <td th:text="${contr_mpr_sensor_type} ?: '-'"></td>
+                            <td th:text="${contr_mpr_pep_type} ?: '-'"></td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td style="text-align: left">Заводской №</td>
-                            <td th:text="${transmitter_number} ?: '-'"></td>
-                            <td th:text="${viscometer_number} ?: '-'"></td>
+                            <td th:text="${work_mpr_sensor_number} ?: '-'"></td>
+                            <td th:text="${work_mpr_pep_number} ?: '-'"></td>
+                            <td th:text="${contr_mpr_sensor_number} ?: '-'"></td>
+                            <td th:text="${contr_mpr_pep_number} ?: '-'"></td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td style="text-align: left">Дата последней поверки</td>
-                            <td th:text="${transmitter_date} ?: '-'"></td>
-                            <td th:text="${viscometer_date} ?: '-'"></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td style="text-align: left">Предел допустимой абсолютной погрешности<br>
-                                определения значения кинематической вязкости<br>
-                                нефти в БИК, Δν<sub>ПВз</sub>, мм<sup>2</sup>/с (сСт)
-                            </td>
-                            <td colspan="2" th:text="${delta_v_PVz} ?: '-'"></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td style="text-align: left">Погрешность метода измерения вязкости нефти<br>
-                                по испытательной лаборатории, Δν<sub>ил</sub>, мм<sup>2</sup>/с (сСт)
-                            </td>
-                            <td colspan="2" th:text="${delta_v_il} ?: '-'"></td>
+                            <td th:text="${work_mpr_date} ?: '-'" colspan="2"></td>
+                            <td th:text="${contr_mpr_date} ?: '-'" colspan="2"></td>
                         </tr>
                         </tbody>
+                    </table>
+
+                    <table class="table table-bordered" style="width: fit-content">
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td>Заданная масса, т</td>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td th:text="${mass} ?: '-'"></td>
+                        </tr>
                     </table>
 
                     <!-- Таблица 2-->
@@ -141,43 +144,35 @@
                         <caption>2. Результаты измерений и контроля</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td rowspan="2">№ изм</td>
-                            <td colspan="2">Параметры нефти</td>
-                            <td colspan="4">Вязкость нефти</td>
-                        </tr>
-                        <tr>
-                            <td>t<sub>бик</sub> , <br>°C</td>
-                            <td>ρ<sub>бик</sub> , <br>кг/м<sup>3</sup></td>
-                            <td>η<sub>ПВз</sub> , <br>мПа∙с (сПз)</td>
-                            <td>v<sub>ПВз</sub> ,<br>мм<sup>2</sup>/с (сСт)</td>
-                            <td>v<sub>ил</sub> ,<br>мм<sup>2</sup>/с (сСт)</td>
-                            <td>|Δv<sub>ПВз</sub> + Δv<sub>ил</sub>| ,<br>мм<sup>2</sup>/с (сСт)</td>
+                            <td>№ изм</td>
+                            <td>Q , т/ч</td>
+                            <td>M<sup>ИЛ</sup> , т</td>
+                            <td>M<sup>ИЛК</sup> , т</td>
+                            <td>δ <sub>M</sub> , %</td>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="t,i : ${t_bik}">
+                        <tr th:each="q,i : ${Q}">
                             <td th:text="${i.index+1}"></td>
-                            <td th:text="${t_bik != null} ? ${t_bik[i.index]} : '-'"></td>
-                            <td th:text="${ro_bik != null} ? ${ro_bik[i.index]}  : '-'"></td>
-                            <td th:text="${eta_PVz != null} ? ${eta_PVz[i.index]}  : '-'"></td>
-                            <td th:text="${v_PVz != null} ? ${v_PVz[i.index]}  : '-'"></td>
-                            <td th:text="${v_il != null} ? ${v_il[i.index]}  : '-'"></td>
-                            <td th:text="${v_PVz_minus_v_il != null} ? ${v_PVz_minus_v_il[i.index]}  : '-'"></td>
+                            <td th:text="${Q != null} ? ${Q[i.index]} : '-'"></td>
+                            <td th:text="${M_il != null} ? ${M_il[i.index]}  : '-'"></td>
+                            <td th:text="${M_ilk != null} ? ${M_ilk[i.index]}  : '-'"></td>
+                            <td th:text="${delta_M != null} ? ${delta_M[i.index]}  : '-'"></td>
                         </tr>
                         </tbody>
                     </table>
 
-                    <p>Преобразователь вязкости, зав № <span th:text="${transmitter_number}"></span> <span th:text="${conclusion}" style="font-weight:bold"></span> к дальнейшей эксплуатации</p>
+                    <p>Заключение: δ<sub>max</sub> = <span th:text="${delta_max}"></span> %, МПР <span th:text="${conclusion}" style="font-weight:bold"></span> для дальнейшей эксплуатации в качестве рабочего</p>
                     <p class="mt-4">Дата проведения КМХ: <span th:text="${kmh_date}"></span></p>
-                    <p class="mt-4">Подписи лиц, проводивших КМХ:</p>
-                    <p class="mt-2">От сдающей стороны <span th:text="${deliverOrg}"></span></p>
+
+                    <p class="mt-2">Представитель сдающей стороны</p>
                     <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 70%">
                         <tbody>
                         <tr>
-                            <td class="pb-0" style="text-align: left">Инженер-метролог</td>
+                            <td class="col-4 pb-0" th:text="${deliver_org}"></td>
                             <td style="width: 100px"></td>
                             <td>/</td>
-                            <td class="col-4 pb-0" th:text="${metrologistName}"></td>
+                            <td class="col-4 pb-0" th:text="${deliver_name}"></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -185,28 +180,16 @@
                             <td></td>
                             <td class="footer-label pt-0">(Фамилия И. О.)</td>
                         </tr>
-                        <tr>
-                            <td class="pb-0" style="text-align: left">Инженер-химик</td>
-                            <td style="width: 100px"></td>
-                            <td>/</td>
-                            <td class="col-4 pb-0" th:text="${chemistName}"></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="footer-label pt-0">(подпись)</td>
-                            <td></td>
-                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
-                        </tr>
-                        </tbody>
                     </table>
-                    <p class="mt-2">От принимающей стороны <span th:text="${receiverOrg}"></span></p>
+
+                    <p class="mt-2">Представитель принимающей стороны</p>
                     <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 70%">
                         <tbody>
                         <tr>
-                            <td class="col-4 pb-0" style="text-align: left" th:text="${receiverPosition}"></td>
+                            <td class="col-4 pb-0" th:text="${receiver_org}"></td>
                             <td style="width: 100px"></td>
                             <td>/</td>
-                            <td class="col-4 pb-0" th:text="${receiverName}"></td>
+                            <td class="col-4 pb-0" th:text="${receiver_name}"></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -214,16 +197,16 @@
                             <td></td>
                             <td class="footer-label pt-0">(Фамилия И. О.)</td>
                         </tr>
-                        </tbody>
                     </table>
-                    <p class="mt-2">От сервисной организации <span th:text="${serviceOrg}"></span></p>
+
+                    <p class="mt-2">Представитель сервисной организации</p>
                     <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 70%">
                         <tbody>
                         <tr>
-                            <td class="col-4 pb-0" style="text-align: left" th:text="${servicePosition}"></td>
+                            <td class="col-4 pb-0" th:text="${service_org}"></td>
                             <td style="width: 100px"></td>
                             <td>/</td>
-                            <td class="col-4 pb-0" th:text="${serviceName}"></td>
+                            <td class="col-4 pb-0" th:text="${service_name}"></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -231,7 +214,6 @@
                             <td></td>
                             <td class="footer-label pt-0">(Фамилия И. О.)</td>
                         </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
