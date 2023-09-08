@@ -227,7 +227,7 @@ public class DataConverter {
         }
     }
 
-    private static double[][] transpose2DimArray(double[][] matrix) {
+    public static double[][] transpose2DimArray(double[][] matrix) {
         int n = matrix.length;
         int m = matrix[0].length;
         double[][] transposeMatrix = new double[m][n];

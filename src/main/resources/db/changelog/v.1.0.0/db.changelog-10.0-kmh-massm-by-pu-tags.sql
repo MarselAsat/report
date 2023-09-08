@@ -6,7 +6,13 @@ SET search_path TO manual_reports;
 --changeset alina.parfenteva:2
 -- Входные данные
 INSERT INTO tag (permanent_name, address, description, initial, report_type)
-VALUES ('deliver_org', 'kmhMassmByPu.' || 'deliver_org',
+VALUES ('pointsCount', 'kmhMassmByPu.' || 'pointsCount',
+        'количество точек расхода',
+        TRUE, 'KMH_MASSM_BY_PU'),
+       ('measureCount', 'kmhMassmByPu.' || 'measureCount',
+        'количество измерений в точке',
+        TRUE, 'KMH_MASSM_BY_PU'),
+    ('deliver_org', 'kmhMassmByPu.' || 'deliver_org',
         'Наименование организации сдаюей стороны',
         TRUE, 'KMH_MASSM_BY_PU'),
        ('siknNumber', 'kmhMassmByPu.' || 'siknNumber',
