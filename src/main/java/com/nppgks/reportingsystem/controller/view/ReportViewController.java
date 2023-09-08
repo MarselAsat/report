@@ -176,8 +176,8 @@ public class ReportViewController {
         return "report_pages/kmh-moisturemeter-report-page";
     }
 
-    @GetMapping(value = "/kmhMassByMassReport/{reportId}")
-    public String getkmhMassByMassReport(ModelMap modelMap,
+    @GetMapping(value = "/kmhMassmByMassmReport/{reportId}")
+    public String getkmhMassmByMassmReport(ModelMap modelMap,
                                             @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
@@ -189,6 +189,21 @@ public class ReportViewController {
                     rd.getTag().getPermanentName(), value);
         });
         return "report_pages/kmh-massm-by-massm-report-page";
+    }
+
+    @GetMapping(value = "/kmhMassmByPuReport/{reportId}")
+    public String getkmhMassmByPuReport(ModelMap modelMap,
+                                         @PathVariable Long reportId){
+        var reportDataList = manualReportDataService.getReportDataList(reportId);
+        var report = manualReportService.findReportById(reportId);
+        modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt()));
+
+        reportDataList.forEach(rd -> {
+            Object value = ArrayParser.fromJsonToObject(rd.getData());
+            modelMap.put(
+                    rd.getTag().getPermanentName(), value);
+        });
+        return "report_pages/kmh-massm-by-pu-report-page";
     }
 
 

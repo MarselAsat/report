@@ -93,7 +93,7 @@ public class KmhMassmByPuReportGenerator extends ManualReportGenerator {
                 null,
                 "КМХ контрольного МПР с помощью ПУ "+ SingleDateTimeFormatter.formatToSinglePattern(currentDt),
                 currentDt,
-                ManualReportTypes.KMH_MASSM_BY_MASSM.name()
+                ManualReportTypes.KMH_MASSM_BY_PU.name()
         );
     }
 }
