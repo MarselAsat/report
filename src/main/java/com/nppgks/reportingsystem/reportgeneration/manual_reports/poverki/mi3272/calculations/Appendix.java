@@ -1,5 +1,6 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations;
 
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas.MI2632;
 import lombok.Getter;
 
 import java.util.HashMap;

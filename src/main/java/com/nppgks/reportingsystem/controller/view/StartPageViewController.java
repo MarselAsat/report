@@ -62,8 +62,12 @@ public class StartPageViewController {
             var reports = manualReportService.findReportByDateAndType(date, ManualReportTypes.KMH_MOISTURE_METER.name());
             modelMap.put("reports", reports);
         }
-        else if(reportTypeId != null && reportTypeId.equals("kmhMassByMass")) {
+        else if(reportTypeId != null && reportTypeId.equals("kmhMassmByMassm")) {
             var reports = manualReportService.findReportByDateAndType(date, ManualReportTypes.KMH_MASSM_BY_MASSM.name());
+            modelMap.put("reports", reports);
+        }
+        else if(reportTypeId != null && reportTypeId.equals("kmhMassmByPu")) {
+            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypes.KMH_MASSM_BY_PU.name());
             modelMap.put("reports", reports);
         }
         else if(reportTypeId != null){
