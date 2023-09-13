@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header"></head>
+<head>
+    <script type="text/javascript" th:src="@{/js/kmh-density-meter-report-page.js}"></script>
+    <script type="text/javascript" th:src="@{/js/save-report-in-db.js}"></script>
+
+    <!--  sweetAlert library-->
+    <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
+    <link th:href="@{/external_libraries/sweetalert/sweetalert2.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="card">
+    <div th:if="${printSaveButtonsRequired}">
+        <div class="card-header" th:replace="fragments/print-save-buttons"></div>
+    </div>
+    <div class="card-body overflow-auto" id="report-content">
+        <head th:replace="fragments/header"></head>
+        <head>
+            <style>
+                @media print {
+                    thead {
+                        display: table-row-group;
+                    }
+                }
+
+                .report-body p {
+                    font-size: 0.8rem;
+                }
+
+                .report-body td {
+                    width: auto;
+                    padding: 0.1rem;
+                    text-align: center;
+                    overflow: hidden;
+                }
+
+                .report-body tr {
+                    white-space: nowrap;
+                    height: 2px;
+                }
+
+                .report-body table {
+                    font-size: 0.8rem;
+                }
+
+                .report-body caption {
+                    font-size: small;
+                    padding-bottom: 5px;
+                    caption-side: top;
+                    text-align: left;
+                }
+
+                .footer-table {
+                    padding-right: 1rem;
+                    white-space: break-spaces;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                }
+
+                .footer-label {
+                    border-top: 1px solid #000;
+                    text-align: center;
+                    font-size: 0.5rem;
+                    padding-top: 0 !important;
+                }
+            </style>
+        </head>
+        <div class="container report-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5 style="text-align: center; padding-bottom: 3%;">ПРОТОКОЛ КМХ РЕЗЕРВНОГО ПП ПО АРЕОМЕТРУ №<span
+                            th:text="${protocolNumber}"></span></h5>
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <td style="text-align: left; border-right: 0">
+                                СИКН №<span th:text="${siknNumber}"></span>
+                            </td>
+                            <td style="text-align: right; border-left: 0">
+                                <span th:text="${place_name}"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <p>Условие контроля: |Δ<sub>ρki</sub>|≤Δ<sub>пл</sub> + Δ<sub>мет</sub> (для
+                        каждого измерения)</p>
+
+                    <!-- Таблица 1-->
+                    <table class="table table-bordered">
+                        <caption>1. Исходные данные</caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td>№ пп</td>
+                            <td>Данные</td>
+                            <td style="text-align: center">Резервный ПП</td>
+                            <td style="text-align: center">Ареометр</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td style="text-align: left">Тип, марка</td>
+                            <td th:text="${pp_type} ?: '-'"></td>
+                            <td th:text="${areometer_type} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td style="text-align: left">Заводской №</td>
+                            <td th:text="${pp_number} ?: '-'"></td>
+                            <td th:text="${areometer_number} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td style="text-align: left">Дата последней поверки</td>
+                            <td th:text="${pp_date} ?: '-'"></td>
+                            <td th:text="${areometer_date} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td style="text-align: left">Предел допустимой абсолютной погрешности<br>
+                                (Δ, кг/м<sup>3</sup>)
+                            </td>
+                            <td th:text="${delta_pp} ?: '-'"></td>
+                            <td th:text="${delta_areometer} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td style="text-align: left">Систематическая  погрешность метода определения плотности <br>
+                                нефти ареометром (обязательно со знаком «+» или «-»)  -  из<br>
+                                свидетельства о метрологической аттестации МВИ плотности на<br>
+                                данную СИКН, (Δ <sub>сист</sub> , кг/м<sup>3</sup>)
+                            </td>
+                            <td colspan="2" th:text="${delta_syst} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td style="text-align: left">Погрешность метода определения плотности нефти ареометром <br>
+                                (без знака) -  из  свидетельства о метрологической аттестации<br>
+                                свидетельства о метрологической аттестации МВИ плотности на<br>
+                                МВИ плотности на данную СИКН, (Δ <sub>мет</sub> , кг/м<sup>3</sup>)
+                            </td>
+                            <td colspan="2" th:text="${delta_met} ?: '-'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Таблица 2-->
+                    <table class="table table-bordered">
+                        <caption>2. Результаты измерений и контроля</caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td rowspan="2">№ изм</td>
+                            <td colspan="3">Технологические параметры<br>
+                                нефти в БИК</td>
+                            <td rowspan="2">ρ<sub>плi</sub> ,<br>
+                                кг/м<sup>3</sup>
+                            </td>
+                            <td colspan="5">Значения по лаборатории</td>
+                            <td rowspan="2">|∆<sub>ρкi</sub>| ,<br>
+                                кг/м<sup>3</sup>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Q<sub>i</sub> , <br>м<sup>3</sup>/ч</td>
+                            <td>t<sup>пл</sup><sub>i</sub> , <br>ºC</td>
+                            <td>P<sup>пл</sup><sub>i</sub> , <br>МПа</td>
+                            <td>ρ<sup>изм</sup><sub>i</sub> ,<br>кг/м<sup>3</sup></td>
+                            <td>t<sup>ар</sup><sub>i</sub> ,<br>ºC</td>
+                            <td>β<sub>15</sub> ,<br>ºC<sup>-1</sup></td>
+                            <td>γ<sup>пл</sup><sub>i</sub> ,<br>МПа<sup>-1</sup></td>
+                            <td>ρ<sup>лпр</sup><sub>i</sub> ,<br>кг/м<sup>3</sup></td>
+                            <td>|Δv<sub>ρкi</sub>| ,<br>кг/м<sup>3</sup></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="q,i : ${Q_i}">
+                            <td th:text="${i.index+1}"></td>
+                            <td th:text="${Q_i != null} ? ${Q_i[i.index]} : '-'"></td>
+                            <td th:text="${t_pl_i != null} ? ${t_pl_i[i.index]}  : '-'"></td>
+                            <td th:text="${P_pl_i != null} ? ${P_pl_i[i.index]}  : '-'"></td>
+                            <td th:text="${rho_meas_i != null} ? ${rho_meas_i[i.index]}  : '-'"></td>
+                            <td th:text="${t_ar_i != null} ? ${t_ar_i[i.index]}  : '-'"></td>
+                            <td th:text="${beta15 != null} ? ${beta15[i.index]}  : '-'"></td>
+                            <td th:text="${gamma_pl_i != null} ? ${gamma_pl_i[i.index]}  : '-'"></td>
+                            <td th:text="${rho_lpr_i != null} ? ${rho_lpr_i[i.index]}  : '-'"></td>
+                            <td th:text="${delta_pk_i != null} ? ${delta_pk_i[i.index]}  : '-'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <p>Поточный ПП, зав № <span th:text="${pp_number}"></span> <span th:text="${conclusion}" style="font-weight:bold"></span> к дальнейшей эксплуатации</p>
+                    <p class="mt-4">Дата проведения КМХ: <span th:text="${kmh_date}"></span></p>
+                    <p class="mt-4">Подписи лиц, проводивших КМХ:</p>
+                    <p class="mt-2">От сдающей стороны <span th:text="${deliverOrg}"></span></p>
+                    <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 70%">
+                        <tbody>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Инженер-метролог</td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${metrologistName}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Инженер-химик</td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${chemistName}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p class="mt-2">От принимающей стороны <span th:text="${receiverOrg}"></span></p>
+                    <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 70%">
+                        <tbody>
+                        <tr>
+                            <td class="col-4 pb-0" style="text-align: left" th:text="${receiverPosition}"></td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${receiverName}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p class="mt-2">От обслуживающей организации <span th:text="${serviceOrg}"></span></p>
+                    <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 70%">
+                        <tbody>
+                        <tr>
+                            <td class="col-4 pb-0" style="text-align: left" th:text="${servicePosition}"></td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${serviceName}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
