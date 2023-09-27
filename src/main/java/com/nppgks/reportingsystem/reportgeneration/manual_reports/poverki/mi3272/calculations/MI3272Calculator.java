@@ -190,7 +190,7 @@ public class MI3272Calculator {
             double epsilon = MI3272Formulas.calculateEpsilon_PEP(t_P_n, S_MF_range);
 
             // вспомогательные
-            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP);
+            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, operatingFluid, ro_PP_ij, t_PP_ij);
             double theta_MF_range = MI3272Formulas.calculateTheta_MForKF_range(MF_j_avg, MF_range);
 
             // записываются в таблицу 4 - (при реализации ГХ в ПЭП)
@@ -233,7 +233,7 @@ public class MI3272Calculator {
             double epsilon = MI3272Formulas.calculateEpsilon_SOI_const(t_P_n, S_KF_range);
 
             // вспомогательные
-            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP);
+            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, operatingFluid, ro_PP_ij, t_PP_ij);
 
             // записываются в таблицу 4 - (при реализации ГХ в СОИ в виде постоянного значения К-фактора)
             double theta_sigma = MI3272Formulas.calculateTheta_sigma_SOI_const(delta_KP, delta_PP, theta_t, delta_UOI_K, theta_KF_range, delta_mas_0);
@@ -278,7 +278,7 @@ public class MI3272Calculator {
             double[] epsilon_k = MI3272Formulas.calculateEpsilon_k(t_P_n, S_KF_k);
 
             // вспомогательные
-            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP);
+            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, operatingFluid, ro_PP_ij, t_PP_ij);
 
             // записываются в таблицу 4 - (при реализации ГХ в СОИ в виде кусочно-линейной аппроксимации)
             double[] theta_sigma_k = MI3272Formulas.calculateTheta_sigma_k(delta_KP, delta_PP, theta_t, delta_UOI_K, theta_KF_k, delta_mas_0k);

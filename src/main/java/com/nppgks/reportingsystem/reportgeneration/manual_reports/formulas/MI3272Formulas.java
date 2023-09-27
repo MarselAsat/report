@@ -8,24 +8,11 @@ import java.util.Arrays;
 
 public class MI3272Formulas {
 
-    // формула 6
-    public static double[][] calculateK_TPR_ij(double[][] N_TPR_ij_avg, double[][] V_KP_pr_ij) {
-        int measureCount = V_KP_pr_ij.length;
-        int pointsCount = V_KP_pr_ij[0].length;
-        double[][] K_TPR_ij = new double[measureCount][pointsCount];
-        for (int i = 0; i < measureCount; i++) {
-            for (int j = 0; j < pointsCount; j++) {
-                K_TPR_ij[i][j] = N_TPR_ij_avg[i][j] / V_KP_pr_ij[i][j];
-            }
-        }
-
-        return K_TPR_ij;
-    }
-
+    // формула 4
     public static double[][] calculateV_KP_pr_ij_Formula4(double V_KP_0, double alpha_cyl_t,
-                                                   double[][] t_KP_ij, double alpha_st_t,
-                                                   double[][] t_st_ij, double D, double E,
-                                                   double s, double[][] P_KP_ij) {
+                                                          double[][] t_KP_ij, double alpha_st_t,
+                                                          double[][] t_st_ij, double D, double E,
+                                                          double s, double[][] P_KP_ij) {
         int measureCount = t_KP_ij.length;
         int pointsCount = t_KP_ij[0].length;
         double[][] V_KP_pr_ij = new double[measureCount][pointsCount];
@@ -39,6 +26,12 @@ public class MI3272Formulas {
         return V_KP_pr_ij;
     }
 
+    // формула 6
+    public static double[][] calculateK_TPR_ij(double[][] N_TPR_ij_avg, double[][] V_KP_pr_ij) {
+        return CommonFunctions.getDivisionOfTwoArrays(N_TPR_ij_avg, V_KP_pr_ij);
+    }
+
+    // формула 7
     public static double[][] calculateV_KP_pr_ij_Formula7(double V_KP_0, double alpha_cyl_t, double[][] t_KP_ij_avg,
                                                    double D, double E, double s, double[][] P_KP_ij_avg,
                                                    double[][] beta_fluid_ij, double[][] t_TPR_ij_avg,
@@ -221,6 +214,7 @@ public class MI3272Formulas {
         for (double v : MF_j_avg) {
             sum += v;
         }
+
         return sum / pointsCount;
     }
 
@@ -323,8 +317,8 @@ public class MI3272Formulas {
     }
 
     // формула 26
-    public static double calculateTheta_t(double delta_t_KP, double delta_t_PP) {
-        double betta_fluid_max = Appendix.getBetta_fluid_max();
+    public static double calculateTheta_t(double delta_t_KP, double delta_t_PP, String opFluid, double[][] ro_PP, double[][] t_PP) {
+        double betta_fluid_max = Appendix.calculateBeta_fluid_max(opFluid, ro_PP, t_PP);
         return betta_fluid_max * Math.sqrt(Math.pow(delta_t_KP, 2) + Math.pow(delta_t_PP, 2)) * 100;
     }
 
@@ -335,7 +329,7 @@ public class MI3272Formulas {
         double delta = -1;
         if (ratio >= 0.8 && ratio <= 8) {
             delta = Z_P * (theta_sigma + epsilon);
-        } else if (ratio > 0.8) {
+        } else if (ratio > 8) {
             delta = theta_sigma;
         }
         return delta;
@@ -366,7 +360,7 @@ public class MI3272Formulas {
         double delta = -1;
         if (ratio >= 0.8 && ratio <= 8) {
             delta = Z_P * (theta_sigma + epsilon);
-        } else if (ratio > 0.8) {
+        } else if (ratio > 8) {
             delta = theta_sigma;
         }
         return delta;

@@ -20,11 +20,8 @@ public class Appendix {
             7.0, 0.8,
             8.0, 0.81);
 
-    @Getter
     private static double[][] beta_fluid_ij;
     private static double[][] gamma_fluid_ij;
-    @Getter
-    private static double betta_fluid_max;
 
     static {
         tableG_1.put(5, 2.571);
@@ -50,18 +47,29 @@ public class Appendix {
         return tableG_1.get(n - 1);
     }
 
+    public static double calculateBeta_fluid_max(String opFluid, double[][] ro_PP, double[][] t_PP) {
+        int m = ro_PP[0].length;
+        int n = ro_PP.length;
+        double betta_fluid_max;
+        double max = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                max = Math.max(max, MI2632.calculateBetta_fluid(opFluid, ro_PP[i][j], t_PP[i][j]));
+            }
+        }
+        betta_fluid_max = max;
+        return betta_fluid_max;
+    }
+
     public static double[][] calculateBeta_fluid(String opFluid, double[][] ro_PP, double[][] t_PP) {
         int m = ro_PP[0].length;
         int n = ro_PP.length;
         beta_fluid_ij = new double[n][m];
-        double max = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 beta_fluid_ij[i][j] = MI2632.calculateBetta_fluid(opFluid, ro_PP[i][j], t_PP[i][j]);
-                max = Math.max(max, beta_fluid_ij[i][j]);
             }
         }
-        betta_fluid_max = max;
         return beta_fluid_ij;
     }
 
