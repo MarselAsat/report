@@ -49,6 +49,7 @@ public class KmhDensityMeterController {
         modelMap.put("serviceOrg", "ЗАО НИЦ «Инкомсистем»");
         modelMap.put("servicePosition", "Ст. инженер МС");
         modelMap.put("serviceName", "Д.Р. Габдулхаков");
+        modelMap.put("workingOrReserve", "рабочий");
 
         return "report_pages/kmh-density-meter-report-page";
     }

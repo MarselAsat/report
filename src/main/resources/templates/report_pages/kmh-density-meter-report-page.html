@@ -70,7 +70,10 @@
         <div class="container report-body">
             <div class="row">
                 <div class="col-sm-12">
-                    <h5 style="text-align: center; padding-bottom: 3%;">ПРОТОКОЛ КМХ РЕЗЕРВНОГО ПП ПО АРЕОМЕТРУ №<span
+                    <h5 style="text-align: center; padding-bottom: 3%;">ПРОТОКОЛ КМХ
+                        <span th:if="${workingOrReserve == 'рабочий'}">РАБОЧЕГО</span>
+                        <span th:if="${workingOrReserve == 'резервный'}">РЕЗЕРВНОГО</span>
+                        ПП ПО АРЕОМЕТРУ №<span
                             th:text="${protocolNumber}"></span></h5>
 
                     <table class="table table-bordered">
@@ -93,7 +96,8 @@
                         <tr>
                             <td>№ пп</td>
                             <td>Данные</td>
-                            <td style="text-align: center">Резервный ПП</td>
+                            <td th:if="${workingOrReserve == 'рабочий'}" style="text-align: center">Рабочий ПП</td>
+                            <td th:if="${workingOrReserve == 'резервный'}" style="text-align: center">Резервный ПП</td>
                             <td style="text-align: center">Ареометр</td>
                         </tr>
                         </thead>
