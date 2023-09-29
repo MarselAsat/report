@@ -170,21 +170,21 @@
                             <td>β<sub>15</sub> ,<br>ºC<sup>-1</sup></td>
                             <td>γ<sup>пл</sup><sub>i</sub> ,<br>МПа<sup>-1</sup></td>
                             <td>ρ<sup>лпр</sup><sub>i</sub> ,<br>кг/м<sup>3</sup></td>
-                            <td>|Δv<sub>ρкi</sub>| ,<br>кг/м<sup>3</sup></td>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="q,i : ${Q_i}">
+                        <tr th:each="q,i : ${rho_meas_i}">
                             <td th:text="${i.index+1}"></td>
-                            <td th:text="${Q_i != null} ? ${Q_i[i.index]} : '-'"></td>
-                            <td th:text="${t_pl_i != null} ? ${t_pl_i[i.index]}  : '-'"></td>
-                            <td th:text="${P_pl_i != null} ? ${P_pl_i[i.index]}  : '-'"></td>
+                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${Q_i != null} ? ${Q_i[i.index/2]} : '-'"></td>
+                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${t_pl_i != null} ? ${t_pl_i[i.index/2]} : '-'"></td>
+                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${P_pl_i != null} ? ${P_pl_i[i.index/2]} : '-'"></td>
+                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${rho_pl_i != null} ? ${rho_pl_i[i.index/2]} : '-'"></td>
                             <td th:text="${rho_meas_i != null} ? ${rho_meas_i[i.index]}  : '-'"></td>
                             <td th:text="${t_ar_i != null} ? ${t_ar_i[i.index]}  : '-'"></td>
-                            <td th:text="${beta15 != null} ? ${beta15[i.index]}  : '-'"></td>
-                            <td th:text="${gamma_pl_i != null} ? ${gamma_pl_i[i.index]}  : '-'"></td>
-                            <td th:text="${rho_lpr_i != null} ? ${rho_lpr_i[i.index]}  : '-'"></td>
-                            <td th:text="${delta_pk_i != null} ? ${delta_pk_i[i.index]}  : '-'"></td>
+                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${beta15 != null} ? ${beta15[i.index/2]} : '-'"></td>
+                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${gamma_pl_i != null} ? ${gamma_pl_i[i.index/2]} : '-'"></td>
+                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${rho_lpr_i != null} ? ${rho_lpr_i[i.index/2]} : '-'"></td>
+                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${delta_pk_i != null} ? ${delta_pk_i[i.index/2]} : '-'"></td>
                         </tr>
                         </tbody>
                     </table>
