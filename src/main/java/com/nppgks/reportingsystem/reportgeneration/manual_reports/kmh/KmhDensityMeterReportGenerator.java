@@ -176,11 +176,16 @@ public class KmhDensityMeterReportGenerator extends ManualReportGenerator {
         double rhoCTLPrev = rho0 * Math.exp(betaPrev * (t_ar - 15) * (1 + 0.8 * betaPrev * (t_ar - 15)));
         double beta = 613.9723 / Math.pow(rhoCTLPrev, 2);
         double rhoCTL = rho0 * Math.exp(beta * (t_ar - 15) * (1 + 0.8 * beta * (t_ar - 15)));
+        int cnt = 0;
 
         while (Math.abs(rhoCTL - rhoCTLPrev) > 0.0001) {
             rhoCTLPrev = rhoCTL;
             beta = 613.9723 / Math.pow(rhoCTLPrev, 2);
             rhoCTL = rho0 * Math.exp(beta * (t_ar - 15) * (1 + 0.8 * beta * (t_ar - 15)));
+            if(cnt > 10000){
+                throw new RuntimeException("Не удается посчитать rho15 с помощью метода последовательных приближений, количество циклов вычислений превысило 10000");
+            }
+            cnt++;
         }
         return rhoCTL;
     }
