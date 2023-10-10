@@ -22,7 +22,7 @@ public class CertificationAlgorithms {
         return result;
     }
 
-    private static double calculateRo(String product, double density15, double densityMeas, double temp, double overpressure) {
+    public static double calculateRo(String product, double density15, double densityMeas, double temp, double overpressure) {
         double CTL = calculateCTL(product, density15, temp);
         System.out.println("CTL=" + CTL);
         double CPL = calculateCPL(density15, temp, overpressure);

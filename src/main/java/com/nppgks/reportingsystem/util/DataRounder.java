@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki;
+package com.nppgks.reportingsystem.util;
 
 import org.decimal4j.util.DoubleRounder;
 

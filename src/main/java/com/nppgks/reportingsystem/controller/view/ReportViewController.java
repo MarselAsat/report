@@ -147,7 +147,7 @@ public class ReportViewController {
     }
 
     @GetMapping(value = "/kmhViscometerReport/{reportId}")
-    public String getkmhViscometerReport(ModelMap modelMap,
+    public String getKmhViscometerReport(ModelMap modelMap,
                                          @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
@@ -162,7 +162,7 @@ public class ReportViewController {
     }
 
     @GetMapping(value = "/kmhMoisturemeterReport/{reportId}")
-    public String getkmhMoisturemeterReport(ModelMap modelMap,
+    public String getKmhMoisturemeterReport(ModelMap modelMap,
                                          @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
@@ -177,7 +177,7 @@ public class ReportViewController {
     }
 
     @GetMapping(value = "/kmhMassmByMassmReport/{reportId}")
-    public String getkmhMassmByMassmReport(ModelMap modelMap,
+    public String getKmhMassmByMassmReport(ModelMap modelMap,
                                             @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
@@ -192,7 +192,7 @@ public class ReportViewController {
     }
 
     @GetMapping(value = "/kmhMassmByPuReport/{reportId}")
-    public String getkmhMassmByPuReport(ModelMap modelMap,
+    public String getKmhMassmByPuReport(ModelMap modelMap,
                                          @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
@@ -204,6 +204,21 @@ public class ReportViewController {
                     rd.getTag().getPermanentName(), value);
         });
         return "report_pages/kmh-massm-by-pu-report-page";
+    }
+
+    @GetMapping(value = "/kmhDensityMeterReport/{reportId}")
+    public String getKmhDensityMeterReport(ModelMap modelMap,
+                                        @PathVariable Long reportId){
+        var reportDataList = manualReportDataService.getReportDataList(reportId);
+        var report = manualReportService.findReportById(reportId);
+        modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt()));
+
+        reportDataList.forEach(rd -> {
+            Object value = ArrayParser.fromJsonToObject(rd.getData());
+            modelMap.put(
+                    rd.getTag().getPermanentName(), value);
+        });
+        return "report_pages/kmh-density-meter-report-page";
     }
 
 

@@ -9,7 +9,7 @@ import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.DataConverter;
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.DataRounder;
+import com.nppgks.reportingsystem.util.DataRounder;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272Calculator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272FinalData;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272InitialData;
