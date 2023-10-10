@@ -11,7 +11,7 @@ import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStra
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.kmh.massmbypu.KmhMassmByPuCalculator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.kmh.massmbypu.KmhMassmByPuFinalData;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.kmh.massmbypu.KmhMassmByPuInitialData;
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.DataRounder;
+import com.nppgks.reportingsystem.util.DataRounder;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272InitialData;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;

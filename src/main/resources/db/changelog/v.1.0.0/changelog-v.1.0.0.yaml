@@ -27,3 +27,5 @@ databaseChangeLog:
       - file: db/changelog/v.1.0.0/db.changelog-9.0-kmh-massm-by-massm-tags.sql
   - include:
       - file: db/changelog/v.1.0.0/db.changelog-10.0-kmh-massm-by-pu-tags.sql
+  - include:
+      - file: db/changelog/v.1.0.0/db.changelog-11.0-kmh-density-meter-tags.sql
