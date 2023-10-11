@@ -39,7 +39,7 @@ public class KmhViscReportGenerator extends ManualReportGenerator {
     @Override
     protected List<ReportData> generateReportDataList() {
         List<ReportData> reportDataList = new ArrayList<>();
-        List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.KMH_VISCOMETER.name());
+        List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.kmhViscometer.name());
         List<String> tagAddresses = DataConverter.convertTagsToListOfAddresses(tags);
         Map<String, String> tagValuesFromOpc = opcServiceRequests.getTagValuesFromOpc(tagAddresses);
         Map<String, ManualTagForOpc> addressToTagMap = DataConverter.convertTagListToMapWithAddressKey(tags);
@@ -74,8 +74,8 @@ public class KmhViscReportGenerator extends ManualReportGenerator {
             }
         }
 
-        Tag vPVzMinusVIlTag = manualTagService.getTagByNameAndReportType("v_PVz_minus_v_il", ManualReportTypesEnum.KMH_VISCOMETER.name());
-        Tag conclusionTag = manualTagService.getTagByNameAndReportType("conclusion", ManualReportTypesEnum.KMH_VISCOMETER.name());
+        Tag vPVzMinusVIlTag = manualTagService.getTagByNameAndReportType("v_PVz_minus_v_il", ManualReportTypesEnum.kmhViscometer.name());
+        Tag conclusionTag = manualTagService.getTagByNameAndReportType("conclusion", ManualReportTypesEnum.kmhViscometer.name());
 
         reportDataList.add(new ReportData(
                 null,
@@ -96,7 +96,7 @@ public class KmhViscReportGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
-        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.KMH_VISCOMETER.name());
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.kmhViscometer.name());
         return new Report(
                 null,
                 "КМХ рабочего преобразователя вязкости по вискозиметру от "+ SingleDateTimeFormatter.formatToSinglePattern(currentDt),

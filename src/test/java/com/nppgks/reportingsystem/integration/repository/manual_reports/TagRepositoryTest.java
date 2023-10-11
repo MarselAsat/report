@@ -40,7 +40,7 @@ class TagRepositoryTest extends IntegrationBaseTest {
 
     @Test
     public void findAllByInitialAndType(){
-        List<ManualTagForOpc> tags = tagRepository.findAllByInitialAndReportTypeId(true, ManualReportTypesEnum.MI3622.name());
+        List<ManualTagForOpc> tags = tagRepository.findAllByInitialAndReportTypeId(true, ManualReportTypesEnum.mi3622.name());
         Assertions.assertThat(tags).hasSize(50);
     }
 }

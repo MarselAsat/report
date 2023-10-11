@@ -6,6 +6,8 @@ import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ManualReportTypeService {
@@ -13,5 +15,9 @@ public class ManualReportTypeService {
 
     public ReportType findById(String id){
         return reportTypeRepository.findById(id).orElseThrow(() -> new MissingDbDataException("В таблице manual_reports.report_type нет типа отчета с id = " + id));
+    }
+
+    public List<ReportType> getAllActiveReportTypes(){
+        return reportTypeRepository.findAllByActive(true);
     }
 }

@@ -1,5 +1,6 @@
 package com.nppgks.reportingsystem.controller.view;
 
+import com.nppgks.reportingsystem.constants.ManualReportTypesEnum;
 import com.nppgks.reportingsystem.controller.ModelMapFiller;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.MeteringNode;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.Report;
@@ -39,6 +40,8 @@ public class ReportViewController {
     private final SettingsService settingsService;
 
     private final MeteringNodeService meteringNodeService;
+
+    private final static String mi3622 = ManualReportTypesEnum.mi3622.name();
 
     @GetMapping(value = "/dailyReport/{reportId}")
     public String getDailyReport(ModelMap modelMap,
@@ -161,7 +164,7 @@ public class ReportViewController {
         return "report_pages/kmh-viscometer-report-page";
     }
 
-    @GetMapping(value = "/kmhMoisturemeterReport/{reportId}")
+    @GetMapping(value = "/kmhMoistureMeterReport/{reportId}")
     public String getKmhMoisturemeterReport(ModelMap modelMap,
                                          @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);

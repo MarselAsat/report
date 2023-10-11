@@ -41,7 +41,7 @@ public class KmhMassmByPuReportGenerator extends ManualReportGenerator {
 
     @Override
     protected List<ReportData> generateReportDataList() {
-        List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.KMH_MASSM_BY_PU.name());
+        List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.kmhMassmByPu.name());
         List<String> initialTagsForOpc = DataConverter.convertTagsToListOfAddresses(initialTags);
         Map<String, String> initialDataFromOpc = opcServiceRequests.getTagValuesFromOpc(initialTagsForOpc);
 
@@ -53,7 +53,7 @@ public class KmhMassmByPuReportGenerator extends ManualReportGenerator {
         KmhMassmByPuFinalData finalData = KmhMassmByPuCalculator.calculate(initialData);
         DataRounder.roundPojo(finalData);
 
-        List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypesEnum.KMH_MASSM_BY_PU.name());
+        List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypesEnum.kmhMassmByPu.name());
         Map<String, String> finalTagsMap = DataConverter.createPermanentNameToAddressMap(finalTags);
         Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(finalData, finalTagsMap);
 
@@ -93,7 +93,7 @@ public class KmhMassmByPuReportGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
-        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.KMH_MASSM_BY_PU.name());
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.kmhMassmByPu.name());
         return new Report(
                 null,
                 "КМХ контрольного МПР с помощью ПУ "+ SingleDateTimeFormatter.formatToSinglePattern(currentDt),

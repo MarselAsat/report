@@ -39,7 +39,7 @@ public class KmhMassmByMassmReportGenerator extends ManualReportGenerator {
     @Override
     protected List<ReportData> generateReportDataList() {
         List<ReportData> reportDataList = new ArrayList<>();
-        List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.KMH_MASSM_BY_MASSM.name());
+        List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.kmhMassmByMassm.name());
         List<String> tagAddresses = DataConverter.convertTagsToListOfAddresses(tags);
         Map<String, String> tagValuesFromOpc = opcServiceRequests.getTagValuesFromOpc(tagAddresses);
         Map<String, ManualTagForOpc> addressToTagMap = DataConverter.convertTagListToMapWithAddressKey(tags);
@@ -64,8 +64,8 @@ public class KmhMassmByMassmReportGenerator extends ManualReportGenerator {
 
         if(delta_max >= 0.25) conclusion = "не годен";
 
-        Tag delta_maxTag = manualTagService.getTagByNameAndReportType("delta_max", ManualReportTypesEnum.KMH_MASSM_BY_MASSM.name());
-        Tag conclusionTag = manualTagService.getTagByNameAndReportType("conclusion", ManualReportTypesEnum.KMH_MASSM_BY_MASSM.name());
+        Tag delta_maxTag = manualTagService.getTagByNameAndReportType("delta_max", ManualReportTypesEnum.kmhMassmByMassm.name());
+        Tag conclusionTag = manualTagService.getTagByNameAndReportType("conclusion", ManualReportTypesEnum.kmhMassmByMassm.name());
 
         reportDataList.add(new ReportData(
                 null,
@@ -86,7 +86,7 @@ public class KmhMassmByMassmReportGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
-        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.KMH_MASSM_BY_MASSM.name());
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.kmhMassmByMassm.name());
         return new Report(
                 null,
                 "КМХ рабочего МПР по контрольному от "+ SingleDateTimeFormatter.formatToSinglePattern(currentDt),

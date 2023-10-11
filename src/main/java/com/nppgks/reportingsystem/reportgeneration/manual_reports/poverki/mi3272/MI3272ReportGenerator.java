@@ -40,10 +40,10 @@ public class MI3272ReportGenerator extends ManualReportGenerator {
 
     @Override
     protected List<ReportData> generateReportDataList() {
-        Tag isFinishedTag = manualTagService.getTagByNameAndReportType("isFinished", ManualReportTypesEnum.MI3272.name());
+        Tag isFinishedTag = manualTagService.getTagByNameAndReportType("isFinished", ManualReportTypesEnum.mi3272.name());
         opcServiceRequests.sendTagValuesToOpc(Map.of(isFinishedTag.getAddress(), false));
 
-        List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.MI3272.name());
+        List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.mi3272.name());
         List<String> initialTagsForOpc = DataConverter.convertTagsToListOfAddresses(initialTags);
         Map<String, String> initialDataFromOpc = opcServiceRequests.getTagValuesFromOpc(initialTagsForOpc);
 
@@ -55,7 +55,7 @@ public class MI3272ReportGenerator extends ManualReportGenerator {
         MI3272FinalData mi3272FinalData = MI3272Calculator.calculate();
         DataRounder.roundPojo(mi3272FinalData);
 
-        List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypesEnum.MI3272.name());
+        List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypesEnum.mi3272.name());
 
         Map<String, String> finalTagsMap = DataConverter.createPermanentNameToAddressMap(finalTags);
 
@@ -104,7 +104,7 @@ public class MI3272ReportGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
-        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.MI3272.name());
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.mi3272.name());
         return new Report(
                 null,
                 "Поверка МИ3272 от " + SingleDateTimeFormatter.formatToSinglePattern(currentDt),

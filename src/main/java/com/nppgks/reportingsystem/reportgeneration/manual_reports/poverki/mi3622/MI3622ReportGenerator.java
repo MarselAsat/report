@@ -40,10 +40,10 @@ public class MI3622ReportGenerator extends ManualReportGenerator {
 
     @Override
     protected List<ReportData> generateReportDataList() {
-        Tag isFinishedTag = manualTagService.getTagByNameAndReportType("isFinished", ManualReportTypesEnum.MI3622.name());
+        Tag isFinishedTag = manualTagService.getTagByNameAndReportType("isFinished", ManualReportTypesEnum.mi3622.name());
         opcServiceRequests.sendTagValuesToOpc(Map.of(isFinishedTag.getAddress(), false));
 
-        List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.MI3622.name());
+        List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.mi3622.name());
         List<String> initialTagsForOpc = DataConverter.convertTagsToListOfAddresses(initialTags);
 
         Map<String, String> initialDataFromOpc = opcServiceRequests.getTagValuesFromOpc(initialTagsForOpc);
@@ -55,7 +55,7 @@ public class MI3622ReportGenerator extends ManualReportGenerator {
         MI3622Runner MI3622Runner = new MI3622Runner(MI3622InitialData);
         MI3622FinalData MI3622FinalData = MI3622Runner.run();
 
-        List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypesEnum.MI3622.name());
+        List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypesEnum.mi3622.name());
 
         Map<String, String> finalTagsMap = DataConverter.createPermanentNameToAddressMap(finalTags);
 
@@ -68,7 +68,7 @@ public class MI3622ReportGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
-        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.MI3622.name());
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.mi3622.name());
         return new Report(
                 null,
                 "Поверка МИ3622 от " + SingleDateTimeFormatter.formatToSinglePattern(currentDt),

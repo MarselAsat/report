@@ -39,7 +39,7 @@ public class KmhMoistMetReportGenerator extends ManualReportGenerator {
     @Override
     protected List<ReportData> generateReportDataList() {
         List<ReportData> reportDataList = new ArrayList<>();
-        List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.KMH_MOISTURE_METER.name());
+        List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.kmhMoistureMeter.name());
         List<String> tagAddresses = DataConverter.convertTagsToListOfAddresses(tags);
         Map<String, String> tagValuesFromOpc = opcServiceRequests.getTagValuesFromOpc(tagAddresses);
         Map<String, ManualTagForOpc> addressToTagMap = DataConverter.convertTagListToMapWithAddressKey(tags);
@@ -87,10 +87,10 @@ public class KmhMoistMetReportGenerator extends ManualReportGenerator {
             }
         }
 
-        Tag work_mm_W_idTag = manualTagService.getTagByNameAndReportType("work_mm_W_id", ManualReportTypesEnum.KMH_MOISTURE_METER.name());
-        Tag reserve_mm_W_idTag = manualTagService.getTagByNameAndReportType("reserve_mm_W_id", ManualReportTypesEnum.KMH_MOISTURE_METER.name());
-        Tag workingConclusionTag = manualTagService.getTagByNameAndReportType("working_mm_conclusion", ManualReportTypesEnum.KMH_MOISTURE_METER.name());
-        Tag reserveConclusionTag = manualTagService.getTagByNameAndReportType("reserve_mm_conclusion", ManualReportTypesEnum.KMH_MOISTURE_METER.name());
+        Tag work_mm_W_idTag = manualTagService.getTagByNameAndReportType("work_mm_W_id", ManualReportTypesEnum.kmhMoistureMeter.name());
+        Tag reserve_mm_W_idTag = manualTagService.getTagByNameAndReportType("reserve_mm_W_id", ManualReportTypesEnum.kmhMoistureMeter.name());
+        Tag workingConclusionTag = manualTagService.getTagByNameAndReportType("working_mm_conclusion", ManualReportTypesEnum.kmhMoistureMeter.name());
+        Tag reserveConclusionTag = manualTagService.getTagByNameAndReportType("reserve_mm_conclusion", ManualReportTypesEnum.kmhMoistureMeter.name());
 
         reportDataList.add(new ReportData(
                 null,
@@ -125,7 +125,7 @@ public class KmhMoistMetReportGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
-        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.KMH_MOISTURE_METER.name());
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.kmhMoistureMeter.name());
         return new Report(
                 null,
                 "КМХ рабочего и резервного влагомеров по лабораторным измерениям от "+ SingleDateTimeFormatter.formatToSinglePattern(currentDt),

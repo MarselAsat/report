@@ -52,7 +52,7 @@ public class AcceptanceActGenerator extends ManualReportGenerator {
         LocalDateTime currentDt = LocalDateTime.now();
         report = createReport(currentDt);
 
-        tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.ACCEPTANCE_ACT.name());
+        tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.acceptanceAct.name());
         List<String> tagAddressesForOpc = new ArrayList<>();
         int numOfShiftColumns = computeNumOfShiftColumns(currentDt);
         for (ManualTagForOpc tag : tags) {
@@ -69,7 +69,7 @@ public class AcceptanceActGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
-        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.ACCEPTANCE_ACT.name());
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.acceptanceAct.name());
         return new Report(
                 null,
                 "Акт приема-сдачи нефти от %s".formatted(formatToSinglePattern(currentDt)),

@@ -8,7 +8,8 @@
         .pointer {
             cursor: pointer;
         }
-        .report-sub-type{
+
+        .report-sub-type {
             padding-left: 2rem !Important;
             color: gray;
         }
@@ -22,34 +23,49 @@
         <h4 class="card-header">Типы отчетов</h4>
         <div class="list-group">
             <a th:each="reportType: ${reportTypes}"
-               th:text="${reportType.name}" class="list-group-item list-group-item-action pointer" th:id="'reportType-'+${reportType.id}"
+               th:text="${reportType.name}" class="list-group-item list-group-item-action pointer"
+               th:id="'reportType-'+${reportType.id}"
+               th:name="scheduled"
                onclick="reportTypeIsChanged(this)">
             </a>
 
-            <a class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapsePoverki" role="button" aria-expanded="false" aria-controls="collapsePoverki">
+            <a th:if="${not #lists.isEmpty(poverki)}" class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse"
+               href="#collapse-poverki" role="button" aria-expanded="false" aria-controls="collapsePoverki">
                 Поверки
             </a>
-            <div class="collapse" id="collapsePoverki">
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-mi3622">МИ3622</a>
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-mi3272">МИ3272</a>
+            <div class="collapse" id="collapse-poverki">
+                <a th:each="reportType: ${poverki}"
+                   onclick="reportTypeIsChanged(this)"
+                   class="list-group-item list-group-item-action pointer report-sub-type"
+                   th:id="'reportType-'+${reportType.id}"
+                   th:name="poverki"
+                   th:text="${reportType.name}"></a>
             </div>
 
-            <a class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapseActs" role="button" aria-expanded="false" aria-controls="collapseActs">
+            <a th:if="${not #lists.isEmpty(acts)}" class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse"
+               href="#collapse-acts" role="button" aria-expanded="false" aria-controls="collapseActs">
                 Акты
             </a>
-            <div class="collapse" id="collapseActs">
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action list-group-item-action pointer report-sub-type" id="reportType-acceptanceAct">Акты приема-сдачи</a>
+            <div class="collapse" id="collapse-acts">
+                <a th:each="reportType: ${acts}"
+                   onclick="reportTypeIsChanged(this)"
+                   class="list-group-item list-group-item-action pointer report-sub-type"
+                   th:id="'reportType-'+${reportType.id}"
+                   th:name="acts"
+                   th:text="${reportType.name}"></a>
             </div>
 
-            <a class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse" href="#collapseKmh" role="button" aria-expanded="false" aria-controls="collapseKmh">
+            <a th:if="${not #lists.isEmpty(kmh)}" class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse"
+               href="#collapse-kmh" role="button" aria-expanded="false" aria-controls="collapseKmh">
                 КМХ
             </a>
-            <div class="collapse" id="collapseKmh">
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-kmhViscometer">КМХ преобразователя вязкости по вискозиметру</a>
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-kmhMoisturemeter">КМХ рабочего и резервного влагомеров по лабораторным измерениям</a>
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-kmhMassmByMassm">КМХ рабочего МПР по контрольному</a>
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-kmhMassmByPu">КМХ контрольного МПР с помощью ПУ</a>
-                <a onclick="reportTypeIsChanged(this)" class="list-group-item list-group-item-action pointer report-sub-type" id="reportType-kmhDensityMeter">КМХ ПП по ареометру</a>
+            <div class="collapse" id="collapse-kmh">
+                <a th:each="reportType: ${kmh}"
+                   onclick="reportTypeIsChanged(this)"
+                   class="list-group-item list-group-item-action pointer report-sub-type"
+                   th:id="'reportType-'+${reportType.id}"
+                   th:name="kmh"
+                   th:text="${reportType.name}"></a>
             </div>
         </div>
     </div>

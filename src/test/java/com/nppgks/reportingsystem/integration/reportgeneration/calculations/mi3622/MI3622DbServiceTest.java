@@ -34,7 +34,7 @@ class MI3622DbServiceTest extends IntegrationBaseTest {
                 null,
                 "Тестовый отчет",
                 LocalDateTime.now(),
-                ManualReportTypesEnum.MI3622.name());
+                ManualReportTypesEnum.mi3622.name());
 
         List<ManualTagDto> tags = tagService.getAllTags();
 

@@ -50,14 +50,17 @@ function dateIsChanged(dateElement){
 }
 
 function reportTypeIsChanged(reportTypeElement){
+    var group = reportTypeElement.name;
     var reportTypeId = reportTypeElement.id.split('-')[1];
     path = window.location.search;
     const urlParams = new URLSearchParams(path);
     if(!urlParams.has('reportTypeId')){
         urlParams.append('reportTypeId', reportTypeId);
+        urlParams.append('group', group);
         window.location.href = "/filter?"+urlParams.toString();
     }
     else{
+        urlParams.set('group', group);
         urlParams.set('reportTypeId', reportTypeId);
         window.location.href = "/filter?"+urlParams.toString();
     }
