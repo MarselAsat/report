@@ -173,20 +173,20 @@ public class KmhDensityMeterReportGenerator extends ManualReportGenerator {
     private static double calculateRho15(double rho_meas, double t_ar) {
         double rho0 = rho_meas * (1 - 0.000025 * (t_ar - 20));
         double betaPrev = 613.9723 / Math.pow(rho0, 2);
-        double rhoCTLPrev = rho0 * Math.exp(betaPrev * (t_ar - 15) * (1 + 0.8 * betaPrev * (t_ar - 15)));
-        double beta = 613.9723 / Math.pow(rhoCTLPrev, 2);
-        double rhoCTL = rho0 * Math.exp(beta * (t_ar - 15) * (1 + 0.8 * beta * (t_ar - 15)));
+        double rho15Prev = rho0 * Math.exp(betaPrev * (t_ar - 15) * (1 + 0.8 * betaPrev * (t_ar - 15)));
+        double beta = 613.9723 / Math.pow(rho15Prev, 2);
+        double rho15 = rho0 * Math.exp(beta * (t_ar - 15) * (1 + 0.8 * beta * (t_ar - 15)));
         int cnt = 0;
 
-        while (Math.abs(rhoCTL - rhoCTLPrev) > 0.0001) {
-            rhoCTLPrev = rhoCTL;
-            beta = 613.9723 / Math.pow(rhoCTLPrev, 2);
-            rhoCTL = rho0 * Math.exp(beta * (t_ar - 15) * (1 + 0.8 * beta * (t_ar - 15)));
-            if(cnt > 10000){
+        while (Math.abs(rho15 - rho15Prev) > 0.0001) {
+            rho15Prev = rho15;
+            beta = 613.9723 / Math.pow(rho15Prev, 2);
+            rho15 = rho0 * Math.exp(beta * (t_ar - 15) * (1 + 0.8 * beta * (t_ar - 15)));
+            if(cnt > 10000) {
                 throw new RuntimeException("Не удается посчитать rho15 с помощью метода последовательных приближений, количество циклов вычислений превысило 10000");
             }
             cnt++;
         }
-        return rhoCTL;
+        return rho15;
     }
 }
