@@ -1,15 +1,17 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.acts;
 
-import com.nppgks.reportingsystem.constants.ManualReportTypes;
+import com.nppgks.reportingsystem.constants.ManualReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
+import com.nppgks.reportingsystem.db.manual_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
 import com.nppgks.reportingsystem.service.dbservices.SettingsService;
+import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportTypeService;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,16 +33,18 @@ public class AcceptanceActGenerator extends ManualReportGenerator {
     private final String TAG_ADDRESS_POSTFIX = "shift\\d";
     private final SettingsService settingsService;
     private final ManualTagService manualTagService;
+    private final ManualReportTypeService manualReportTypeService;
     private final OpcServiceRequests opcServiceRequests;
     private List<ManualTagForOpc> tags;
 
     public AcceptanceActGenerator(@Qualifier("saveManyTimesADayStrategy") SaveReportStrategy saveReportStrategy,
                                   OpcServiceRequests opcServiceRequests, ManualTagService manualTagService,
-                                  SettingsService settingsService) {
+                                  SettingsService settingsService, ManualReportTypeService manualReportTypeService) {
         super(saveReportStrategy);
         this.opcServiceRequests = opcServiceRequests;
         this.manualTagService = manualTagService;
         this.settingsService = settingsService;
+        this.manualReportTypeService = manualReportTypeService;
     }
 
     @Override
@@ -48,7 +52,7 @@ public class AcceptanceActGenerator extends ManualReportGenerator {
         LocalDateTime currentDt = LocalDateTime.now();
         report = createReport(currentDt);
 
-        tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypes.ACCEPTANCE_ACT.name());
+        tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.ACCEPTANCE_ACT.name());
         List<String> tagAddressesForOpc = new ArrayList<>();
         int numOfShiftColumns = computeNumOfShiftColumns(currentDt);
         for (ManualTagForOpc tag : tags) {
@@ -65,11 +69,12 @@ public class AcceptanceActGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.ACCEPTANCE_ACT.name());
         return new Report(
                 null,
                 "Акт приема-сдачи нефти от %s".formatted(formatToSinglePattern(currentDt)),
                 currentDt,
-                ManualReportTypes.ACCEPTANCE_ACT.name());
+                reportType);
     }
 
     public void updateShiftsDateTimeInReportData(List<String> dtStartShifts, List<String> dtEndShifts) {

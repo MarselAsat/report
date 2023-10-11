@@ -22,9 +22,9 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
             """)
     int updateTag(@Param("id") Integer id, @Param("address") String address, @Param("description") String description);
 
-    List<ManualTagForOpc> findAllByInitialAndReportType(Boolean initial, String reportType);
+    List<ManualTagForOpc> findAllByInitialAndReportTypeId(Boolean initial, String reportTypeId);
 
     List<Tag> findByOrderByPermanentName();
 
-    Optional<Tag> findByPermanentNameAndReportType(String name, String reportType);
+    Optional<Tag> findByPermanentNameAndReportTypeId(String name, String reportTypeId);
 }

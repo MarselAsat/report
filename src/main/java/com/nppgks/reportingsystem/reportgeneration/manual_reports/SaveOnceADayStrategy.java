@@ -24,7 +24,7 @@ public class SaveOnceADayStrategy implements SaveReportStrategy{
             return "Нет данных для сохранения!";
         }
         LocalDate creationDate = report.getCreationDt().toLocalDate();
-        List<Report> reports = reportRepository.findByDateRangeAndReportType(creationDate.atStartOfDay(), creationDate.atTime(LocalTime.MAX), report.getReportType());
+        List<Report> reports = reportRepository.findByDateRangeAndReportTypeId(creationDate.atStartOfDay(), creationDate.atTime(LocalTime.MAX), report.getReportType().getId());
         String response = "В базе данных успешно создан отчет и сохранены результаты!";
         if (!reports.isEmpty()) {
             deleteReport(reports.get(0).getId());

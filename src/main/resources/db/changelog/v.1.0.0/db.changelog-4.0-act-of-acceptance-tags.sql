@@ -4,7 +4,10 @@
 SET search_path TO manual_reports;
 
 --changeset alina.parfenteva:2
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO report_type (id, name, description, active)
+VALUES ('ACCEPTANCE_ACT', 'Акт приема-сдачи нефти', 'Для валовых объемов нефти', TRUE);
+
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('acceptanceActNumber', 'WinCC_OA.accAct.' || 'acceptanceActNumber', 
         'Номер акта приема-сдачи нефти', 
         TRUE, 'ACCEPTANCE_ACT'),

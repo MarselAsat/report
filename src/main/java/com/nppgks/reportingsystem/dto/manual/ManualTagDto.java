@@ -1,5 +1,6 @@
 package com.nppgks.reportingsystem.dto.manual;
 
+import com.nppgks.reportingsystem.db.manual_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class ManualTagDto {
         manualTagDto.setPermanentName(tag.getPermanentName());
         manualTagDto.setAddress(tag.getAddress());
         manualTagDto.setDescription(tag.getDescription());
-        manualTagDto.setReportType(tag.getReportType());
+        manualTagDto.setReportType(tag.getReportType().getId());
         manualTagDto.setInitial(tag.getInitial());
         return manualTagDto;
     }
@@ -29,7 +30,7 @@ public class ManualTagDto {
         tag.setPermanentName(tagDto.getPermanentName());
         tag.setAddress(tagDto.getAddress());
         tag.setDescription(tagDto.getDescription());
-        tag.setReportType(tagDto.getReportType());
+        tag.setReportType(new ReportType(tagDto.reportType, null, null, null));
         tag.setInitial(tagDto.getInitial());
         return tag;
     }

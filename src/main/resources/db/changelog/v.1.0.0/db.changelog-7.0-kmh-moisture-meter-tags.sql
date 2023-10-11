@@ -4,8 +4,11 @@
 SET search_path TO manual_reports;
 
 --changeset alina.parfenteva:2
+INSERT INTO report_type (id, name, description, active)
+VALUES ('KMH_MOISTURE_METER', 'КМХ рабочего и резервного влагомеров по лабораторным измерениям', '', TRUE);
+
 -- Входные данные
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('protocolNumber', 'kmhMoistMet.' || 'protocolNumber',
         'Номер протокола',
         TRUE, 'KMH_MOISTURE_METER'),
@@ -99,7 +102,7 @@ VALUES ('protocolNumber', 'kmhMoistMet.' || 'protocolNumber',
         TRUE, 'KMH_MOISTURE_METER');
 
 -- выходные данные
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('work_mm_W_id', 'kmhMoistMet.' || 'work_mm_W_id',
         'Расхождение результатов измерений для рабочего влагомера Ŵid =|Wкв –W0|, (%)',
         FALSE, 'KMH_MOISTURE_METER'),

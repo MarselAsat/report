@@ -4,8 +4,11 @@
 SET search_path TO manual_reports;
 
 --changeset alina.parfenteva:2
+INSERT INTO report_type (id, name, description, active)
+VALUES ('KMH_VISCOMETER', 'КМХ преобразователя вязкости по вискозиметру', '', TRUE);
+
 -- Входные данные
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('protocolNumber', 'kmhVisc.' || 'protocolNumber',
         'Номер протокола',
         TRUE, 'KMH_VISCOMETER'),
@@ -87,7 +90,7 @@ VALUES ('protocolNumber', 'kmhVisc.' || 'protocolNumber',
         TRUE, 'KMH_VISCOMETER');
 
 -- выходные данные
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('v_PVz_minus_v_il', 'kmhVisc.' || 'v_PVz_minus_v_il',
         'Модуль разности v_PVZ и v_il',
         FALSE, 'KMH_VISCOMETER'),

@@ -4,8 +4,11 @@
 SET search_path TO manual_reports;
 
 --changeset alina.parfenteva:2
+INSERT INTO report_type (id, name, description, active)
+VALUES ('KMH_MASSM_BY_MASSM', 'КМХ рабочего МПР по контрольному', '', TRUE);
+
 -- Входные данные
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('protocolNumber', 'kmhMassByMass.' || 'protocolNumber',
         'Номер протокола',
         TRUE, 'KMH_MASSM_BY_MASSM'),
@@ -88,7 +91,7 @@ VALUES ('protocolNumber', 'kmhMassByMass.' || 'protocolNumber',
         TRUE, 'KMH_MASSM_BY_MASSM');
 
 -- выходные данные
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('delta_max', 'kmhMassByMass.' || 'delta_max',
         '',
         FALSE, 'KMH_MASSM_BY_MASSM'),

@@ -13,15 +13,15 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     @Query("""
             FROM manual_report
             WHERE creationDt BETWEEN :startDt AND :endDt
-            AND reportType = :reportType
+            AND reportType.id = :reportTypeId
             ORDER BY creationDt desc
             """)
-    List<Report> findByDateRangeAndReportType(LocalDateTime startDt, LocalDateTime endDt, String reportType);
+    List<Report> findByDateRangeAndReportTypeId(LocalDateTime startDt, LocalDateTime endDt, String reportTypeId);
 
     @Query("""
             FROM manual_report
-            WHERE reportType = :reportType
+            WHERE reportType.id = :reportTypeId
             ORDER BY creationDt desc
             """)
-    List<Report> findByReportType(String reportType);
+    List<Report> findByReportTypeId(String reportTypeId);
 }

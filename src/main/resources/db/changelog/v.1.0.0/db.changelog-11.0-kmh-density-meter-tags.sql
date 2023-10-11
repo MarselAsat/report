@@ -4,8 +4,11 @@
 SET search_path TO manual_reports;
 
 --changeset alina.parfenteva:2
+INSERT INTO report_type (id, name, description, active)
+VALUES ('KMH_DENSITY_METER', 'КМХ ПП по ареометру', '', TRUE);
+
 -- Входные данные
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('workingOrReserve', 'kmhDensMet.' || 'workingOrReserve',
         'КМХ по рабочему или резервному ПП. Может иметь только 2 значения: "рабочий" или "резервный"',
         TRUE, 'KMH_DENSITY_METER'),
@@ -99,7 +102,7 @@ VALUES ('workingOrReserve', 'kmhDensMet.' || 'workingOrReserve',
         TRUE, 'KMH_DENSITY_METER');
 
 -- выходные данные
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('beta15', 'kmhDensMet.' || 'beta15',
         '',
         FALSE, 'KMH_DENSITY_METER'),

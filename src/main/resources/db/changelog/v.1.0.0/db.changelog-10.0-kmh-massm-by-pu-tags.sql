@@ -4,8 +4,11 @@
 SET search_path TO manual_reports;
 
 --changeset alina.parfenteva:2
+INSERT INTO report_type (id, name, description, active)
+VALUES ('KMH_MASSM_BY_PU', 'КМХ контрольного МПР с помощью ПУ', '', TRUE);
+
 -- Входные данные
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('pointsCount', 'kmhMassmByPu.' || 'pointsCount',
         'количество точек расхода',
         TRUE, 'KMH_MASSM_BY_PU'),
@@ -174,7 +177,7 @@ VALUES ('pointsCount', 'kmhMassmByPu.' || 'pointsCount',
         TRUE, 'KMH_MASSM_BY_PU');
 
 -- выходные данные
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('V_KP_pr_ij', 'kmhMassmByPu.' || 'V_KP_pr_ij',
         'вместимость калиброванного участка',
         FALSE, 'KMH_MASSM_BY_PU'),

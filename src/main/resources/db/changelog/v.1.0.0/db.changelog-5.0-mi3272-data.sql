@@ -4,8 +4,11 @@
 SET search_path TO manual_reports;
 
 --changeset alina.parfenteva:2
+INSERT INTO report_type (id, name, description, active)
+VALUES ('MI3272', 'МИ3272', 'Методика поверки расходомеров массовых на месте эксплуатации компакт-прувером в комплекте с турбинным преобразователем расхода и поточным преобразователем плотности', TRUE);
+
 -- InitialData
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('measureCount', 'mi3272.measureCount', 'кол-во измерений (measureCount >=5)', TRUE, 'MI3272'),
        ('seriesCount', 'mi3272.seriesCount', 'количество серий проходов поршня компакт-прувера (seriesCount >=5)', TRUE,
         'MI3272'),
@@ -149,7 +152,7 @@ VALUES ('measureCount', 'mi3272.measureCount', 'кол-во измерений (
 
 --changeset alina.parfenteva:3
 -- InitialTextData
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('protocolNumber', 'mi3272.protocolNumber', 'номер протокола поверки', TRUE, 'MI3272'),
        ('massmeterModel', 'mi3272.massmeterModel', 'модель массомера', TRUE, 'MI3272'),
        ('place_name', 'mi3272.place_name', 'место проведения поверки - наименование объекта (ПСП)', TRUE, 'MI3272'),
@@ -200,7 +203,7 @@ VALUES ('protocolNumber', 'mi3272.protocolNumber', 'номер протокол�
 
 --changeset alina.parfenteva:4
 -- FinalData
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('beta_fluid_ij', 'mi3272.beta_fluid_ij', 'коэффициент объемного расширения рабочей жидкости при i-ой серии проходов поршня в j-ой точке расхода, ºC-1. Значение определяется по приложению B', FALSE, 'MI3272'),
        ('gamma_fluid_ij', 'mi3272.gamma_fluid_ij', 'коэффициент сжимаемости рабочей жидкости при i-ой серии проходов поршня в j-ой точке расхода, МПа-1. Значение определяется по приложению B', FALSE, 'MI3272'),
        ('K_TPR_ij', 'mi3272.K_TPR_ij', 'коэффициент преобразования ТПР для каждой i-ой серии проходов поршня в j-ой точке расхода, имп/м3', FALSE, 'MI3272'),
@@ -280,7 +283,7 @@ VALUES ('beta_fluid_ij', 'mi3272.beta_fluid_ij', 'коэффициент объ�
 
 
 -- Флаг, сигнализирующий о начале и конце поверки
-INSERT INTO tag (permanent_name, address, description, initial, report_type)
+INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('isFinished', 'mi3272.isFinished',
         'Флаг, сигнализирующий, что поверка завершена. При старте поверки в него записывается значение false, а после окончания - true',
         FALSE, 'MI3272');
