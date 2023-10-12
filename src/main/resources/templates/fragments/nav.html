@@ -13,10 +13,19 @@
             left: 100%;
             margin-top: -1px;
         }
+        .pointer {
+            cursor: pointer;
+        }
     </style>
     <script>
         $(document).ready(function () {
             $('.dropdown-submenu a.submenu-main').on("click", function (e) {
+                let dropdowns = document.getElementsByClassName("submenu-main");
+                for(var element of dropdowns){
+                    if(element!=this){
+                        $(element).next('ul').toggle(false)
+                    }
+                }
                 $(this).next('ul').toggle();
                 e.stopPropagation();
                 e.preventDefault();
@@ -57,7 +66,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="editTagsDropdown">
                         <li class="dropdown-submenu dropend">
-                            <a tabindex="-1" class="submenu-main dropdown-item dropdown-toggle">Отчеты по расписанию</a>
+                            <a tabindex="-1" class="submenu-main dropdown-item dropdown-toggle pointer">Отчеты по расписанию</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" tabindex="-1"
                                        th:href="@{/admin/scheduled-tables-editor/tags}">Теги</a></li>
@@ -69,8 +78,14 @@
                                        th:href="@{/admin/scheduled-tables-editor/metering-nodes}">Узлы учета</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a th:href="@{/admin/manual-tags-editor}" class="dropdown-item">Теги для поверок, актов, кмх</a>
+                        <li class="dropdown-submenu dropend">
+                            <a tabindex="-1" class="submenu-main dropdown-item dropdown-toggle pointer">Кмх, поверки, акты</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" tabindex="-1"
+                                       th:href="@{/admin/manual-tags-editor}">Теги</a></li>
+                                <li><a class="dropdown-item" tabindex="-1"
+                                       th:href="@{/admin/manual-report-types-editor}">Типы отчетов</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </li>

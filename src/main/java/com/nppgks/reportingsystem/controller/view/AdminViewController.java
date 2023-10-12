@@ -28,6 +28,10 @@ public class AdminViewController {
     public String getManualTagsEditor() {
         return "editors/manual-tags-editor";
     }
+    @GetMapping("/manual-report-types-editor")
+    public String getManualReportTypesEditor() {
+        return "editors/manual-tags-editor";
+    }
 
     @GetMapping("/scheduled-tables-editor/tags")
     public String tagEditorView(ModelMap modelMap) {
