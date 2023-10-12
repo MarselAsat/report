@@ -3,10 +3,12 @@ package com.nppgks.reportingsystem.integration.reportgeneration.calculations.mi3
 import com.nppgks.reportingsystem.constants.ManualReportTypesEnum;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
+import com.nppgks.reportingsystem.db.manual_reports.entity.ReportType;
 import com.nppgks.reportingsystem.dto.manual.ManualTagDto;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.ServiceIT;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveOnceADayStrategy;
+import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportTypeService;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +23,23 @@ class MI3622DbServiceTest extends IntegrationBaseTest {
 
     private final SaveOnceADayStrategy saveOnceADayStrategy;
     private final ManualTagService tagService;
+    private final ManualReportTypeService manualReportTypeService;
 
     @Autowired
-    MI3622DbServiceTest(SaveOnceADayStrategy saveOnceADayStrategy, ManualTagService tagService) {
+    MI3622DbServiceTest(SaveOnceADayStrategy saveOnceADayStrategy, ManualTagService tagService, ManualReportTypeService manualReportTypeService) {
         this.saveOnceADayStrategy = saveOnceADayStrategy;
         this.tagService = tagService;
+        this.manualReportTypeService = manualReportTypeService;
     }
 
     @Test
     void saveCalculations() {
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.mi3622.name());
         Report report = new Report(
                 null,
                 "Тестовый отчет",
                 LocalDateTime.now(),
-                ManualReportTypesEnum.mi3622.name());
+                reportType);
 
         List<ManualTagDto> tags = tagService.getAllTags();
 

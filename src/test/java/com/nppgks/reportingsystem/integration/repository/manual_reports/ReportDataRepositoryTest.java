@@ -2,6 +2,7 @@ package com.nppgks.reportingsystem.integration.repository.manual_reports;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
+import com.nppgks.reportingsystem.db.manual_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.manual_reports.repository.TagRepository;
 import com.nppgks.reportingsystem.db.manual_reports.repository.ReportDataRepository;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
@@ -30,11 +31,9 @@ class ReportDataRepositoryTest extends IntegrationBaseTest {
         Report report = new Report(1L,
                 "Поверка 3622 за 2022-07-14",
                 LocalDateTime.parse("2022-07-14T12:00:00"),
-                "MI_3622");
+                new ReportType("MI_3622", null, null, null));
 
         String arr2Dim = "[[1, 2, 3], [4, 5, 6], [7, 8, 9]]";
-        String arr1Dim = "[1, 2, 3]";
-        String value = "1";
         List<ReportData> list = new ArrayList<>();
 
         tagRepository.findById(1).ifPresent(tag -> {
