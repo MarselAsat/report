@@ -30,7 +30,7 @@ public class AdminViewController {
     }
     @GetMapping("/manual-report-types-editor")
     public String getManualReportTypesEditor() {
-        return "editors/manual-tags-editor";
+        return "editors/manual-report-types-editor";
     }
 
     @GetMapping("/scheduled-tables-editor/tags")
