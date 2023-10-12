@@ -29,7 +29,14 @@ public class MI3622Controller {
             modelMap.put(
                     td.getTag().getPermanentName(), value);
         });
+
+        // Этот параметр нужен для сохранения отчета
+        // (используется в обработчике нажатия на кнопку "Сохранить в БД" в save-report-in-db.js)
+        modelMap.put("saveUrl", "/mi3622/save");
+
+        // Этот параметр нужен для отображения кнопок "Сохранить в БД" и "Печать" после генерации отчета
         modelMap.put("printSaveButtonsRequired", true);
+
         return "report_pages/MI3622-report-page";
     }
 

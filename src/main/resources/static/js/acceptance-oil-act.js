@@ -1,4 +1,4 @@
-function saveInDB(){
+function saveReportInDB(saveUrl){
     let shiftsStartDtElements = document.getElementsByClassName("shifts-start-dt");
     let shiftsEndDtElements = document.getElementsByClassName("shifts-end-dt");
     var shiftStartDtArray = [];
@@ -11,7 +11,7 @@ function saveInDB(){
         shiftEndDtArray.push(element.textContent)
     }
     var urlBase = window.location.origin;
-    var url = new URL("/act/acceptanceOilAct/save", urlBase);
+    var url = new URL(saveUrl, urlBase);
     var params = [['dtStartShift', shiftStartDtArray.toString()], ['dtEndShift', shiftEndDtArray.toString()]]
 
     url.search = new URLSearchParams(params).toString();

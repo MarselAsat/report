@@ -20,6 +20,12 @@ public class ActsController {
     public String getAcceptanceAct(ModelMap modelMap) {
         List<ReportData> reportDataList = actReportGenerator.generateReport();
         ModelMapFiller.fillForAcceptanceAct(modelMap, reportDataList);
+
+        // Этот параметр нужен для сохранения отчета
+        // Этот параметр используется в обработчике нажатия на кнопку "Сохранить в БД" в acceptance-oil-act.js
+        modelMap.put("saveUrl", "/act/acceptanceOilAct/save");
+
+        // Этот параметр нужен для отображения кнопок "Сохранить в БД" и "Печать" после генерации отчета
         modelMap.put("printSaveButtonsRequired", true);
         return "report_pages/acceptance-oil-act";
     }

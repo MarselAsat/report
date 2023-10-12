@@ -11,7 +11,7 @@
 <body>
 <div class="card">
     <div th:if="${printSaveButtonsRequired}">
-        <div class="card-header" th:replace="fragments/print-save-buttons"></div>
+        <div class="card-header" th:replace="fragments/print-save-buttons::print-save-buttons(saveUrl=${saveUrl})"></div>
     </div>
     <div class="card-body" id="report-content">
         <!-- Здесь head внутри div, чтобы при печати отчета сохранялось форматирование bootstrap-->
