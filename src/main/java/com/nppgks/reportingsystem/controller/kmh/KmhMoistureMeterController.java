@@ -39,7 +39,7 @@ public class KmhMoistureMeterController {
         // Этот параметр нужен для отображения кнопок "Сохранить в БД" и "Печать" после генерации отчета
         modelMap.put("printSaveButtonsRequired", true);
 
-        return "report_pages/kmh-moisturemeter-report-page";
+        return "report_pages/kmh/kmh-moisturemeter-report-page";
     }
 
     @ResponseBody

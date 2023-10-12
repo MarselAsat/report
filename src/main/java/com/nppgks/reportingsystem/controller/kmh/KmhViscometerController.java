@@ -39,7 +39,7 @@ public class KmhViscometerController {
         // Этот параметр нужен для отображения кнопок "Сохранить в БД" и "Печать" после генерации отчета
         modelMap.put("printSaveButtonsRequired", true);
 
-        return "report_pages/kmh-viscometer-report-page";
+        return "report_pages/kmh/kmh-viscometer-report-page";
     }
 
     @ResponseBody

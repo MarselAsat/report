@@ -27,7 +27,7 @@ public class ActsController {
 
         // Этот параметр нужен для отображения кнопок "Сохранить в БД" и "Печать" после генерации отчета
         modelMap.put("printSaveButtonsRequired", true);
-        return "report_pages/acceptance-oil-act";
+        return "report_pages/acts/acceptance-oil-act";
     }
 
     @ResponseBody

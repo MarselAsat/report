@@ -37,7 +37,7 @@ public class KmhMassmByPuController {
         // Этот параметр нужен для отображения кнопок "Сохранить в БД" и "Печать" после генерации отчета
         modelMap.put("printSaveButtonsRequired", true);
 
-        return "report_pages/kmh-massm-by-pu-report-page";
+        return "report_pages/kmh/kmh-massm-by-pu-report-page";
     }
 
     @ResponseBody

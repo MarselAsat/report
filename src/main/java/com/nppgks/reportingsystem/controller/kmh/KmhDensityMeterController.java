@@ -38,7 +38,7 @@ public class KmhDensityMeterController {
         // Этот параметр используется в обработчике нажатия на кнопку "Сохранить в БД" в save-report-in-db.js
         modelMap.put("saveUrl", "/kmh/densityMeter/save");
 
-        return "report_pages/kmh-density-meter-report-page";
+        return "report_pages/kmh/kmh-density-meter-report-page";
     }
 
     @ResponseBody

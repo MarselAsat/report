@@ -37,7 +37,7 @@ public class MI3622Controller {
         // Этот параметр нужен для отображения кнопок "Сохранить в БД" и "Печать" после генерации отчета
         modelMap.put("printSaveButtonsRequired", true);
 
-        return "report_pages/MI3622-report-page";
+        return "report_pages/poverki/MI3622-report-page";
     }
 
     @ResponseBody
