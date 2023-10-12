@@ -136,7 +136,7 @@ class DataConverterTest {
         tagsMap.put("measureCount", "tag.measureCount");
         tagsMap.put("Q_ij", "tag.Q_ij");
         DataConverter.putInOrder2DArraysInOpcData(dataFromOpc, tagsMap, MI3622InitialData.class);
-        assertThat(dataFromOpc.get("tag.Q_ij")).isEqualTo("[[1.0,2.0,3.0],[4.0,5.0,6.0]]");
+        assertThat(dataFromOpc.get("tag.Q_ij")).isEqualTo("[[1,2,3],[4,5,6]]");
     }
 
     @Test
@@ -153,6 +153,4 @@ class DataConverterTest {
 //            throw new RuntimeException(e);
 //        }
     }
-
-
 }

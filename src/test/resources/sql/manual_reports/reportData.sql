@@ -1,18 +1,21 @@
 SET search_path TO manual_reports;
 
+INSERT INTO report_type (id, name, description, active)
+VALUES ('mi3622', 'МИ3622', '', TRUE);
+
 -- InitialData
-INSERT INTO tag (id, permanent_name, address, description, initial, report_type)
-VALUES (1, 'Q_ij', 'WinCC_OA.rep_test.' || 'Q_ij', '', TRUE, 'MI_3622'),
-       (2, 'N_e_ij', 'WinCC_OA.rep_test.' || 'N_e_ij', '', TRUE, 'MI_3622'),
-       (3, 'N_p_ij', 'WinCC_OA.rep_test.' || 'N_p_ij', '', TRUE, 'MI_3622'),
-       (4, 'T_ij', 'WinCC_OA.rep_test.' || 'T_ij', '', TRUE, 'MI_3622');
+INSERT INTO tag (id, permanent_name, address, description, initial, report_type_id)
+VALUES (1, 'Q_ij', 'WinCC_OA.rep_test.' || 'Q_ij', '', TRUE, 'mi3622'),
+       (2, 'N_e_ij', 'WinCC_OA.rep_test.' || 'N_e_ij', '', TRUE, 'mi3622'),
+       (3, 'N_p_ij', 'WinCC_OA.rep_test.' || 'N_p_ij', '', TRUE, 'mi3622'),
+       (4, 'T_ij', 'WinCC_OA.rep_test.' || 'T_ij', '', TRUE, 'mi3622');
 
 SELECT SETVAL('tag_id_seq', (SELECT MAX(id) FROM tag));
 
-INSERT INTO report(id, name, creation_dt, report_type)
+INSERT INTO report(id, name, creation_dt, report_type_id)
 VALUES (1, 'Поверка 3622 за 2022-07-14',
         TO_TIMESTAMP('2022-07-14 12:00:00', 'YYYY-MM-DD HH24:MI:SS'),
-        'MI_3622');
+        'mi3622');
 
 SELECT SETVAL('report_id_seq', (SELECT MAX(id) FROM report));
 

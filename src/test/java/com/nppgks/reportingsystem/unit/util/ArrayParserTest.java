@@ -56,13 +56,13 @@ public class ArrayParserTest {
     @Test
     void from2DArrayToJson() {
         String json1 = ArrayParser.fromObjectToJson(new double[][]{{1.0, 2.0, 3.0}, {1.0, 2.0, 3.0}});
-        assertThat(json1).isEqualTo("[[1.0,2.0,3.0],[1.0,2.0,3.0]]");
+        assertThat(json1).isEqualTo("[[1,2,3],[1,2,3]]");
 
         String json2 = ArrayParser.fromObjectToJson(1);
         assertThat(json2).isEqualTo("1");
 
         String json3 = ArrayParser.fromObjectToJson(new double[]{1, 2, 3, 7.0});
-        assertThat(json3).isEqualTo("[1.0,2.0,3.0,7.0]");
+        assertThat(json3).isEqualTo("[1,2,3,7]");
     }
 
     @Test
