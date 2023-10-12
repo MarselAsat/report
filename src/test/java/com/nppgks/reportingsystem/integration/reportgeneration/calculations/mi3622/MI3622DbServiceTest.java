@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.integration.reportgeneration.calculations.mi3622;
 
-import com.nppgks.reportingsystem.constants.ManualReportTypes;
+import com.nppgks.reportingsystem.constants.ManualReportTypesEnum;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
 import com.nppgks.reportingsystem.dto.manual.ManualTagDto;
@@ -34,7 +34,7 @@ class MI3622DbServiceTest extends IntegrationBaseTest {
                 null,
                 "Тестовый отчет",
                 LocalDateTime.now(),
-                ManualReportTypes.MI3622.name());
+                ManualReportTypesEnum.mi3622.name());
 
         List<ManualTagDto> tags = tagService.getAllTags();
 

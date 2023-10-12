@@ -26,7 +26,7 @@ public class ManualTagService {
     }
 
     public List<ManualTagForOpc> getTagsByInitialAndReportType(Boolean initial, String type){
-        return tagRepository.findAllByInitialAndReportType(initial, type);
+        return tagRepository.findAllByInitialAndReportTypeId(initial, type);
     }
 
     public List<ManualTagDto> getAllTags() {
@@ -37,7 +37,7 @@ public class ManualTagService {
     }
 
     public Tag getTagByNameAndReportType(String name, String reportType){
-        return tagRepository.findByPermanentNameAndReportType(name, reportType)
+        return tagRepository.findByPermanentNameAndReportTypeId(name, reportType)
                 .orElseThrow(() -> new RuntimeException("В таблице manual_reports.tag нет тега с именем %s и типом %s"
                         .formatted(name, reportType)));
     }

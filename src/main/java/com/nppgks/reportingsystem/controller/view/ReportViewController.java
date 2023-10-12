@@ -1,5 +1,6 @@
 package com.nppgks.reportingsystem.controller.view;
 
+import com.nppgks.reportingsystem.constants.ManualReportTypesEnum;
 import com.nppgks.reportingsystem.controller.ModelMapFiller;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.MeteringNode;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.Report;
@@ -40,46 +41,48 @@ public class ReportViewController {
 
     private final MeteringNodeService meteringNodeService;
 
+    private final static String mi3622 = ManualReportTypesEnum.mi3622.name();
+
     @GetMapping(value = "/dailyReport/{reportId}")
     public String getDailyReport(ModelMap modelMap,
                             @PathVariable Long reportId) {
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.DAILY_REPORT_COLUMNS);
-        return "report_pages/daily-report-page";
+        return "report_pages/scheduled/daily-report-page";
     }
 
     @GetMapping(value = "/hourReport/{reportId}")
     public String getHourReport(ModelMap modelMap,
                             @PathVariable Long reportId){
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.HOUR_REPORT_COLUMNS);
-        return "report_pages/hour-report-page";
+        return "report_pages/scheduled/hour-report-page";
     }
 
     @GetMapping(value = "/twohourReport/{reportId}")
     public String get2HourReport(ModelMap modelMap,
                                 @PathVariable Long reportId){
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.TWOHOUR_REPORT_COLUMNS);
-        return "report_pages/twohour-report-page";
+        return "report_pages/scheduled/twohour-report-page";
     }
 
     @GetMapping(value = "/shiftReport/{reportId}")
     public String getShiftReport(ModelMap modelMap,
                                  @PathVariable Long reportId){
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.SHIFT_REPORT_COLUMNS);
-        return "report_pages/shift-report-page";
+        return "report_pages/scheduled/shift-report-page";
     }
 
     @GetMapping(value = "/monthReport/{reportId}")
     public String getMonthReport(ModelMap modelMap,
                                  @PathVariable Long reportId){
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.MONTH_REPORT_COLUMNS);
-        return "report_pages/month-report-page";
+        return "report_pages/scheduled/month-report-page";
     }
 
     @GetMapping(value = "/yearReport/{reportId}")
     public String getYearReport(ModelMap modelMap,
                                  @PathVariable Long reportId){
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.YEAR_REPORT_COLUMNS);
-        return "report_pages/year-report-page";
+        return "report_pages/scheduled/year-report-page";
     }
 
     @GetMapping(value = "/mi3622Report/{reportId}")
@@ -99,7 +102,7 @@ public class ReportViewController {
                     rd.getTag().getPermanentName(), value);
         });
 
-        return "report_pages/MI3622-report-page";
+        return "report_pages/poverki/MI3622-report-page";
     }
 
     @GetMapping(value = "/mi3272Report/{reportId}")
@@ -135,7 +138,7 @@ public class ReportViewController {
                     rd.getTag().getPermanentName(), value);
         });
 
-        return "report_pages/MI3272-report-page";
+        return "report_pages/poverki/MI3272-report-page";
     }
 
     @GetMapping(value = "/acceptanceActReport/{reportId}")
@@ -143,7 +146,7 @@ public class ReportViewController {
                                   @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         ModelMapFiller.fillForAcceptanceAct(modelMap, reportDataList);
-        return "report_pages/acceptance-oil-act";
+        return "report_pages/acts/acceptance-oil-act";
     }
 
     @GetMapping(value = "/kmhViscometerReport/{reportId}")
@@ -158,10 +161,10 @@ public class ReportViewController {
             modelMap.put(
                     rd.getTag().getPermanentName(), value);
         });
-        return "report_pages/kmh-viscometer-report-page";
+        return "report_pages/kmh/kmh-viscometer-report-page";
     }
 
-    @GetMapping(value = "/kmhMoisturemeterReport/{reportId}")
+    @GetMapping(value = "/kmhMoistureMeterReport/{reportId}")
     public String getKmhMoisturemeterReport(ModelMap modelMap,
                                          @PathVariable Long reportId){
         var reportDataList = manualReportDataService.getReportDataList(reportId);
@@ -173,7 +176,7 @@ public class ReportViewController {
             modelMap.put(
                     rd.getTag().getPermanentName(), value);
         });
-        return "report_pages/kmh-moisturemeter-report-page";
+        return "report_pages/kmh/kmh-moisturemeter-report-page";
     }
 
     @GetMapping(value = "/kmhMassmByMassmReport/{reportId}")
@@ -188,7 +191,7 @@ public class ReportViewController {
             modelMap.put(
                     rd.getTag().getPermanentName(), value);
         });
-        return "report_pages/kmh-massm-by-massm-report-page";
+        return "report_pages/kmh/kmh-massm-by-massm-report-page";
     }
 
     @GetMapping(value = "/kmhMassmByPuReport/{reportId}")
@@ -203,7 +206,7 @@ public class ReportViewController {
             modelMap.put(
                     rd.getTag().getPermanentName(), value);
         });
-        return "report_pages/kmh-massm-by-pu-report-page";
+        return "report_pages/kmh/kmh-massm-by-pu-report-page";
     }
 
     @GetMapping(value = "/kmhDensityMeterReport/{reportId}")
@@ -218,7 +221,7 @@ public class ReportViewController {
             modelMap.put(
                     rd.getTag().getPermanentName(), value);
         });
-        return "report_pages/kmh-density-meter-report-page";
+        return "report_pages/kmh/kmh-density-meter-report-page";
     }
 
 

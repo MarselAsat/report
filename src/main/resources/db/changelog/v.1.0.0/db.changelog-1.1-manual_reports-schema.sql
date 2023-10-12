@@ -4,6 +4,14 @@
 CREATE SCHEMA IF NOT EXISTS manual_reports;
 SET search_path TO manual_reports;
 
+CREATE TABLE IF NOT EXISTS report_type
+(
+    id          VARCHAR(32) PRIMARY KEY,
+    name        VARCHAR(256) NOT NULL,
+    description VARCHAR(256),
+    active      BOOLEAN      NOT NULL
+);
+
 --changeset alina.parfenteva:2
 CREATE TABLE IF NOT EXISTS tag
 (
@@ -12,8 +20,8 @@ CREATE TABLE IF NOT EXISTS tag
     address        VARCHAR(256) NOT NULL UNIQUE CHECK (address <> ''),
     description    VARCHAR(512),
     initial        BOOLEAN      NOT NULL,
-    report_type    VARCHAR(32)  NOT NULL,
-    UNIQUE(permanent_name, report_type, initial)
+    report_type_id   VARCHAR(32) REFERENCES report_type (id)   NOT NULL,
+    UNIQUE(permanent_name, report_type_id, initial)
 );
 
 --changeset alina.parfenteva:3
@@ -22,7 +30,7 @@ CREATE TABLE IF NOT EXISTS report
     id          BIGSERIAL PRIMARY KEY,
     name        VARCHAR(256) NOT NULL,
     creation_dt TIMESTAMP    NOT NULL,
-    report_type VARCHAR(32)  NOT NULL
+    report_type_id   VARCHAR(32) REFERENCES report_type (id)   NOT NULL
 );
 
 --changeset alina.parfenteva:4

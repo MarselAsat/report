@@ -3,7 +3,6 @@
 
 <head th:replace="fragments/header"></head>
 <head>
-    <script type="text/javascript" th:src="@{/js/kmh-density-meter-report-page.js}"></script>
     <script type="text/javascript" th:src="@{/js/save-report-in-db.js}"></script>
 
     <!--  sweetAlert library-->
@@ -13,7 +12,7 @@
 <body>
 <div class="card">
     <div th:if="${printSaveButtonsRequired}">
-        <div class="card-header" th:replace="fragments/print-save-buttons"></div>
+        <div class="card-header" th:replace="fragments/print-save-buttons::print-save-buttons(saveUrl=${saveUrl})"></div>
     </div>
     <div class="card-body overflow-auto" id="report-content">
         <head th:replace="fragments/header"></head>
@@ -26,12 +25,13 @@
                 }
 
                 .report-body p {
-                    font-size: 0.8rem;
+                    font-size: 0.7rem;
                 }
 
                 .report-body td {
                     width: auto;
                     padding: 0.1rem;
+                    vertical-align: middle;
                     text-align: center;
                     overflow: hidden;
                 }
@@ -42,7 +42,7 @@
                 }
 
                 .report-body table {
-                    font-size: 0.8rem;
+                    font-size: 0.7rem;
                 }
 
                 .report-body caption {
@@ -65,16 +65,18 @@
                     font-size: 0.5rem;
                     padding-top: 0 !important;
                 }
+                .h6{
+                    font-size: 0.9rem;
+                }
             </style>
         </head>
         <div class="container report-body">
             <div class="row">
                 <div class="col-sm-12">
-                    <h5 style="text-align: center; padding-bottom: 3%;">ПРОТОКОЛ КМХ
-                        <span th:if="${workingOrReserve == 'рабочий'}">РАБОЧЕГО</span>
-                        <span th:if="${workingOrReserve == 'резервный'}">РЕЗЕРВНОГО</span>
-                        ПП ПО АРЕОМЕТРУ №<span
-                            th:text="${protocolNumber}"></span></h5>
+                    <h6 style="text-align: center; padding-bottom: 0.5%;">ПРОТОКОЛ №<span
+                            th:text="${protocolNumber}"></span></h6>
+                    <h6 style="text-align: center; padding-bottom: 0.5%;">контроля метрологических характеристик рабочего
+                        и резервного влагомера по лабораторным измерениям</h6>
 
                     <table class="table table-bordered">
                         <tr>
@@ -86,118 +88,130 @@
                             </td>
                         </tr>
                     </table>
-                    <p>Условие контроля: |Δ<sub>ρki</sub>|≤Δ<sub>пл</sub> + Δ<sub>мет</sub> (для
+                    <p>Условие контроля: |W<sub>кв</sub> - W<sub>0</sub>|≤ΔW<sub>кв</sub> + ΔW<sub>о</sub> (для
                         каждого измерения)</p>
 
                     <!-- Таблица 1-->
+                    <h6 style="text-align: center;">1. Исходные данные</h6>
                     <table class="table table-bordered">
-                        <caption>1. Исходные данные</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
                             <td>№ пп</td>
                             <td>Данные</td>
-                            <td th:if="${workingOrReserve == 'рабочий'}" style="text-align: center">Рабочий ПП</td>
-                            <td th:if="${workingOrReserve == 'резервный'}" style="text-align: center">Резервный ПП</td>
-                            <td style="text-align: center">Ареометр</td>
+                            <td style="text-align: center">Поточный влагомер <br>резервный</td>
+                            <td style="text-align: center">Поточный влагомер <br>рабочий</td>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td>1</td>
                             <td style="text-align: left">Тип, марка</td>
-                            <td th:text="${pp_type} ?: '-'"></td>
-                            <td th:text="${areometer_type} ?: '-'"></td>
+                            <td th:text="${reserve_mm_type} ?: '-'"></td>
+                            <td th:text="${working_mm_type} ?: '-'"></td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td style="text-align: left">Заводской №</td>
-                            <td th:text="${pp_number} ?: '-'"></td>
-                            <td th:text="${areometer_number} ?: '-'"></td>
+                            <td th:text="${reserve_mm_number} ?: '-'"></td>
+                            <td th:text="${working_mm_number} ?: '-'"></td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td style="text-align: left">Дата последней поверки</td>
-                            <td th:text="${pp_date} ?: '-'"></td>
-                            <td th:text="${areometer_date} ?: '-'"></td>
+                            <td th:text="${reserve_mm_date} ?: '-'"></td>
+                            <td th:text="${working_mm_date} ?: '-'"></td>
                         </tr>
                         <tr>
                             <td>4</td>
-                            <td style="text-align: left">Предел допустимой абсолютной погрешности<br>
-                                (Δ, кг/м<sup>3</sup>)
+                            <td style="text-align: left">Предел абсолютной погрешности измерений<br>
+                                массовой доли воды в нефти, ΔW<sub>кв</sub> %
                             </td>
-                            <td th:text="${delta_pp} ?: '-'"></td>
-                            <td th:text="${delta_areometer} ?: '-'"></td>
+                            <td th:text="${reserve_mm_delta_W_kv} ?: '-'"></td>
+                            <td th:text="${working_mm_delta_W_kv} ?: '-'"></td>
                         </tr>
                         <tr>
                             <td>5</td>
-                            <td style="text-align: left">Систематическая  погрешность метода определения плотности <br>
-                                нефти ареометром (обязательно со знаком «+» или «-»)  -  из<br>
-                                свидетельства о метрологической аттестации МВИ плотности на<br>
-                                данную СИКН, (Δ <sub>сист</sub> , кг/м<sup>3</sup>)
+                            <td style="text-align: left">Предел допускаемой абсолютной погрешности определения <br>
+                                массовой доли воды в ХАЛ по ГОСТ 2477, ΔW<sub>0</sub> %
                             </td>
-                            <td colspan="2" th:text="${delta_syst} ?: '-'"></td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td style="text-align: left">Погрешность метода определения плотности нефти ареометром <br>
-                                (без знака) -  из  свидетельства о метрологической аттестации<br>
-                                свидетельства о метрологической аттестации МВИ плотности на<br>
-                                МВИ плотности на данную СИКН, (Δ <sub>мет</sub> , кг/м<sup>3</sup>)
-                            </td>
-                            <td colspan="2" th:text="${delta_met} ?: '-'"></td>
+                            <td th:text="${reserve_mm_delta_W_0} ?: '-'"></td>
+                            <td th:text="${working_mm_delta_W_0} ?: '-'"></td>
                         </tr>
                         </tbody>
                     </table>
 
                     <!-- Таблица 2-->
+                    <h6 style="text-align: center;">2. Результаты измерений и контроля</h6>
                     <table class="table table-bordered">
-                        <caption>2. Результаты измерений и контроля</caption>
                         <thead class="table-light" style="font-weight: bold">
                         <tr>
-                            <td rowspan="2">№ изм</td>
-                            <td colspan="3">Технологические параметры<br>
-                                нефти в БИК</td>
-                            <td rowspan="2">ρ<sub>плi</sub> ,<br>
-                                кг/м<sup>3</sup>
-                            </td>
-                            <td colspan="5">Значения по лаборатории</td>
-                            <td rowspan="2">|∆<sub>ρкi</sub>| ,<br>
-                                кг/м<sup>3</sup>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Q<sub>i</sub> , <br>м<sup>3</sup>/ч</td>
-                            <td>t<sup>пл</sup><sub>i</sub> , <br>ºC</td>
-                            <td>P<sup>пл</sup><sub>i</sub> , <br>МПа</td>
-                            <td>ρ<sup>изм</sup><sub>i</sub> ,<br>кг/м<sup>3</sup></td>
-                            <td>t<sup>ар</sup><sub>i</sub> ,<br>ºC</td>
-                            <td>β<sub>15</sub> ,<br>ºC<sup>-1</sup></td>
-                            <td>γ<sup>пл</sup><sub>i</sub> ,<br>МПа<sup>-1</sup></td>
-                            <td>ρ<sup>лпр</sup><sub>i</sub> ,<br>кг/м<sup>3</sup></td>
+                            <td>№ пп</td>
+                            <td>Время <br>проведения <br>замеров <br>(московское)</td>
+                            <td>Поточный <br>влагомер</td>
+                            <td>Значение <br>влагосодержания <br>φ<sub>в</sub> по влагомеру, <br>(% объемных)</td>
+                            <td>Значение <br>влагосодержания <br>W<sub>кв</sub> по влагомеру, <br>(% массовых)</td>
+                            <td>Значение <br>влагосодержания <br>W<sub>0</sub>, по анализам ХАЛ, <br>(% массовых)</td>
+                            <td>Плотность <br>нефти <br>по СИКН, <br>ρ<sub>v</sub>, кг/м<sup>3</sup></td>
+                            <td>Расхождение <br>результатов <br>измерений <br>Ŵ<sub>id</sub> =|W<sub>кв</sub> – W<sub>0</sub>|, <br>(%)</td>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="q,i : ${rho_meas_i}">
+                        <tr th:each="m,i : ${measure_time}">
                             <td th:text="${i.index+1}"></td>
-                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${Q_i != null} ? ${Q_i[i.index/2]} : '-'"></td>
-                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${t_pl_i != null} ? ${t_pl_i[i.index/2]} : '-'"></td>
-                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${P_pl_i != null} ? ${P_pl_i[i.index/2]} : '-'"></td>
-                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${rho_pl_i != null} ? ${rho_pl_i[i.index/2]} : '-'"></td>
-                            <td th:text="${rho_meas_i != null} ? ${rho_meas_i[i.index]}  : '-'"></td>
-                            <td th:text="${t_ar_i != null} ? ${t_ar_i[i.index]}  : '-'"></td>
-                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${beta15 != null} ? ${beta15[i.index/2]} : '-'"></td>
-                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${gamma_pl_i != null} ? ${gamma_pl_i[i.index/2]} : '-'"></td>
-                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${rho_lpr_i != null} ? ${rho_lpr_i[i.index/2]} : '-'"></td>
-                            <td th:if="${(i.index+1)%2 != 0}" th:rowspan="2" th:text="${delta_pk_i != null} ? ${delta_pk_i[i.index/2]} : '-'"></td>
-                        </tr>
+                            <td th:text="${measure_time != null} ? ${measure_time[i.index]} : '-'"></td>
+                            <td>
+                                <table style="margin: 0 auto;">
+                                    <tr>
+                                        <td>Рабочий</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Резервный</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table style="margin: 0 auto;">
+                                    <tr>
+                                        <td th:text="${work_mm_phi_v != null} ? ${work_mm_phi_v[i.index]}  : '-'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${reserve_mm_phi_v != null} ? ${reserve_mm_phi_v[i.index]}  : '-'"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table style="margin: 0 auto;">
+                                    <tr>
+                                        <td th:text="${work_mm_W_kv != null} ? ${work_mm_W_kv[i.index]}  : '-'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${reserve_mm_W_kv != null} ? ${reserve_mm_W_kv[i.index]}  : '-'"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td th:text="${W_0 != null} ? ${W_0[i.index]}  : '-'"></td>
+                            <td th:text="${rho_v != null} ? ${rho_v[i.index]}  : '-'"></td>
+                            <td>
+                                <table style="margin: 0 auto;">
+                                    <tr>
+                                        <td th:text="${work_mm_W_id != null} ? ${work_mm_W_id[i.index]}  : '-'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${reserve_mm_W_id != null} ? ${reserve_mm_W_id[i.index]}  : '-'"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                           </tr>
                         </tbody>
                     </table>
 
-                    <p>Поточный ПП, зав № <span th:text="${pp_number}"></span> <span th:text="${conclusion}" style="font-weight:bold"></span> к дальнейшей эксплуатации</p>
+                    <h6 style="text-align: center;">3. Заключение</h6>
+                    <p>Рабочий влагомер <span th:text="${working_mm_conclusion}" style="font-weight:bold"></span> к дальнейшей эксплуатации</p>
+                    <p>Резервный влагомер <span th:text="${reserve_mm_conclusion}" style="font-weight:bold"></span> к дальнейшей эксплуатации</p>
                     <p class="mt-4">Дата проведения КМХ: <span th:text="${kmh_date}"></span></p>
                     <p class="mt-4">Подписи лиц, проводивших КМХ:</p>
                     <p class="mt-2">От сдающей стороны <span th:text="${deliverOrg}"></span></p>
-                    <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 70%">
+                    <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px; width: 70%">
                         <tbody>
                         <tr>
                             <td class="pb-0" style="text-align: left">Инженер-метролог</td>
@@ -229,7 +243,7 @@
                     <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 70%">
                         <tbody>
                         <tr>
-                            <td class="col-4 pb-0" style="text-align: left" th:text="${receiverPosition}"></td>
+                            <td th:text="${receiverPosition}" class="col-4 pb-0 pl-2" style="text-align: left"></td>
                             <td style="width: 100px"></td>
                             <td>/</td>
                             <td class="col-4 pb-0" th:text="${receiverName}"></td>
@@ -242,11 +256,11 @@
                         </tr>
                         </tbody>
                     </table>
-                    <p class="mt-2">От обслуживающей организации <span th:text="${serviceOrg}"></span></p>
-                    <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 70%">
+                    <p class="mt-2">От сервисной организации <span th:text="${serviceOrg}"></span></p>
+                    <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px; width: 70%">
                         <tbody>
                         <tr>
-                            <td class="col-4 pb-0" style="text-align: left" th:text="${servicePosition}"></td>
+                            <td th:text="${servicePosition}" class="col-4 pb-0" style="text-align: left"></td>
                             <td style="width: 100px"></td>
                             <td>/</td>
                             <td class="col-4 pb-0" th:text="${serviceName}"></td>

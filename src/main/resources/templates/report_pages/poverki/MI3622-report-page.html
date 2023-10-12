@@ -3,7 +3,7 @@
 
 <head th:replace="fragments/header"></head>
 <head>
-    <script type="text/javascript" th:src="@{/js/MI3622-report-page.js}"></script>
+    <script type="text/javascript" th:src="@{/js/save-report-in-db.js}"></script>
 
     <!--  sweetAlert library-->
     <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
@@ -12,7 +12,7 @@
 <body>
 <div class="card">
     <div th:if="${printSaveButtonsRequired}">
-        <div class="card-header" th:replace="fragments/print-save-buttons"></div>
+        <div class="card-header" th:replace="fragments/print-save-buttons::print-save-buttons(saveUrl=${saveUrl})"></div>
     </div>
     <div class="card-body overflow-auto" id="report-content">
         <head th:replace="fragments/header"></head>

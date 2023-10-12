@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.integration.repository.manual_reports;
 
-import com.nppgks.reportingsystem.constants.ManualReportTypes;
+import com.nppgks.reportingsystem.constants.ManualReportTypesEnum;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.integration.IntegrationBaseTest;
 import com.nppgks.reportingsystem.integration.annotation.RepositoryIT;
@@ -40,7 +40,7 @@ class TagRepositoryTest extends IntegrationBaseTest {
 
     @Test
     public void findAllByInitialAndType(){
-        List<ManualTagForOpc> tags = tagRepository.findAllByInitialAndReportType(true, ManualReportTypes.MI3622.name());
+        List<ManualTagForOpc> tags = tagRepository.findAllByInitialAndReportTypeId(true, ManualReportTypesEnum.mi3622.name());
         Assertions.assertThat(tags).hasSize(50);
     }
 }

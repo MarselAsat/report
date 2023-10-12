@@ -6,7 +6,7 @@
     <div class="card-header">
         <script type="text/javascript" th:src="@{/js/print-content.js}"></script>
         <button type="button" onclick="printContent()" class="btn btn-primary">Печать</button>
-        <button type="button" onclick="saveInDB()" class="btn btn-primary">Сохранить в базу данных</button>
+        <button type="button" th:attr="onclick=|saveReportInDB('${saveUrl}')|" class="btn btn-primary">Сохранить в базу данных</button>
     </div>
 </div>
 <body>

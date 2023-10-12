@@ -1,14 +1,16 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.kmh;
 
-import com.nppgks.reportingsystem.constants.ManualReportTypes;
+import com.nppgks.reportingsystem.constants.ManualReportTypesEnum;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
+import com.nppgks.reportingsystem.db.manual_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.DataConverter;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
+import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportTypeService;
 import com.nppgks.reportingsystem.util.DataRounder;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;
@@ -25,17 +27,19 @@ import java.util.Map;
 public class KmhViscReportGenerator extends ManualReportGenerator {
 
     private final OpcServiceRequests opcServiceRequests;
+    private final ManualReportTypeService manualReportTypeService;
     private final ManualTagService manualTagService;
-    public KmhViscReportGenerator(@Qualifier("saveManyTimesADayStrategy") SaveReportStrategy saveReportStrategy, OpcServiceRequests opcServiceRequests, ManualTagService manualTagService) {
+    public KmhViscReportGenerator(@Qualifier("saveManyTimesADayStrategy") SaveReportStrategy saveReportStrategy, OpcServiceRequests opcServiceRequests, ManualReportTypeService manualReportTypeService, ManualTagService manualTagService) {
         super(saveReportStrategy);
         this.opcServiceRequests = opcServiceRequests;
+        this.manualReportTypeService = manualReportTypeService;
         this.manualTagService = manualTagService;
     }
 
     @Override
     protected List<ReportData> generateReportDataList() {
         List<ReportData> reportDataList = new ArrayList<>();
-        List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypes.KMH_VISCOMETER.name());
+        List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.kmhViscometer.name());
         List<String> tagAddresses = DataConverter.convertTagsToListOfAddresses(tags);
         Map<String, String> tagValuesFromOpc = opcServiceRequests.getTagValuesFromOpc(tagAddresses);
         Map<String, ManualTagForOpc> addressToTagMap = DataConverter.convertTagListToMapWithAddressKey(tags);
@@ -70,8 +74,8 @@ public class KmhViscReportGenerator extends ManualReportGenerator {
             }
         }
 
-        Tag vPVzMinusVIlTag = manualTagService.getTagByNameAndReportType("v_PVz_minus_v_il", ManualReportTypes.KMH_VISCOMETER.name());
-        Tag conclusionTag = manualTagService.getTagByNameAndReportType("conclusion", ManualReportTypes.KMH_VISCOMETER.name());
+        Tag vPVzMinusVIlTag = manualTagService.getTagByNameAndReportType("v_PVz_minus_v_il", ManualReportTypesEnum.kmhViscometer.name());
+        Tag conclusionTag = manualTagService.getTagByNameAndReportType("conclusion", ManualReportTypesEnum.kmhViscometer.name());
 
         reportDataList.add(new ReportData(
                 null,
@@ -92,11 +96,12 @@ public class KmhViscReportGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.kmhViscometer.name());
         return new Report(
                 null,
                 "КМХ рабочего преобразователя вязкости по вискозиметру от "+ SingleDateTimeFormatter.formatToSinglePattern(currentDt),
                 currentDt,
-                ManualReportTypes.KMH_VISCOMETER.name()
+                reportType
         );
     }
 }

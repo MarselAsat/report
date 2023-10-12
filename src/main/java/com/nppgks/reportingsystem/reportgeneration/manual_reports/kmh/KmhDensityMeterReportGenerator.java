@@ -1,14 +1,16 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.kmh;
 
-import com.nppgks.reportingsystem.constants.ManualReportTypes;
+import com.nppgks.reportingsystem.constants.ManualReportTypesEnum;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Report;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
+import com.nppgks.reportingsystem.db.manual_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.manual_reports.entity.Tag;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.DataConverter;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
+import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportTypeService;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import com.nppgks.reportingsystem.util.DataRounder;
@@ -27,17 +29,19 @@ public class KmhDensityMeterReportGenerator extends ManualReportGenerator {
 
     private final OpcServiceRequests opcServiceRequests;
     private final ManualTagService manualTagService;
+    private final ManualReportTypeService manualReportTypeService;
 
-    public KmhDensityMeterReportGenerator(@Qualifier("saveManyTimesADayStrategy") SaveReportStrategy saveReportStrategy, OpcServiceRequests opcServiceRequests, ManualTagService manualTagService) {
+    public KmhDensityMeterReportGenerator(@Qualifier("saveManyTimesADayStrategy") SaveReportStrategy saveReportStrategy, OpcServiceRequests opcServiceRequests, ManualTagService manualTagService, ManualReportTypeService manualReportTypeService) {
         super(saveReportStrategy);
         this.opcServiceRequests = opcServiceRequests;
         this.manualTagService = manualTagService;
+        this.manualReportTypeService = manualReportTypeService;
     }
 
     @Override
     protected List<ReportData> generateReportDataList() {
         List<ReportData> reportDataList = new ArrayList<>();
-        List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypes.KMH_DENSITY_METER.name());
+        List<ManualTagForOpc> tags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.kmhDensityMeter.name());
         List<String> tagAddresses = DataConverter.convertTagsToListOfAddresses(tags);
         Map<String, String> tagValuesFromOpc = opcServiceRequests.getTagValuesFromOpc(tagAddresses);
         Map<String, ManualTagForOpc> addressToTagMap = DataConverter.convertTagListToMapWithAddressKey(tags);
@@ -106,11 +110,11 @@ public class KmhDensityMeterReportGenerator extends ManualReportGenerator {
 
         if (delta_max >= 0.3 + delta_met) conclusion = "не годен";
 
-        Tag delta_pk_iTag = manualTagService.getTagByNameAndReportType("delta_pk_i", ManualReportTypes.KMH_DENSITY_METER.name());
-        Tag rho_lpr_iTag = manualTagService.getTagByNameAndReportType("rho_lpr_i", ManualReportTypes.KMH_DENSITY_METER.name());
-        Tag beta15Tag = manualTagService.getTagByNameAndReportType("beta15", ManualReportTypes.KMH_DENSITY_METER.name());
-        Tag gamma_pl_iTag = manualTagService.getTagByNameAndReportType("gamma_pl_i", ManualReportTypes.KMH_DENSITY_METER.name());
-        Tag conclusionTag = manualTagService.getTagByNameAndReportType("conclusion", ManualReportTypes.KMH_DENSITY_METER.name());
+        Tag delta_pk_iTag = manualTagService.getTagByNameAndReportType("delta_pk_i", ManualReportTypesEnum.kmhDensityMeter.name());
+        Tag rho_lpr_iTag = manualTagService.getTagByNameAndReportType("rho_lpr_i", ManualReportTypesEnum.kmhDensityMeter.name());
+        Tag beta15Tag = manualTagService.getTagByNameAndReportType("beta15", ManualReportTypesEnum.kmhDensityMeter.name());
+        Tag gamma_pl_iTag = manualTagService.getTagByNameAndReportType("gamma_pl_i", ManualReportTypesEnum.kmhDensityMeter.name());
+        Tag conclusionTag = manualTagService.getTagByNameAndReportType("conclusion", ManualReportTypesEnum.kmhDensityMeter.name());
 
         reportDataList.add(new ReportData(
                 null,
@@ -152,13 +156,15 @@ public class KmhDensityMeterReportGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.kmhDensityMeter.name());
+
         // Пока создается отчет без названия. Название будет установлено в методе generateReportDataList,
         // т.к. для названия необходимо значение тега workingOrReserve
         return new Report(
                 null,
                 "no name",
                 currentDt,
-                ManualReportTypes.KMH_DENSITY_METER.name()
+                reportType
         );
     }
 

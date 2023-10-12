@@ -1,5 +1,5 @@
-function saveReportInDB(url){
-    fetch(url, {
+function saveReportInDB(saveUrl){
+    fetch(saveUrl, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',

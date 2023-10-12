@@ -31,9 +31,15 @@ public class KmhMoistureMeterController {
             modelMap.put(
                     rd.getTag().getPermanentName(), value);
         });
+
+        // Этот параметр нужен для сохранения отчета
+        // Этот параметр используется в обработчике нажатия на кнопку "Сохранить в БД" в save-report-in-db.js
+        modelMap.put("saveUrl", "/kmh/moisturemeter/save");
+
+        // Этот параметр нужен для отображения кнопок "Сохранить в БД" и "Печать" после генерации отчета
         modelMap.put("printSaveButtonsRequired", true);
 
-        return "report_pages/kmh-moisturemeter-report-page";
+        return "report_pages/kmh/kmh-moisturemeter-report-page";
     }
 
     @ResponseBody

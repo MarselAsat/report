@@ -24,9 +24,9 @@ public class ManualReportService {
 
     public List<Report> findReportByDateAndType(LocalDate date, String reportType) {
         if (date == null) {
-            return reportRepository.findByReportType(reportType);
+            return reportRepository.findByReportTypeId(reportType);
         } else {
-            return reportRepository.findByDateRangeAndReportType(
+            return reportRepository.findByDateRangeAndReportTypeId(
                     LocalDateTime.of(date, LocalTime.MIN),
                     LocalDateTime.of(date, LocalTime.MAX),
                     reportType);

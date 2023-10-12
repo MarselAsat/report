@@ -31,8 +31,9 @@ public class Tag {
     @Column(name = "initial")
     private Boolean initial;
 
-    @Column(name = "report_type")
-    private String reportType;
+    @ManyToOne
+    @JoinColumn(name = "report_type_id")
+    private ReportType reportType;
 
     @Override
     public boolean equals(Object o) {
