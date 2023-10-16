@@ -3,7 +3,6 @@
 --changeset alina.parfenteva:1
 SET search_path TO manual_reports;
 
---changeset alina.parfenteva:2
 INSERT INTO report_type (id, name, description, active)
 VALUES ('mi3272', 'МИ3272', 'Методика поверки расходомеров массовых на месте эксплуатации компакт-прувером в комплекте с турбинным преобразователем расхода и поточным преобразователем плотности', TRUE);
 
@@ -112,45 +111,6 @@ VALUES ('measureCount', 'mi3272.measureCount', 'кол-во измерений (
         'модуль упругости материала стенок компакт-прувера (значение берут из таблицы Б.1 приложения Б), Мпа', TRUE,
         'mi3272');
 
---rollback delete from tag where address = 'mi3272.measureCount'
---rollback delete from tag where address = 'mi3272.seriesCount'
---rollback delete from tag where address = 'mi3272.pointsCount'
---rollback delete from tag where address = 'mi3272.usedTPR'
---rollback delete from tag where address = 'mi3272.TPRInKP'
---rollback delete from tag where address = 'mi3272.calibrCharImpl'
---rollback delete from tag where address = 'mi3272.operatingFluid'
---rollback delete from tag where address = 'mi3272.Q_ij_TPR'
---rollback delete from tag where address = 'mi3272.N_TPR_ij_avg'
---rollback delete from tag where address = 'mi3272.t_TPR_ij_avg'
---rollback delete from tag where address = 'mi3272.P_TPR_ij_avg'
---rollback delete from tag where address = 'mi3272.t_KP_ij_avg'
---rollback delete from tag where address = 'mi3272.P_KP_ij_avg'
---rollback delete from tag where address = 'mi3272.t_st_ij'
---rollback delete from tag where address = 'mi3272.V_KP_0'
---rollback delete from tag where address = 'mi3272.alpha_cyl_t'
---rollback delete from tag where address = 'mi3272.alpha_cyl_t_sq'
---rollback delete from tag where address = 'mi3272.alpha_st_t'
---rollback delete from tag where address = 'mi3272.ro_PP_ij'
---rollback delete from tag where address = 'mi3272.t_PP_ij'
---rollback delete from tag where address = 'mi3272.P_PP_ij'
---rollback delete from tag where address = 'mi3272.N2_TPR_ij_avg'
---rollback delete from tag where address = 'mi3272.t2_KP_ij_avg'
---rollback delete from tag where address = 'mi3272.P2_KP_ij_avg'
---rollback delete from tag where address = 'mi3272.t2_TPR_ij_avg'
---rollback delete from tag where address = 'mi3272.P2_TPR_ij_avg'
---rollback delete from tag where address = 'mi3272.t2_st_ij'
---rollback delete from tag where address = 'mi3272.Q_ij'
---rollback delete from tag where address = 'mi3272.N_mas_ij'
---rollback delete from tag where address = 'mi3272.N_TPR_ij_zad'
---rollback delete from tag where address = 'mi3272.t_TPR_ij'
---rollback delete from tag where address = 'mi3272.P_TPR_ij'
---rollback delete from tag where address = 'mi3272.ro_BIK_ij'
---rollback delete from tag where address = 'mi3272.KF_conf'
---rollback delete from tag where address = 'mi3272.K_PEP_gr'
---rollback delete from tag where address = 'mi3272.MF_set_range'
---rollback delete from tag where address = 'mi3272.delta_KP'
-
---changeset alina.parfenteva:3
 -- InitialTextData
 INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('protocolNumber', 'mi3272.protocolNumber', 'номер протокола поверки', TRUE, 'mi3272'),
@@ -177,31 +137,6 @@ VALUES ('protocolNumber', 'mi3272.protocolNumber', 'номер протокол�
        ('companyName', 'mi3272.companyName', 'наименование поверяющей организации', TRUE, 'mi3272'),
        ('verifierName', 'mi3272.verifierName', 'инициалы, фамилия поверителя', TRUE, 'mi3272');
 
---rollback delete from tag where address = 'mi3272.protocolNumber'
---rollback delete from tag where address = 'mi3272.massmeterModel'
---rollback delete from tag where address = 'mi3272.place_name'
---rollback delete from tag where address = 'mi3272.place_owner'
---rollback delete from tag where address = 'mi3272.massmeterSensor'
---rollback delete from tag where address = 'mi3272.massmeterDu'
---rollback delete from tag where address = 'mi3272.massmeterNumber'
---rollback delete from tag where address = 'mi3272.pepModel'
---rollback delete from tag where address = 'mi3272.pepNumber'
---rollback delete from tag where address = 'mi3272.installedOn'
---rollback delete from tag where address = 'mi3272.ilNumber'
---rollback delete from tag where address = 'mi3272.cpType'
---rollback delete from tag where address = 'mi3272.cpGrade'
---rollback delete from tag where address = 'mi3272.cpNumber'
---rollback delete from tag where address = 'mi3272.cpDate'
---rollback delete from tag where address = 'mi3272.tprType'
---rollback delete from tag where address = 'mi3272.tprRange'
---rollback delete from tag where address = 'mi3272.tprNumber'
---rollback delete from tag where address = 'mi3272.ppType'
---rollback delete from tag where address = 'mi3272.ppNumber'
---rollback delete from tag where address = 'mi3272.ppDate'
---rollback delete from tag where address = 'mi3272.companyName'
---rollback delete from tag where address = 'mi3272.verifierName'
-
---changeset alina.parfenteva:4
 -- FinalData
 INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('beta_fluid_ij', 'mi3272.beta_fluid_ij', 'коэффициент объемного расширения рабочей жидкости при i-ой серии проходов поршня в j-ой точке расхода, ºC-1. Значение определяется по приложению B', FALSE, 'mi3272'),
@@ -243,49 +178,11 @@ VALUES ('beta_fluid_ij', 'mi3272.beta_fluid_ij', 'коэффициент объ�
        ('usedAs', 'mi3272.usedAs', 'поверяемый массомер годен для использования в качестве рабочего и контрольного или рабочего', FALSE, 'mi3272'),
        ('conclusion', 'mi3272.conclusion', 'годен/не годен', FALSE, 'mi3272');
 
---rollback delete from tag where address = 'mi3272.beta_fluid_ij' 
---rollback delete from tag where address = 'mi3272.gamma_fluid_ij' 
---rollback delete from tag where address = 'mi3272.K_TPR_ij' 
---rollback delete from tag where address = 'mi3272.V_KP_pr_ij' 
---rollback delete from tag where address = 'mi3272.Pi_j' 
---rollback delete from tag where address = 'mi3272.K_TPR_j' 
---rollback delete from tag where address = 'mi3272.K2_TPR_j' 
---rollback delete from tag where address = 'mi3272.delta_k_j' 
---rollback delete from tag where address = 'mi3272.V_TPR_ij' 
---rollback delete from tag where address = 'mi3272.ro_PP_pr_ij' 
---rollback delete from tag where address = 'mi3272.M_re_ij' 
---rollback delete from tag where address = 'mi3272.M_mas_ij' 
---rollback delete from tag where address = 'mi3272.MF_ij' 
---rollback delete from tag where address = 'mi3272.alpha_cyl_t' 
---rollback delete from tag where address = 'mi3272.t_P_n' 
---rollback delete from tag where address = 'mi3272.Z_P' 
---rollback delete from tag where address = 'mi3272.Z_P_k' 
---rollback delete from tag where address = 'mi3272.Q_j_avg' 
---rollback delete from tag where address = 'mi3272.MForKF_j_avg' 
---rollback delete from tag where address = 'mi3272.S_MForKF_range' 
---rollback delete from tag where address = 'mi3272.delta_mas_0' 
---rollback delete from tag where address = 'mi3272.MForKF_range' 
---rollback delete from tag where address = 'mi3272.K_gr' 
---rollback delete from tag where address = 'mi3272.epsilon' 
---rollback delete from tag where address = 'mi3272.theta_sigma' 
---rollback delete from tag where address = 'mi3272.theta_KF_range' 
---rollback delete from tag where address = 'mi3272.delta' 
---rollback delete from tag where address = 'mi3272.Q_kmin' 
---rollback delete from tag where address = 'mi3272.Q_kmax' 
---rollback delete from tag where address = 'mi3272.S_KF_k' 
---rollback delete from tag where address = 'mi3272.delta_mas_0k' 
---rollback delete from tag where address = 'mi3272.theta_KF_k' 
---rollback delete from tag where address = 'mi3272.epsilon_k' 
---rollback delete from tag where address = 'mi3272.theta_sigma_k' 
---rollback delete from tag where address = 'mi3272.delta_k' 
---rollback delete from tag where address = 'mi3272.usedAs' 
---rollback delete from tag where address = 'mi3272.conclusion' 
-
-
 -- Флаг, сигнализирующий о начале и конце поверки
 INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('isFinished', 'mi3272.isFinished',
         'Флаг, сигнализирующий, что поверка завершена. При старте поверки в него записывается значение false, а после окончания - true',
         FALSE, 'mi3272');
 
---rollback delete from tag where address = 'mi3272.isFinished' 
+--rollback delete from tag where report_type_id = 'mi3272'
+--rollback delete from report_type where id = 'mi3272'

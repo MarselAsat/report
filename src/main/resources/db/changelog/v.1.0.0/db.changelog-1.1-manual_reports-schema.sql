@@ -2,6 +2,7 @@
 
 --changeset alina.parfenteva:1
 CREATE SCHEMA IF NOT EXISTS manual_reports;
+
 SET search_path TO manual_reports;
 
 CREATE TABLE IF NOT EXISTS report_type

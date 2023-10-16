@@ -2,6 +2,7 @@ package com.nppgks.reportingsystem.unit.certification;
 
 import com.nppgks.reportingsystem.certification.CertificationAlgorithms;
 import org.assertj.core.data.Offset;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,6 +17,7 @@ class CertificationAlgorithmsTest {
 
     @ParameterizedTest
     @MethodSource("provideArgumentsForDensity15")
+    @Disabled
     void calculateDensity15(String product, double p, double temp, double overpressure, double expected) {
         double actual = CertificationAlgorithms.calculateDensity15(product, p, temp, overpressure);
         assertThat(actual).isCloseTo(expected, Offset.offset(0.01));

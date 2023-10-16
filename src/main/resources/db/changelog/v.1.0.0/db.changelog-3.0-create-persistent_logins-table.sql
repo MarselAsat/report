@@ -3,7 +3,6 @@
 --changeset alina.parfenteva:1
 SET search_path TO public;
 
---changeset alina.parfenteva:2
 CREATE TABLE IF NOT EXISTS persistent_logins
 (
     series    VARCHAR(64) PRIMARY KEY,

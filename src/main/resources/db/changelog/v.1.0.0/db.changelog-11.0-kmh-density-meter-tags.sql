@@ -3,7 +3,6 @@
 --changeset alina.parfenteva:1
 SET search_path TO manual_reports;
 
---changeset alina.parfenteva:2
 INSERT INTO report_type (id, name, description, active)
 VALUES ('kmhDensityMeter', 'КМХ ПП по ареометру', '', TRUE);
 
@@ -118,3 +117,6 @@ VALUES ('beta15', 'kmhDensMet.' || 'beta15',
        ('conclusion', 'kmhDensMet.' || 'conclusion',
         'годен/не годен',
         FALSE, 'kmhDensityMeter');
+
+--rollback delete from tag where report_type_id = 'kmhDensityMeter'
+--rollback delete from report_type where id = 'kmhDensityMeter'

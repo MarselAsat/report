@@ -3,7 +3,6 @@
 --changeset alina.parfenteva:1
 SET search_path TO manual_reports;
 
---changeset alina.parfenteva:2
 INSERT INTO report_type (id, name, description, active)
 VALUES ('kmhMoistureMeter', 'КМХ рабочего и резервного влагомеров по лабораторным измерениям', '', TRUE);
 
