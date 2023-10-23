@@ -1,6 +1,5 @@
 package com.nppgks.reportingsystem.controller.view;
 
-import com.nppgks.reportingsystem.constants.ManualReportTypesEnum;
 import com.nppgks.reportingsystem.controller.ModelMapFiller;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.MeteringNode;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.Report;
@@ -40,8 +39,6 @@ public class ReportViewController {
     private final SettingsService settingsService;
 
     private final MeteringNodeService meteringNodeService;
-
-    private final static String mi3622 = ManualReportTypesEnum.mi3622.name();
 
     @GetMapping(value = "/dailyReport/{reportId}")
     public String getDailyReport(ModelMap modelMap,
@@ -222,6 +219,20 @@ public class ReportViewController {
                     rd.getTag().getPermanentName(), value);
         });
         return "report_pages/kmh/kmh-density-meter-report-page";
+    }
+    @GetMapping(value = "/oilQualityPassportReport/{reportId}")
+    public String getoilQualityPassportReport(ModelMap modelMap,
+                                           @PathVariable Long reportId){
+        var reportDataList = manualReportDataService.getReportDataList(reportId);
+        var report = manualReportService.findReportById(reportId);
+        modelMap.put("date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt()));
+
+        reportDataList.forEach(rd -> {
+            Object value = ArrayParser.fromJsonToObject(rd.getData());
+            modelMap.put(
+                    rd.getTag().getPermanentName(), value);
+        });
+        return "report_pages/acts/oil-quality-passport";
     }
 
 

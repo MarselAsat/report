@@ -67,6 +67,13 @@
                    th:name="kmh"
                    th:text="${reportType.name}"></a>
             </div>
+
+            <a th:each="reportType: ${other}"
+               th:text="${reportType.name}" class="list-group-item list-group-item-action pointer"
+               th:id="'reportType-'+${reportType.id}"
+               onclick="reportTypeIsChanged(this)">
+            </a>
+
         </div>
     </div>
 

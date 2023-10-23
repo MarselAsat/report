@@ -48,35 +48,11 @@ public class StartPageViewController {
         } else if (reportTypeId != null && !group.equals("scheduled")) {
             var reports = manualReportService.findReportByDateAndType(date, reportTypeId);
             modelMap.put("reports", reports);}
-//        } else if (reportTypeId != null && reportTypeId.equals("ACCEPTANCE_ACT")) {
-//            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypesEnum.ACCEPTANCE_ACT.name());
-//            modelMap.put("reports", reports);
-//        } else if (reportTypeId != null && reportTypeId.equals("MI3272")) {
-//            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypesEnum.MI3272.name());
-//            modelMap.put("reports", reports);
-//        } else if (reportTypeId != null && reportTypeId.equals("KMH_VISCOMETER")) {
-//            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypesEnum.KMH_VISCOMETER.name());
-//            modelMap.put("reports", reports);
-//        } else if (reportTypeId != null && reportTypeId.equals("KMH_MOISTUREMETER")) {
-//            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypesEnum.KMH_MOISTURE_METER.name());
-//            modelMap.put("reports", reports);
-//        } else if (reportTypeId != null && reportTypeId.equals("kmhMassmByMassm")) {
-//            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypesEnum.KMH_MASSM_BY_MASSM.name());
-//            modelMap.put("reports", reports);
-//        } else if (reportTypeId != null && reportTypeId.equals("kmhMassmByPu")) {
-//            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypesEnum.KMH_MASSM_BY_PU.name());
-//            modelMap.put("reports", reports);
-//        } else if (reportTypeId != null && reportTypeId.equals("kmhDensityMeter")) {
-//            var reports = manualReportService.findReportByDateAndType(date, ManualReportTypesEnum.KMH_DENSITY_METER.name());
-//            modelMap.put("reports", reports);
-//        }
-        // TODO: 10.10.2023 Нужно создать отдельную таблицу с ручными типами отчетов,
-        //  тогда необходимость в этих if-else отпадет.
+
         else if (reportTypeId != null) {
             List<Report> reports = reportService.getReportsByDateAndReportId(reportTypeId, date);
             modelMap.put("reports", reports);
         }
-
 
         setCommonParams(modelMap);
         return "start-page";
@@ -97,6 +73,7 @@ public class StartPageViewController {
         List<ReportType> acts = new ArrayList<>();
         List<ReportType> kmh = new ArrayList<>();
         List<ReportType> poverki = new ArrayList<>();
+        List<ReportType> other = new ArrayList<>();
         for (ReportType reportType : allActiveReportTypes) {
             if(reportType.getId().toLowerCase().contains("kmh")){
                 kmh.add(reportType);
@@ -107,10 +84,14 @@ public class StartPageViewController {
             else if(reportType.getId().toLowerCase().contains("mi")){
                 poverki.add(reportType);
             }
+            else{
+                other.add(reportType);
+            }
         }
         model.put("acts", acts);
         model.put("kmh", kmh);
         model.put("poverki", poverki);
+        model.put("other", other);
         model.put("reportTypes", reportTypeService.getAllActiveReportTypes());
     }
 }

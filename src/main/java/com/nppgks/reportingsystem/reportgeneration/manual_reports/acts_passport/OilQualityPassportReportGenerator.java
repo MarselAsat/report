@@ -87,7 +87,7 @@ public class OilQualityPassportReportGenerator extends ManualReportGenerator {
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
-        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.kmhMoistureMeter.name());
+        ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.oilQualityPassport.name());
         return new Report(
                 null,
                 "Паспорт качества нефти от " + SingleDateTimeFormatter.formatToSinglePattern(currentDt),
