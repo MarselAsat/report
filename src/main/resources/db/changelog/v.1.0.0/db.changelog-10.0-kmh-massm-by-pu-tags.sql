@@ -27,8 +27,6 @@ VALUES ('pointsCount', 'kmhMassmByPu.' || 'pointsCount',
         'ИЛ № (в заголовке)',
         TRUE, 'kmhMassmByPu'),
 
-       ('massmeterModel', 'kmhMassmByPu.massmeterModel', 'модель массомера, предъявленного для контроля', TRUE,
-        'kmhMassmByPu'),
        ('place_name', 'kmhMassmByPu.place_name', 'место проведения контроля МХ - наименование объекта (ПСП)', TRUE,
         'kmhMassmByPu'),
        ('place_owner', 'kmhMassmByPu.place_owner',

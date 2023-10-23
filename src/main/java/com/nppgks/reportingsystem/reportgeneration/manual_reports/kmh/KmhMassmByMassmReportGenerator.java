@@ -13,6 +13,7 @@ import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStra
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportTypeService;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;
+import com.nppgks.reportingsystem.util.DataRounder;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -54,8 +55,19 @@ public class KmhMassmByMassmReportGenerator extends ManualReportGenerator {
             ));
         }
 
-        String delta_MStr = tagValuesFromOpc.get(permanentNameToAddressMap.get("delta_M"));
-        double[] delta_M = ArrayParser.toArray(delta_MStr);
+        String M_ilStr = tagValuesFromOpc.get(permanentNameToAddressMap.get("M_il"));
+        double[] M_il = ArrayParser.toArray(M_ilStr);
+
+        String M_ilkStr = tagValuesFromOpc.get(permanentNameToAddressMap.get("M_ilk"));
+        double[] M_ilk = ArrayParser.toArray(M_ilkStr);
+
+        double[] delta_M = new double[M_il.length];
+
+        for (int i = 0; i < M_il.length; i++) {
+            delta_M[i] = (M_il[i] - M_ilk[i])/M_ilk[i]*100;
+        }
+
+        DataRounder.roundDoubleArray(delta_M);
 
         double delta_max = Arrays.stream(delta_M).map(Math::abs)
                 .max().orElseThrow();
@@ -64,8 +76,16 @@ public class KmhMassmByMassmReportGenerator extends ManualReportGenerator {
 
         if(delta_max >= 0.25) conclusion = "не годен";
 
+        Tag delta_MTag = manualTagService.getTagByNameAndReportType("delta_M", ManualReportTypesEnum.kmhMassmByMassm.name());
         Tag delta_maxTag = manualTagService.getTagByNameAndReportType("delta_max", ManualReportTypesEnum.kmhMassmByMassm.name());
         Tag conclusionTag = manualTagService.getTagByNameAndReportType("conclusion", ManualReportTypesEnum.kmhMassmByMassm.name());
+
+        reportDataList.add(new ReportData(
+                null,
+                ArrayParser.fromObjectToJson(delta_M),
+                delta_MTag,
+                report
+        ));
 
         reportDataList.add(new ReportData(
                 null,

@@ -65,12 +65,16 @@
                     font-size: 0.5rem;
                     padding-top: 0 !important;
                 }
-                .h6{
-                    font-size: 0.9rem;
+
+                .align-bottom{
+                    vertical-align: bottom;
+                }
+                .signature{
+                    height: 2rem;
                 }
             </style>
         </head>
-        <div class="container report-body">
+        <div class="container-fluid report-body">
             <div class="row">
                 <div class="col-sm-12">
                     <h6 style="text-align: center; padding-bottom: 0.5%;">ПРОТОКОЛ №<span
@@ -214,10 +218,10 @@
                     <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px; width: 70%">
                         <tbody>
                         <tr>
-                            <td class="pb-0" style="text-align: left">Инженер-метролог</td>
-                            <td style="width: 100px"></td>
+                            <td class="pb-0 align-bottom" style="text-align: left">Инженер-метролог</td>
+                            <td style="width: 100px" class="signature"></td>
                             <td>/</td>
-                            <td class="col-4 pb-0" th:text="${metrologistName}"></td>
+                            <td class="col-4 pb-0 align-bottom" th:text="${metrologistName}"></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -226,10 +230,10 @@
                             <td class="footer-label pt-0">(Фамилия И. О.)</td>
                         </tr>
                         <tr>
-                            <td class="pb-0" style="text-align: left">Инженер-химик</td>
-                            <td style="width: 100px"></td>
+                            <td class="pb-0 align-bottom" style="text-align: left">Инженер-химик</td>
+                            <td style="width: 100px" class="signature"></td>
                             <td>/</td>
-                            <td class="col-4 pb-0" th:text="${chemistName}"></td>
+                            <td class="col-4 pb-0 align-bottom" th:text="${chemistName}"></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -243,10 +247,10 @@
                     <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 70%">
                         <tbody>
                         <tr>
-                            <td th:text="${receiverPosition}" class="col-4 pb-0 pl-2" style="text-align: left"></td>
-                            <td style="width: 100px"></td>
+                            <td th:text="${receiverPosition}" class="col-4 pb-0 pl-2 align-bottom" style="text-align: left"></td>
+                            <td style="width: 100px" class="signature"></td>
                             <td>/</td>
-                            <td class="col-4 pb-0" th:text="${receiverName}"></td>
+                            <td class="col-4 pb-0 align-bottom" th:text="${receiverName}"></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -260,10 +264,10 @@
                     <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px; width: 70%">
                         <tbody>
                         <tr>
-                            <td th:text="${servicePosition}" class="col-4 pb-0" style="text-align: left"></td>
-                            <td style="width: 100px"></td>
+                            <td th:text="${servicePosition}" class="col-4 pb-0 align-bottom" style="text-align: left"></td>
+                            <td style="width: 100px" class="signature"></td>
                             <td>/</td>
-                            <td class="col-4 pb-0" th:text="${serviceName}"></td>
+                            <td class="col-4 pb-0 align-bottom" th:text="${serviceName}"></td>
                         </tr>
                         <tr>
                             <td></td>

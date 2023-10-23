@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.manual_reports.acts;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.acts_passport;
 
 import com.nppgks.reportingsystem.constants.ManualReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
