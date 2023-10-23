@@ -1,6 +1,6 @@
-package com.nppgks.reportingsystem.reportgeneration.acts;
+package com.nppgks.reportingsystem.unit.reportgeneration.acts;
 
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.acts.AcceptanceActGenerator;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.acts_passport.AcceptanceActGenerator;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
