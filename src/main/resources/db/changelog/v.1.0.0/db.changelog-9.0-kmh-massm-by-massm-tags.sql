@@ -65,9 +65,6 @@ VALUES ('protocolNumber', 'kmhMassmByMassm.' || 'protocolNumber',
        ('M_ilk', 'kmhMassmByMassm.' || 'M_ilk',
         '',
         TRUE, 'kmhMassmByMassm'),
-       ('delta_M', 'kmhMassmByMassm.' || 'delta_M',
-        '',
-        TRUE, 'kmhMassmByMassm'),
 
        -- Нижняя часть
        ('deliver_org', 'kmhMassmByMassm.' || 'deliver_org',
@@ -91,7 +88,10 @@ VALUES ('protocolNumber', 'kmhMassmByMassm.' || 'protocolNumber',
 
 -- выходные данные
 INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
-VALUES ('delta_max', 'kmhMassmByMassm.' || 'delta_max',
+VALUES ('delta_M', 'kmhMassmByMassm.' || 'delta_M',
+        '',
+        FALSE, 'kmhMassmByMassm'),
+       ('delta_max', 'kmhMassmByMassm.' || 'delta_max',
         '',
         FALSE, 'kmhMassmByMassm'),
        ('conclusion', 'kmhMassmByMassm.' || 'conclusion',
