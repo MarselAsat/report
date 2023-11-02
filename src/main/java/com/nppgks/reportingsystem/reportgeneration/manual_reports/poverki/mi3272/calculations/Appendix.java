@@ -2,11 +2,13 @@ package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi327
 
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas.MI2632;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 
 //@Component
+@Slf4j
 public class Appendix {
     private static final Map<Integer, Double> tableG_1 = new HashMap<>();
     private static final Map<Double, Double> tableG_2 = Map.of(0.5, 0.81,
@@ -24,6 +26,7 @@ public class Appendix {
     private static double[][] gamma_fluid_ij;
 
     static {
+        tableG_1.put(4, 2.776);
         tableG_1.put(5, 2.571);
         tableG_1.put(6, 2.447);
         tableG_1.put(7, 2.365);
@@ -58,6 +61,7 @@ public class Appendix {
             }
         }
         betta_fluid_max = max;
+        log.info("beta_ж_max={}", betta_fluid_max);
         return betta_fluid_max;
     }
 

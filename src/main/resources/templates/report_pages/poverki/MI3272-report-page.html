@@ -469,12 +469,12 @@
                             <tr th:each="qi,i : ${qj}">
                                 <td th:text="|${j.index+1}/${i.index+1} сер|"></td>
                                 <td th:text="${Q_ij != null} ? ${Q_ij[j.index][i.index]} : '-'"></td>
-                                <td th:text="${N_mas_ij_avg != null} ? ${N_mas_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${N_mas_ij != null} ? ${N_mas_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${t_KP_ij_avg != null} ? ${t_KP_ij_avg[j.index][i.index]} : '-'"></td>
                                 <td th:text="${P_KP_ij_avg != null} ? ${P_KP_ij_avg[j.index][i.index]} : '-'"></td>
-                                <td th:text="${ro_PP_ij_avg != null} ? ${ro_PP_ij_avg[j.index][i.index]} : '-'"></td>
-                                <td th:text="${t_PP_ij_avg != null} ? ${t_PP_ij_avg[j.index][i.index]} : '-'"></td>
-                                <td th:text="${P_PP_ij_avg != null} ? ${P_PP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${ro_PP_ij != null} ? ${ro_PP_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${t_PP_ij != null} ? ${t_PP_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${P_PP_ij != null} ? ${P_PP_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${W_w != null} ? ${W_w[j.index][i.index]} : '-'"></td>
                                 <td th:text="${W_chs != null} ? ${W_chs[j.index][i.index]} : '-'"></td></tr>
                         </div>
