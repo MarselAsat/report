@@ -15,7 +15,7 @@ public class CrcGenerator {
     public static long getCertificationAlgorithmsCrc(String appVersion) {
         long crc = -1;
         try {
-            String path = new java.io.File(".").getCanonicalPath() + "\\reporting_system-"+appVersion+".jar";
+            String path = new java.io.File(".").getCanonicalPath() + "/reporting_system-"+appVersion+".jar";
             ZipFile file = new ZipFile(path);
             Enumeration<? extends ZipEntry> entries = file.entries();
             while (entries.hasMoreElements()) {
