@@ -7,12 +7,21 @@
   <title>Отчетная система</title>
   <script type="text/javascript" th:src="@{/js/start-page-filters.js}"></script>
   <script type="text/javascript" th:src="@{/js/start-page.js}"></script>
+  <script type="text/javascript" th:src="@{/js/print-content.js}"></script>
+  <link th:href="@{/css/loader.css}" rel="stylesheet"/>
   <style>
     .sidenav{
       height: 100%;
     }
     .main-container {
       margin-top: 4rem!important;
+    }
+    table{
+      width: 100%;
+    }
+    .loader{
+      margin-left: 50%;
+      margin-right: 50%
     }
   </style>
 </head>
@@ -21,18 +30,20 @@
   <nav th:replace="fragments/nav"></nav>
   <div class="main-container container">
     <div class="row content" style="height: 1500px">
-      <div th:insert="fragments/filters" class="col-sm-3 sidenav">
-      </div>
+      <div th:insert="fragments/filters" class="col-sm-3 sidenav"></div>
       <div class="col-sm-9">
         <div class="card my-4">
           <div class="card-header">
             <div class="row align-items-center">
               <div class="col">
-                <button type="button" onclick="printReport()" class="btn btn-primary">Печать</button>
+                <button type="button" onclick="printContent()" class="btn btn-primary">Печать</button>
               </div>
             </div>
           </div>
-          <div class="card-body" id="includedContent"></div>
+          <div class="card-body" id="report-content">
+            <div class="loader" id="loaderDisplayReport" style="display:none"></div>
+            <p style="color: #6c757d; text-align: center" id="infoDisplayReport">Выберите отчет для отображения</p>
+          </div>
         </div>
       </div>
     </div>

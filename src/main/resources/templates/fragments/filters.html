@@ -5,8 +5,13 @@
 <head>
     <script type="text/javascript" th:src="@{/js/start-page-filters.js}"></script>
     <style>
-        .pointer{
+        .pointer {
             cursor: pointer;
+        }
+
+        .report-sub-type {
+            padding-left: 2rem !Important;
+            color: gray;
         }
     </style>
 </head>
@@ -18,10 +23,57 @@
         <h4 class="card-header">Типы отчетов</h4>
         <div class="list-group">
             <a th:each="reportType: ${reportTypes}"
-               th:text="${reportType.name}" class="list-group-item pointer" th:id="'reportType-'+${reportType.id}"
+               th:text="${reportType.name}" class="list-group-item list-group-item-action pointer"
+               th:id="'reportType-'+${reportType.id}"
+               th:name="scheduled"
                onclick="reportTypeIsChanged(this)">
             </a>
-            <a onclick="reportTypeIsChanged(this)" class="list-group-item pointer" id="reportType-poverki">Поверки</a>
+
+            <a th:if="${not #lists.isEmpty(poverki)}" class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse"
+               href="#collapse-poverki" role="button" aria-expanded="false" aria-controls="collapsePoverki">
+                Поверки
+            </a>
+            <div class="collapse" id="collapse-poverki">
+                <a th:each="reportType: ${poverki}"
+                   onclick="reportTypeIsChanged(this)"
+                   class="list-group-item list-group-item-action pointer report-sub-type"
+                   th:id="'reportType-'+${reportType.id}"
+                   th:name="poverki"
+                   th:text="${reportType.name}"></a>
+            </div>
+
+            <a th:if="${not #lists.isEmpty(acts)}" class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse"
+               href="#collapse-acts" role="button" aria-expanded="false" aria-controls="collapseActs">
+                Акты
+            </a>
+            <div class="collapse" id="collapse-acts">
+                <a th:each="reportType: ${acts}"
+                   onclick="reportTypeIsChanged(this)"
+                   class="list-group-item list-group-item-action pointer report-sub-type"
+                   th:id="'reportType-'+${reportType.id}"
+                   th:name="acts"
+                   th:text="${reportType.name}"></a>
+            </div>
+
+            <a th:if="${not #lists.isEmpty(kmh)}" class="list-group-item list-group-item-action pointer dropdown-toggle" data-bs-toggle="collapse"
+               href="#collapse-kmh" role="button" aria-expanded="false" aria-controls="collapseKmh">
+                КМХ
+            </a>
+            <div class="collapse" id="collapse-kmh">
+                <a th:each="reportType: ${kmh}"
+                   onclick="reportTypeIsChanged(this)"
+                   class="list-group-item list-group-item-action pointer report-sub-type"
+                   th:id="'reportType-'+${reportType.id}"
+                   th:name="kmh"
+                   th:text="${reportType.name}"></a>
+            </div>
+
+            <a th:each="reportType: ${other}"
+               th:text="${reportType.name}" class="list-group-item list-group-item-action pointer"
+               th:id="'reportType-'+${reportType.id}"
+               onclick="reportTypeIsChanged(this)">
+            </a>
+
         </div>
     </div>
 
@@ -31,13 +83,19 @@
         <input type="date" id="datePicker" onchange="dateIsChanged(this)"/>
     </div>
 
-    <!-- Report Names -->
+    <!-- Reports -->
     <div class="card my-4">
         <h5 class="card-header">Отчеты</h5>
-        <div class="list-group" id="reportNames">
-            <a th:each="reportName: ${reportNames}"
-               th:text="${reportName.name}" th:onclick="|getTagData(this,'${reportName.id}')|"
-               class="list-group-item pointer"></a>
+        <div class="list-group" th:if="${reports} == null">
+            <a class="list-group-item disabled">Нет отчетов для отображения.<br>Выберите тип отчета и/или дату</a>
+        </div>
+        <div class="list-group" th:if="${reports} != null and ${#lists.size(reports)} == 0">
+            <a class="list-group-item disabled">Нет отчетов, удовлетворяющих фильтрам</a>
+        </div>
+        <div class="list-group" id="reports">
+            <a th:each="report: ${reports}"
+               th:text="${report.name}" th:onclick="|getReportData(this,'${report.id}')|"
+               class="list-group-item list-group-item-action pointer"></a>
         </div>
     </div>
 </div>

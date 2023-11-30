@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="fragments/header"></head>
+<head>
+    <script type="text/javascript" th:src="@{/js/acceptance-oil-act.js}"></script>
+
+    <!--  sweetAlert library-->
+    <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
+    <link th:href="@{/external_libraries/sweetalert/sweetalert2.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="card">
+    <div th:if="${printSaveButtonsRequired}">
+        <div class="card-header" th:replace="fragments/print-save-buttons::print-save-buttons(saveUrl=${saveUrl})"></div>
+    </div>
+    <div class="card-body" id="report-content">
+        <!-- Здесь head внутри div, чтобы при печати отчета сохранялось форматирование bootstrap-->
+        <head th:replace="fragments/header"></head>
+        <head>
+            <style>
+                .footer-table {
+                    padding-right: 1rem;
+                    white-space: break-spaces;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                }
+
+                .footer-label {
+                    border-top: 1px solid #000;
+                    text-align: center;
+                    font-size: 0.5rem !important;
+                    padding-top: 0 !important;
+                }
+
+                .first-col {
+                    padding-left: 0;
+                }
+
+
+                .report-body p {
+                    margin-bottom: 0;
+                }
+
+
+                .report-body, .report-body table, .report-body td {
+                    font-size: 0.8rem;
+                }
+
+                .report-body td {
+                    width: auto;
+                    padding: 0.1rem;
+                    vertical-align: middle;
+                    text-align: center;
+                    overflow: hidden;
+                }
+
+                .report-body table {
+                    padding: 0.15rem 0.15rem !Important;
+                }
+
+                .report-body h6 {
+                    margin-bottom: 0;
+                }
+                .align-bottom{
+                    vertical-align: bottom;
+                }
+                .signature{
+                    height: 2rem;
+                }
+            </style>
+        </head>
+        <body>
+        <div class="container-fluid report-body">
+            <div class="row">
+                <h6 style="text-align: center;">ПАСПОРТ КАЧЕСТВА НЕФТИ <br> №<span
+                        th:text="${passportNumber}"></span>
+                    от <span th:text="${date}"></span>
+                </h6>
+                <div class="col-sm-12 mt-2">
+                    <div class="container-fluid mb-2">
+                        <div class="row">
+                            <div class="col-6 first-col">
+                                Пункт приема-сдачи нефти:
+                            </div>
+                            <div class="col">
+                                <u th:text="${oilAcceptancePoint}"></u>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 first-col"> Лаборатория предприятия:</div>
+                            <div class="col"><u th:text="${labOrg}"></u></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 first-col">Номер аттестата аккредитации:</div>
+                            <div class="col"><u th:text="${accreditationNumber}"></u></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 first-col">СИКН:</div>
+                            <div class="col"><u th:text="${SIKN}"></u></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 first-col">Резервуар (мера вместимости):</div>
+                            <div class="col"><u th:text="${capacityMeasure}"></u></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 first-col">Дата и время отбора пробы:</div>
+                            <div class="col"><u th:text="${dateTimeSampling}"></u></div>
+                        </div>
+                    </div>
+                    <table id="tag-name-table" class="table table-sm table-bordered table-striped">
+                        <thead class="table-light"
+                               style="
+                                font-weight: bold;
+                                text-align: center;
+                                vertical-align: middle;">
+                        <tr>
+                            <td>№</td>
+                            <td colspan="2">Наименование показателя</td>
+                            <td>Метод испытаний</td>
+                            <td>Результат испытаний</td>
+                        </tr>
+                        </thead>
+                        <tbody id="tag-name-tbody">
+                        <tr>
+                            <td>1</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Температура нефти при условиях измерений объёма, ˚С</p>
+                            </td>
+                            <td th:text="${tempMethod}"></td>
+                            <td th:text="${tempResult}"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Давление нефти при условиях измерений объёма, МПа</p>
+                            </td>
+                            <td th:text="${pressureMethod}"></td>
+                            <td th:text="${pressureResult}"></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Плотность нефти при температуре и давлении в условиях</p>
+                                <p>измерений объема, кг/м3</p>
+                            </td>
+                            <td th:text="${initialDensityMethod}"></td>
+                            <td th:text="${initialDensityResult}"></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Плотность нефти при 20 ˚С, кг/м3</p>
+                            </td>
+                            <td th:text="${density20Method}"></td>
+                            <td th:text="${density20Result}"></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Плотность нефти при 15 ˚С, кг/м3</p>
+                            </td>
+                            <td th:text="${density15Method}"></td>
+                            <td th:text="${density15Result}"></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Массовая доля воды, %</p>
+                            </td>
+                            <td th:text="${waterFractionMethod}"></td>
+                            <td th:text="${waterFractionResult}"></td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Массовая концентрация хлористых солей, мг/дм3</p>
+                            </td>
+                            <td th:text="${chlorideSaltFractionMethod}"></td>
+                            <td th:text="${chlorideSaltFractionResult}"></td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Массовая доля механических примесей, %</p>
+                            </td>
+                            <td th:text="${admixtureFractionMethod}"></td>
+                            <td th:text="${admixtureFractionResult}"></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Массовая доля серы, %</p>
+                            </td>
+                            <td th:text="${sulfurFractionMethod}"></td>
+                            <td th:text="${sulfurFractionResult}"></td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Давление насыщенных паров, кПа</p>
+                            </td>
+                            <td th:text="${steamPressureMethod}"></td>
+                            <td th:text="${steamPressureResult}"></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">11</td>
+                            <td rowspan="2" style="text-align: left;">
+                                <p>Выход фракций, %:</p>
+                            </td>
+                            <td style="text-align: left;">
+                                <p>при температуре до 200 ˚С</p>
+                            </td>
+                            <td th:text="${fractionOutMethod}" rowspan="2"></td>
+                            <td th:text="${fractionOut200Result}"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">
+                                <p>при температуре до 300 ˚С</p>
+                            </td>
+                            <td th:text="${fractionOut300Result}"></td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Массовая доля парафина, %</p>
+                            </td>
+                            <td th:text="${paraffinFractionMethod}"></td>
+                            <td th:text="${paraffinFractionResult}"></td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Массовая доля сероводорода, млн-1(ppm)</p>
+                            </td>
+                            <td th:text="${hydroSulfideFractionMethod}"></td>
+                            <td th:text="${hydroSulfideFractionResult}"></td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Массовая доля метил-и этилмеркаптанов в сумме, млн-1(ppm)</p>
+                            </td>
+                            <td th:text="${methFractionMethod}"></td>
+                            <td th:text="${methFractionResult}"></td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td colspan="2" style="text-align: left;">
+                                <p>Массовая доля органических хлоридов во фракции,</p>
+                                <p>выкипающей до температуры 204˚С , млн-1(ppm)</p>
+                            </td>
+                            <td th:text="${organicFractionMethod}"></td>
+                            <td th:text="${organicFractionResult}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p>Пункт 3 заполняют по показаниям поточного плотномера (средневзвешенное значение плотности нефти за смену).</p>
+                    <p>Пункт 4 и 5 заполняют по показаниям поточного плотномера (средневзвешенное значение плотности нефти за смену), приведённым к стандартным условиям.</p>
+                    <p>При отказе поточного плотномера плотность нефти определяют в испытательной лаборатории.</p>
+
+                    <p>Обозначение нефти по ГОСТ Р 51858: <u th:text="${GOST}"></u></p>
+                    <table class="mt-2 table table-borderless footer-table" style="width: 90%">
+                        <tbody>
+                        <tr>
+                            <td class="pb-0" style="text-align: left">Представитель испытательной лаборатории:</td>
+                            <td style="width: 20px"></td>
+                            <td class="signature"></td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0 align-bottom" th:text="${labName}" style="text-align: center"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(И.О. Фамилия)</td>
+                        </tr>
+                        <tr class="mt-2">
+                            <td class="pb-0" style="text-align: left">Представитель сдающей стороны:</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0 align-bottom" th:text="${deliverPosition}" style="text-align: center"></td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0 align-bottom" th:text="${deliverOrg}" style="text-align: center"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0">(должность)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(предприятие)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="signature"></td>
+                            <td></td>
+                            <td class="pb-0 align-bottom" th:text="${deliverName}" style="text-align: center"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(И.О. Фамилия)</td>
+                        </tr>
+                        <tr class="mt-2">
+                            <td class="pb-0" style="text-align: left">Представитель принимающей стороны:</td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0 align-bottom" th:text="${receiverPosition}" style="text-align: center"></td>
+                            <td style="width: 20px"></td>
+                            <td class="pb-0 align-bottom" th:text="${receiverOrg}" style="text-align: center"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0">(должность)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(предприятие)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="signature"></td>
+                            <td></td>
+                            <td class="pb-0 align-bottom" th:text="${receiverName}" style="text-align: center"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="footer-label pt-0 ">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(И.О. Фамилия)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </body>
+    </div>
+</div>
+</body>
+</html>

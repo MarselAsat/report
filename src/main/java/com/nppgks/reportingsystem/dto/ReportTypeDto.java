@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.dto;
 
-import com.nppgks.reportingsystem.db.operative_reports.entity.ReportType;
+import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportType;
 import lombok.Data;
 
 @Data

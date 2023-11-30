@@ -4,11 +4,6 @@
 
 <head>
     <style>
-        #userDropdown li:hover ul{
-            left:auto;
-            right:0;
-            margin-right:-10px;
-        }
         .dropdown-submenu {
             position: relative;
         }
@@ -18,15 +13,41 @@
             left: 100%;
             margin-top: -1px;
         }
+        .pointer {
+            cursor: pointer;
+        }
     </style>
     <script>
-        $(document).ready(function(){
-            $('.dropdown-submenu a.test').on("click", function(e){
+        $(document).ready(function () {
+            $('.dropdown-submenu a.submenu-main').on("click", function (e) {
+                let dropdowns = document.getElementsByClassName("submenu-main");
+                for(var element of dropdowns){
+                    if(element!=this){
+                        $(element).next('ul').toggle(false)
+                    }
+                }
                 $(this).next('ul').toggle();
                 e.stopPropagation();
                 e.preventDefault();
             });
         });
+
+        function getAppInfo(){
+            fetch("/info", {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    }
+                }
+            )
+                .then(response => {
+                    return response.json()
+                })
+                .then(json => {
+                    $("#app-version").text(json.version);
+                    $("#app-crc").text(json.crc);
+                })
+        }
     </script>
 
 </head>
@@ -38,10 +59,6 @@
         </a>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!--          <li class="nav-item">-->
-                <!--            <a class="nav-link active" aria-current="page" href="#">Home</a>-->
-                <!--          </li>-->
-
                 <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle" id="editTagsDropdown" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
@@ -49,27 +66,52 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="editTagsDropdown">
                         <li class="dropdown-submenu dropend">
-                            <a tabindex="-1" class="test dropdown-item dropdown-toggle">Оперативные отчеты</a>
+                            <a tabindex="-1" class="submenu-main dropdown-item dropdown-toggle pointer">Отчеты по расписанию</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" tabindex="-1" th:href="@{/admin/operative-tables-editor/tag-names}">Теги</a></li>
-                                <li><a class="dropdown-item" tabindex="-1" th:href="@{/admin/operative-tables-editor/report-types}">Типы отчетов</a></li>
-                                <li><a class="dropdown-item" tabindex="-1" th:href="@{/admin/operative-tables-editor/report-rows}">Строки в отчете</a></li>
-                                <li><a class="dropdown-item" tabindex="-1" th:href="@{/admin/operative-tables-editor/metering-nodes}">Узлы учета</a></li>
+                                <li><a class="dropdown-item" tabindex="-1"
+                                       th:href="@{/admin/scheduled-tables-editor/tags}">Теги</a></li>
+                                <li><a class="dropdown-item" tabindex="-1"
+                                       th:href="@{/admin/scheduled-tables-editor/report-types}">Типы отчетов</a></li>
+                                <li><a class="dropdown-item" tabindex="-1"
+                                       th:href="@{/admin/scheduled-tables-editor/report-rows}">Строки в отчете</a></li>
+                                <li><a class="dropdown-item" tabindex="-1"
+                                       th:href="@{/admin/scheduled-tables-editor/metering-nodes}">Узлы учета</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a th:href="@{/admin/calc-tag-name-editor}" class="dropdown-item">Теги для поверок</a>
+                        <li class="dropdown-submenu dropend">
+                            <a tabindex="-1" class="submenu-main dropdown-item dropdown-toggle pointer">Кмх, поверки, акты</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" tabindex="-1"
+                                       th:href="@{/admin/manual-tags-editor}">Теги</a></li>
+                                <li><a class="dropdown-item" tabindex="-1"
+                                       th:href="@{/admin/manual-report-types-editor}">Типы отчетов</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/admin/opcServer}" class="nav-link">OPC сервер</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/admin/settings}" class="nav-link">Настройки</a>
                 </li>
-                <!--          <li class="nav-item" sec:authorize="hasRole('ADMIN')">-->
-                <!--            <a th:href="@{/admin/tagName/new}" class="nav-link">Create new tag</a>-->
-                <!--          </li>-->
             </ul>
-            <ul class="navbar-nav navbar-right dropdown-menu-end" id="userDropdown">
+            <ul class="navbar-nav navbar-right dropdown-menu-end">
+                <li class="nav-item dropdown">
+                    <a onclick="getAppInfo()" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/images/info-circle.png" alt="" width="35" height="35">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" style="padding: 0; border: 0">
+                        <div class="card" style="width: 15rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">ReportViz</h5>
+                                <p class="card-text">Версия:
+                                    <span id="app-version"></span>
+                                    <br>CRC: <span id="app-crc"></span></p>
+                            </div>
+                        </div>
+                    </ul>
+                </li>
                 <li class="nav-item"><a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link"> Войти</a>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="isAuthenticated()">

@@ -2,6 +2,8 @@ package com.nppgks.reportingsystem.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.nppgks.reportingsystem.constants.Regexes;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,7 +13,16 @@ public class ArrayParser {
 
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static double[] toArray(String json){
+    static {
+        SimpleModule module = new SimpleModule("DoubleSerializer");
+        module.addSerializer(Double.class, new DoubleSerializer());
+        module.addSerializer(double.class, new DoubleSerializer());
+        module.addSerializer(double[].class, new DoubleArraySerializer());
+        module.addSerializer(double[][].class, new Double2DimArraySerializer());
+        objectMapper.registerModule(module);
+    }
+
+    public static double[] toArray(String json) {
         if (json == null) return null;
         try {
             return objectMapper.readValue(json, double[].class);
@@ -20,7 +31,7 @@ public class ArrayParser {
         }
     }
 
-    public static double[][] to2DArray(String json){
+    public static double[][] to2DArray(String json) {
         if (json == null) return null;
         try {
             return objectMapper.readValue(json, double[][].class);
@@ -29,24 +40,24 @@ public class ArrayParser {
         }
     }
 
-    public static double[][] fromArrayTo2DArray(double[] array, int rowsCount, int columnsCount){
+    public static double[][] fromArrayTo2DArray(double[] array, int rowsCount, int columnsCount) {
         double[][] resultArr = new double[rowsCount][columnsCount];
-        try{
-            for(int i = 0; i < rowsCount; i++){
-                resultArr[i] = Arrays.copyOfRange(array, columnsCount*i, columnsCount*(i+1));
+        try {
+            for (int i = 0; i < rowsCount; i++) {
+                resultArr[i] = Arrays.copyOfRange(array, columnsCount * i, columnsCount * (i + 1));
             }
             return resultArr;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static Object fromJsonToObject(String json){
+    public static Object fromJsonToObject(String json) {
         if (json == null || json.isBlank()) return null;
         try {
-            if(!json.matches("\\[\\[.+]") && !json.matches("\\[.+]")){
-                return objectMapper.readValue("\""+json+"\"", Object.class);
+            // если это не массив, а просто строка
+            if (!json.matches(Regexes.ARRAY_2DIM_REGEX) && !json.matches(Regexes.ARRAY_REGEX)) {
+                return json;
             }
             return objectMapper.readValue(json, Object.class);
         } catch (JsonProcessingException e) {
@@ -54,14 +65,13 @@ public class ArrayParser {
         }
     }
 
-    public static String fromObjectToJson(Object object){
+    public static String fromObjectToJson(Object object) {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        final ObjectMapper mapper = new ObjectMapper();
         try {
-            mapper.writeValue(out, object);
+            objectMapper.writeValue(out, object);
             String result = out.toString();
-            if(result.matches("\".*\"")){
-                 return result.replaceAll("\"", "");
+            if (result.matches("\".*\"")) {
+                return result.replaceAll("\"", "");
             }
             return result;
         } catch (IOException e) {

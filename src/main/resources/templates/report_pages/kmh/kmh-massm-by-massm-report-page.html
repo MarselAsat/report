@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header"></head>
+<head>
+    <script type="text/javascript" th:src="@{/js/save-report-in-db.js}"></script>
+
+    <!--  sweetAlert library-->
+    <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
+    <link th:href="@{/external_libraries/sweetalert/sweetalert2.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="card">
+    <div th:if="${printSaveButtonsRequired}">
+        <div class="card-header" th:replace="fragments/print-save-buttons::print-save-buttons(saveUrl=${saveUrl})"></div>
+    </div>
+    <div class="card-body overflow-auto" id="report-content">
+        <head th:replace="fragments/header"></head>
+        <head>
+            <style>
+                @media print {
+                    thead {
+                        display: table-row-group;
+                    }
+                }
+
+                .report-body p {
+                    font-size: 0.8rem;
+                }
+
+                .report-body td {
+                    width: auto;
+                    padding: 0.1rem;
+                    text-align: center;
+                    overflow: hidden;
+                }
+
+                .report-body tr {
+                    white-space: nowrap;
+                    height: 2px;
+                }
+
+                .report-body table {
+                    font-size: 0.8rem;
+                }
+
+                .report-body caption {
+                    font-size: small;
+                    padding-bottom: 5px;
+                    caption-side: top;
+                    text-align: left;
+                }
+
+                .footer-table {
+                    padding-right: 1rem;
+                    white-space: break-spaces;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                }
+
+                .footer-label {
+                    border-top: 1px solid #000;
+                    text-align: center;
+                    font-size: 0.5rem;
+                    padding-top: 0 !important;
+                }
+            </style>
+        </head>
+        <div class="container-fluid report-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5 style="text-align: center; padding-bottom: 3%;">ПРОТОКОЛ №<span th:text="${protocolNumber}"></span></h5>
+                    <h5 style="text-align: center; padding-bottom: 3%;">контроля метрологических характеристик рабочего
+                        МПР(ИЛ№<span th:text="${ilNumber}"></span>) по контрольному</h5>
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <td style="text-align: left; border-right: 0">
+                                СИКН №<span th:text="${siknNumber}"></span>
+                            </td>
+                            <td style="text-align: right; border-left: 0">
+                                <span th:text="${place_name}"></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Таблица 1-->
+                    <table class="table table-bordered">
+                        <caption>1. Исходные данные</caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td rowspan="2">№ пп</td>
+                            <td rowspan="2">Данные</td>
+                            <td style="text-align: center" colspan="2">Рабочий МПР</td>
+                            <td style="text-align: center" colspan="2">Контрольный МПР</td>
+                        </tr>
+                        <tr>
+                            <td>Сенсор</td>
+                            <td>ПЭП</td>
+                            <td>Сенсор</td>
+                            <td>ПЭП</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td style="text-align: left">Тип, марка</td>
+                            <td th:text="${work_mpr_sensor_type} ?: '-'"></td>
+                            <td th:text="${work_mpr_pep_type} ?: '-'"></td>
+                            <td th:text="${contr_mpr_sensor_type} ?: '-'"></td>
+                            <td th:text="${contr_mpr_pep_type} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td style="text-align: left">Заводской №</td>
+                            <td th:text="${work_mpr_sensor_number} ?: '-'"></td>
+                            <td th:text="${work_mpr_pep_number} ?: '-'"></td>
+                            <td th:text="${contr_mpr_sensor_number} ?: '-'"></td>
+                            <td th:text="${contr_mpr_pep_number} ?: '-'"></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td style="text-align: left">Дата последней поверки</td>
+                            <td th:text="${work_mpr_date} ?: '-'" colspan="2"></td>
+                            <td th:text="${contr_mpr_date} ?: '-'" colspan="2"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered" style="width: fit-content">
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td>Заданная масса, т</td>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td th:text="${mass} ?: '-'"></td>
+                        </tr>
+                    </table>
+
+                    <!-- Таблица 2-->
+                    <table class="table table-bordered">
+                        <caption>2. Результаты измерений и контроля</caption>
+                        <thead class="table-light" style="font-weight: bold">
+                        <tr>
+                            <td>№ изм</td>
+                            <td>Q , т/ч</td>
+                            <td>M<sup>ИЛ</sup> , т</td>
+                            <td>M<sup>ИЛК</sup> , т</td>
+                            <td>δ <sub>M</sub> , %</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="q,i : ${Q}">
+                            <td th:text="${i.index+1}"></td>
+                            <td th:text="${Q != null} ? ${Q[i.index]} : '-'"></td>
+                            <td th:text="${M_il != null} ? ${M_il[i.index]}  : '-'"></td>
+                            <td th:text="${M_ilk != null} ? ${M_ilk[i.index]}  : '-'"></td>
+                            <td th:text="${delta_M != null} ? ${delta_M[i.index]}  : '-'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <p>Заключение: δ<sub>max</sub> = <span th:text="${delta_max}"></span> %, МПР <span th:text="${conclusion}" style="font-weight:bold"></span> для дальнейшей эксплуатации в качестве рабочего</p>
+                    <p class="mt-4">Дата проведения КМХ: <span th:text="${kmh_date}"></span></p>
+
+                    <p class="mt-2">Представитель сдающей стороны</p>
+                    <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 90%">
+                        <tbody>
+                        <tr>
+                            <td class="col-4 pb-0" th:text="${deliver_org}"></td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${deliver_name}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                    </table>
+
+                    <p class="mt-2">Представитель принимающей стороны</p>
+                    <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 90%">
+                        <tbody>
+                        <tr>
+                            <td class="col-4 pb-0" th:text="${receiver_org}"></td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${receiver_name}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                    </table>
+
+                    <p class="mt-2">Представитель сервисной организации</p>
+                    <table class="mt-2 table table-borderless footer-table" style="padding-left: 20px;width: 90%">
+                        <tbody>
+                        <tr>
+                            <td class="col-4 pb-0" th:text="${service_org}"></td>
+                            <td style="width: 100px"></td>
+                            <td>/</td>
+                            <td class="col-4 pb-0" th:text="${service_name}"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="footer-label pt-0">(подпись)</td>
+                            <td></td>
+                            <td class="footer-label pt-0">(Фамилия И. О.)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
