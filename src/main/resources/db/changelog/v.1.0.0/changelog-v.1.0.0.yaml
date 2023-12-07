@@ -31,3 +31,5 @@ databaseChangeLog:
       - file: db/changelog/v.1.0.0/db.changelog-11.0-kmh-density-meter-tags.sql
   - include:
       - file: db/changelog/v.1.0.0/db.changelog-12.0-oil-quality-passport-tags.sql
+  - include:
+      - file: db/changelog/v.1.0.0/db.changelog-13.0-mi3313-one-esrm-data.sql
