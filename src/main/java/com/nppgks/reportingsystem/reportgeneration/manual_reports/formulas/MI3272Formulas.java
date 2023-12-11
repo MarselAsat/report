@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas;
 
 import com.nppgks.reportingsystem.exception.MissingOpcTagException;
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.CommonFunctions;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.CommonFunctions;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.Appendix;
 
 import java.util.Arrays;
@@ -28,7 +28,7 @@ public class MI3272Formulas {
 
     // формула 6
     public static double[][] calculateK_TPR_ij(double[][] N_TPR_ij_avg, double[][] V_KP_pr_ij) {
-        return CommonFunctions.getDivisionOfTwoArrays(N_TPR_ij_avg, V_KP_pr_ij);
+        return CommonFunctions.divide2DimArrayBy2DimArray(N_TPR_ij_avg, V_KP_pr_ij);
     }
 
     // формула 7
@@ -225,7 +225,7 @@ public class MI3272Formulas {
 
     // формула 20
     public static double[][] calculateKF_ij(double[][] N_mas_ij, double[][] M_re_ij) {
-        return CommonFunctions.getDivisionOfTwoArrays(N_mas_ij, M_re_ij);
+        return CommonFunctions.divide2DimArrayBy2DimArray(N_mas_ij, M_re_ij);
     }
 
     // формула 21

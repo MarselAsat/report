@@ -1,6 +1,7 @@
-package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class CommonFunctions {
 
@@ -13,20 +14,38 @@ public class CommonFunctions {
     }
 
     public static double[] getAverageForEachColumn(double[][] array){
-        int columnsCount = array[0].length;
-        int rowsCount = array.length;
-        double[] averageForEachColumn = new double[columnsCount];
-        for (int j = 0; j < columnsCount; j++) {
-            double sum = 0;
-            for (double[] doubles : array) {
-                sum = sum + doubles[j];
-            }
-            averageForEachColumn[j] = sum / rowsCount;
-        }
-        return averageForEachColumn;
+        final int rowsCount = array.length;
+        final int columnsCount = array[0].length;
+        return Arrays.stream(array).reduce((sumArr, arr) ->
+                        IntStream.range(0, columnsCount)
+                                .mapToDouble(i -> sumArr[i] + arr[i])
+                                .toArray())
+                .stream()
+                .flatMapToDouble(Arrays::stream)
+                .map(sum -> sum / rowsCount)
+                .toArray();
     }
 
-    public static double[][] getDivisionOfTwoArrays(double[][] dividendArr, double[][] divisorArr){
+    public static double[] getAverageForEachRow(double[][] array){
+        return Arrays.stream(array)
+                .mapToDouble(arr -> Arrays.stream(arr)
+                        .average().orElseThrow())
+                .toArray();
+    }
+
+    public static double[][] divide2DimArrayByNumber(double[][] array, double number){
+        int n = array.length;
+        int m = array[0].length;
+        double[][] result = new double[n][m];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j<m; j++){
+                result[i][j] = array[i][j]/number;
+            }
+        }
+        return result;
+    }
+
+    public static double[][] divide2DimArrayBy2DimArray(double[][] dividendArr, double[][] divisorArr){
         int columnsCount = dividendArr[0].length;
         int rowsCount = dividendArr.length;
         double[][] result = new double[rowsCount][columnsCount];
@@ -36,6 +55,10 @@ public class CommonFunctions {
             }
         }
         return result;
+    }
+
+    public static double[] multiplyArrayByArray(double[] array1, double[] array2){
+        return IntStream.range(0, array1.length).mapToDouble(i -> array1[i]*array2[i]).toArray();
     }
 
     public static double[][] linearInterpolation(double[][] x, double[] xKnown, double[] yKnown){

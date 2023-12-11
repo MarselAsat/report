@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations;
 
 import com.nppgks.reportingsystem.constants.MI3622Constants;
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.CommonFunctions;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.CommonFunctions;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -111,7 +111,7 @@ public class MI3622Calculation {
         log.info("Рассчет массы измеряемой среды, измеренная преобразователем массового расхода (M_e, т) согласно п.7.2 по формуле (3) МИ3622-2020");
 
         double[][] K_e = calculateK_e_ij();
-        double[][] M_e = CommonFunctions.getDivisionOfTwoArrays(N_e_i_j, K_e);
+        double[][] M_e = CommonFunctions.divide2DimArrayBy2DimArray(N_e_i_j, K_e);
 
         log.debug("Кол-во импульсов, поступившее с ПР (N_e, имп) {}", Arrays.deepToString(N_e_i_j));
         log.debug("Коэффициент преобразования ПР, вычисленный по градуировочной характеристике (K_e, имп/т) {}", Arrays.deepToString(K_e));
@@ -237,7 +237,7 @@ public class MI3622Calculation {
     public double[][] calculateF_ij() {
         log.info("Рассчет частоты выходного сигнала поверяемого СРМ (f, Гц) согласно п.7.9 по формуле (12) МИ3622-2020");
 
-        double[][] f_ij = CommonFunctions.getDivisionOfTwoArrays(N_p_i_j, T_i_j);
+        double[][] f_ij = CommonFunctions.divide2DimArrayBy2DimArray(N_p_i_j, T_i_j);
 
         log.debug("кол-во импульсов, поступившее с поверяемого СРМ (N_r, имп) {}", Arrays.deepToString(N_p_i_j));
         log.debug("время измерения (T, с) {}", Arrays.deepToString(T_i_j));
