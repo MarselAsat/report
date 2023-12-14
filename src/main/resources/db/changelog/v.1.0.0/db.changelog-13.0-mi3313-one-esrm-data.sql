@@ -15,6 +15,7 @@ VALUES ('K_PME', 'mi3313OneEsrm.K_PME', 'коэффициент преобраз
         TRUE, 'mi3313OneEsrm'),
        ('T_ji', 'mi3313OneEsrm.T_ji',
         'время i-го измерения в j-ой точке рабочего диапазона измерений массового расхода, с', TRUE, 'mi3313OneEsrm'),
+       ('N_ji', 'mi3313OneEsrm.N_ji', 'кол-во импульсов от поверяемого СРМ за время i-того измерения в j-той точке рабочего диапазона измерений массового расхода, имп', TRUE, 'mi3313OneEsrm'),
        ('K_PM', 'mi3313OneEsrm.K_PM', 'коэффициент преобразования поверяемого СРМ, имп/т', TRUE, 'mi3313OneEsrm'),
        ('MForK_set', 'mi3313OneEsrm.MForK_set',
         'Либо коэффициент коррекции, установленный в поверяемом СРМ на момент проведения поверки СРМ, либо градуировочный коэффициент, установленный в поверяемом СРМ на момент проведения поверки СРМ ',
@@ -53,7 +54,8 @@ VALUES ('K_PME', 'mi3313OneEsrm.K_PME', 'коэффициент преобраз
         'mi3313OneEsrm'),
        ('P_min', 'mi3313OneEsrm.P_min',
         'нижний предел рабочего диапазона давлений рабочей жидкости при эксплуатации поверяемого СРМ, МПа', TRUE,
-        'mi3313OneEsrm');
+        'mi3313OneEsrm'),
+       ('workingOrControl', 'mi3313OneEsrm.workingOrControl', 'Этот параметр определяет, СРМ используется в качестве рабочего или контрольного. Может быть 2 значения: "рабочий" или "контрольный"', TRUE, 'mi3313OneEsrm');
 
 
 -- InitialTextData
@@ -71,7 +73,7 @@ VALUES ('protocolNumber', 'mi3313OneEsrm.protocolNumber', 'Номер прото
        ('esrm_converter_number', 'mi3313OneEsrm.esrm_converter_number', 'Заводской номер преобразователя ЭСРМ', TRUE, 'mi3313OneEsrm'),
        ('ivk_type', 'mi3313OneEsrm.ivk_type', 'Тип ИВК', TRUE, 'mi3313OneEsrm'),
        ('ivk_number', 'mi3313OneEsrm.ivk_number', 'Заводской номер ИВК', TRUE, 'mi3313OneEsrm'),
-       ('operating_fluid', 'mi3313OneEsrm.operating_fluid', 'Рабочая жидкость', TRUE, 'mi3313OneEsrm');
+       ('working_fluid', 'mi3313OneEsrm.operating_fluid', 'Рабочая жидкость', TRUE, 'mi3313OneEsrm');
 -- FinalData
 INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('M_eji', 'mi3313OneEsrm.M_eji',

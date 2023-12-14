@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.controller;
+package com.nppgks.reportingsystem.controller.poverki;
 
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;

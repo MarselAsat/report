@@ -48,7 +48,7 @@ public class MI3313FormulasTest {
 
         List<double[][]> actual = MI3313Formulas.calculateM_ejik(N_ejik, K_PMEk);
 
-        for(int k=0; k< N_ejik.size(); k++){
+        for (int k = 0; k < N_ejik.size(); k++) {
             Double2DimArrayAssert.assertThat(actual.get(k)).isCloseTo(expected.get(k), 0.001);
         }
     }
@@ -66,7 +66,7 @@ public class MI3313FormulasTest {
         );
 
         List<double[][]> actual = MI3313Formulas.calculateQ_jik(M_ejik, T_ji);
-        for(int k=0; k< M_ejik.size(); k++){
+        for (int k = 0; k < M_ejik.size(); k++) {
             Double2DimArrayAssert.assertThat(actual.get(k)).isCloseTo(expected.get(k), 0.001);
         }
     }
@@ -240,4 +240,16 @@ public class MI3313FormulasTest {
 
         assertThat(actual).isCloseTo(expected, Offset.offset(0.001));
     }
+
+    @Test
+    public void testCalculateT_095j() {
+        // кол-во измерений
+        int n = 5;
+        // кол-во точек
+        int m = 3;
+        double[] actual = MI3313Formulas.calculateT_095j(n, m);
+        double[] expected = new double[]{2.776, 2.776, 2.776};
+        DoubleArrayAssert.assertThat(actual).isCloseTo(expected, 0.001);
+    }
+
 }

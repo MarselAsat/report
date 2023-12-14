@@ -26,6 +26,9 @@ public class Appendix {
     private static double[][] gamma_fluid_ij;
 
     static {
+        tableG_1.put(1, 12.706);
+        tableG_1.put(2, 4.303);
+        tableG_1.put(3, 3.182);
         tableG_1.put(4, 2.776);
         tableG_1.put(5, 2.571);
         tableG_1.put(6, 2.447);

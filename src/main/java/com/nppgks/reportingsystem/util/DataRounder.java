@@ -3,6 +3,9 @@ package com.nppgks.reportingsystem.util;
 import org.decimal4j.util.DoubleRounder;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.Arrays;
 
 public class DataRounder {
 
@@ -64,5 +67,46 @@ public class DataRounder {
             }
         }
         return array2D;
+    }
+
+    public static double roundDouble(double number, int precision){
+        return DoubleRounder.round(number, precision);
+    }
+    public static double[] roundArray(double[] numbers, int precision){
+        return Arrays.stream(numbers)
+                .map(num -> DoubleRounder.round(num, precision))
+                .toArray();
+    }
+
+    public static double[][] round2DimArray(double[][] numbers, int precision){
+        return Arrays.stream(numbers)
+                .map(arr -> Arrays.stream(arr)
+                        .map(num -> DoubleRounder.round(num, precision))
+                        .toArray())
+                .toArray(double[][]::new);
+    }
+
+    public static double roundToSignificantDigits(double number, int signDigNum){
+        int roundNumber = (int) Math.round(number);
+        int numberLen = (String.valueOf(roundNumber)).length();
+        if(signDigNum < numberLen){
+            return roundNumber;
+        }
+        BigDecimal bd = new BigDecimal(number);
+        bd = bd.round(new MathContext(signDigNum));
+        return bd.doubleValue();
+    }
+    public static double[] roundArrayToSignDig(double[] numbers, int signDigNum){
+        return Arrays.stream(numbers)
+                .map(num -> roundToSignificantDigits(num, signDigNum))
+                .toArray();
+    }
+
+    public static double[][] round2DimArrayToSignDig(double[][] numbers, int signDigNum){
+        return Arrays.stream(numbers)
+                .map(arr -> Arrays.stream(arr)
+                        .map(num -> roundToSignificantDigits(num, signDigNum))
+                        .toArray())
+                .toArray(double[][]::new);
     }
 }

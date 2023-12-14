@@ -1,10 +1,12 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas;
 
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.CommonFunctions;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.Appendix;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class MI3313Formulas {
 
@@ -208,6 +210,10 @@ public class MI3313Formulas {
                         Math.pow(theta_Z, 2)+
                         Math.pow(theta_Mt, 2)+
                         Math.pow(theta_MP, 2))/3);
+    }
+
+    public static double[] calculateT_095j(int measureCount, int pointsCount) {
+        return IntStream.range(0, pointsCount).mapToDouble(el -> Appendix.get_t_P_n(measureCount)).toArray();
     }
 
 }
