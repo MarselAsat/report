@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 
 public class DataRounder {
 
-    private final static int MIN_PRECISION = 4;
+    private final static int MIN_PRECISION = 6;
     private final static int MAX_PRECISION = 8;
 
     // округляет double, double[] и double[][] поля объекта
