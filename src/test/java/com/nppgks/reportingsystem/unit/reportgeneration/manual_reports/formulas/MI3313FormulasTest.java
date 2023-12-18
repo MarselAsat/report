@@ -170,8 +170,9 @@ public class MI3313FormulasTest {
     @Test
     public void testCalculateS_0j_PositiveCase() {
         double[] S_j = {1, 2, 3, 4, 5};
-        double[] expected = {0.4472, 0.8945, 1.3417, 1.7889, 2.2361};
-        double[] actual = MI3313Formulas.calculateS_0j(S_j);
+        int measureCount = 4;
+        double[] expected = {0.5, 1, 1.5, 2, 2.5};
+        double[] actual = MI3313Formulas.calculateS_0j(S_j, measureCount);
         DoubleArrayAssert.assertThat(actual).isCloseTo(expected, 0.001);
     }
 

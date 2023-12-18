@@ -1,22 +1,38 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313;
 
+import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import com.nppgks.reportingsystem.util.DataRounder;
 
 import static com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas.MI3313Formulas.*;
 
 public class MI3313Calculator {
-    private MI3313OneEsrmInitialData initialData;
+    private final MI3313OneEsrmInitialData initialData;
 
     public MI3313Calculator(MI3313OneEsrmInitialData initialData) {
         this.initialData = initialData;
     }
 
-    public void validate() {
-
-
+    private void validate() {
+        if(initialData.getN_ji() == null || initialData.getT_ji() == null || initialData.getN_eji() == null || initialData.getWorkingOrControl() == null){
+            throw new NotValidTagValueException("Значения тегов N_eji, T_ji, N_ji и workingOrControl не могут быть null");
+        }
+        int measureCount = initialData.getN_eji()[0].length;
+        int pointsCount = initialData.getN_eji().length;
+        boolean incorrectArrLen = measureCount != initialData.getT_ji()[0].length || measureCount != initialData.getN_ji()[0].length
+                || pointsCount != initialData.getT_ji().length || pointsCount != initialData.getN_ji().length;
+        if(incorrectArrLen){
+            throw new NotValidTagValueException("Неверная длина массивов входных данных: N_eji, T_ji или N_ji");
+        }
+        if((!initialData.getWorkingOrControl().equalsIgnoreCase("рабочий")) && (!initialData.getWorkingOrControl().equalsIgnoreCase("контрольный"))){
+            throw new NotValidTagValueException("Значение тега workingOrControl: \"%s\", но может быть только \"рабочий\" или \"контрольный\"".formatted(initialData.getWorkingOrControl()));
+        }
+        if(initialData.getK_PME() == 0 || initialData.getMForK_set() == 0){
+            throw new NotValidTagValueException("Значения тегов K_PME и MForK_set не могут быть равны 0");
+        }
     }
 
     public MI3313OneEsrmFinalData calculate() {
+        validate();
         double[][] M_eji = calculateM_eji_oneEsrm(initialData.getN_eji(), initialData.getK_PME());
         double[][] Q_ji = calculateQ_ji(M_eji, initialData.getT_ji());
         double[] Q_j = calculateQ_j(Q_ji);
@@ -40,19 +56,19 @@ public class MI3313Calculator {
         }
 
         double theta_Mt = 0;
-        if (initialData.getDelta_tdop() != null) {
+        if (initialData.getDelta_tdop() != null && initialData.getT_min() != null && initialData.getT_max() != null) {
             double delta_t = calculateDelta_tOrP(initialData.getT_max(), initialData.getT_P(), initialData.getT_min());
             theta_Mt = calculateTheta_Mt(initialData.getDelta_tdop(), Q_t, delta_t, Q_min);
         }
 
         double theta_MP = 0;
-        if (initialData.getDelta_Pdop() != null) {
+        if (initialData.getDelta_Pdop() != null && initialData.getP_min() != null && initialData.getP_max() != null) {
             double delta_P = calculateDelta_tOrP(initialData.getP_max(), initialData.getP_P(), initialData.getP_min());
             theta_MP = calculateTheta_MP(initialData.getDelta_Pdop(), delta_P);
         }
         double theta_sigma = calculateTheta_sigma(initialData.getDelta_e(), initialData.getDelta_ivk(), theta_A, theta_Z, theta_Mt, theta_MP);
 
-        double[] S_0j = calculateS_0j(S_j);
+        double[] S_0j = calculateS_0j(S_j, M_ji[0].length);
         double[] t_095j = calculateT_095j(M_ji[0].length, S_0j.length);
         double[] epsilon_j = calculateEpsilon_j(t_095j, S_0j);
         double epsilon = calculateEpsilon(epsilon_j);

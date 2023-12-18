@@ -152,8 +152,8 @@ public class MI3313Formulas {
     }
 
     // формула (28)
-    public static double[] calculateS_0j(double[] S_j){
-        return Arrays.stream(S_j).map(s -> s/Math.sqrt(S_j.length)).toArray();
+    public static double[] calculateS_0j(double[] S_j, int measureCount){
+        return Arrays.stream(S_j).map(s -> s/Math.sqrt(measureCount)).toArray();
     }
 
     // формула (29)
