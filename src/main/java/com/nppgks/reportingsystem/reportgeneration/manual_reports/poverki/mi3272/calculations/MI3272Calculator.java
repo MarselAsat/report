@@ -22,9 +22,9 @@ public class MI3272Calculator {
     private final String calibrCharImpl;
 
     // Группа, к которой принадлежит рабочая жидковть.
-    // Значения могут быть: {нефть}, {бензины}, {реактивные топлива}, {нефтяные топлива}
+    // Значения могут быть: {нефть}, {нефтепродукт}, {смазочное масло}
     // С помощью этого параметра вычисляются beta_fluid_ij и gamma_fluid_ij
-    private final String operatingFluid;
+    private final String workingFluid;
 
     // значения расхода для определения коэффициентов преобразования ТПР (таблица 2 часть I)
     // если ТПР не используется, то этот параметр не используется
@@ -80,7 +80,7 @@ public class MI3272Calculator {
         this.t_KP_ij_avg = MI3272InitialData.getT_KP_ij_avg();
         this.P_KP_ij_avg = MI3272InitialData.getP_KP_ij_avg();
         this.t_st_ij = MI3272InitialData.getT_st_ij();
-        this.operatingFluid = MI3272InitialData.getOperatingFluid();
+        this.workingFluid = MI3272InitialData.getWorkingFluid();
         this.alpha_cyl_t = MI3272InitialData.getAlpha_cyl_t();
         this.alpha_cyl_t_sq = MI3272InitialData.getAlpha_cyl_t_sq();
         this.alpha_st_t = MI3272InitialData.getAlpha_st_t();
@@ -120,8 +120,10 @@ public class MI3272Calculator {
     public MI3272FinalData calculate() {
         log.info("----- МИ3272 -----");
         MI3272FinalData mi3272FinalData = new MI3272FinalData();
-        double[][] beta_fluid_ij = Appendix.calculateBeta_fluid(operatingFluid, ro_PP_ij, t_PP_ij);
-        double[][] gamma_fluid_ij = Appendix.calculateGamma_fluid(ro_PP_ij, t_PP_ij);
+        double[][] rho_15 = Appendix.calculateRho_15(workingFluid, ro_PP_ij, t_PP_ij, P_PP_ij);
+        double[][] beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_PP_ij);
+        double[][] gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_PP_ij);
+        log.info("rho_15={}", Arrays.deepToString(rho_15));
         log.info("beta_ж={}", Arrays.deepToString(beta_fluid_ij));
         log.info("gamma_ж={}",Arrays.deepToString(gamma_fluid_ij));
 
@@ -206,7 +208,7 @@ public class MI3272Calculator {
             double epsilon = MI3272Formulas.calculateEpsilon_PEP(t_P_n, S_MF_range);
 
             // вспомогательные
-            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, operatingFluid, ro_PP_ij, t_PP_ij);
+            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, workingFluid, ro_PP_ij, t_PP_ij);
             double theta_MF_range = MI3272Formulas.calculateTheta_MForKF_range(MF_j_avg, MF_range);
             log.info("theta_t={}", theta_t);
             log.info("theta_MF_диап={}", theta_MF_range);
@@ -251,7 +253,7 @@ public class MI3272Calculator {
             double epsilon = MI3272Formulas.calculateEpsilon_SOI_const(t_P_n, S_KF_range);
 
             // вспомогательные
-            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, operatingFluid, ro_PP_ij, t_PP_ij);
+            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, workingFluid, ro_PP_ij, t_PP_ij);
             log.info("theta_t={}", theta_t);
 
             // записываются в таблицу 4 - (при реализации ГХ в СОИ в виде постоянного значения К-фактора)
@@ -297,7 +299,7 @@ public class MI3272Calculator {
             double[] epsilon_k = MI3272Formulas.calculateEpsilon_k(t_P_n, S_KF_k);
 
             // вспомогательные
-            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, operatingFluid, ro_PP_ij, t_PP_ij);
+            double theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, workingFluid, ro_PP_ij, t_PP_ij);
             log.info("theta_t={}", theta_t);
 
             // записываются в таблицу 4 - (при реализации ГХ в СОИ в виде кусочно-линейной аппроксимации)
@@ -368,8 +370,9 @@ public class MI3272Calculator {
         } else {
             // TODO: 27.07.2023 здесь ro_PP_ij и t_PP_ij кажется нужны другие, т.к. их измерения должны быть длиной
             //  seriesCount, а не measureCount
-            double[][] beta_fluid_ij = Appendix.calculateBeta_fluid(operatingFluid, ro_PP_ij, t_PP_ij);
-            double[][] gamma_fluid_ij = Appendix.calculateGamma_fluid(ro_PP_ij, t_PP_ij);
+            double[][] rho_15 = Appendix.calculateRho_15(workingFluid, ro_PP_ij, t_PP_ij, P_PP_ij);
+            double[][] beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_PP_ij);
+            double[][] gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_PP_ij);
             V_KP_pr_ij = MI3272Formulas.calculateV_KP_pr_ij_Formula7(V_KP_0, alpha_cyl_t, t_KP_ij_avg,
                     D, E, s, P_KP_ij_avg, beta_fluid_ij, t_TPR_ij_avg, P_TPR_ij_avg, gamma_fluid_ij);
         }

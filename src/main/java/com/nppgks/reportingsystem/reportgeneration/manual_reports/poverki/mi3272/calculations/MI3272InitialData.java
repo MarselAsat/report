@@ -31,9 +31,9 @@ public class MI3272InitialData implements InitialData {
     private double[][] t_st_ij;
 
     // Группа, к которой принадлежит рабочая жидкость.
-    // Значения могут быть: "нефть", "бензины", "реактивные топлива", "нефтяные топлива"
+    // Значения могут быть: "нефть", "нефтепродукт", "смазочное масло"
     // С помощью этого параметра вычисляются beta_fluid_ij и gamma_fluid_ij
-    private String operatingFluid;
+    private String workingFluid;
     private Double alpha_cyl_t, alpha_st_t, alpha_cyl_t_sq;
     private double V_KP_0;
     private double[][] ro_PP_ij, t_PP_ij, P_PP_ij;

@@ -1,7 +1,6 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations;
 
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas.MI2632;
-import lombok.Getter;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas.P50_2_076;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -53,14 +52,14 @@ public class Appendix {
         return tableG_1.get(n - 1);
     }
 
-    public static double calculateBeta_fluid_max(String opFluid, double[][] ro_PP, double[][] t_PP) {
-        int m = ro_PP[0].length;
-        int n = ro_PP.length;
+    public static double calculateBeta_fluid_max(String fluidType, double[][] rho_15, double[][] t_PP) {
+        int m = rho_15[0].length;
+        int n = rho_15.length;
         double betta_fluid_max;
         double max = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                max = Math.max(max, MI2632.calculateBetta_fluid(opFluid, ro_PP[i][j], t_PP[i][j]));
+                max = Math.max(max, P50_2_076.calculateBeta_t(fluidType, rho_15[i][j], t_PP[i][j]));
             }
         }
         betta_fluid_max = max;
@@ -68,28 +67,40 @@ public class Appendix {
         return betta_fluid_max;
     }
 
-    public static double[][] calculateBeta_fluid(String opFluid, double[][] ro_PP, double[][] t_PP) {
-        int m = ro_PP[0].length;
-        int n = ro_PP.length;
+    public static double[][] calculateBeta_fluid(String fluidType, double[][] rho_15, double[][] t_PP) {
+        int m = rho_15[0].length;
+        int n = rho_15.length;
         beta_fluid_ij = new double[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                beta_fluid_ij[i][j] = MI2632.calculateBetta_fluid(opFluid, ro_PP[i][j], t_PP[i][j]);
+                beta_fluid_ij[i][j] = P50_2_076.calculateBeta_t(fluidType, rho_15[i][j], t_PP[i][j]);
             }
         }
         return beta_fluid_ij;
     }
 
-    public static double[][] calculateGamma_fluid(double[][] ro_PP, double[][] t_PP) {
-        int m = ro_PP[0].length;
-        int n = ro_PP.length;
+    public static double[][] calculateGamma_fluid(double[][] rho_15, double[][] t_PP) {
+        int m = rho_15[0].length;
+        int n = rho_15.length;
         gamma_fluid_ij = new double[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                gamma_fluid_ij[i][j] = MI2632.calculateGamma_fluid(ro_PP[i][j], t_PP[i][j]);
+                gamma_fluid_ij[i][j] = P50_2_076.calculateGamma_t(rho_15[i][j], t_PP[i][j]);
             }
         }
         return gamma_fluid_ij;
+    }
+
+    public static double[][] calculateRho_15(String fluidType, double[][] rho_PP, double[][] t_PP, double[][] P_PP) {
+        int m = rho_PP[0].length;
+        int n = rho_PP.length;
+        double[][] rho_15 = new double[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                rho_15[i][j] = P50_2_076.calculateRho_15(fluidType, rho_PP[i][j], t_PP[i][j], P_PP[i][j]);
+            }
+        }
+        return rho_15;
     }
 
     public static double getZ_P(double ratio) {

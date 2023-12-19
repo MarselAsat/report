@@ -11,14 +11,14 @@ import java.util.stream.Stream;
 class Gost51858Test {
 
     @ParameterizedTest
-    @MethodSource("provideArguments")
+    @MethodSource
     void defineOilSymbol(boolean export, double sulfur, double density20, double density15,
                          double out200, double out300, double water, double salt, double hydroSulfide, double meth, String expected) {
         String actual = Gost51858.defineOilSymbol(export, sulfur, density20, density15, out200, out300, water, salt, hydroSulfide, meth);
         Assertions.assertThat(actual).isEqualTo(expected);
     }
 
-    private static Stream<Arguments> provideArguments() {
+    private static Stream<Arguments> defineOilSymbol() {
         return Stream.of(
                 Arguments.of(true, 0.3, 830, 830, 30, 55, 0.4, 90, 15, 30, "1.0э.1.1"),
                 Arguments.of(false, 0.3, 830, 830, 30, 55, 0.4, 90, 15, 30, "1.0.1.1"),
