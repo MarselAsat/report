@@ -133,6 +133,9 @@ VALUES ('M_eji', 'mi3313OneEsrm.M_eji',
         'mi3313OneEsrm'),
        ('S_0', 'mi3313OneEsrm.S_0',
         'СКО среднего значения результатов измерений в рабочем диапазоне измерений массового расхода, %', FALSE,
+        'mi3313OneEsrm'),
+       ('conclusion', 'mi3313OneEsrm.conclusion',
+        'годен/не годен', FALSE,
         'mi3313OneEsrm');
 
 

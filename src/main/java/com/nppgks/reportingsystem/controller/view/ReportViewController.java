@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -233,6 +234,46 @@ public class ReportViewController {
                     rd.getTag().getPermanentName(), value);
         });
         return "report_pages/acts/oil-quality-passport";
+    }
+
+    @GetMapping(value = "/mi3313OneEsrmReport/{reportId}")
+    public String getMi3313Report(ModelMap modelMap,
+                                  @PathVariable Long reportId){
+        var report = manualReportService.findReportById(reportId);
+
+        LocalDate creationDate = report.getCreationDt().toLocalDate();
+
+        Map<Integer, String> monthsInRussian = new HashMap<>();
+        monthsInRussian.put(1, "января");
+        monthsInRussian.put(2, "февраля");
+        monthsInRussian.put(3, "марта");
+        monthsInRussian.put(4, "апреля");
+        monthsInRussian.put(5, "мая");
+        monthsInRussian.put(6, "июня");
+        monthsInRussian.put(7, "июля");
+        monthsInRussian.put(8, "августа");
+        monthsInRussian.put(9, "сентября");
+        monthsInRussian.put(10, "октября");
+        monthsInRussian.put(11, "ноября");
+        monthsInRussian.put(12, "декабря");
+
+        modelMap.put("dateDay", creationDate.getDayOfMonth());
+        modelMap.put("dateYear", creationDate.getYear());
+        modelMap.put("dateMonth", monthsInRussian.get(creationDate.getMonthValue()));
+
+        var reportDataList = manualReportDataService.getReportDataList(reportId);
+
+        reportDataList.forEach(rd -> {
+            Object value = ArrayParser.fromJsonToObject(rd.getData());
+            if(!modelMap.containsKey("n") && value instanceof ArrayList<?>){
+                int n = ((ArrayList<?>)(((ArrayList<?>) value).get(0))).size();
+                modelMap.put("n", n);
+            }
+            modelMap.put(
+                    rd.getTag().getPermanentName(), value);
+        });
+
+        return "report_pages/poverki/MI3313-one-esrm";
     }
 
 

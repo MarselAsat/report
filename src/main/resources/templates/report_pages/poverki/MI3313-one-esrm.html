@@ -127,7 +127,7 @@
                         <tbody>
                         <tr>
                             <td class="pb-0" style="text-align: left">Рабочая жидкость:</td>
-                            <td class="pt-0"><u th:text="${operating_fluid}"></u></td>
+                            <td class="pt-0"><u th:text="${working_fluid}"></u></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -216,7 +216,7 @@
                                 <td th:text="${N_ji != null} ? ${N_ji[j.index][i.index]} : '-'"></td>
                                 <td th:text="${M_eji != null} ? ${M_eji[j.index][i.index]} : '-'"></td>
                                 <td th:text="${M_ji != null} ? ${M_ji[j.index][i.index]} : '-'"></td>
-                                <td th:text="${MForKji != null} ? ${MForKji[j.index][i.index]} : '-'"></td>
+                                <td th:text="${MForK_ji != null} ? ${MForK_ji[j.index][i.index]} : '-'"></td>
                         </div>
                         </tbody>
                     </table>
@@ -242,11 +242,11 @@
                         <tr th:each="qj,j : ${Q_j}">
                             <td th:text="|${j.index+1}|"></td>
                             <td th:text="${Q_j != null} ? ${Q_j[j.index]} : '-'"></td>
-                            <td th:text="${MForKj != null} ? ${MForKj[j.index]} : '-'"></td>
-                            <td th:text="${n_j != null} ? ${n_j[j.index]} : '-'"></td>
+                            <td th:text="${MForK_j != null} ? ${MForK_j[j.index]} : '-'"></td>
+                            <td th:text="${n}"></td>
                             <td th:text="${S_j != null} ? ${S_j[j.index]} : '-'"></td>
                             <td th:text="${S_0j != null} ? ${S_0j[j.index]} : '-'"></td>
-                            <td th:text="${t_095 != null} ? ${t_095[j.index]} : '-'"></td>
+                            <td th:text="${t_095j != null} ? ${t_095j[j.index]} : '-'"></td>
                             <td th:text="${epsilon_j != null} ? ${epsilon_j[j.index]} : '-'"></td>
                         </tr>
                         </tbody>
