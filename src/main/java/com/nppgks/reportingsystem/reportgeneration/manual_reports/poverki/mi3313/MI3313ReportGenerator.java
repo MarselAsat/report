@@ -10,16 +10,14 @@ import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.DataConverter;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.ReportGeneratorHelper;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportTypeService;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
-import com.nppgks.reportingsystem.util.ArrayParser;
-import com.nppgks.reportingsystem.util.DataRounder;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,9 +51,6 @@ public class MI3313ReportGenerator extends ManualReportGenerator {
         MI3313Calculator mi3313Calculator = new MI3313Calculator(MI3313InitialData);
         MI3313OneEsrmFinalData mi3313FinalData = mi3313Calculator.calculate();
 
-        // TODO: 18.12.2023 round final data by MI3313 rules
-        DataRounder.roundPojo(mi3313FinalData);
-
         List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypesEnum.mi3313OneEsrm.name());
 
         Map<String, String> finalTagsMap = DataConverter.createPermanentNameToAddressMap(finalTags);
@@ -63,44 +58,8 @@ public class MI3313ReportGenerator extends ManualReportGenerator {
         Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(mi3313FinalData, finalTagsMap);
         finalDataForOpc.put(isFinishedTag.getAddress(), true);
         opcServiceRequests.sendTagValuesToOpc(finalDataForOpc);
-        return createListOfReportData(initialTags, finalTags, initialDataFromOpc, finalDataForOpc, report);
+        return ReportGeneratorHelper.createListOfReportData(initialTags, finalTags, initialDataFromOpc, finalDataForOpc, report);
 
-    }
-
-    private List<ReportData> createListOfReportData(
-            List<ManualTagForOpc> initialTags,
-            List<ManualTagForOpc> finalTags,
-            Map<String, String> initialDataFromOpc,
-            Map<String, Object> finalDataForOpc,
-            Report report) {
-
-        Map<String, ManualTagForOpc> addressToinitialTagMap = DataConverter.convertTagListToMapWithAddressKey(initialTags);
-        Map<String, ManualTagForOpc> addressTofinalTagMap = DataConverter.convertTagListToMapWithAddressKey(finalTags);
-
-        List<ReportData> reportDataList = new ArrayList<>();
-
-        for (Map.Entry<String, String> entry : initialDataFromOpc.entrySet()) {
-            String value = entry.getValue();
-            ReportData reportData = new ReportData(
-                    null,
-                    value,
-                    ManualTagForOpc.toTag(addressToinitialTagMap.get(entry.getKey())),
-                    report
-            );
-            reportDataList.add(reportData);
-        }
-
-        for (Map.Entry<String, Object> entry : finalDataForOpc.entrySet()) {
-            String value = ArrayParser.fromObjectToJson(entry.getValue());
-            ReportData reportData = new ReportData(
-                    null,
-                    value,
-                    ManualTagForOpc.toTag(addressTofinalTagMap.get(entry.getKey())),
-                    report
-            );
-            reportDataList.add(reportData);
-        }
-        return reportDataList;
     }
 
     @Override
