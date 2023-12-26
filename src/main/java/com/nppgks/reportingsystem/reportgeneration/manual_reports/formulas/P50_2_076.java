@@ -23,8 +23,8 @@ public class P50_2_076 {
         gamma_t = calculateGamma_t(rho_15_prev, t);
         double rho_15 = calculateRho15(beta_15, t, gamma_t, P, rho_tP);
         while(Math.abs(rho_15-rho_15_prev) > 0.01){
-            beta_15 = calculateBeta_15(fluidType, rho_15_prev);
-            gamma_t = calculateGamma_t(rho_15_prev, t);
+            beta_15 = calculateBeta_15(fluidType, rho_15);
+            gamma_t = calculateGamma_t(rho_15, t);
             rho_15_prev = rho_15;
             rho_15 = calculateRho15(beta_15, t, gamma_t, P, rho_tP);
         }

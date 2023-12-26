@@ -158,7 +158,7 @@ public class MI3272FormulasTest {
         double[][] gamma_fluid_ij = new double[][]{{1, 1, 1}, {1, 1, 1}};
         double[][] P_ij = new double[][]{{2.5, 2.5, 2.5}, {2.5, 2.5, 2.5}};
         double[][] P_PP_ij = new double[][]{{2.5, 2.5, 2.5}, {2.5, 2.5, 2.5}};
-        double[][] actual = MI3272Formulas.calculateRo_PP_pr_ij(ro_BIK_ij, t_PP_ij, t_ij,
+        double[][] actual = MI3272Formulas.calculateRho_PP_pr_ij(ro_BIK_ij, t_PP_ij, t_ij,
                 beta_fluid_ij, gamma_fluid_ij, P_ij, P_PP_ij);
         double[][] expected = new double[][]{{1600, 1600, 1600}, {1600, 1600, 1600}};
 
@@ -356,7 +356,7 @@ public class MI3272FormulasTest {
         String operatingFluid = "нефть";
         double[][] ro_PP_ij = new double[][]{{800, 800, 800}, {800, 800, 800}};
         double[][] t_PP_ij = new double[][]{{14, 14, 14}, {14, 14, 14}};
-        double actual = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, operatingFluid, ro_PP_ij, t_PP_ij);
+        double actual = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, new double[][]{{1, 2, 3}, {4, 5, 6}});
         double expected = 0.027;
         assertThat(actual).isCloseTo(expected, within(0.005));
     }

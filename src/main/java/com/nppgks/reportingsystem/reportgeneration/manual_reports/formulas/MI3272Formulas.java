@@ -116,48 +116,48 @@ public class MI3272Formulas {
     }
 
     // формулы 11а, 11б, 12а, 12б
-    public static double[][] calculateM_re_ij(double[][] V_ij, double[][] ro_PP_ij) {
+    public static double[][] calculateM_re_ij(double[][] V_ij, double[][] rho_PP_ij) {
         /*
         Если импользуется ТПР, то в качестве аргумента в этот метод передается V_ij = V_TPR_ij - объем рабочей жидкости,
         а если ТПР не используется, то в виде аргумента V_ij передается V_KP_pr_ij - вместимость калиброванного участка компакт-прувера
 
         Если применятеся поточный ПП, установленный в БИК (в составе СИКН) и ТПР по любому из вариантов пункта 4.2.3,
-        то в виде аргумента ro_PP_ij передается ro_PP_pr_ij - плотность рабочей жидкости, измеренная поточным ПП
+        то в виде аргумента rho_PP_ij передается rho_PP_pr_ij - плотность рабочей жидкости, измеренная поточным ПП
         и приведенная к рабочим условиям в ТПР.
         Если применяется поточный ПП и ТПР, входящие в состав компакт-прувера,
-        то в виде аргумента ro_PP_ij передается ro_PP_ij - плотность рабочей жидкости, измеренная поточным ПП, установленном на компакт-прувер
+        то в виде аргумента rho_PP_ij передается rho_PP_ij - плотность рабочей жидкости, измеренная поточным ПП, установленном на компакт-прувер
         */
         int measureCount = V_ij.length;
         int pointsCount = V_ij[0].length;
         double[][] M_re_ij = new double[measureCount][pointsCount];
         for (int i = 0; i < measureCount; i++) {
             for (int j = 0; j < pointsCount; j++) {
-                M_re_ij[i][j] = V_ij[i][j] * ro_PP_ij[i][j] * 0.001;
+                M_re_ij[i][j] = V_ij[i][j] * rho_PP_ij[i][j] * 0.001;
             }
         }
         return M_re_ij;
     }
 
     // формулы 13а, 13б
-    public static double[][] calculateRo_PP_pr_ij(double[][] ro_BIK_ij, double[][] t_PP_ij,
-                                            double[][] t_ij, double[][] beta_fluid_ij,
-                                            double[][] gamma_fluid_ij, double[][] P_ij,
-                                            double[][] P_PP_ij) {
+    public static double[][] calculateRho_PP_pr_ij(double[][] rho_BIK_ij, double[][] t_PP_ij,
+                                                   double[][] t_ij, double[][] beta_fluid_ij,
+                                                   double[][] gamma_fluid_ij, double[][] P_ij,
+                                                   double[][] P_PP_ij) {
         /*
         Здесь в качестве аргмуентов P_ij и t_ij могут быть переданы
         либо P_TPR_ij и t_TPR_ij (используется ТПР) либо P_KP_ij и t_KP_ij (не используется ТПР)
         */
-        int measureCount = ro_BIK_ij.length;
-        int pointsCount = ro_BIK_ij[0].length;
-        double[][] ro_PP_pr_ij = new double[measureCount][pointsCount];
+        int measureCount = rho_BIK_ij.length;
+        int pointsCount = rho_BIK_ij[0].length;
+        double[][] rho_PP_pr_ij = new double[measureCount][pointsCount];
         for (int i = 0; i < measureCount; i++) {
             for (int j = 0; j < pointsCount; j++) {
-                ro_PP_pr_ij[i][j] = ro_BIK_ij[i][j] *
+                rho_PP_pr_ij[i][j] = rho_BIK_ij[i][j] *
                         (1 + beta_fluid_ij[i][j] * (t_PP_ij[i][j] - t_ij[i][j])) *
                         (1 + gamma_fluid_ij[i][j] * (P_ij[i][j] - P_PP_ij[i][j]));
             }
         }
-        return ro_PP_pr_ij;
+        return rho_PP_pr_ij;
     }
 
     // формула 14
@@ -317,8 +317,8 @@ public class MI3272Formulas {
     }
 
     // формула 26
-    public static double calculateTheta_t(double delta_t_KP, double delta_t_PP, String opFluid, double[][] ro_PP, double[][] t_PP) {
-        double betta_fluid_max = Appendix.calculateBeta_fluid_max(opFluid, ro_PP, t_PP);
+    public static double calculateTheta_t(double delta_t_KP, double delta_t_PP, double[][] beta_fluid_ij) {
+        double betta_fluid_max = Appendix.calculateBeta_fluid_max(beta_fluid_ij);
         return betta_fluid_max * Math.sqrt(Math.pow(delta_t_KP, 2) + Math.pow(delta_t_PP, 2)) * 100;
     }
 

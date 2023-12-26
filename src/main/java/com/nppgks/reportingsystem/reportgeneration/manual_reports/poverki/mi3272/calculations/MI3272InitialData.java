@@ -36,10 +36,11 @@ public class MI3272InitialData implements InitialData {
     private String workingFluid;
     private Double alpha_cyl_t, alpha_st_t, alpha_cyl_t_sq;
     private double V_KP_0;
-    private double[][] ro_PP_ij, t_PP_ij, P_PP_ij;
+    private double[][] rho_TPR_ij; // используется для расчета beta и gamma в формуле (7)
+    private double[][] rho_PP_ij, t_PP_ij, P_PP_ij;
 
     // параметры для повтороного подсчета коэффициента преобразования ТПР
-    private double[][] N2_TPR_ij_avg, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg, P2_TPR_ij_avg, t2_st_ij;
+    private double[][] rho2_TPR_ij, N2_TPR_ij_avg, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg, P2_TPR_ij_avg, t2_st_ij;
 
     // значения расхода для поверки массомера
     private double[][] Q_ij;
@@ -47,7 +48,7 @@ public class MI3272InitialData implements InitialData {
     // параметры для расчета МХ массомера
     private double[][] N_mas_ij;
     private double[][] N_TPR_ij_zad, t_TPR_ij, P_TPR_ij;
-    private double[][] ro_BIK_ij;
+    private double[][] rho_BIK_ij;
     private double KF_conf;
     private double K_PEP_gr;
     private double MF_set_range;

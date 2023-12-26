@@ -342,7 +342,7 @@
                             <td colspan=6 style="text-align: center">Результаты измерений</td>
                         </tr>
                         <tr>
-                            <td><i>V<sup>КП</sup><sub>ij</sub> ,<br> м<sup>3</sup></i></td>
+                            <td><i>V<sup>КП</sup><sub>пр ij</sub> ,<br> м<sup>3</sup></i></td>
                             <td><i>K<sup>ТПР</sup><sub>ij</sub> ,<br> имп/м<sup>3</sup></i></td>
                             <td><i>Π<sub>j</sub> ,<br> %</i></td>
                             <td><i>K<sup>ТПР</sup><sub>j</sub> ,<br> имп/м<sup>3</sup></i></td>
@@ -402,7 +402,7 @@
                                 <td th:text="${t_TPR_ij != null} ? ${t_TPR_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${P_TPR_ij != null} ? ${P_TPR_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${N_mas_ij != null} ? ${N_mas_ij[j.index][i.index]} : '-'"></td>
-                                <td th:text="${ro_PP_ij != null} ? ${ro_PP_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${rho_PP_ij != null} ? ${rho_PP_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${t_PP_ij != null} ? ${t_PP_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${P_PP_ij != null} ? ${P_PP_ij[j.index][i.index]} : '-'"></td>
                             </tr>
@@ -433,7 +433,7 @@
                         <div th:each="qj,j : ${Q_ij}" th:with="len=${#lists.size(Q_ij[0])}">
                             <tr th:each="qi,i : ${qj}">
                                 <td th:text="|${j.index+1}/${i.index+1} отсч.|"></td>
-                                <td th:text="${ro_PP_pr_ij != null} ? ${ro_PP_pr_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${rho_PP_pr_ij != null} ? ${rho_PP_pr_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${M_re_ij != null} ? ${M_re_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${M_mas_ij != null} ? ${M_mas_ij[j.index][i.index]} : '-'"></td>
                                 <td th:if="${calibrCharImpl == 'ПЭП'}" th:text="${MF_ij != null} ? ${MF_ij[j.index][i.index]} : '-'"></td>
@@ -472,7 +472,7 @@
                                 <td th:text="${N_mas_ij != null} ? ${N_mas_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${t_KP_ij_avg != null} ? ${t_KP_ij_avg[j.index][i.index]} : '-'"></td>
                                 <td th:text="${P_KP_ij_avg != null} ? ${P_KP_ij_avg[j.index][i.index]} : '-'"></td>
-                                <td th:text="${ro_PP_ij != null} ? ${ro_PP_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${rho_PP_ij != null} ? ${rho_PP_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${t_PP_ij != null} ? ${t_PP_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${P_PP_ij != null} ? ${P_PP_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${W_w != null} ? ${W_w[j.index][i.index]} : '-'"></td>
@@ -503,7 +503,7 @@
                             <tr th:each="qi,i : ${qj}">
                                 <td th:text="|${j.index+1}/${i.index+1} сер|"></td>
                                 <td th:text="${V_KP_pr_ij != null} ? ${V_KP_pr_ij[j.index][i.index]} : '-'"></td>
-                                <td th:text="${ro_PP_pr_ij != null} ? ${ro_PP_pr_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${rho_PP_pr_ij != null} ? ${rho_PP_pr_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${M_re_ij != null} ? ${M_re_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${M_mas_ij != null} ? ${M_mas_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${MF_ij != null} ? ${MF_ij[j.index][i.index]} : '-'"></td>
