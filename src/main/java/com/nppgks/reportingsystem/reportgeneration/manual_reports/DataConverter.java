@@ -114,7 +114,7 @@ public class DataConverter {
      * В tagsMap содержатся соответствия адреса тега и имени полей в InitialData.
      * C использованием tagsMap и dataFromOpc заполняются поля InitialData.
      */
-    public static <I> I convertMapToInitialData(Map<String, String> dataFromOpc, Map<String, String> tagsMap, Class<I> type) {
+    public static <I> I convertMapToInitialData(Map<String, String> dataFromOpc, Map<String, String> tagsMap, Class<I> type, boolean transposeArr) {
         I initialData;
         try {
             initialData = type.getDeclaredConstructor().newInstance();
@@ -135,13 +135,21 @@ public class DataConverter {
                     if (value != null && !value.isBlank()) {
                         Class<?> fieldType = declaredField.getType();
 
-                        if (fieldType.equals(double[][].class)) {
+                        if(fieldType.equals(List.class)){
+                            declaredField.set(initialData, toListOfArrays(value));
+                        }
+                        else if (fieldType.equals(double[][].class)) {
                             // из OPC сервера значения идут в таком виде: каждая строка(!) это множество измерений в 1 точке
                             // а формулы для вычислений предполагают, что каждый столбец(!) это множество измерений в 1 точке
                             // поэтому, нужно транспонировать двумерный массив
                             double[][] array2Dim;
                             try {
-                                array2Dim = transpose2DimArray(to2DArray(value));
+                                if(transposeArr){
+                                    array2Dim = transpose2DimArray(to2DArray(value));
+                                }
+                                else{
+                                    array2Dim = to2DArray(value);
+                                }
                             } catch (Exception e) {
                                 String message = """
                                         Произошла ошибка во время обработки массива %s.
@@ -151,7 +159,6 @@ public class DataConverter {
                                         """.formatted(value);
                                 throw new NotValidTagValueException(message, e);
                             }
-
                             declaredField.set(initialData, array2Dim);
                         } else if (fieldType.equals(double[].class)) {
                             declaredField.set(initialData, toArray(value));
@@ -238,4 +245,5 @@ public class DataConverter {
         }
         return transposeMatrix;
     }
+
 }

@@ -1,11 +1,14 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313;
 
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.InitialData;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class MI3313OneEsrmInitialData implements MI3313InitialData{
-    private double K_PME;
-    private double[][] N_eji;
+public class MI3313ManyEsrmInitialData implements InitialData {
+    private double[] K_PMEk;
+    private List<double[][]> N_ejik;
     private double[][] T_ji;
     private double[][] N_ji;
     private double K_PM;

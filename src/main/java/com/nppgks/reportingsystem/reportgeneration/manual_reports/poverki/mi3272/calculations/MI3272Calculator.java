@@ -26,11 +26,6 @@ public class MI3272Calculator {
     // С помощью этого параметра вычисляются beta_fluid_ij и gamma_fluid_ij
     private final String workingFluid;
 
-    // значения расхода для определения коэффициентов преобразования ТПР (таблица 2 часть I)
-    // если ТПР не используется, то этот параметр не используется
-    private final double[][] Q_ij_TPR;
-
-
     // Параметры ТПР. Если ТПР не используется, то и эти параметры не используются
     private final double[][] N_TPR_ij_avg, t_TPR_ij_avg, P_TPR_ij_avg;
 
@@ -47,8 +42,9 @@ public class MI3272Calculator {
     // параметры для повтороного подсчета коэффициента преобразования ТПР
     private final double[][] rho2_TPR_ij, N2_TPR_ij_avg, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg, P2_TPR_ij_avg, t2_st_ij;
 
-    // значения расхода для поверки массомера
-    private final double[][] Q_ij;
+    private final double[][] T_ij;
+
+    private final double[][] T_ij_TPR;
 
     // параметры для расчета МХ массомера
     private final double[][] N_mas_ij;
@@ -74,7 +70,8 @@ public class MI3272Calculator {
         this.usedTPR = MI3272InitialData.isUsedTPR();
         this.TPRInKP = MI3272InitialData.isTPRInKP();
         this.calibrCharImpl = MI3272InitialData.getCalibrCharImpl();
-        this.Q_ij_TPR = MI3272InitialData.getQ_ij_TPR();
+        this.T_ij = MI3272InitialData.getT_ij();
+        this.T_ij_TPR = MI3272InitialData.getT_ij_TPR();
         this.N_TPR_ij_avg = MI3272InitialData.getN_TPR_ij_avg();
         this.t_TPR_ij_avg = MI3272InitialData.getT_TPR_ij_avg();
         this.P_TPR_ij_avg = MI3272InitialData.getP_TPR_ij_avg();
@@ -96,7 +93,6 @@ public class MI3272Calculator {
         this.t2_TPR_ij_avg = MI3272InitialData.getT2_TPR_ij_avg();
         this.P2_TPR_ij_avg = MI3272InitialData.getP2_TPR_ij_avg();
         this.t2_st_ij = MI3272InitialData.getT2_st_ij();
-        this.Q_ij = MI3272InitialData.getQ_ij();
         this.N_mas_ij = MI3272InitialData.getN_mas_ij();
         this.t_PP_ij = MI3272InitialData.getT_PP_ij();
         this.N_TPR_ij_zad = MI3272InitialData.getN_TPR_ij_zad();
@@ -119,6 +115,7 @@ public class MI3272Calculator {
         this.seriesCount = MI3272InitialData.getSeriesCount();
         this.pointsCount = MI3272InitialData.getPointsCount();
     }
+
 
     public MI3272FinalData calculate() {
         log.info("----- МИ3272 -----");
@@ -151,7 +148,7 @@ public class MI3272Calculator {
 
             double[][] V_TPR_ij = MI3272Formulas.calculateV_TPR_ij(N_TPR_ij_zad, K_TPR_j);
 
-            double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij, t_TPR_ij, P_PP_ij);
+            double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij, t_PP_ij, P_PP_ij);
             double[][] beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_TPR_ij);
             double[][] gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_TPR_ij);
             log.info("rho_15={}", Arrays.deepToString(rho_15));
@@ -185,8 +182,7 @@ public class MI3272Calculator {
             double[][] V_KP_pr_ij = MI3272Formulas.calculateV_KP_pr_ij_Formula4(V_KP_0, alpha_cyl_t, t_KP_ij_avg,
                     alpha_st_t, t_st_ij, D, E, s, P_KP_ij_avg);
 
-            // ТПР не используется, поэтому передаем t_KP_ij и P_KP_ij
-            double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij, t_KP_ij_avg, P_PP_ij);
+            double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij, t_PP_ij, P_PP_ij);
             double[][] beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_KP_ij_avg);
             double[][] gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_KP_ij_avg);
             log.info("rho_15={}", Arrays.deepToString(rho_15));
@@ -209,7 +205,7 @@ public class MI3272Calculator {
             mi3272FinalData.setGamma_fluid_ij(gamma_fluid_ij);
         }
 
-        double[] Q_j_avg = MI3272Formulas.calculateQ_j_avg(Q_ij);
+        double[] Q_j_avg = MI3272Formulas.calculateQ_j_avg(null/*Q_ij*/);
         mi3272FinalData.setQ_j_avg(Q_j_avg);
         if (calibrCharImpl.equals(MI3272Constants.PEP)) {
             int measureCount = mi3272FinalData.getMF_ij().length;

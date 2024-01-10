@@ -3,37 +3,52 @@ package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi331
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import com.nppgks.reportingsystem.util.DataRounder;
 
+import java.util.List;
+
 import static com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas.MI3313Formulas.*;
 
-public class MI3313Calculator {
-    private final MI3313OneEsrmInitialData initialData;
+public class MI3313ManyEsrmCalculator {
+    private final MI3313ManyEsrmInitialData initialData;
 
-    public MI3313Calculator(MI3313OneEsrmInitialData initialData) {
+    public MI3313ManyEsrmCalculator(MI3313ManyEsrmInitialData initialData) {
         this.initialData = initialData;
     }
 
     private void validate() {
-        if(initialData.getN_ji() == null || initialData.getT_ji() == null || initialData.getN_eji() == null || initialData.getWorkingOrControl() == null){
+        if(initialData.getN_ji() == null || initialData.getT_ji() == null || initialData.getN_ejik() == null || initialData.getWorkingOrControl() == null){
             throw new NotValidTagValueException("Значения тегов N_eji, T_ji, N_ji и workingOrControl не могут быть null");
         }
-        int measureCount = initialData.getN_eji()[0].length;
-        int pointsCount = initialData.getN_eji().length;
-        boolean incorrectArrLen = measureCount != initialData.getT_ji()[0].length || measureCount != initialData.getN_ji()[0].length
-                || pointsCount != initialData.getT_ji().length || pointsCount != initialData.getN_ji().length;
+        int measureCount = initialData.getT_ji()[0].length;
+        int pointsCount = initialData.getT_ji().length;
+        boolean incorrectArrLen = false;
+
+        for(double[][] N_eji:initialData.getN_ejik()) {
+            incorrectArrLen = measureCount != N_eji[0].length || pointsCount != N_eji.length;
+        }
+
+        incorrectArrLen = incorrectArrLen || measureCount != initialData.getN_ji()[0].length || pointsCount != initialData.getN_ji().length;
+
         if(incorrectArrLen){
-            throw new NotValidTagValueException("Неверная длина массивов входных данных: N_eji, T_ji или N_ji");
+            throw new NotValidTagValueException("Неверная длина массивов входных данных: N_ejik, T_ji или N_ji");
         }
         if((!initialData.getWorkingOrControl().equalsIgnoreCase("рабочий")) && (!initialData.getWorkingOrControl().equalsIgnoreCase("контрольный"))){
-            throw new NotValidTagValueException("Значение тега workingOrControl: \"%s\", но может быть только \"рабочий\" или \"контрольный\"".formatted(initialData.getWorkingOrControl()));
+            throw new NotValidTagValueException("Значение параметра workingOrControl: \"%s\", но может быть только \"рабочий\" или \"контрольный\"".formatted(initialData.getWorkingOrControl()));
         }
-        if(initialData.getK_PME() == 0 || initialData.getMForK_set() == 0){
-            throw new NotValidTagValueException("Значения тегов K_PME и MForK_set не могут быть равны 0");
+        for(double K_PME:initialData.getK_PMEk()){
+            if(K_PME == 0 || initialData.getMForK_set() == 0){
+                throw new NotValidTagValueException("Значения в массиве K_PMEk не могут быть равны 0");
+            }
+        }
+        if(initialData.getMForK_set() == 0){
+            throw new NotValidTagValueException("Значение параметра MForK_set не могжет быть равно 0");
         }
     }
 
-    public MI3313OneEsrmFinalData calculate() {
+    public MI3313ManyEsrmFinalData calculate() {
         validate();
-        double[][] M_eji = calculateM_eji_oneEsrm(initialData.getN_eji(), initialData.getK_PME());
+        List<double[][]> M_ejik = calculateM_ejik(initialData.getN_ejik(), initialData.getK_PMEk());
+        double[][] M_eji = calculateM_eji_multipleEsrm(M_ejik);
+        List<double[][]> Q_jik = calculateQ_jik(M_ejik, initialData.getT_ji());
         double[][] Q_ji = calculateQ_ji(M_eji, initialData.getT_ji());
         double[] Q_j = calculateQ_j(Q_ji);
         double Q_min = calculateQ_min(Q_j);
@@ -102,8 +117,10 @@ public class MI3313Calculator {
         M_eji = DataRounder.round2DimArrayToSignDig(M_eji, 6);
         M_ji = DataRounder.round2DimArrayToSignDig(M_ji, 6);
 
-        MI3313OneEsrmFinalData finalData = new MI3313OneEsrmFinalData();
+        MI3313ManyEsrmFinalData finalData = new MI3313ManyEsrmFinalData();
+        finalData.setM_ejik(M_ejik);
         finalData.setM_eji(M_eji);
+        finalData.setQ_jik(Q_jik);
         finalData.setQ_ji(Q_ji);
         finalData.setQ_j(Q_j);
         finalData.setQ_min(Q_min);

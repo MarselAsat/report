@@ -8,6 +8,19 @@ import java.util.Arrays;
 
 public class MI3272Formulas {
 
+    public static double[][] calculateQ_ij(double[][] V_KP_prij, double[][] T_ij, double[][] rho_PP_prij){
+        int measureCount = V_KP_prij.length;
+        int pointsCount = V_KP_prij[0].length;
+        double[][] Q_ij = new double[measureCount][pointsCount];
+
+        for (int i = 0; i < measureCount ; i++) {
+            for (int j = 0; j < pointsCount; j++) {
+                Q_ij[i][j] = V_KP_prij[i][j]*3600*rho_PP_prij[i][j]*0.001/T_ij[i][j];
+            }
+        }
+        return Q_ij;
+    }
+
     // формула 4
     public static double[][] calculateV_KP_pr_ij_Formula4(double V_KP_0, double alpha_cyl_t,
                                                           double[][] t_KP_ij, double alpha_st_t,

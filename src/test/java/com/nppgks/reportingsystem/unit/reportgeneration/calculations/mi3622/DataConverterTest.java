@@ -110,7 +110,7 @@ class DataConverterTest {
                 "pointsCount", "WinCC_pointsCount",
                 "measureCount", "WinCC_measureCount",
                 "Q_ij", "WinCC_Q");
-        MI3622InitialData MI3622InitialData = DataConverter.convertMapToInitialData(valuesMap, tagsMap, MI3622InitialData.class);
+        MI3622InitialData MI3622InitialData = DataConverter.convertMapToInitialData(valuesMap, tagsMap, MI3622InitialData.class, true);
         MI3622InitialData expectedMI3622InitialData = new MI3622InitialData();
 
         double[][] arr2Dim = new double[][]{{1, 2, 3}, {1, 2, 3}, {1, 2, 3}, {1, 2, 3}, {1, 2, 3}};

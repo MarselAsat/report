@@ -50,7 +50,7 @@ public class MI3622ReportGenerator extends ManualReportGenerator {
         Map<String, String> initialTagsMap = DataConverter.createPermanentNameToAddressMap(initialTags);
         DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagsMap, MI3622InitialData.class);
 
-        MI3622InitialData MI3622InitialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap, MI3622InitialData.class);
+        MI3622InitialData MI3622InitialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap, MI3622InitialData.class, true);
         MI3622Runner MI3622Runner = new MI3622Runner(MI3622InitialData);
         MI3622FinalData MI3622FinalData = MI3622Runner.run();
 

@@ -49,7 +49,7 @@ public class MI3272ReportGenerator extends ManualReportGenerator {
         Map<String, String> initialTagsMap = DataConverter.createPermanentNameToAddressMap(initialTags);
         DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagsMap, MI3272InitialData.class);
 
-        MI3272InitialData MI3272InitialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap, MI3272InitialData.class);
+        MI3272InitialData MI3272InitialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap, MI3272InitialData.class, true);
         MI3272Calculator MI3272Calculator = new MI3272Calculator(MI3272InitialData);
         MI3272FinalData mi3272FinalData = MI3272Calculator.calculate();
         DataRounder.roundPojo(mi3272FinalData);

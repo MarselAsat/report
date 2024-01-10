@@ -3,9 +3,17 @@ package com.nppgks.reportingsystem.unit.util;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ArrayParserTest {
+
+    @Test
+    void toListOfArrays() {
+        List<double[][]> actual = ArrayParser.toListOfArrays("[[[1, 2, 3],[4, 5, 6]],[[7, 8, 9],[10, 11, 12]]]");
+        assertThat(actual).hasSize(2).contains(new double[][]{{1.0,2.0,3.0},{4.0,5.0,6.0}});
+    }
 
     @Test
     void shouldReturnDoublesWithoutScientificNotation() {

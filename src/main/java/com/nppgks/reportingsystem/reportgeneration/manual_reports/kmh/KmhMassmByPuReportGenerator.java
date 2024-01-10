@@ -48,7 +48,7 @@ public class KmhMassmByPuReportGenerator extends ManualReportGenerator {
         Map<String, String> initialTagsMap = DataConverter.createPermanentNameToAddressMap(initialTags);
         DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagsMap, MI3272InitialData.class);
 
-        KmhMassmByPuInitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap, KmhMassmByPuInitialData.class);
+        KmhMassmByPuInitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap, KmhMassmByPuInitialData.class, true);
 
         KmhMassmByPuFinalData finalData = KmhMassmByPuCalculator.calculate(initialData);
         DataRounder.roundPojo(finalData);

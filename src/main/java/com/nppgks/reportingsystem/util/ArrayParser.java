@@ -8,6 +8,7 @@ import com.nppgks.reportingsystem.constants.Regexes;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 public class ArrayParser {
 
@@ -75,6 +76,15 @@ public class ArrayParser {
             }
             return result;
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<double[][]> toListOfArrays(String json) {
+        try {
+            double[][][] list = objectMapper.readValue(json, double[][][].class);
+            return Arrays.stream(list).toList();
+        } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }

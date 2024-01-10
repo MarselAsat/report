@@ -17,11 +17,6 @@ public class MI3272InitialData implements InitialData {
     // {СОИ поддиапазон} - реализация в СОИ в виде кусочно-линейной аппроксимации (по умолчанию)
     private String calibrCharImpl;
 
-    // значения расхода для определения коэффициентов преобразования ТПР (таблица 2 часть I)
-    // если ТПР не используется, то этот параметр не используется
-    private double[][] Q_ij_TPR;
-
-
     // Параметры ТПР. Если ТПР не используется, то и эти параметры не используются
     private double[][] N_TPR_ij_avg, t_TPR_ij_avg, P_TPR_ij_avg;
 
@@ -29,6 +24,9 @@ public class MI3272InitialData implements InitialData {
     private double[][] t_KP_ij_avg, P_KP_ij_avg;
 
     private double[][] t_st_ij;
+
+    private double[][] T_ij_TPR;
+    private double[][] T_ij;
 
     // Группа, к которой принадлежит рабочая жидкость.
     // Значения могут быть: "нефть", "нефтепродукт", "смазочное масло"
@@ -41,9 +39,6 @@ public class MI3272InitialData implements InitialData {
 
     // параметры для повтороного подсчета коэффициента преобразования ТПР
     private double[][] rho2_TPR_ij, N2_TPR_ij_avg, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg, P2_TPR_ij_avg, t2_st_ij;
-
-    // значения расхода для поверки массомера
-    private double[][] Q_ij;
 
     // параметры для расчета МХ массомера
     private double[][] N_mas_ij;

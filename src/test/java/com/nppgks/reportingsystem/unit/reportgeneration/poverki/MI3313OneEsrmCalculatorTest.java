@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.unit.reportgeneration.poverki;
 
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.MI3313Calculator;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.MI3313OneEsrmCalculator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.MI3313OneEsrmFinalData;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.MI3313OneEsrmInitialData;
 import com.nppgks.reportingsystem.unit.DoubleArrayAssert;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class MI3313CalculatorTest {
+public class MI3313OneEsrmCalculatorTest {
 
     @Test
     public void calculate(){
@@ -40,7 +40,7 @@ public class MI3313CalculatorTest {
         initialData.setT_P(37.59);
         initialData.setWorkingOrControl("рабочий");
 
-        MI3313Calculator calculator = new MI3313Calculator(initialData);
+        MI3313OneEsrmCalculator calculator = new MI3313OneEsrmCalculator(initialData);
         MI3313OneEsrmFinalData finalData = calculator.calculate();
         assertThat(finalData.getDelta()).isCloseTo(0.857, Offset.offset(0.001));
         assertThat(finalData.getMForK()).isCloseTo(0.99992, Offset.offset(0.001));
@@ -75,7 +75,7 @@ public class MI3313CalculatorTest {
         initialData.setT_P(37.59);
         initialData.setWorkingOrControl("рабочий");
 
-        MI3313Calculator calculator = new MI3313Calculator(initialData);
+        MI3313OneEsrmCalculator calculator = new MI3313OneEsrmCalculator(initialData);
         MI3313OneEsrmFinalData finalData = calculator.calculate();
         assertThat(finalData.getTheta_Z()).isEqualTo(0);
         assertThat(finalData.getDelta()).isCloseTo(0.856, Offset.offset(0.001));
@@ -110,7 +110,7 @@ public class MI3313CalculatorTest {
         initialData.setT_P(37.59);
         initialData.setWorkingOrControl("рабочий");
 
-        MI3313Calculator calculator = new MI3313Calculator(initialData);
+        MI3313OneEsrmCalculator calculator = new MI3313OneEsrmCalculator(initialData);
         MI3313OneEsrmFinalData finalData = calculator.calculate();
         assertThat(finalData.getTheta_Z()).isEqualTo(0);
         assertThat(finalData.getTheta_Mt()).isEqualTo(0);
@@ -145,7 +145,7 @@ public class MI3313CalculatorTest {
         initialData.setT_P(37.59);
         initialData.setWorkingOrControl("рабочий");
 
-        MI3313Calculator calculator = new MI3313Calculator(initialData);
+        MI3313OneEsrmCalculator calculator = new MI3313OneEsrmCalculator(initialData);
         MI3313OneEsrmFinalData finalData = calculator.calculate();
         assertThat(finalData.getTheta_Z()).isEqualTo(0);
         assertThat(finalData.getTheta_Mt()).isEqualTo(0);
@@ -168,7 +168,7 @@ public class MI3313CalculatorTest {
         initialData.setN_eji(N_eji);
         initialData.setN_ji(N_ji);
         initialData.setWorkingOrControl("рабочий");
-        MI3313Calculator calculator = new MI3313Calculator(initialData);
+        MI3313OneEsrmCalculator calculator = new MI3313OneEsrmCalculator(initialData);
         assertThatThrownBy(calculator::calculate)
                 .isInstanceOf(NotValidTagValueException.class)
                 .hasMessageContaining("Неверная длина массивов входных данных");
@@ -185,7 +185,7 @@ public class MI3313CalculatorTest {
         initialData.setN_eji(N_eji);
         initialData.setN_ji(N_ji);
         initialData.setWorkingOrControl("рабочий");
-        MI3313Calculator calculator = new MI3313Calculator(initialData);
+        MI3313OneEsrmCalculator calculator = new MI3313OneEsrmCalculator(initialData);
         assertThatThrownBy(calculator::calculate)
                 .isInstanceOf(NotValidTagValueException.class)
                 .hasMessageContaining("Значения тегов N_eji, T_ji, N_ji и workingOrControl не могут быть null");
@@ -202,7 +202,7 @@ public class MI3313CalculatorTest {
         initialData.setN_eji(N_eji);
         initialData.setN_ji(N_ji);
         initialData.setWorkingOrControl("blabla");
-        MI3313Calculator calculator = new MI3313Calculator(initialData);
+        MI3313OneEsrmCalculator calculator = new MI3313OneEsrmCalculator(initialData);
         assertThatThrownBy(calculator::calculate)
                 .isInstanceOf(NotValidTagValueException.class)
                 .hasMessageContaining("Значение тега workingOrControl: \"blabla\", но может быть только \"рабочий\" или \"контрольный\"");
@@ -218,7 +218,7 @@ public class MI3313CalculatorTest {
         initialData.setN_eji(N_eji);
         initialData.setN_ji(N_ji);
         initialData.setWorkingOrControl("рабочий");
-        MI3313Calculator calculator = new MI3313Calculator(initialData);
+        MI3313OneEsrmCalculator calculator = new MI3313OneEsrmCalculator(initialData);
         assertThatThrownBy(calculator::calculate)
                 .isInstanceOf(NotValidTagValueException.class)
                 .hasMessageContaining("Значения тегов K_PME и MForK_set не могут быть равны 0");

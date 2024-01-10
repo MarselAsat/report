@@ -19,6 +19,8 @@ public class MI3272FinalData implements FinalData {
     private double[][] M_mas_ij;
     private double[][] MF_ij;
     private double[][] KF_ij;
+    private double[][] Q_TPR_ij;
+    private double[][] Q_ij;
     private double alpha_cyl_t;
     private double t_P_n;
     private Double Z_P;
