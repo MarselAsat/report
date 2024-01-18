@@ -10,7 +10,6 @@ public class MI3272FinalData implements FinalData {
     private double[][] V_KP_pr_ij;
     private double[][] K_TPR_ij;
     private double[] Pi_j;
-    private double[] K_TPR_j;
     private double[] K2_TPR_j;
     private double[] delta_K_j;
     private double[][] V_TPR_ij;
@@ -21,7 +20,7 @@ public class MI3272FinalData implements FinalData {
     private double[][] KF_ij;
     private double[][] Q_TPR_ij;
     private double[][] Q_ij;
-    private double alpha_cyl_t;
+    private double alpha_cyl_t_out;
     private double t_P_n;
     private Double Z_P;
     private double[] Z_P_k;

@@ -111,11 +111,7 @@ public class ReportViewController {
         modelMap.put("date", SingleDateTimeFormatter.formatWithMonthInRussian(creationDate));
         var reportDataList = manualReportDataService.getReportDataList(reportId);
 
-        reportDataList.forEach(rd -> {
-            Object value = ArrayParser.fromJsonToObject(rd.getData());
-            modelMap.put(
-                    rd.getTag().getPermanentName(), value);
-        });
+        ModelMapFiller.fillForMI3272WithTPR(modelMap, reportDataList);
 
         return "report_pages/poverki/MI3272-report-page";
     }

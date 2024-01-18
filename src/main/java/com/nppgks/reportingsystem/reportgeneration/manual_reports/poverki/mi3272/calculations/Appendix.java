@@ -21,9 +21,6 @@ public class Appendix {
             7.0, 0.8,
             8.0, 0.81);
 
-    private static double[][] beta_fluid_ij;
-    private static double[][] gamma_fluid_ij;
-
     static {
         tableG_1.put(1, 12.706);
         tableG_1.put(2, 4.303);
@@ -68,7 +65,7 @@ public class Appendix {
     public static double[][] calculateBeta_fluid(String fluidType, double[][] rho_15, double[][] t) {
         int m = rho_15[0].length;
         int n = rho_15.length;
-        beta_fluid_ij = new double[n][m];
+        double[][] beta_fluid_ij = new double[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 beta_fluid_ij[i][j] = P50_2_076.calculateBeta_t(fluidType, rho_15[i][j], t[i][j]);
@@ -80,7 +77,7 @@ public class Appendix {
     public static double[][] calculateGamma_fluid(double[][] rho_15, double[][] t) {
         int m = rho_15[0].length;
         int n = rho_15.length;
-        gamma_fluid_ij = new double[n][m];
+        double[][] gamma_fluid_ij = new double[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 gamma_fluid_ij[i][j] = P50_2_076.calculateGamma_t(rho_15[i][j], t[i][j]);
@@ -89,13 +86,13 @@ public class Appendix {
         return gamma_fluid_ij;
     }
 
-    public static double[][] calculateRho_15(String fluidType, double[][] rho_PP, double[][] t, double[][] P_PP) {
-        int m = rho_PP[0].length;
-        int n = rho_PP.length;
+    public static double[][] calculateRho_15(String fluidType, double[][] rho, double[][] t, double[][] P) {
+        int m = rho[0].length;
+        int n = rho.length;
         double[][] rho_15 = new double[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                rho_15[i][j] = P50_2_076.calculateRho_15(fluidType, rho_PP[i][j], t[i][j], P_PP[i][j]);
+                rho_15[i][j] = P50_2_076.calculateRho_15(fluidType, rho[i][j], t[i][j], P[i][j]);
             }
         }
         return rho_15;
