@@ -5,6 +5,8 @@ import com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas.MI327
 import com.nppgks.reportingsystem.util.TableDisplay;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
+
 @Slf4j
 public class MI3272Calculator {
 
@@ -45,7 +47,6 @@ public class MI3272Calculator {
 
     private double[][] T_ij;
     private double[] K_TPR_j;
-
     private Double alpha_st_t;
     private double V_KP_0;
 
@@ -54,6 +55,10 @@ public class MI3272Calculator {
     private double[][] rho_PP_ij, t_PP_ij, P_PP_ij;
     private double[][] N_TPR_ij_zad, t_TPR_ij, P_TPR_ij;
     private double[][] rho_BIK_ij;
+    double[][] W_w_TPR_ij;
+    double[][] W_xc_TPR_ij;
+    double[][] W_w_ij;
+    double[][] W_xc_ij;
     private double KF_conf;
     private double K_PEP_gr;
     private double MF_set_range;
@@ -105,6 +110,10 @@ public class MI3272Calculator {
         this.t_TPR_ij = MI3272TprInitData.getT_TPR_ij();
         this.P_TPR_ij = MI3272TprInitData.getP_TPR_ij();
         this.rho_BIK_ij = MI3272TprInitData.getRho_BIK_ij();
+        this.W_w_TPR_ij = MI3272TprInitData.getW_w_TPR_ij();
+        this.W_xc_TPR_ij = MI3272TprInitData.getW_xc_TPR_ij();
+        this.W_w_ij = MI3272TprInitData.getW_w_ij();
+        this.W_xc_ij = MI3272TprInitData.getW_xc_ij();
         this.KF_conf = MI3272TprInitData.getKF_conf();
         this.K_PEP_gr = MI3272TprInitData.getK_PEP_gr();
         this.MF_set_range = MI3272TprInitData.getMF_set_range();
@@ -121,7 +130,7 @@ public class MI3272Calculator {
     public double[] calculateK_j() {
         alpha_cyl_t = MI3272Formulas.calculateAlpha_cyl_t(alpha_cyl_t, alpha_cyl_t_sq);
         V_KP_pr_ij = calculateV_KP_pr_ij(alpha_cyl_t, t_KP_ij_avg, P_KP_ij_avg, t_TPR_ij_avg,
-                P_TPR_ij_avg, t_st_ij, rho_TPR_ij);
+                P_TPR_ij_avg, t_st_ij, rho_TPR_ij, W_w_TPR_ij, W_xc_TPR_ij);
         K_TPR_ij = MI3272Formulas.calculateK_TPR_ij(N_TPR_ij_avg, V_KP_pr_ij);
         K_TPR_j = MI3272Formulas.calculateK_TPR_j(K_TPR_ij);
         return K_TPR_j;
@@ -138,7 +147,8 @@ public class MI3272Calculator {
 //        double[][] K_TPR_ij = MI3272Formulas.calculateK_TPR_ij(N_TPR_ij_avg, V_KP_pr_ij);
         
         double[] Pi_j = MI3272Formulas.calculatePi_j(K_TPR_ij);
-        double[][] V2_KP_pr_ij = calculateV_KP_pr_ij(alpha_cyl_t, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg, P2_TPR_ij_avg, t2_st_ij, rho2_TPR_ij);
+        double[][] V2_KP_pr_ij = calculateV_KP_pr_ij(alpha_cyl_t, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg,
+                P2_TPR_ij_avg, t2_st_ij, rho2_TPR_ij, W_w_TPR_ij, W_xc_TPR_ij);
         double[][] K2_TPR_ij = MI3272Formulas.calculateK_TPR_ij(N2_TPR_ij_avg, V2_KP_pr_ij);
         double[] K2_TPR_j = MI3272Formulas.calculateK_TPR_j(K2_TPR_ij);
 
@@ -158,8 +168,9 @@ public class MI3272Calculator {
 
         log.info("----- Вычисление rho_ПП_пр_ij -----");
         double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij, t_PP_ij, P_PP_ij);
-        double[][] beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_TPR_ij);
-        double[][] gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_TPR_ij);
+        Map<String, double[][]> betaGamma = Appendix.calculateBetaGamma(workingFluid, t_PP_ij, W_w_ij, rho_15, t_TPR_ij, W_xc_ij);
+        double[][] beta_fluid_ij = betaGamma.get("beta");
+        double[][] gamma_fluid_ij = betaGamma.get("gamma");
 
         log.info("rho_15 = \n{}", TableDisplay.display2DimArray(rho_15));
         log.info("beta_ж = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
@@ -355,9 +366,10 @@ public class MI3272Calculator {
         log.info("----- Вычисление Q_ij (таблица 2, часть I) -----");
         double[][] V_KP_pr_ij = MI3272Formulas.calculateV_KP_pr_ij_Formula4(V_KP_0, alpha_cyl_t, t_KP_ij_avg, alpha_st_t, t_st_ij, D, E, s, P_KP_ij_avg);
         double[][] rho15_ij = Appendix.calculateRho_15(workingFluid, rho_PP_ij_coef, P_PP_ij_coef, t_PP_ij_coef);
-        double[][] gamma_fluid_ij = Appendix.calculateGamma_fluid(rho15_ij, t_KP_ij_avg);
-        double[][] beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho15_ij, t_KP_ij_avg);
-        double[][] rho_PP_pr_ij = MI3272Formulas.calculateRho_PP_pr_ij(rho_BIK_ij_coef, t_PP_ij_coef, t_TPR_ij_avg, beta_fluid_ij, gamma_fluid_ij, P_TPR_ij_avg, P_PP_ij_coef);
+        Map<String, double[][]> betaGamma = Appendix.calculateBetaGamma(workingFluid, t_PP_ij_coef, W_w_TPR_ij, rho15_ij, t_KP_ij_avg, W_xc_TPR_ij);
+        double[][] gamma_fluid_ij = betaGamma.get("gamma");
+        double[][] beta_fluid_ij = betaGamma.get("beta");
+        double[][] rho_PP_pr_ij = MI3272Formulas.calculateRho_PP_pr_ij(rho_BIK_ij_coef, t_PP_ij_coef, t_KP_ij_avg, beta_fluid_ij, gamma_fluid_ij, P_KP_ij_avg, P_PP_ij_coef);
 
         log.info("V_КП_пр_ij = \n{}", TableDisplay.display2DimArray(V_KP_pr_ij));
         log.info("rho_ПП_ij = \n{}", TableDisplay.display2DimArray(rho_PP_ij_coef));
@@ -374,7 +386,7 @@ public class MI3272Calculator {
 
     private double[][] calculateV_KP_pr_ij(double alpha_cyl_t, double[][] t_KP_ij_avg, double[][] P_KP_ij_avg,
                                            double[][] t_TPR_ij_avg, double[][] P_TPR_ij_avg,
-                                           double[][] t_st_ij, double[][] rho_TPR_ij) {
+                                           double[][] t_st_ij, double[][] rho_TPR_ij, double[][] W_w_ij, double[][] W_xc_ij) {
         double[][] V_KP_pr_ij;
 
         // если ТПР входит в состав компакт-прувера
@@ -382,15 +394,13 @@ public class MI3272Calculator {
             V_KP_pr_ij = MI3272Formulas.calculateV_KP_pr_ij_Formula4(V_KP_0, alpha_cyl_t, t_KP_ij_avg,
                     alpha_st_t, t_st_ij, D, E, s, P_KP_ij_avg);
         } else {
-            // TODO: 27.07.2023 здесь rho_PP_ij и t_PP_ij кажется нужны другие, т.к. их измерения должны быть длиной
-            //  seriesCount, а не measureCount
+            log.info("----- Вычисление V_КП_пр_ij по формуле (7) (таблица 1, часть I) -----");
             double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_TPR_ij, t_KP_ij_avg, P_KP_ij_avg);
-            double[][] beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_KP_ij_avg);
-            double[][] gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_KP_ij_avg);
-            log.info("----- Вычисление V_КП_пр_ij (таблица 1, часть I) -----");
+            Map<String, double[][]> betaGamma = Appendix.calculateBetaGamma(workingFluid, t_TPR_ij_avg, W_w_ij, rho_15, t_KP_ij_avg, W_xc_ij);
+            double[][] beta_fluid_ij = betaGamma.get("beta");
+            double[][] gamma_fluid_ij = betaGamma.get("gamma");
             log.info("rho_15 = \n{}", TableDisplay.display2DimArray(rho_15));
             log.info("beta_ж = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
-
             log.info("gamma_ж = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));
 
             V_KP_pr_ij = MI3272Formulas.calculateV_KP_pr_ij_Formula7(V_KP_0, alpha_cyl_t, t_KP_ij_avg,

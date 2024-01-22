@@ -50,16 +50,44 @@ public class Appendix {
     }
 
     public static double calculateBeta_fluid_max(double[][] beta_fluid_ij) {
-        double betta_fluid_max;
+        double beta_fluid_max;
         double max = beta_fluid_ij[0][0];
-        for (double[] beta_i: beta_fluid_ij) {
-            for (double beta: beta_i) {
+        for (double[] beta_i : beta_fluid_ij) {
+            for (double beta : beta_i) {
                 max = Math.max(max, beta);
             }
         }
-        betta_fluid_max = max;
-        log.info("beta_ж_max={}", betta_fluid_max);
-        return betta_fluid_max;
+        beta_fluid_max = max;
+        log.info("beta_ж_max={}", beta_fluid_max);
+        return beta_fluid_max;
+    }
+    public static Map<String, double[][]> calculateBetaGamma (
+            String workingFluid, double[][] t_TPRorPP,
+            double[][] W_w_ij, double[][] rho_15, double[][] t_KP, double[][] W_xc){
+        int n = t_KP.length;
+        int m = t_KP[0].length;
+        double[][] beta_fluid_ij = new double[n][m];
+        double[][] gamma_fluid_ij = new double[n][m];
+        if(W_w_ij == null || W_w_ij.length == 0){
+            beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_TPRorPP);
+            gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_TPRorPP);
+        }
+        else{
+            log.info("----- Вычисление Beta и Gamma по приложению B.3 -----");
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    if(W_w_ij[i][j] <= 5){
+                        beta_fluid_ij[i][j] = Appendix.calculateBeta_fluid_forCrudeOilLess5Perc(workingFluid, rho_15[i][j], t_KP[i][j], W_w_ij[i][j]);
+                    }
+                    else{
+                        double beta_w = Appendix.calculateB_w(t_TPRorPP[i][j], t_KP[i][j], W_xc[i][j]);
+                        beta_fluid_ij[i][j] = Appendix.calculateBeta_fluid_forCrudeOilMore5Perc(workingFluid, rho_15[i][j], t_KP[i][j], W_w_ij[i][j], beta_w);
+                    }
+                    gamma_fluid_ij[i][j] = Appendix.calculateGamma_fluid_forCrudeOil(rho_15[i][j], t_KP[i][j], W_w_ij[i][j]);
+                }
+            }
+        }
+        return Map.of("beta", beta_fluid_ij, "gamma", gamma_fluid_ij);
     }
 
     public static double[][] calculateBeta_fluid(String fluidType, double[][] rho_15, double[][] t) {
@@ -84,6 +112,48 @@ public class Appendix {
             }
         }
         return gamma_fluid_ij;
+    }
+
+    // формула (B.1) при условии B.3.1
+    public static double calculateBeta_fluid_forCrudeOilLess5Perc(
+            String fluidType, double rho_15, double t, double W_w_ij) {
+        double beta_n = P50_2_076.calculateBeta_t(fluidType, rho_15, t);
+        return beta_n * (1 - W_w_ij / 100) + 0.00026 * W_w_ij / 100;
+    }
+
+    // формула (B.1) при условии B.3.2
+    public static double calculateBeta_fluid_forCrudeOilMore5Perc(
+            String fluidType, double rho_15, double t, double W_w_ij, double beta_w) {
+        double beta_n = P50_2_076.calculateBeta_t(fluidType, rho_15, t);
+        return beta_n * (1 - W_w_ij / 100) + beta_w * W_w_ij / 100;
+    }
+
+    // формулы (B.3a), (B.3б) и (B.3в)
+    public static double calculateB_w(double t_TPRorPP, double t_KP, double W_xc_ij) {
+        double CTL_TPRorPP = calculateCTL(t_TPRorPP, W_xc_ij);
+        double CTL_KP = calculateCTL(t_KP, W_xc_ij);
+
+        if (t_TPRorPP == t_KP || CTL_TPRorPP == CTL_KP) {
+            return 1 / CTL_KP;
+        } else {
+            return (CTL_TPRorPP - CTL_KP) /
+                    (CTL_KP * (t_KP - t_TPRorPP));
+        }
+    }
+
+    // формула B.4
+    public static double calculateCTL(double t, double W_xc) {
+        double delta_t = t - 15;
+        return 1 - (0.00018526 + 0.000012882 * W_xc) * delta_t
+                - (0.0000041151 - 0.00000014464 * W_xc) * Math.pow(delta_t, 2)
+                + (0.0000000071926 - 0.00000000013085 * W_xc) * Math.pow(delta_t, 3);
+    }
+
+    // формула (B.2) при условии B.3.1
+    public static double calculateGamma_fluid_forCrudeOil(
+            double rho_15, double t, double W_w_ij) {
+        double gamma_n = P50_2_076.calculateGamma_t(rho_15, t);
+        return gamma_n * (1 - W_w_ij / 100) + 0.000491 * W_w_ij / 100;
     }
 
     public static double[][] calculateRho_15(String fluidType, double[][] rho, double[][] t, double[][] P) {

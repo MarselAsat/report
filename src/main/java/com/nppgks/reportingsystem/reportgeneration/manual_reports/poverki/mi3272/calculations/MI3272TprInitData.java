@@ -36,10 +36,12 @@ public class MI3272TprInitData extends TprCoeffInitData {
     private double delta_UOI_K;
     private double delta_t_KP, delta_t_PP;
     private double ZS;
-
-    // Эти параметры не используются в вычислениях. Только отображаются на html странице протокола поверки
+    private double[][] W_w_TPR_ij;
+    private double[][] W_xc_TPR_ij;
     private double[][] W_w_ij;
     private double[][] W_xc_ij;
+
+    // Эти параметры не используются в вычислениях. Только отображаются на html странице протокола поверки
     private double[] N_TPR_j_zad;
     private String protocolNumber;
     private String massmeterModel;
