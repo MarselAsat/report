@@ -45,7 +45,7 @@ public class ModelMapFiller {
                 .sum();
     }
 
-    public static void fillForMI3272WithTPR(ModelMap modelMap, List<ReportData> reportDataList){
+    public static void fillForMI3272(ModelMap modelMap, List<ReportData> reportDataList, boolean usedTpr){
         reportDataList.forEach(rd -> {
             String json = rd.getData();
             String separator = "#";
@@ -56,6 +56,13 @@ public class ModelMapFiller {
             modelMap.put(
                     rd.getTag().getPermanentName(), value);
         });
-        modelMap.put("usedTPR", "true");
+        modelMap.put("usedTPR", usedTpr);
     }
+//    public static void fillForMI3272(ModelMap modelMap, List<ReportData> reportDataList){
+//        reportDataList.forEach(rd -> {
+//            Object value = ArrayParser.fromJsonToObject(rd.getData());
+//            modelMap.put(rd.getTag().getPermanentName(), value);
+//        });
+//        modelMap.put("usedTPR", "false");
+//    }
 }

@@ -1,6 +1,6 @@
 package com.nppgks.reportingsystem.unit.reportgeneration.manual_reports.poverki;
 
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.MI3272ReportGenerator;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.MI3272WithTprReportGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MI3272ReportGeneratorTest {
+public class MI3272WithTprReportGeneratorTest {
 
     @Test
     void mergeInitialMaps(){
@@ -19,7 +19,7 @@ public class MI3272ReportGeneratorTest {
                 Map.of("key1", "[value2]",
                         "key3", "value3",
                         "key2", "[value2]"));
-        Map<String, String> actual = MI3272ReportGenerator.mergeInitialMaps(map1, map2);
+        Map<String, String> actual = MI3272WithTprReportGenerator.mergeInitialMaps(map1, map2);
         assertThat(actual).hasSize(3)
                 .containsEntry("key1", "[value1]#[value2]")
                 .containsEntry("key2", "[value2]#[value2]")

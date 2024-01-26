@@ -29,7 +29,7 @@ public class SingleDateTimeFormatter {
                 DateTimeFormatter.ofPattern("MM.yyyy"));
     }
 
-    public static String formatWithMonthInRussian(LocalDate date){
+    public static String formatMonthToRussian(LocalDate date){
         Map<Integer, String> monthsInRussian = new HashMap<>();
         monthsInRussian.put(1, "января");
         monthsInRussian.put(2, "февраля");

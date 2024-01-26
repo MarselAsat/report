@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS tag
     description    VARCHAR(512),
     initial        BOOLEAN      NOT NULL,
     report_type_id   VARCHAR(32) REFERENCES report_type (id)   NOT NULL,
-    UNIQUE(permanent_name, report_type_id, initial)
+    UNIQUE(permanent_name, report_type_id, initial),
+    UNIQUE(address, initial)
 );
 
 --changeset alina.parfenteva:3

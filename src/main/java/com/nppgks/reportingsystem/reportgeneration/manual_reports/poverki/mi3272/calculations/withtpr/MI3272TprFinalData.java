@@ -1,18 +1,24 @@
-package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.withtpr;
 
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.FinalData;
 import lombok.Data;
 
 @Data
-public class MI3272FinalData implements FinalData {
+public class MI3272TprFinalData implements FinalData {
     private double[][] beta_fluid_ij;
     private double[][] gamma_fluid_ij;
     private double[][] V_KP_pr_ij;
+    private double[][] K_TPR_ij;
+    private double[] Pi_j;
+    private double[] K2_TPR_j;
+    private double[] delta_K_j;
+    private double[][] V_TPR_ij;
     private double[][] rho_PP_pr_ij;
     private double[][] M_re_ij;
     private double[][] M_mas_ij;
     private double[][] MF_ij;
     private double[][] KF_ij;
+    private double[][] Q_TPR_ij;
     private double[][] Q_ij;
     private double alpha_cyl_t_out;
     private double t_P_n;

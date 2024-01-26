@@ -41,49 +41,49 @@ public class ReportViewController {
 
     @GetMapping(value = "/dailyReport/{reportId}")
     public String getDailyReport(ModelMap modelMap,
-                            @PathVariable Long reportId) {
+                                 @PathVariable Long reportId) {
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.DAILY_REPORT_COLUMNS);
         return "report_pages/scheduled/daily-report-page";
     }
 
     @GetMapping(value = "/hourReport/{reportId}")
     public String getHourReport(ModelMap modelMap,
-                            @PathVariable Long reportId){
+                                @PathVariable Long reportId) {
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.HOUR_REPORT_COLUMNS);
         return "report_pages/scheduled/hour-report-page";
     }
 
     @GetMapping(value = "/twohourReport/{reportId}")
     public String get2HourReport(ModelMap modelMap,
-                                @PathVariable Long reportId){
+                                 @PathVariable Long reportId) {
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.TWOHOUR_REPORT_COLUMNS);
         return "report_pages/scheduled/twohour-report-page";
     }
 
     @GetMapping(value = "/shiftReport/{reportId}")
     public String getShiftReport(ModelMap modelMap,
-                                 @PathVariable Long reportId){
+                                 @PathVariable Long reportId) {
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.SHIFT_REPORT_COLUMNS);
         return "report_pages/scheduled/shift-report-page";
     }
 
     @GetMapping(value = "/monthReport/{reportId}")
     public String getMonthReport(ModelMap modelMap,
-                                 @PathVariable Long reportId){
+                                 @PathVariable Long reportId) {
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.MONTH_REPORT_COLUMNS);
         return "report_pages/scheduled/month-report-page";
     }
 
     @GetMapping(value = "/yearReport/{reportId}")
     public String getYearReport(ModelMap modelMap,
-                                 @PathVariable Long reportId){
+                                @PathVariable Long reportId) {
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.YEAR_REPORT_COLUMNS);
         return "report_pages/scheduled/year-report-page";
     }
 
     @GetMapping(value = "/mi3622Report/{reportId}")
     public String getMi3622Report(ModelMap modelMap,
-                                  @PathVariable Long reportId){
+                                  @PathVariable Long reportId) {
         var report = manualReportService.findReportById(reportId);
 
         LocalDate creationDate = report.getCreationDt().toLocalDate();
@@ -103,22 +103,23 @@ public class ReportViewController {
 
     @GetMapping(value = "/mi3272Report/{reportId}")
     public String getMi3272Report(ModelMap modelMap,
-                                  @PathVariable Long reportId){
+                                  @PathVariable Long reportId) {
         var report = manualReportService.findReportById(reportId);
 
         LocalDate creationDate = report.getCreationDt().toLocalDate();
 
-        modelMap.put("date", SingleDateTimeFormatter.formatWithMonthInRussian(creationDate));
+        modelMap.put("date", SingleDateTimeFormatter.formatMonthToRussian(creationDate));
         var reportDataList = manualReportDataService.getReportDataList(reportId);
-
-        ModelMapFiller.fillForMI3272WithTPR(modelMap, reportDataList);
+        boolean usedTpr = reportDataList.stream()
+                .anyMatch(rd -> rd.getTag().getPermanentName().equals("K_TPR_j"));
+        ModelMapFiller.fillForMI3272(modelMap, reportDataList, usedTpr);
 
         return "report_pages/poverki/MI3272-report-page";
     }
 
     @GetMapping(value = "/acceptanceActReport/{reportId}")
     public String getAcceptanceActReport(ModelMap modelMap,
-                                  @PathVariable Long reportId){
+                                         @PathVariable Long reportId) {
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         ModelMapFiller.fillForAcceptanceAct(modelMap, reportDataList);
         return "report_pages/acts/acceptance-oil-act";
@@ -126,7 +127,7 @@ public class ReportViewController {
 
     @GetMapping(value = "/kmhViscometerReport/{reportId}")
     public String getKmhViscometerReport(ModelMap modelMap,
-                                         @PathVariable Long reportId){
+                                         @PathVariable Long reportId) {
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
         modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt().toLocalDate()));
@@ -141,7 +142,7 @@ public class ReportViewController {
 
     @GetMapping(value = "/kmhMoistureMeterReport/{reportId}")
     public String getKmhMoisturemeterReport(ModelMap modelMap,
-                                         @PathVariable Long reportId){
+                                            @PathVariable Long reportId) {
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
         modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt().toLocalDate()));
@@ -156,7 +157,7 @@ public class ReportViewController {
 
     @GetMapping(value = "/kmhMassmByMassmReport/{reportId}")
     public String getKmhMassmByMassmReport(ModelMap modelMap,
-                                            @PathVariable Long reportId){
+                                           @PathVariable Long reportId) {
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
         modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt()));
@@ -171,7 +172,7 @@ public class ReportViewController {
 
     @GetMapping(value = "/kmhMassmByPuReport/{reportId}")
     public String getKmhMassmByPuReport(ModelMap modelMap,
-                                         @PathVariable Long reportId){
+                                        @PathVariable Long reportId) {
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
         modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt()));
@@ -186,7 +187,7 @@ public class ReportViewController {
 
     @GetMapping(value = "/kmhDensityMeterReport/{reportId}")
     public String getKmhDensityMeterReport(ModelMap modelMap,
-                                        @PathVariable Long reportId){
+                                           @PathVariable Long reportId) {
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
         modelMap.put("kmh_date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt()));
@@ -198,9 +199,10 @@ public class ReportViewController {
         });
         return "report_pages/kmh/kmh-density-meter-report-page";
     }
+
     @GetMapping(value = "/oilQualityPassportReport/{reportId}")
     public String getoilQualityPassportReport(ModelMap modelMap,
-                                           @PathVariable Long reportId){
+                                              @PathVariable Long reportId) {
         var reportDataList = manualReportDataService.getReportDataList(reportId);
         var report = manualReportService.findReportById(reportId);
         modelMap.put("date", SingleDateTimeFormatter.formatToSinglePattern(report.getCreationDt()));
@@ -215,19 +217,19 @@ public class ReportViewController {
 
     @GetMapping(value = "/mi3313OneEsrmReport/{reportId}")
     public String getMi3313Report(ModelMap modelMap,
-                                  @PathVariable Long reportId){
+                                  @PathVariable Long reportId) {
         var report = manualReportService.findReportById(reportId);
 
         LocalDate creationDate = report.getCreationDt().toLocalDate();
 
-        modelMap.put("date", SingleDateTimeFormatter.formatWithMonthInRussian(creationDate));
+        modelMap.put("date", SingleDateTimeFormatter.formatMonthToRussian(creationDate));
 
         var reportDataList = manualReportDataService.getReportDataList(reportId);
 
         reportDataList.forEach(rd -> {
             Object value = ArrayParser.fromJsonToObject(rd.getData());
-            if(!modelMap.containsKey("n") && value instanceof ArrayList<?>){
-                int n = ((ArrayList<?>)(((ArrayList<?>) value).get(0))).size();
+            if (!modelMap.containsKey("n") && value instanceof ArrayList<?>) {
+                int n = ((ArrayList<?>) (((ArrayList<?>) value).get(0))).size();
                 modelMap.put("n", n);
             }
             modelMap.put(

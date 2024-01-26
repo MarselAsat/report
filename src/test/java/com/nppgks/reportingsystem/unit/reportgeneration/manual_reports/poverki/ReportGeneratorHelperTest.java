@@ -1,7 +1,7 @@
 package com.nppgks.reportingsystem.unit.reportgeneration.manual_reports.poverki;
 
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.ReportGeneratorHelper;
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.TprCoeffInitData;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.withtpr.TprCoeffInitData;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

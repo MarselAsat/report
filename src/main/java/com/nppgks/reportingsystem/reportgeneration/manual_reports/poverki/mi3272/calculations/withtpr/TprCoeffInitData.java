@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.withtpr;
 
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.InitialData;
 import lombok.Data;
@@ -15,6 +15,9 @@ public class TprCoeffInitData implements InitialData {
 
     // Используется ТПР, входящий в состав компакт-прувера или не входящий
     private boolean TPRInKP;
+
+    // Используется ПП, входящий в состав компакт-прувера
+    private boolean PPInKP;
 
     private Double alpha_cyl_t;
     private Double alpha_cyl_t_sq;
