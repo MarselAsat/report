@@ -68,5 +68,4 @@ public class MI3272InitData implements InitialData {
     private String ppDate;
     private String companyName;
     private String verifierName;
-
 }

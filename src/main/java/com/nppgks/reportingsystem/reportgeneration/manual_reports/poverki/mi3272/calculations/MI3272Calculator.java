@@ -96,7 +96,7 @@ public class MI3272Calculator {
         TagValueValidator.notNull(t_st_ij, "t_st_ij");
         TagValueValidator.notNull(alpha_st_t, "alpha_st_t");
 
-        TagValueValidator.haveSameLen(
+        TagValueValidator.haveSameLen2DimArr(
                 List.of(N_mas_ij, t_KP_ij_avg, P_KP_ij_avg, rho_PP_ij_avg, t_PP_ij_avg, rho_BIK_ij_avg, T_ij, t_st_ij),
                 List.of("N_mas_ij", "t_KP_ij_avg", "P_KP_ij_avg", "rho_PP_ij_avg", "t_PP_ij_avg", "rho_BIK_ij_avg", "T_ij", "t_st_ij"));
 

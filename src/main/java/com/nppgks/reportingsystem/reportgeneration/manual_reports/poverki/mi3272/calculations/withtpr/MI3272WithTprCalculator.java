@@ -1,11 +1,15 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.withtpr;
 
 import com.nppgks.reportingsystem.constants.MI3272Constants;
+import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas.MI3272Formulas;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.Appendix;
 import com.nppgks.reportingsystem.util.TableDisplay;
+import com.nppgks.reportingsystem.util.TagValueValidator;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -59,6 +63,9 @@ public class MI3272WithTprCalculator {
     private double[][] rho_PP_ij, t_PP_ij, P_PP_ij;
     private double[][] N_TPR_ij_zad, t_TPR_ij, P_TPR_ij;
     private double[][] rho_BIK_ij;
+
+    // t_KP используется если сырая нефть и если ТПР в КП.
+    // P_KP используется, если ТПР в КП
     private double[][] t_KP_ij, P_KP_ij;
     double[][] W_w_TPR_ij;
     double[][] W_xc_TPR_ij;
@@ -135,7 +142,31 @@ public class MI3272WithTprCalculator {
 
     double[][] V_KP_pr_ij;
     double[][] K_TPR_ij;
+
+    public void validateBeforeK_j() {
+        TagValueValidator.notNull(P_TPR_ij_avg, "P_TPR_ij_avg");
+        TagValueValidator.notNull(t_st_ij, "t_st_ij");
+        TagValueValidator.notNull(t_KP_ij_avg, "t_KP_ij_avg");
+        TagValueValidator.notNull(P_KP_ij_avg, "P_KP_ij_avg");
+        TagValueValidator.notNull(t_TPR_ij_avg, "t_TPR_ij_avg");
+        TagValueValidator.notNull(rho_TPR_ij, "rho_TPR_ij");
+        TagValueValidator.notNull(N_TPR_ij_avg, "N_TPR_ij_avg");
+        TagValueValidator.notNull(alpha_st_t, "alpha_st_t");
+
+        TagValueValidator.haveSameLen2DimArr(
+                List.of(P_TPR_ij_avg, t_st_ij, rho_TPR_ij, N_TPR_ij_avg, t_KP_ij_avg, P_KP_ij_avg, t_TPR_ij_avg),
+                List.of("P_TPR_ij_avg", "t_st_ij", "rho_TPR_ij", "N_TPR_ij_avg", "t_KP_ij_avg", "P_KP_ij_avg", "t_TPR_ij_avg"));
+
+        if(alpha_cyl_t == null && alpha_cyl_t_sq == null){
+            throw new NotValidTagValueException(
+                    "Оба коэффициента alpha_cyl_t и alpha_cyl_t_sq равны null. " +
+                            "Хотя бы одно из них должно иметь значение");
+        }
+        TagValueValidator.hasOneOfValues(workingFluid, List.of("нефть", "нефтепродукт", "смазочное масло"), "workingFluid");
+        
+    }
     public double[] calculateK_j() {
+        validateBeforeK_j();
         alpha_cyl_t = MI3272Formulas.calculateAlpha_cyl_t(alpha_cyl_t, alpha_cyl_t_sq);
         V_KP_pr_ij = calculateV_KP_pr_ij(alpha_cyl_t, t_KP_ij_avg, P_KP_ij_avg, t_TPR_ij_avg,
                 P_TPR_ij_avg, t_st_ij, rho_TPR_ij, W_w_TPR_ij, W_xc_TPR_ij);
@@ -143,17 +174,112 @@ public class MI3272WithTprCalculator {
         K_TPR_j = MI3272Formulas.calculateK_TPR_j(K_TPR_ij);
         return K_TPR_j;
     }
+    
+    public void validate(){
+        TagValueValidator.notNull(P2_TPR_ij_avg, "P2_TPR_ij_avg");
+        TagValueValidator.notNull(t2_st_ij, "t2_st_ij");
+        TagValueValidator.notNull(t2_KP_ij_avg, "t2_KP_ij_avg");
+        TagValueValidator.notNull(P2_KP_ij_avg, "P2_KP_ij_avg");
+        TagValueValidator.notNull(t2_TPR_ij_avg, "t2_TPR_ij_avg");
+        TagValueValidator.notNull(rho2_TPR_ij, "rho2_TPR_ij");
+        TagValueValidator.notNull(N2_TPR_ij_avg, "N2_TPR_ij_avg");
+
+        TagValueValidator.notNull(T_ij_avg, "T_ij_avg");
+        TagValueValidator.notNull(rho_BIK_ij_avg, "rho_BIK_ij_avg");
+        TagValueValidator.notNull(t_PP_ij_avg, "t_PP_ij_avg");
+        TagValueValidator.notNull(P_PP_ij_avg, "P_PP_ij_avg");
+        TagValueValidator.notNull(rho_PP_ij_avg, "rho_PP_ij_avg");
+        
+        TagValueValidator.notNull(T_ij_avg, "T_ij_avg");
+        TagValueValidator.notNull(rho_BIK_ij_avg, "rho_BIK_ij_avg");
+        TagValueValidator.notNull(t_PP_ij_avg, "t_PP_ij_avg");
+        TagValueValidator.notNull(P_PP_ij_avg, "P_PP_ij_avg");
+        TagValueValidator.notNull(rho_PP_ij_avg, "rho_PP_ij_avg");
+        TagValueValidator.notNull(K_TPR_j, "K_TPR_j");
+        
+        TagValueValidator.notNull(T_ij, "T_ij");
+        TagValueValidator.notNull(rho_PP_ij, "rho_PP_ij");
+        TagValueValidator.notNull(t_PP_ij, "t_PP_ij");
+        TagValueValidator.notNull(P_PP_ij, "P_PP_ij");
+        TagValueValidator.notNull(N_TPR_ij_zad, "N_TPR_ij_zad");
+        TagValueValidator.notNull(t_TPR_ij, "t_TPR_ij");
+        TagValueValidator.notNull(P_TPR_ij, "P_TPR_ij");
+        TagValueValidator.notNull(rho_BIK_ij, "rho_BIK_ij");
+
+        boolean oilIsCrude = W_w_ij != null && W_w_ij.length != 0 && W_xc_ij != null && W_xc_ij.length != 0;
+        if(TPRInKP || oilIsCrude){
+            TagValueValidator.notNull(t_KP_ij, "t_KP_ij");
+        }
+
+        if(TPRInKP){
+            TagValueValidator.notNull(P_KP_ij, "P_KP_ij");
+        }
+
+        ArrayList<double[][]> valsLen1 = new ArrayList<>(List.of(
+                T_ij_avg, rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg, rho_PP_ij_avg,
+                T_ij_avg, rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg, rho_PP_ij_avg));
+        valsLen1.addAll(List.of(P2_TPR_ij_avg, t2_st_ij, rho2_TPR_ij, N2_TPR_ij_avg, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg));
+        ArrayList<String> namesLen1 = new ArrayList<>(List.of(
+                "T_ij_avg", "rho_BIK_ij_avg", "t_PP_ij_avg", "P_PP_ij_avg", "rho_PP_ij_avg",
+                "T_ij_avg", "rho_BIK_ij_avg", "t_PP_ij_avg", "P_PP_ij_avg", "rho_PP_ij_avg"));
+        namesLen1.addAll(List.of("P2_TPR_ij_avg", "t2_st_ij", "rho2_TPR_ij", "N2_TPR_ij_avg", "t2_KP_ij_avg", "P2_KP_ij_avg", "t2_TPR_ij_avg"));
+        if(W_w_TPR_ij != null){
+            valsLen1.add(W_w_TPR_ij);
+            namesLen1.add("W_w_TPR_ij");
+        }
+        if(W_xc_TPR_ij != null){
+            valsLen1.add(W_xc_TPR_ij);
+            namesLen1.add("W_xc_TPR_ij");
+        }
+
+        TagValueValidator.haveSameLen2DimArr(valsLen1, namesLen1);
+        TagValueValidator.haveSameLen(List.of(K_TPR_j, T_ij_avg[0]), List.of("K_TPR_j", "T_ij_avg"));
+
+        ArrayList<double[][]> valsLen2 = new ArrayList<>(List.of(
+                T_ij, N_mas_ij, rho_PP_ij, t_PP_ij, P_PP_ij,
+                N_TPR_ij_zad, t_TPR_ij, P_TPR_ij, rho_BIK_ij));
+
+        ArrayList<String> namesLen2 = new ArrayList<>(List.of(
+                "T_ij", "N_mas_ij", "rho_PP_ij", "t_PP_ij", "P_PP_ij",
+                "N_TPR_ij_zad", "t_TPR_ij", "P_TPR_ij", "rho_BIK_ij"));
+
+        if(TPRInKP || oilIsCrude){
+            valsLen2.add(t_KP_ij);
+            namesLen2.add("t_KP_ij");
+        }
+
+        if(TPRInKP){
+            valsLen2.add(P_KP_ij);
+            namesLen2.add("P_KP_ij");
+        }
+
+        if(W_w_ij != null){
+            valsLen2.add(W_w_ij);
+            namesLen1.add("W_w_ij");
+        }
+        if(W_xc_ij != null){
+            valsLen2.add(W_xc_ij);
+            namesLen1.add("W_xc_ij");
+        }
+
+        TagValueValidator.haveSameLen2DimArr(valsLen2, namesLen2);
+
+        TagValueValidator.hasOneOfValues(calibrCharImpl, List.of("ПЭП", "СОИ рабочий диапазон", "СОИ поддиапазон"), "calibrCharImpl");
+        TagValueValidator.notZero(KF_conf, "KF_conf");
+        TagValueValidator.notZero(T_ij, "T_ij");
+        TagValueValidator.notZero(T_ij_avg, "T_ij_avg");
+    }
 
     public MI3272TprFinalData calculateWithTpr() {
         log.info("----- МИ3272 -----");
+
+        validate();
+
         MI3272TprFinalData mi3272TprFinalData = new MI3272TprFinalData();
+
         double alpha_cyl_t = MI3272Formulas.calculateAlpha_cyl_t(this.alpha_cyl_t, alpha_cyl_t_sq);
         double[][] Q_ij_TPR = calculateQ_ij(alpha_cyl_t);
 
-//        double[][] V_KP_pr_ij = calculateV_KP_pr_ij(alpha_cyl_t, t_KP_ij_avg, P_KP_ij_avg, t_TPR_ij_avg,
-//                P_TPR_ij_avg, t_st_ij, rho_TPR_ij);
-//        double[][] K_TPR_ij = MI3272Formulas.calculateK_TPR_ij(N_TPR_ij_avg, V_KP_pr_ij);
-        
         double[] Pi_j = MI3272Formulas.calculatePi_j(K_TPR_ij);
         double[][] V2_KP_pr_ij = calculateV_KP_pr_ij(alpha_cyl_t, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg,
                 P2_TPR_ij_avg, t2_st_ij, rho2_TPR_ij, W_w_TPR_ij, W_xc_TPR_ij);
@@ -186,14 +312,21 @@ public class MI3272WithTprCalculator {
 
         double[][] rho_PP_pr_ij;
         double[][] M_re_ij;
-        if(PPInKP && TPRInKP){
+
+        if(TPRInKP){
             rho_PP_pr_ij = MI3272Formulas.calculateRho_PP_pr_ij(rho_BIK_ij, t_PP_ij, t_KP_ij,
-                beta_fluid_ij, gamma_fluid_ij, P_KP_ij, P_PP_ij);
-            M_re_ij = MI3272Formulas.calculateM_re_ij(V_TPR_ij, rho_PP_pr_ij);
+                    beta_fluid_ij, gamma_fluid_ij, P_KP_ij, P_PP_ij);
+            log.info("P_КП_ij = \n{}", TableDisplay.display2DimArray(P_KP_ij));
         }
         else{
             rho_PP_pr_ij = MI3272Formulas.calculateRho_PP_pr_ij(rho_BIK_ij, t_PP_ij, t_TPR_ij,
                     beta_fluid_ij, gamma_fluid_ij, P_TPR_ij, P_PP_ij);
+        }
+
+        if(PPInKP && TPRInKP){
+            M_re_ij = MI3272Formulas.calculateM_re_ij(V_TPR_ij, rho_PP_pr_ij);
+        }
+        else{
             M_re_ij = MI3272Formulas.calculateM_re_ij(V_TPR_ij, rho_PP_ij);
         }
 
@@ -221,6 +354,7 @@ public class MI3272WithTprCalculator {
         mi3272TprFinalData.setQ_j_avg(Q_j_avg);
         if (calibrCharImpl.equals(MI3272Constants.PEP)) {
             int measureCount = mi3272TprFinalData.getMF_ij().length;
+
             // записываются в таблицу 4 - (при реализации ГХ в ПЭП)
             double[] MF_j_avg = MI3272Formulas.calculateMF_j_avg(mi3272TprFinalData.getMF_ij());
             double S_MF_range = MI3272Formulas.calculateS_MF_range(mi3272TprFinalData.getMF_ij(), MF_j_avg);

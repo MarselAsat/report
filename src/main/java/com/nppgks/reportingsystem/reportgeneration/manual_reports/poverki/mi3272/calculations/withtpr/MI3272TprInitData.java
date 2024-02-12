@@ -1,7 +1,9 @@
 package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.withtpr;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class MI3272TprInitData extends TprCoeffInitData {
     // Реализация градуировочных характеристик:
@@ -18,18 +20,21 @@ public class MI3272TprInitData extends TprCoeffInitData {
     private double[][] t_KP_ij_avg, P_KP_ij_avg;
     private double[][] t_st_ij;
     private double[][] rho_TPR_ij; // используется для расчета beta и gamma в формуле (7)
+    private double[][] W_w_TPR_ij;
+    private double[][] W_xc_TPR_ij;
 
     // предыдущее расчитаное значение коэффициента
     private double[] K_TPR_j;
 
-    private double[][] T_ij;
-
     // параметры для расчета МХ массомера
+    private double[][] T_ij;
     private double[][] N_mas_ij;
     private double[][] rho_PP_ij, t_PP_ij, P_PP_ij;
     private double[][] N_TPR_ij_zad, t_TPR_ij, P_TPR_ij;
     private double[][] rho_BIK_ij;
     private double[][] t_KP_ij, P_KP_ij;
+    private double[][] W_w_ij;
+    private double[][] W_xc_ij;
     private double KF_conf;
     private double K_PEP_gr;
     private double MF_set_range;
@@ -37,10 +42,7 @@ public class MI3272TprInitData extends TprCoeffInitData {
     private double delta_UOI_K;
     private double delta_t_KP, delta_t_PP;
     private double ZS;
-    private double[][] W_w_TPR_ij;
-    private double[][] W_xc_TPR_ij;
-    private double[][] W_w_ij;
-    private double[][] W_xc_ij;
+
 
     // Эти параметры не используются в вычислениях. Только отображаются на html странице протокола поверки
     private double[] N_TPR_j_zad;

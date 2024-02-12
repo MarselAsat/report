@@ -12,9 +12,9 @@ public class TagValueValidator {
         }
     }
 
-    public static void haveSameLen(List<double[][]> arrs, List<String> arrNames) {
+    public static void haveSameLen2DimArr(List<double[][]> arrs, List<String> arrNames) {
         int n = arrs.get(0).length;
-        int m = arrs.get(0).length;
+        int m = arrs.get(0)[0].length;
         String refArrName = arrNames.get(0);
         for (int i = 0; i < arrs.size(); i++) {
             double[][] arr = arrs.get(i);
@@ -22,6 +22,19 @@ public class TagValueValidator {
                 throw new NotValidTagValueException(
                         "Длины массивов %s ([%s][%s]) и %s ([%s][%s]) должны совпадать"
                                 .formatted(arrNames.get(i), arr.length, arr[0].length, refArrName, n, m));
+            }
+        }
+    }
+
+    public static void haveSameLen(List<double[]> arrs, List<String> arrNames) {
+        int len = arrs.get(0).length;
+        String refArrName = arrNames.get(0);
+        for (int i = 0; i < arrs.size(); i++) {
+            double[] arr = arrs.get(i);
+            if (arr.length != len) {
+                throw new NotValidTagValueException(
+                        "Длины массивов %s ([%s] и %s ([%s]) должны совпадать"
+                                .formatted(arrNames.get(i), arr.length, refArrName, len));
             }
         }
     }
