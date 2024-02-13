@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.manyesrm;
 
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import com.nppgks.reportingsystem.util.DataRounder;

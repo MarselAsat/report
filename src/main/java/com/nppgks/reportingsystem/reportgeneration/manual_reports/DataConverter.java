@@ -80,7 +80,7 @@ public class DataConverter {
      * Ключ в map это имя тега из OPC, а значение это значение этого тега,
      * которое берется из соответствующего поля finalData
      */
-    public static <F> Map<String, Object> convertFinalDataToMap(F finalData, Map<String, String> tagsMap) {
+    public static <F> Map<String, Object> convertFinalDataToMap(F finalData, Map<String, String> tagsMap, boolean transposeArr) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -91,12 +91,12 @@ public class DataConverter {
                 declaredField.setAccessible(true);
                 Object data = declaredField.get(finalData);
                 if (data != null) {
-                    if (declaredField.getType().equals(double[][].class)) {
+                    if (declaredField.getType().equals(double[][].class) && transposeArr) {
                         data = transpose2DimArray((double[][]) data);
                     }
                     String tag = tagsMap.get(declaredField.getName());
                     if (tag == null) {
-                        throw new MissingDbDataException("Не существует тега с закрепленным именем " + declaredField.getName() + " (initial = FALSE) в таблице manual_reports.tag");
+                        log.error("Не существует тега с закрепленным именем {} (initial = FALSE) в таблице manual_reports.tag", declaredField.getName());
                     }
                     map.put(tagsMap.get(declaredField.getName()), data);
                 }
@@ -244,6 +244,14 @@ public class DataConverter {
             }
         }
         return transposeMatrix;
+    }
+
+    public double[][][] rearrangeListOfArrays(List<double[][]> array){
+//        int n = array.size();
+//        int m = array.get(0).length;
+//        int l = array.get(0)[0].length;
+//        double[][][] newArray = new double[][][n];
+        return null;
     }
 
 }

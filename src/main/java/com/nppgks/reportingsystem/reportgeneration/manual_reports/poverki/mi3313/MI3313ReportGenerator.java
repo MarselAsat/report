@@ -11,6 +11,9 @@ import com.nppgks.reportingsystem.reportgeneration.manual_reports.DataConverter;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.ManualReportGenerator;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.SaveReportStrategy;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.ReportGeneratorHelper;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.manyesrm.MI3313ManyEsrmCalculator;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.manyesrm.MI3313ManyEsrmFinalData;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.manyesrm.MI3313ManyEsrmInitialData;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportTypeService;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
@@ -41,7 +44,7 @@ public class MI3313ReportGenerator extends ManualReportGenerator {
     @Override
     protected List<ReportData> generateReportDataList() {
         if (reportType.equals(MI3313Type.MULTIPLE_ESRMS)) {
-            generateForMultipleEsrm();
+           return generateForMultipleEsrm();
         }
         Tag isFinishedTag = manualTagService.getTagByNameAndReportType("isFinished", ManualReportTypesEnum.mi3313OneEsrm.name());
         opcServiceRequests.sendTagValuesToOpc(Map.of(isFinishedTag.getAddress(), false));
@@ -59,19 +62,20 @@ public class MI3313ReportGenerator extends ManualReportGenerator {
 
         Map<String, String> finalTagsMap = DataConverter.createPermanentNameToAddressMap(finalTags);
 
-        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(mi3313FinalData, finalTagsMap);
+        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(mi3313FinalData, finalTagsMap, false);
         finalDataForOpc.put(isFinishedTag.getAddress(), true);
         opcServiceRequests.sendTagValuesToOpc(finalDataForOpc);
         return ReportGeneratorHelper.createListOfReportData(initialTags, finalTags, initialDataFromOpc, finalDataForOpc, report);
     }
 
-    private void generateForMultipleEsrm() {
+    private List<ReportData> generateForMultipleEsrm() {
         Tag isFinishedTag = manualTagService.getTagByNameAndReportType("isFinished", ManualReportTypesEnum.mi3313ManyEsrm.name());
         opcServiceRequests.sendTagValuesToOpc(Map.of(isFinishedTag.getAddress(), false));
+
         List<ManualTagForOpc> initialTags = manualTagService.getTagsByInitialAndReportType(true, ManualReportTypesEnum.mi3313ManyEsrm.name());
         List<String> initialTagsForOpc = DataConverter.convertTagsToListOfAddresses(initialTags);
 
-        addAddressesForMultipleEsrm(initialTagsForOpc);
+        initialTagsForOpc = addAddressesForMultipleEsrm(initialTagsForOpc);
 
         Map<String, String> initialDataFromOpc = opcServiceRequests.getTagValuesFromOpc(initialTagsForOpc);
 
@@ -86,9 +90,12 @@ public class MI3313ReportGenerator extends ManualReportGenerator {
 
         Map<String, String> finalTagsMap = DataConverter.createPermanentNameToAddressMap(finalTags);
 
-        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(mi3313FinalData, finalTagsMap);
-        finalDataForOpc.put(isFinishedTag.getAddress(), true);
-        opcServiceRequests.sendTagValuesToOpc(finalDataForOpc);
+        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(mi3313FinalData, finalTagsMap, false);
+        var finalDataForOpcUpdated = addAddressesForMultipleEsrm(finalDataForOpc);
+        finalDataForOpcUpdated.put(isFinishedTag.getAddress(), true);
+        opcServiceRequests.sendTagValuesToOpc(finalDataForOpcUpdated);
+
+        return ReportGeneratorHelper.createListOfReportData(initialTags, finalTags, initialDataFromOpc, finalDataForOpc, report);
     }
 
     public static Map<String, String> groupTagValuesByEsrm(Map<String, String> initialDataFromOpc) {
@@ -124,21 +131,48 @@ public class MI3313ReportGenerator extends ManualReportGenerator {
         return withoutEsrmTags;
     }
 
-    public static void addAddressesForMultipleEsrm(List<String> initialTagsForOpc) {
+    public static List<String> addAddressesForMultipleEsrm(List<String> initialTagsForOpc) {
+        List<String> tagsForOpcUpdated = new ArrayList<>(initialTagsForOpc);
         int esrmMaxCount = 10;
         List<String> commonAddresses = initialTagsForOpc.stream()
                 .filter(ad -> ad.matches(".+jik"))
                 .toList();
         for (String address : commonAddresses) {
-            initialTagsForOpc.remove(address);
+            tagsForOpcUpdated.remove(address);
             for (int i = 1; i <= esrmMaxCount; i++) {
-                initialTagsForOpc.add(address.replace("jik", "ji" + i));
+                tagsForOpcUpdated.add(address.replace("jik", "ji" + i));
             }
         }
+        return tagsForOpcUpdated;
+    }
+
+    public static Map<String, Object> addAddressesForMultipleEsrm(Map<String, Object> addressToValue) {
+        Map<String, Object> addressToValueUpdated = new HashMap<>(addressToValue);
+        Map<String, Object> commonAddresses = addressToValue.entrySet().stream()
+                .filter(entry -> entry.getKey().matches(".+jik"))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        for (Map.Entry<String, Object> entry : commonAddresses.entrySet()) {
+            addressToValueUpdated.remove(entry.getKey());
+            List<?> value = (List<?>) entry.getValue();
+            int esrmCount = value.size();
+            for (int i = 1; i <= esrmCount; i++) {
+                addressToValueUpdated.put(entry.getKey().replace("jik", "ji" + i), value.get(i-1));
+            }
+        }
+        return addressToValueUpdated;
     }
 
     @Override
     protected Report createReport(LocalDateTime currentDt) {
+        if(reportType.equals(MI3313Type.MULTIPLE_ESRMS)){
+            ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.mi3313ManyEsrm.name());
+            return new Report(
+                    null,
+                    "Поверка МИ3313 c помощью нескольких ЭСРМ от " + SingleDateTimeFormatter.formatToSinglePattern(currentDt),
+                    currentDt,
+                    reportType);
+        }
+
         ReportType reportType = manualReportTypeService.findById(ManualReportTypesEnum.mi3313OneEsrm.name());
         return new Report(
                 null,

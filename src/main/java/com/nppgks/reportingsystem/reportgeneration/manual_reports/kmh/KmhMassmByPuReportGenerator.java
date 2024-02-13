@@ -55,7 +55,7 @@ public class KmhMassmByPuReportGenerator extends ManualReportGenerator {
 
         List<ManualTagForOpc> finalTags = manualTagService.getTagsByInitialAndReportType(false, ManualReportTypesEnum.kmhMassmByPu.name());
         Map<String, String> finalTagsMap = DataConverter.createPermanentNameToAddressMap(finalTags);
-        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(finalData, finalTagsMap);
+        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(finalData, finalTagsMap, true);
 
         return createListOfReportData(initialTags, finalTags, initialDataFromOpc, finalDataForOpc, report);
     }

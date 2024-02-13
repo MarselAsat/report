@@ -1,5 +1,6 @@
 package com.nppgks.reportingsystem.unit.reportgeneration.calculations.mi3622;
 
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.manyesrm.MI3313ManyEsrmFinalData;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622Calculation;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.DataConverter;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622FinalData;
@@ -9,6 +10,7 @@ import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +48,23 @@ class DataConverterTest {
         MI3622FinalData.setEps_PDk(arr1Dim);
         Map<String, String> tagsMap = new HashMap<>();
         fillInTagsMap(tagsMap);
-        Map<String, Object> actualResult = DataConverter.convertFinalDataToMap(MI3622FinalData, tagsMap);
+        Map<String, Object> actualResult = DataConverter.convertFinalDataToMap(MI3622FinalData, tagsMap, true);
+        assertThat(actualResult).hasSize(4);
+    }
+
+    @Test
+    void convertFinalDataToMapMI3313() {
+        MI3313ManyEsrmFinalData finalData = new MI3313ManyEsrmFinalData();
+        finalData.setM_eji(new double[][]{{1, 2, 3}, {4, 5, 6}});
+        finalData.setM_ejik(List.of(new double[][]{{1, 2, 3}, {4, 5, 6}}, new double[][]{{1, 2, 3}, {4, 5, 6}}));
+        finalData.setQ_jik(List.of(new double[][]{{1, 2, 3}, {4, 5, 6}}, new double[][]{{1, 2, 3}, {4, 5, 6}}));
+        finalData.setQ_j(new double[]{1, 2, 3});
+        Map<String, String> tagNameToAddress = Map.of("M_eji", "addr.M_eji",
+                "M_ejik", "addr.M_ejik",
+                "Q_jik", "addr.Q_jik",
+                "Q_j", "addr.Q_j");
+
+        Map<String, Object> actualResult = DataConverter.convertFinalDataToMap(finalData, tagNameToAddress, false);
         assertThat(actualResult).hasSize(4);
     }
 

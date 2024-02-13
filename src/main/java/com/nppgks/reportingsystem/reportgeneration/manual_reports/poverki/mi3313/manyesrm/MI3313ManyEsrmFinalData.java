@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313;
+package com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.manyesrm;
 
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.FinalData;
 import lombok.Data;

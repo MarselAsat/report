@@ -57,7 +57,7 @@ public class ArrayParser {
         if (json == null || json.isBlank()) return null;
         try {
             // если это не массив, а просто строка
-            if (!json.matches(Regexes.ARRAY_2DIM_REGEX) && !json.matches(Regexes.ARRAY_REGEX)) {
+            if (!json.matches(Regexes.ARRAY_3DIM_REGEX) && !json.matches(Regexes.ARRAY_2DIM_REGEX) && !json.matches(Regexes.ARRAY_REGEX)) {
                 return json;
             }
             return objectMapper.readValue(json, Object.class);
@@ -67,12 +67,18 @@ public class ArrayParser {
     }
 
     public static String fromObjectToJson(Object object) {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
-            objectMapper.writeValue(out, object);
-            String result = out.toString();
+            String result = objectMapper.writeValueAsString(object);
             if (result.matches("\".*\"")) {
-                return result.replaceAll("\"", "");
+                StringBuilder sb = new StringBuilder(result);
+                sb.deleteCharAt(0);
+                sb.deleteCharAt(sb.length()-1);
+                return sb.toString();
+            }
+            if(result.matches("\\[\"\\[.*]\"]")){
+                result = result.replaceAll("\"\\[", "[");
+                result = result.replaceAll("]\"", "]");
+                return result;
             }
             return result;
         } catch (IOException e) {

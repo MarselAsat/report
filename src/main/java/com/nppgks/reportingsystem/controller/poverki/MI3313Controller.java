@@ -26,30 +26,16 @@ public class MI3313Controller {
     @GetMapping("/multipleEsrm")
     public String generateMI3313ManyEsrm(ModelMap modelMap){
         reportGenerator.setReportType(MI3313Type.MULTIPLE_ESRMS);
-        reportGenerator.generateReport();
-//        modelMap.put("esrm_sensor_type_k", new String[]{"one type", "two type", "three type"});
-//        modelMap.put("esrm_sensor_number", new String[]{"one num", "two num", "three num"});
-//        modelMap.put("esrm_converter_type_k", new String[]{"one type", "two type", "three type"});
-//        modelMap.put("esrm_converter_number_k", new String[]{"one type", "two type", "three type"});
-//        modelMap.put("Q_jik", List.of(new double[][]{{1, 7},{2, 8}, {3, 9}}, new double[][]{{4, 10}, {5, 11}, {6, 12}}));
-//        modelMap.put("N_ejik", List.of(new double[][]{{1, 7},{2, 8}, {3, 9}}, new double[][]{{4, 10}, {5, 11}, {6, 12}}));
-//        modelMap.put("M_ejik", List.of(new double[][]{{1, 7},{2, 8}, {3, 9}}, new double[][]{{4, 10}, {5, 11}, {6, 12}}));
-//        modelMap.put("K_PMEk", new double[]{99, 88});
-//        modelMap.put("Q_ji", new double[][]{{1, 2, 3}, {4, 5, 6}});
-//        modelMap.put("T_ji", new double[][]{{1, 2, 3}, {4, 5, 6}});
-//        modelMap.put("N_ji", new double[][]{{1, 2, 3}, {4, 5, 6}});
-//        modelMap.put("MF_ji", new double[][]{{1, 2, 3}, {4, 5, 6}});
-//        modelMap.put("Q_j", new double[]{1, 2, 3});
-//        modelMap.put("MF_j", new double[]{1, 2, 3});
-//        modelMap.put("S_j", new double[]{1, 2, 3});
-//        modelMap.put("S_0j", new double[]{1, 2, 3});
-//        modelMap.put("epsilon_j", new double[]{1, 2, 3});
-//        modelMap.put("Q_max", 3);
-//        modelMap.put("MF", 3);
-//        modelMap.put("S_0", 3);
-//        modelMap.put("t_P", 3);
-//        modelMap.put("P_P", 3);
-
+        List<ReportData> reportDataList = reportGenerator.generateReport();
+        reportDataList.forEach(rd -> {
+            Object value = ArrayParser.fromJsonToObject(rd.getData());
+            if(!modelMap.containsKey("n") && value instanceof ArrayList<?>){
+                int n = ((ArrayList<?>)(((ArrayList<?>) value).get(0))).size();
+                modelMap.put("n", n);
+            }
+            modelMap.put(
+                    rd.getTag().getPermanentName(), value);
+        });
 
         // Этот параметр нужен для сохранения отчета
         // Этот параметр используется в обработчике нажатия на кнопку "Сохранить в БД" в save-report-in-db.js
@@ -63,6 +49,7 @@ public class MI3313Controller {
 
     @GetMapping
     public String generateMI3313ReportPage(ModelMap modelMap){
+        reportGenerator.setReportType(MI3313Type.ONE_ESRM);
         List<ReportData> reportDataList = reportGenerator.generateReport();
         reportDataList.forEach(rd -> {
             Object value = ArrayParser.fromJsonToObject(rd.getData());
@@ -86,7 +73,7 @@ public class MI3313Controller {
 
     @ResponseBody
     @GetMapping("/save")
-    public String saveMI3272Data() {
+    public String saveMI3313Data() {
         return reportGenerator.saveReportInDb();
     }
 }

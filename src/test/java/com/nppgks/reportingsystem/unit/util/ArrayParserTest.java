@@ -22,13 +22,22 @@ public class ArrayParserTest {
         double[] array = new double[]{0.000000000098d, 87978089879d};
         Double dobObj = 87978089879d;
         double dobPrim = 87978089879d;
+        double[][] arr2Dim = new double[][]{{1, 2, 3},{4, 5, 6}};
+        double[][][] arr3Dim = new double[][][]{{{1, 2, 3},{4, 5, 6}}, {{1, 2, 3},{4, 5, 6}}};
+        String[][] arr2DimStr = new String[][]{{"a", "b", "c"}, {"d", "e", "f"}};
         String actualPojo = ArrayParser.fromObjectToJson(testPojo);
         String actualArray = ArrayParser.fromObjectToJson(array);
+        String actual2DimArray = ArrayParser.fromObjectToJson(arr2Dim);
+        String actual2DimArrayStr = ArrayParser.fromObjectToJson(arr2DimStr);
+        String actual3DimArray = ArrayParser.fromObjectToJson(arr3Dim);
         String actualDoubleObject = ArrayParser.fromObjectToJson(dobObj);
         String actualDoublePrimitive = ArrayParser.fromObjectToJson(dobPrim);
 
         assertThat(actualPojo).isEqualTo("{\"doubleField\":\"0.000000078\",\"doubleObjectField\":\"87978089879\"}");
         assertThat(actualArray).isEqualTo("[0.000000000098,87978089879]");
+        assertThat(actual2DimArray).isEqualTo("[[1,2,3],[4,5,6]]");
+        assertThat(actual2DimArrayStr).isEqualTo("[[\"a\",\"b\",\"c\"],[\"d\",\"e\",\"f\"]]");
+        assertThat(actual3DimArray).isEqualTo("[[[1,2,3],[4,5,6]],[[1,2,3],[4,5,6]]]");
         assertThat(actualDoubleObject).isEqualTo("87978089879");
         assertThat(actualDoublePrimitive).isEqualTo("87978089879");
     }
