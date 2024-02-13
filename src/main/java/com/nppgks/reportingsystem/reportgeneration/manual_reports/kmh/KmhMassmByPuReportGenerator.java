@@ -14,7 +14,7 @@ import com.nppgks.reportingsystem.reportgeneration.manual_reports.kmh.massmbypu.
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.kmh.massmbypu.KmhMassmByPuInitialData;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualReportTypeService;
 import com.nppgks.reportingsystem.util.DataRounder;
-import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.MI3272InitialData;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.withtpr.MI3272TprInitData;
 import com.nppgks.reportingsystem.service.dbservices.manual_reports.ManualTagService;
 import com.nppgks.reportingsystem.util.ArrayParser;
 import com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter;
@@ -46,7 +46,7 @@ public class KmhMassmByPuReportGenerator extends ManualReportGenerator {
         Map<String, String> initialDataFromOpc = opcServiceRequests.getTagValuesFromOpc(initialTagsForOpc);
 
         Map<String, String> initialTagsMap = DataConverter.createPermanentNameToAddressMap(initialTags);
-        DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagsMap, MI3272InitialData.class);
+        DataConverter.putInOrder2DArraysInOpcData(initialDataFromOpc, initialTagsMap, MI3272TprInitData.class);
 
         KmhMassmByPuInitialData initialData = DataConverter.convertMapToInitialData(initialDataFromOpc, initialTagsMap, KmhMassmByPuInitialData.class, true);
 

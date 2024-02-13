@@ -1,6 +1,7 @@
 package com.nppgks.reportingsystem.exception;
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.nppgks.reportingsystem.controller.poverki.MI3272Controller;
 import com.nppgks.reportingsystem.controller.poverki.MI3622Controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice(assignableTypes = MI3622Controller.class)
+@ControllerAdvice(assignableTypes = {MI3622Controller.class, MI3272Controller.class})
 @Slf4j
 public class CalculationsControllerExceptionHandler {
     @ExceptionHandler
@@ -39,6 +40,13 @@ public class CalculationsControllerExceptionHandler {
         log.error(e.getMessage(), e);
 
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handleMissingReportStageException(MissingReportStageException e) {
+        log.error(e.getMessage(), e);
+
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }

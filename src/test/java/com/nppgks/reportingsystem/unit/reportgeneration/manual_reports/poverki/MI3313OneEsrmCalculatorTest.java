@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.unit.reportgeneration.poverki;
+package com.nppgks.reportingsystem.unit.reportgeneration.manual_reports.poverki;
 
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3313.MI3313OneEsrmCalculator;

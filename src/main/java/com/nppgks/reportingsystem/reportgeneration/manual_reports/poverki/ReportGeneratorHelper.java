@@ -5,8 +5,8 @@ import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.DataConverter;
 import com.nppgks.reportingsystem.util.ArrayParser;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -45,5 +45,10 @@ public class ReportGeneratorHelper {
             reportDataList.add(reportData);
         }
         return reportDataList;
+    }
+
+    public static boolean tagNameMatchesAnyDataField(String tagName, Class <? extends InitialData> initDataType){
+        return Arrays.stream(initDataType.getDeclaredFields())
+                .anyMatch(f -> f.getName().equals(tagName));
     }
 }

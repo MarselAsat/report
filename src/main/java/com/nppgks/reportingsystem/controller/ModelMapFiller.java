@@ -44,4 +44,25 @@ public class ModelMapFiller {
                 .mapToDouble(Double::parseDouble)
                 .sum();
     }
+
+    public static void fillForMI3272(ModelMap modelMap, List<ReportData> reportDataList, boolean usedTpr){
+        reportDataList.forEach(rd -> {
+            String json = rd.getData();
+            String separator = "#";
+            if(json.contains(separator)){
+                json = json.split(separator)[0];
+            }
+            Object value = ArrayParser.fromJsonToObject(json);
+            modelMap.put(
+                    rd.getTag().getPermanentName(), value);
+        });
+        modelMap.put("usedTPR", usedTpr);
+    }
+//    public static void fillForMI3272(ModelMap modelMap, List<ReportData> reportDataList){
+//        reportDataList.forEach(rd -> {
+//            Object value = ArrayParser.fromJsonToObject(rd.getData());
+//            modelMap.put(rd.getTag().getPermanentName(), value);
+//        });
+//        modelMap.put("usedTPR", "false");
+//    }
 }

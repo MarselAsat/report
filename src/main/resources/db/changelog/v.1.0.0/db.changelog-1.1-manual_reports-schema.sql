@@ -18,11 +18,12 @@ CREATE TABLE IF NOT EXISTS tag
 (
     id             SERIAL PRIMARY KEY,
     permanent_name VARCHAR(256) NOT NULL,
-    address        VARCHAR(256) NOT NULL UNIQUE CHECK (address <> ''),
+    address        VARCHAR(256) NOT NULL CHECK (address <> ''),
     description    VARCHAR(512),
     initial        BOOLEAN      NOT NULL,
     report_type_id   VARCHAR(32) REFERENCES report_type (id)   NOT NULL,
-    UNIQUE(permanent_name, report_type_id, initial)
+    UNIQUE(permanent_name, report_type_id, initial),
+    UNIQUE(address, initial)
 );
 
 --changeset alina.parfenteva:3

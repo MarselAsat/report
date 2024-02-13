@@ -315,18 +315,18 @@
                         </thead>
 
                         <tbody>
-                        <div th:each="qj,j : ${Q_ij_TPR}" th:with="len=${#lists.size(Q_ij_TPR[0])}">
+                        <div th:each="qj,j : ${Q_TPR_ij}" th:with="len=${#lists.size(Q_TPR_ij[0])}">
                             <tr th:each="qi,i : ${qj}">
                                 <td th:text="|${j.index+1}/${i.index+1} сер|"></td>
-                                <td th:text="${Q_ij_TPR != null} ? ${Q_ij_TPR[j.index][i.index]} : '-'"></td>
+                                <td th:text="${Q_TPR_ij != null} ? ${Q_TPR_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${N_TPR_ij_avg != null} ? ${N_TPR_ij_avg[j.index][i.index]} : '-'"></td>
                                 <td th:text="${t_TPR_ij_avg != null} ? ${t_TPR_ij_avg[j.index][i.index]} : '-'"></td>
                                 <td th:text="${P_TPR_ij_avg != null} ? ${P_TPR_ij_avg[j.index][i.index]} : '-'"></td>
                                 <td th:text="${t_KP_ij_avg != null} ? ${t_KP_ij_avg[j.index][i.index]} : '-'"></td>
                                 <td th:text="${P_KP_ij_avg != null} ? ${P_KP_ij_avg[j.index][i.index]} : '-'"></td>
                                 <td th:text="${t_st_ij != null} ? ${t_st_ij[j.index][i.index]} : '-'"></td>
-                                <td th:text="${W_w != null} ? ${W_w[j.index][i.index]} : '-'"></td>
-                                <td th:text="${W_chs != null} ? ${W_chs[j.index][i.index]} : '-'"></td></tr>
+                                <td th:text="${W_w_TPR_ij != null} ? ${W_w_TPR_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${W_xc_TPR_ij != null} ? ${W_xc_TPR_ij[j.index][i.index]} : '-'"></td></tr>
                         </div>
                         </tbody>
                     </table>
@@ -352,7 +352,7 @@
                         </thead>
 
                         <tbody>
-                        <div th:each="qj,j : ${Q_ij_TPR}" th:with="len=${#lists.size(Q_ij_TPR[0])}">
+                        <div th:each="qj,j : ${Q_TPR_ij}" th:with="len=${#lists.size(Q_TPR_ij[0])}">
                             <tr th:each="qi,i : ${qj}">
                                 <td th:text="|${j.index+1}/${i.index+1} сер|"></td>
                                 <td th:text="${V_KP_pr_ij != null} ? ${V_KP_pr_ij[j.index][i.index]} : '-'"></td>
@@ -397,7 +397,8 @@
                                 <td th:text="|${j.index+1}/${i.index+1} отсч.|"></td>
                                 <td th:text="${Q_ij != null} ? ${Q_ij[j.index][i.index]} : '-'"></td>
                                 <td th:if="${i.index == 0}" th:rowspan="${len}" th:text="${K_TPR_j != null} ? ${K_TPR_j[j.index]} : '-'"></td>
-                                <td th:text="${N_TPR_ij_zad != null} ? ${N_TPR_ij_zad[j.index][i.index]} : '-'"></td>
+                                <td th:if="${i.index == 0}" th:rowspan="${len}" th:text="${N_TPR_j_zad != null} ? ${N_TPR_j_zad[j.index]} : '-'"></td>
+<!--                                <td th:text="${N_TPR_ij_zad != null} ? ${N_TPR_ij_zad[j.index][i.index]} : '-'"></td>-->
                                 <td th:text="${V_TPR_ij != null} ? ${V_TPR_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${t_TPR_ij != null} ? ${t_TPR_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${P_TPR_ij != null} ? ${P_TPR_ij[j.index][i.index]} : '-'"></td>
@@ -472,11 +473,11 @@
                                 <td th:text="${N_mas_ij != null} ? ${N_mas_ij[j.index][i.index]} : '-'"></td>
                                 <td th:text="${t_KP_ij_avg != null} ? ${t_KP_ij_avg[j.index][i.index]} : '-'"></td>
                                 <td th:text="${P_KP_ij_avg != null} ? ${P_KP_ij_avg[j.index][i.index]} : '-'"></td>
-                                <td th:text="${rho_PP_ij != null} ? ${rho_PP_ij[j.index][i.index]} : '-'"></td>
-                                <td th:text="${t_PP_ij != null} ? ${t_PP_ij[j.index][i.index]} : '-'"></td>
-                                <td th:text="${P_PP_ij != null} ? ${P_PP_ij[j.index][i.index]} : '-'"></td>
-                                <td th:text="${W_w != null} ? ${W_w[j.index][i.index]} : '-'"></td>
-                                <td th:text="${W_chs != null} ? ${W_chs[j.index][i.index]} : '-'"></td></tr>
+                                <td th:text="${rho_PP_ij_avg != null} ? ${rho_PP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${t_PP_ij_avg != null} ? ${t_PP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${P_PP_ij_avg != null} ? ${P_PP_ij_avg[j.index][i.index]} : '-'"></td>
+                                <td th:text="${W_w_ij != null} ? ${W_w_ij[j.index][i.index]} : '-'"></td>
+                                <td th:text="${W_xc_ij != null} ? ${W_xc_ij[j.index][i.index]} : '-'"></td></tr>
                         </div>
                         </tbody>
                     </table>
@@ -526,7 +527,7 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td th:text="${alpha_cyl_t} ?: '-'"></td>
+                            <td th:text="${alpha_cyl_t_out} ?: '-'"></td>
                             <td th:text="${alpha_cyl_t_sq} ?: '-'"></td>
                             <td th:text="${alpha_st_t} ?: '-'"></td>
                             <td th:text="${t_P_n} ?: '-'"></td>
