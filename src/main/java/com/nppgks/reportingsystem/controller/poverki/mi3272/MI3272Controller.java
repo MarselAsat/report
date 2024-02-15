@@ -1,4 +1,4 @@
-package com.nppgks.reportingsystem.controller.poverki;
+package com.nppgks.reportingsystem.controller.poverki.mi3272;
 
 import com.nppgks.reportingsystem.controller.ModelMapFiller;
 import com.nppgks.reportingsystem.db.manual_reports.entity.ReportData;

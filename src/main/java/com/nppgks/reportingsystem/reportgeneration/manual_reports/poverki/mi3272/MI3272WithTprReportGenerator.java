@@ -85,7 +85,7 @@ public class MI3272WithTprReportGenerator extends ManualReportGenerator {
 
         Map<String, String> finalTagsMap = DataConverter.createPermanentNameToAddressMap(finalTags);
 
-        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(mi3272TprFinalData, finalTagsMap);
+        Map<String, Object> finalDataForOpc = DataConverter.convertFinalDataToMap(mi3272TprFinalData, finalTagsMap, true);
         finalDataForOpc.put(isFinishedTag.getAddress(), true);
         opcServiceRequests.sendTagValuesToOpc(finalDataForOpc);
         Map<String, String> allInitDataFromOc = mergeInitialMaps(tprCoeffInitDataFromOpc, restInitDataFromOpc);

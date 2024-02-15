@@ -73,7 +73,7 @@ VALUES ('protocolNumber', 'mi3313OneEsrm.protocolNumber', 'Номер прото
        ('esrm_converter_number', 'mi3313OneEsrm.esrm_converter_number', 'Заводской номер преобразователя ЭСРМ', TRUE, 'mi3313OneEsrm'),
        ('ivk_type', 'mi3313OneEsrm.ivk_type', 'Тип ИВК', TRUE, 'mi3313OneEsrm'),
        ('ivk_number', 'mi3313OneEsrm.ivk_number', 'Заводской номер ИВК', TRUE, 'mi3313OneEsrm'),
-       ('working_fluid', 'mi3313OneEsrm.operating_fluid', 'Рабочая жидкость', TRUE, 'mi3313OneEsrm');
+       ('working_fluid', 'mi3313OneEsrm.working_fluid', 'Рабочая жидкость', TRUE, 'mi3313OneEsrm');
 -- FinalData
 INSERT INTO tag (permanent_name, address, description, initial, report_type_id)
 VALUES ('M_eji', 'mi3313OneEsrm.M_eji',

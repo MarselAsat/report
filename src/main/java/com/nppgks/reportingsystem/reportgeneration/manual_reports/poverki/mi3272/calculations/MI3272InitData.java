@@ -40,7 +40,6 @@ public class MI3272InitData implements InitialData {
     private double[][] T_ij;
     private double[][] t_st_ij;
 
-    private double[][] rho_BIK_ij_avg;
     private double K_PEP_gr;
     private double MF_set_range;
 

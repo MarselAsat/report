@@ -13,7 +13,7 @@ public class MI3272TprInitData extends TprCoeffInitData {
     private String calibrCharImpl;
 
     // доп параметры для вычисления Q_ij
-    private double[][] T_ij_avg, rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg, rho_PP_ij_avg;
+    private double[][] T_ij_avg, rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg;
 
     // Повторные измерения для расчета коэффициента ТПР
     private double[][] N_TPR_ij_avg, t_TPR_ij_avg, P_TPR_ij_avg;
@@ -31,7 +31,6 @@ public class MI3272TprInitData extends TprCoeffInitData {
     private double[][] N_mas_ij;
     private double[][] rho_PP_ij, t_PP_ij, P_PP_ij;
     private double[][] N_TPR_ij_zad, t_TPR_ij, P_TPR_ij;
-    private double[][] rho_BIK_ij;
     private double[][] t_KP_ij, P_KP_ij;
     private double[][] W_w_ij;
     private double[][] W_xc_ij;

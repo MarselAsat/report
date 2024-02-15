@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -214,31 +213,6 @@ public class ReportViewController {
         });
         return "report_pages/acts/oil-quality-passport";
     }
-
-    @GetMapping(value = "/mi3313OneEsrmReport/{reportId}")
-    public String getMi3313Report(ModelMap modelMap,
-                                  @PathVariable Long reportId) {
-        var report = manualReportService.findReportById(reportId);
-
-        LocalDate creationDate = report.getCreationDt().toLocalDate();
-
-        modelMap.put("date", SingleDateTimeFormatter.formatMonthToRussian(creationDate));
-
-        var reportDataList = manualReportDataService.getReportDataList(reportId);
-
-        reportDataList.forEach(rd -> {
-            Object value = ArrayParser.fromJsonToObject(rd.getData());
-            if (!modelMap.containsKey("n") && value instanceof ArrayList<?>) {
-                int n = ((ArrayList<?>) (((ArrayList<?>) value).get(0))).size();
-                modelMap.put("n", n);
-            }
-            modelMap.put(
-                    rd.getTag().getPermanentName(), value);
-        });
-
-        return "report_pages/poverki/MI3313-one-esrm";
-    }
-
 
     private void fillModelMapForReportView(ModelMap modelMap, Long reportId, String columnsFromSetting) {
         Report report = reportService.getById(reportId);

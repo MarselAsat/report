@@ -7,6 +7,7 @@ import com.nppgks.reportingsystem.util.TableDisplay;
 import com.nppgks.reportingsystem.util.TagValueValidator;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class MI3272Calculator {
 
     private double[][] T_ij;
 
-    private double[][] rho_BIK_ij_avg;
+    //private double[][] rho_BIK_ij_avg;
     private double[][] t_st_ij;
     private double K_PEP_gr;
     private double MF_set_range;
@@ -67,7 +68,7 @@ public class MI3272Calculator {
         this.T_ij = MI3272InitData.getT_ij();
         this.t_st_ij = MI3272InitData.getT_st_ij();
         this.N_mas_ij = MI3272InitData.getN_mas_ij();
-        this.rho_BIK_ij_avg = MI3272InitData.getRho_BIK_ij_avg();
+        //this.rho_BIK_ij_avg = MI3272InitData.getRho_BIK_ij_avg();
         this.rho_PP_ij_avg = MI3272InitData.getRho_PP_ij_avg();
         this.t_PP_ij_avg = MI3272InitData.getT_PP_ij_avg();
         this.P_PP_ij_avg = MI3272InitData.getP_PP_ij_avg();
@@ -91,20 +92,26 @@ public class MI3272Calculator {
         TagValueValidator.notNull(rho_PP_ij_avg, "rho_PP_ij_avg");
         TagValueValidator.notNull(t_PP_ij_avg, "t_PP_ij_avg");
         TagValueValidator.notNull(P_PP_ij_avg, "P_PP_ij_avg");
-        TagValueValidator.notNull(rho_BIK_ij_avg, "rho_BIK_ij_avg");
         TagValueValidator.notNull(T_ij, "T_ij");
         TagValueValidator.notNull(t_st_ij, "t_st_ij");
         TagValueValidator.notNull(alpha_st_t, "alpha_st_t");
 
         TagValueValidator.haveSameLen2DimArr(
-                List.of(N_mas_ij, t_KP_ij_avg, P_KP_ij_avg, rho_PP_ij_avg, t_PP_ij_avg, rho_BIK_ij_avg, T_ij, t_st_ij),
-                List.of("N_mas_ij", "t_KP_ij_avg", "P_KP_ij_avg", "rho_PP_ij_avg", "t_PP_ij_avg", "rho_BIK_ij_avg", "T_ij", "t_st_ij"));
+                List.of(N_mas_ij, t_KP_ij_avg, P_KP_ij_avg, rho_PP_ij_avg, t_PP_ij_avg, T_ij, t_st_ij),
+                List.of("N_mas_ij", "t_KP_ij_avg", "P_KP_ij_avg", "rho_PP_ij_avg", "t_PP_ij_avg", "T_ij", "t_st_ij"));
 
         TagValueValidator.hasOneOfValues(workingFluid, List.of("нефть", "нефтепродукт", "смазочное масло"), "workingFluid");
         TagValueValidator.hasOneOfValues(calibrCharImpl, List.of("ПЭП", "СОИ рабочий диапазон", "СОИ поддиапазон"), "calibrCharImpl");
 
         TagValueValidator.notZero(KF_conf, "KF_conf");
         TagValueValidator.notZero(T_ij, "T_ij");
+        if(PPInKP){
+            boolean tEquals = Arrays.deepEquals(t_KP_ij_avg, t_PP_ij_avg);
+            boolean PEquals = Arrays.deepEquals(P_PP_ij_avg, P_KP_ij_avg);
+            if(!tEquals || !PEquals){
+                throw new NotValidTagValueException("Если ПП установлен на КП, то t_ПП должно быть равно t_КП, а P_ПП должно быть равно P_KP");
+            }
+        }
 
         if(alpha_cyl_t == null && alpha_cyl_t_sq == null){
             throw new NotValidTagValueException(
@@ -133,10 +140,9 @@ public class MI3272Calculator {
         log.info("rho_15 = \n{}", TableDisplay.display2DimArray(rho_15));
         log.info("beta_ж = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
         log.info("gamma_ж = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));
-        log.info("rho_БИК_ij = \n{}", TableDisplay.display2DimArray(rho_BIK_ij_avg));
 
-        double[][] rho_PP_pr_ij = MI3272Formulas.calculateRho_PP_pr_ij(rho_BIK_ij_avg, t_PP_ij_avg, t_KP_ij_avg,
-                beta_fluid_ij, gamma_fluid_ij, P_KP_ij_avg, P_PP_ij_avg);
+        double[][] rho_PP_pr_ij = MI3272Formulas.calculateRho_PP_pr_ij(rho_PP_ij_avg, t_PP_ij_avg, t_KP_ij_avg,
+                    beta_fluid_ij, gamma_fluid_ij, P_KP_ij_avg, P_PP_ij_avg);
 
         double[][] M_re_ij;
         if (PPInKP) {

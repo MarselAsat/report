@@ -158,6 +158,21 @@ class DataConverterTest {
     }
 
     @Test
+    void rearrangeListOfArrays(){
+        List<List<List<Object>>> array = List.of(
+                List.of(List.of(1.0, 2.0, 3.0, 4.0), List.of(5.0, 6.0, 7.0, 8.0), List.of(9.0, 10.0, 11.0, 12.0)),
+                List.of(List.of(13.0, 14.0, 15.0, 16.0), List.of(17.0, 18.0, 19.0, 20.0), List.of(21.0, 22.0, 23.0, 24.0)));
+
+        Object[][][] actual = DataConverter.rearrangeListOfArrays(array);
+        Object[][][] expected = new Object[][][]{{{1, 13}, {2, 14}, {3, 15}, {4, 16}},
+                {{5, 17}, {6, 18}, {7, 19}, {8, 20}},
+                {{9, 21}, {10, 22}, {11, 23}, {12, 24}
+        }};
+        assertThat(actual).isEqualTo(expected);
+        System.out.println();
+    }
+
+    @Test
     void testReflectionApi() {
 //        FinalData finalData = new FinalData();
 //        finalData.setK_pm(89.987989);

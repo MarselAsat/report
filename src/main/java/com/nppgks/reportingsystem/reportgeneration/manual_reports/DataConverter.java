@@ -2,7 +2,6 @@ package com.nppgks.reportingsystem.reportgeneration.manual_reports;
 
 import com.nppgks.reportingsystem.constants.Regexes;
 import com.nppgks.reportingsystem.dto.manual.ManualTagForOpc;
-import com.nppgks.reportingsystem.exception.MissingDbDataException;
 import com.nppgks.reportingsystem.exception.MissingOpcTagException;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3622.calculations.MI3622Calculation;
@@ -246,12 +245,19 @@ public class DataConverter {
         return transposeMatrix;
     }
 
-    public double[][][] rearrangeListOfArrays(List<double[][]> array){
-//        int n = array.size();
-//        int m = array.get(0).length;
-//        int l = array.get(0)[0].length;
-//        double[][][] newArray = new double[][][n];
-        return null;
+    public static Object[][][] rearrangeListOfArrays(List<List<List<Object>>> array){
+        int n = array.size();
+        int m = array.get(0).size();
+        int l = array.get(0).get(0).size();
+        Object[][][] newArray = new Object[m][l][n];
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                for(int k=0; k<l;k++){
+                    newArray[j][k][i] = array.get(i).get(j).get(k);
+                }
+            }
+        }
+        return newArray;
     }
 
 }
