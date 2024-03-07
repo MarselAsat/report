@@ -48,6 +48,8 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.4.RELEASE'
     implementation 'javax.validation:validation-api'
     implementation 'org.decimal4j:decimal4j:1.0.3'
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+
 
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.postgresql:postgresql'

@@ -172,13 +172,14 @@ public class MI3272Calculator {
         mi3272FinalData.setQ_j_avg(Q_j_avg);
         if (calibrCharImpl.equals(MI3272Constants.PEP)) {
             int measureCount = mi3272FinalData.getMF_ij().length;
+            int pointsCount = mi3272FinalData.getMF_ij()[0].length;
             // записываются в таблицу 4 - (при реализации ГХ в ПЭП)
             double[] MF_j_avg = MI3272Formulas.calculateMF_j_avg(mi3272FinalData.getMF_ij());
             double S_MF_range = MI3272Formulas.calculateS_MF_range(mi3272FinalData.getMF_ij(), MF_j_avg);
             double delta_mas_0 = MI3272Formulas.calculateDelta_mas_0(ZS, Q_j_avg);
             double MF_range = MI3272Formulas.calculateMF_range(MF_j_avg);
             double K_gr = MI3272Formulas.calculateK_gr(K_PEP_gr, MF_range);
-            double t_P_n = Appendix.get_t_P_n(measureCount);
+            double t_P_n = Appendix.get_t_P_n(measureCount * pointsCount);
             double epsilon = MI3272Formulas.calculateEpsilon_PEP(t_P_n, S_MF_range);
 
             // вспомогательные
@@ -214,6 +215,7 @@ public class MI3272Calculator {
 
             // вспомогательные
             int measureCount = KF_ij.length;
+            int pointsCount = KF_ij[0].length;
 
             // записываются в таблицу 4 - (при реализации ГХ в СОИ в виде постоянного значения К-фактора)
             double[] KF_j_avg = MI3272Formulas.calculateKF_j_avg(KF_ij);
@@ -223,7 +225,7 @@ public class MI3272Calculator {
             double theta_KF_range = MI3272Formulas.calculateTheta_MForKF_range(KF_j_avg, KF_range);
 
             // записываются в таблицу 3
-            double t_P_n = Appendix.get_t_P_n(measureCount);
+            double t_P_n = Appendix.get_t_P_n(measureCount*pointsCount);
 
             // записываются в таблицу 4 - (при реализации ГХ в СОИ в виде постоянного значения К-фактора)
             double epsilon = MI3272Formulas.calculateEpsilon_SOI_const(t_P_n, S_KF_range);

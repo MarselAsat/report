@@ -2,6 +2,7 @@ package com.nppgks.reportingsystem.util;
 
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class TagValueValidator {
@@ -67,6 +68,14 @@ public class TagValueValidator {
             for (double num: arr) {
                 notZero(num, objName);
             }
+        }
+    }
+
+    public static void shouldBeEqual(double[][] arr1, String arr1Name, double[][] arr2, String arr2Name){
+        if(!Arrays.deepEquals(arr1, arr2)){
+            throw new NotValidTagValueException(
+                    "%s = %s\n и %s = %s,\n но их значения должны быть равны"
+                            .formatted(arr1Name, Arrays.deepToString(arr1), arr2Name, Arrays.deepToString(arr2)));
         }
     }
 }

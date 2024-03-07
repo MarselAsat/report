@@ -6,11 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.math3.distribution.TDistribution;
 
 //@Component
 @Slf4j
 public class Appendix {
-    private static final Map<Integer, Double> tableG_1 = new HashMap<>();
+
     private static final Map<Double, Double> tableG_2 = Map.of(0.5, 0.81,
             0.75, 0.77,
             1.0, 0.74,
@@ -22,32 +23,10 @@ public class Appendix {
             7.0, 0.8,
             8.0, 0.81);
 
-    static {
-        tableG_1.put(1, 12.706);
-        tableG_1.put(2, 4.303);
-        tableG_1.put(3, 3.182);
-        tableG_1.put(4, 2.776);
-        tableG_1.put(5, 2.571);
-        tableG_1.put(6, 2.447);
-        tableG_1.put(7, 2.365);
-        tableG_1.put(8, 2.306);
-        tableG_1.put(9, 2.262);
-        tableG_1.put(10, 2.228);
-        tableG_1.put(11, 2.203);
-        tableG_1.put(12, 2.179);
-        tableG_1.put(13, 2.162);
-        tableG_1.put(14, 2.145);
-        tableG_1.put(15, 2.132);
-        tableG_1.put(16, 2.120);
-        tableG_1.put(17, 2.110);
-        tableG_1.put(18, 2.101);
-        tableG_1.put(19, 2.093);
-        tableG_1.put(20, 2.086);
-    }
-
     // n - кол-во измерений
     public static double get_t_P_n(int n) {
-        return tableG_1.get(n - 1);
+        TDistribution t = new TDistribution(n-1);
+        return t.inverseCumulativeProbability(0.975);
     }
 
     public static double calculateBeta_fluid_max(double[][] beta_fluid_ij) {
