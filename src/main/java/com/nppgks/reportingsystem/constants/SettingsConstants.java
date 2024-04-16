@@ -4,6 +4,8 @@ final public class SettingsConstants {
     public static final String REPORT_COLUMNS_POSTFIX = " report columns";
     public static final String START_TIME_REPORT_POSTFIX = " report start time";
     public static final String HOUR_REPORT_COLUMNS = ReportTypesEnum.hour + REPORT_COLUMNS_POSTFIX;
+   // public static final String N_HOUR_REPORT_COLUMNS = ReportTypesEnum.n_hour + REPORT_COLUMNS_POSTFIX;
+   // public static final String MINUTE_REPORT_COLUMNS = ReportTypesEnum.minute + REPORT_COLUMNS_POSTFIX;
     public static final String TWOHOUR_REPORT_COLUMNS = ReportTypesEnum.twohour + REPORT_COLUMNS_POSTFIX;
     public static final String DAILY_REPORT_COLUMNS = ReportTypesEnum.daily + REPORT_COLUMNS_POSTFIX;
     public static final String SHIFT_REPORT_COLUMNS = ReportTypesEnum.shift + REPORT_COLUMNS_POSTFIX;

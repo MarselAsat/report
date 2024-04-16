@@ -102,4 +102,12 @@ public class AdminViewController {
         modelMap.put("tags", allTagsService.getAllScheduledAndManualTags());
         return "opc-server";
     }
+
+    @GetMapping("/TipOtchetov")
+    public String getTipOtchetovPage(ModelMap modelMap) {
+        modelMap.put("tags", allTagsService.getAllScheduledAndManualTags());
+        return "TipOtchetov";
+
+    }
+
 }
