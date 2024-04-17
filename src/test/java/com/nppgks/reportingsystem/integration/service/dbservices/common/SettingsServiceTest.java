@@ -31,4 +31,6 @@ class SettingsServiceTest extends IntegrationBaseTest {
         List<String> dailyColumns = settingsService.getListValuesBySettingName(SettingsConstants.DAILY_REPORT_COLUMNS);
         assertThat(dailyColumns).hasSize(4);
     }
+
+
 }

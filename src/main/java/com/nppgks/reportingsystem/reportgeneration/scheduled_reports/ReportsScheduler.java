@@ -37,7 +37,6 @@ import static com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter.forma
 @RequiredArgsConstructor
 @Slf4j
 @Profile("scheduling")
-//@DependsOn("liquibase") //let this class run @PostConstruct after liquibase
 public class ReportsScheduler {
 
     private ReportsScheduler reportsScheduler;
@@ -57,6 +56,10 @@ public class ReportsScheduler {
     private final SettingsService settingsService;
 
     private final OpcServiceRequests opcServiceRequests;
+
+    private ScheduledFuture<?> scheduledMinuteReport;
+
+
 
     @Autowired
     public void setRescheduleService(RescheduleService rescheduleService){
@@ -78,8 +81,22 @@ public class ReportsScheduler {
         rescheduleService.scheduledMonthReport = scheduleMonthReport(reportsScheduler::generateReportDataForMonthReport);
         rescheduleService.scheduledYearReport = scheduleYearReport(reportsScheduler::generateReportDataForYearReport);
         scheduleAllShiftReports();
+        scheduledMinuteReport = taskScheduler.schedule(reportsScheduler::generateReportDataForMinuteReport, new CronTrigger("0 * * * * *"));//минутный
     }
-
+    // каждую минуту в 00 секунд
+    @Transactional
+    public List<ReportData> generateReportDataForMinuteReport() {
+        log.info("Creating a minute report...");
+        ReportType minuteReportType = reportTypeService.getReportTypeById(ReportTypesEnum.minute.name());
+        if (minuteReportType.getActive()) {
+            LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+            DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForMinuteReport(currentDt);
+            LocalDateTime startDt = startEndDt.getStartDateTime();
+            String name = String.format("Minute report for %s", formatToSinglePattern(startDt.toLocalTime()));
+            return createAndSaveReportData(minuteReportType, currentDt, startEndDt, name);
+        }
+        return List.of();
+    }
     // every hour at 00 minutes
     @Transactional
     public List<ReportData> generateReportDataForHourReport() {
@@ -217,6 +234,7 @@ public class ReportsScheduler {
         return taskScheduler.schedule(task, new CronTrigger("30 0 */2 * * ?"));
     }
 
+
     // every first day of month at hour:minute
     public ScheduledFuture<?> scheduleMonthReport(final Runnable task) {
         String startMonthReportStr = settingsService.getStringValueBySettingName(SettingsConstants.START_MONTH_REPORT);
@@ -278,4 +296,12 @@ public class ReportsScheduler {
         String cron = String.format("30 %s %s * * *", minute, hour);
         return taskScheduler.schedule(task, new CronTrigger(cron));
     }
+    public void rescheduleMinuteReport(CronTrigger trigger) {
+        if (scheduledMinuteReport != null && !scheduledMinuteReport.isCancelled()) {
+            scheduledMinuteReport.cancel(false);
+        }
+        scheduledMinuteReport = taskScheduler.schedule(reportsScheduler::generateReportDataForMinuteReport, trigger);
+    }
 }
+
+

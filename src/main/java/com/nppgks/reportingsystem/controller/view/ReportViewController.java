@@ -53,6 +53,13 @@ public class ReportViewController {
     }
 
     @GetMapping(value = "/twohourReport/{reportId}")
+    public String getminuteReport(ModelMap modelMap,
+                                 @PathVariable Long reportId) {
+        fillModelMapForReportView(modelMap, reportId, SettingsConstants.MINUTE_REPORT_COLUMNS);
+        return "report_pages/scheduled/minute-report-page";
+    }
+
+    @GetMapping(value = "/twohourReport/{reportId}")
     public String get2HourReport(ModelMap modelMap,
                                  @PathVariable Long reportId) {
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.TWOHOUR_REPORT_COLUMNS);

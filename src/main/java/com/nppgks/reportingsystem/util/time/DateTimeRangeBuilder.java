@@ -90,6 +90,7 @@ public class DateTimeRangeBuilder {
         return new DateTimeRange(startDt, endDt);
     }
 
+
     /**
      * Этот метод используется для создания временного диапазона,
      * определяющий начало и конец периода, за который формируется двухчасовой отчет.
@@ -175,4 +176,14 @@ public class DateTimeRangeBuilder {
                 LocalDateTime.of(endDate, endTime)
         );
     }
+   // метод для минутного отчета
+
+    public static DateTimeRange buildStartEndDateForMinuteReport(LocalDateTime dateTime) {
+        LocalDateTime startDt = dateTime.minusMinutes(1).withSecond(0)
+                .truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime endDt = dateTime.withSecond(0)
+                .truncatedTo(ChronoUnit.SECONDS);
+        return new DateTimeRange(startDt, endDt);
+    }
+
 }

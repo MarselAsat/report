@@ -79,11 +79,15 @@ public class AdminViewController {
             List<String> columns = settingsService.getListValuesBySettingName(reportTypeName + SettingsConstants.REPORT_COLUMNS_POSTFIX);
             modelMap.put(reportTypeName + "Columns", columns);
 
+            if (reportType.equals(ReportTypesEnum.shift)){
+
+
+            }
             if(reportType.equals(ReportTypesEnum.shift)){
                 modelMap.put(reportTypeName+"StartTime",
                         settingsService.getMapValuesBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
             }
-            else if(!reportType.equals(ReportTypesEnum.hour) && !reportType.equals(ReportTypesEnum.twohour)){
+            else if(!reportType.equals(ReportTypesEnum.hour) && !reportType.equals(ReportTypesEnum.twohour) && !reportType.equals(ReportTypesEnum.minute))  {
                 modelMap.put(reportTypeName+"StartTime",
                         settingsService.getStringValueBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
             }
