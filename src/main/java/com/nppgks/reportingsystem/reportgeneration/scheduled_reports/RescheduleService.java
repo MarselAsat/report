@@ -23,11 +23,9 @@ public class RescheduleService {
     List<ScheduledFuture<?>> scheduledShiftReportList = new ArrayList<>();
     ScheduledFuture<?> scheduledMonthReport;
     ScheduledFuture<?> scheduledYearReport;
+    ScheduledFuture<?> scheduledMinuteReport;
 
     private ReportsScheduler reportsScheduler;
-
-    private ScheduledFuture<?> scheduledMinuteReport;
-
 
 
     @Autowired

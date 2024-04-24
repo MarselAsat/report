@@ -15,9 +15,9 @@ function save(){
         settings.set(reportType+' report columns', columnsStr);
     }
     settings.set("metering station name", document.getElementById("metering-station-name").value)
-    settings.set("daily report start time", document.getElementById("start-daily-report").value)
-    settings.set("month report start time", document.getElementById("start-month-report").value)
-    settings.set("year report start time", document.getElementById("start-year-report").value)
+    settings.set("daily report columns", document.getElementById("start-daily-report").value)
+    settings.set("month report columns", document.getElementById("start-month-report").value)
+    settings.set("year report columns", document.getElementById("start-year-report").value)
 
     let shiftSettings = [];
     let shifts = document.getElementsByClassName("shift-start-time");
@@ -28,7 +28,7 @@ function save(){
         var shiftTime = shift.getElementsByClassName("shift-time")[0].value;
         shiftSettings.push(shiftNum+"-"+shiftTime);
     }
-    settings.set('shift report start time', shiftSettings.join(","));
+    settings.set('shift report columns', shiftSettings.join(","));
 
     updateSettingsInDB(settings);
 

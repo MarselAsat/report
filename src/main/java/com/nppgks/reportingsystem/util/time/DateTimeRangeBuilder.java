@@ -186,4 +186,12 @@ public class DateTimeRangeBuilder {
         return new DateTimeRange(startDt, endDt);
     }
 
+    public static DateTimeRange buildDateRangeForMinuteReport(String dtCreationStr) {
+        LocalDateTime dtCreationStart = LocalDateTime.parse(dtCreationStr + "T01:00");
+        LocalDate endDay = LocalDate.parse(dtCreationStr).plusDays(1);
+        LocalDateTime dtCreationEnd = LocalDateTime.parse(endDay + "T00:59");
+        return new DateTimeRange(dtCreationStart, dtCreationEnd);
+    }
+
+
 }

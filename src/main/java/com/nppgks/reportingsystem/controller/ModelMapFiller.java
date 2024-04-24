@@ -58,11 +58,11 @@ public class ModelMapFiller {
         });
         modelMap.put("usedTPR", usedTpr);
     }
-//    public static void fillForMI3272(ModelMap modelMap, List<ReportData> reportDataList){
-//        reportDataList.forEach(rd -> {
-//            Object value = ArrayParser.fromJsonToObject(rd.getData());
-//            modelMap.put(rd.getTag().getPermanentName(), value);
-//        });
-//        modelMap.put("usedTPR", "false");
-//    }
+    public static void fillForMI3272(ModelMap modelMap, List<ReportData> reportDataList){
+        reportDataList.forEach(rd -> {
+            Object value = ArrayParser.fromJsonToObject(rd.getData());
+            modelMap.put(rd.getTag().getPermanentName(), value);
+        });
+        modelMap.put("usedTPR", "false");
+    }
 }

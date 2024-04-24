@@ -33,6 +33,7 @@ public class ReportServiceImpl implements ReportService {
             DateTimeRange dateTimeRange;
             switch (ReportTypesEnum.valueOf(reportTypeId)) {
                 case hour -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingHourReport(dtCreationStr);
+                case minute -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForMinuteReport(dtCreationStr);
                 case twohour -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearching2HourReport(dtCreationStr);
                 case daily -> dateTimeRange = DateTimeRangeBuilder.buildDateRangeForSearchingDailyReport(dtCreationStr);
                 case shift -> {

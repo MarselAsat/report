@@ -21,4 +21,19 @@ public class Settings {
 
     @Column(name = "value")
     private String value;
+
+    @Column(name = "\"check\"")
+    private String check;
+
+    @Column(name = "start_time")
+    private String startTime;
+
+    @Column(name = "time")
+    private Integer time; //
+
+    public Integer getTime() {
+        return time;
+    }
+
+
 }

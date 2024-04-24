@@ -52,7 +52,7 @@ public class ReportViewController {
         return "report_pages/scheduled/hour-report-page";
     }
 
-    @GetMapping(value = "/twohourReport/{reportId}")
+    @GetMapping(value = "/minuteReport/{reportId}")
     public String getminuteReport(ModelMap modelMap,
                                  @PathVariable Long reportId) {
         fillModelMapForReportView(modelMap, reportId, SettingsConstants.MINUTE_REPORT_COLUMNS);
@@ -224,7 +224,7 @@ public class ReportViewController {
     private void fillModelMapForReportView(ModelMap modelMap, Long reportId, String columnsFromSetting) {
         Report report = reportService.getById(reportId);
         List<ReportViewReportData> reportViewReportData = reportDataService.getReportViewReportData(reportId);
-        List<String> meteringNodesDisplayIds = settingsService.getListValuesBySettingName(columnsFromSetting);
+        List<String> meteringNodesDisplayIds = (List<String>) settingsService.getValuesBySettingName(columnsFromSetting);
         List<MeteringNode> meteringNodesDisplay = meteringNodeService.getAllNodes().stream()
                 .filter(mn -> meteringNodesDisplayIds.contains(mn.getId()))
                 .toList();
