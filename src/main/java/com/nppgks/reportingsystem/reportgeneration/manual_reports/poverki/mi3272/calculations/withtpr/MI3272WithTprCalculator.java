@@ -4,6 +4,7 @@ import com.nppgks.reportingsystem.constants.MI3272Constants;
 import com.nppgks.reportingsystem.exception.NotValidTagValueException;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.formulas.MI3272Formulas;
 import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.Appendix;
+import com.nppgks.reportingsystem.reportgeneration.manual_reports.poverki.mi3272.calculations.BetaGamma;
 import com.nppgks.reportingsystem.util.TableDisplay;
 import com.nppgks.reportingsystem.util.TagValueValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -312,16 +313,16 @@ public class MI3272WithTprCalculator {
         log.info("N_ТПР_задij = \n{}", TableDisplay.display2DimArray(N_TPR_ij_zad));
         double[][] V_TPR_ij = MI3272Formulas.calculateV_TPR_ij(N_TPR_ij_zad, K_TPR_j);
 
-        double[][] beta_fluid_ij = null;
+        double[][] beta_fluid_ij;
         double[][] gamma_fluid_ij = null;
         if(!PPInKP){
             log.info("----- Вычисление rho_ПП_пр_ij -----");
             double[][] rho_15;
-            Map<String, double[][]> betaGamma;
+            BetaGamma betaGamma;
             rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij, t_PP_ij, P_PP_ij);
             betaGamma = Appendix.calculateBetaGamma(workingFluid, t_PP_ij, W_w_ij, rho_15, t_KP_ij, W_xc_ij);
-            beta_fluid_ij = betaGamma.get("beta");
-            gamma_fluid_ij = betaGamma.get("gamma");
+            beta_fluid_ij = betaGamma.getBeta();
+            gamma_fluid_ij = betaGamma.getGamma();
 
             mi3272TprFinalData.setBeta_fluid_ij(beta_fluid_ij);
 
@@ -330,8 +331,8 @@ public class MI3272WithTprCalculator {
         }
         else{
             double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij, t_TPR_ij, P_TPR_ij);
-            Map<String, double[][]> betaGamma = Appendix.calculateBetaGamma(workingFluid, t_TPR_ij, W_w_ij, rho_15, t_KP_ij, W_xc_ij);
-            beta_fluid_ij = betaGamma.get("beta");
+            BetaGamma betaGamma = Appendix.calculateBetaGamma(workingFluid, t_TPR_ij, W_w_ij, rho_15, t_KP_ij, W_xc_ij);
+            beta_fluid_ij = betaGamma.getBeta();
         }
 
         log.info("beta_ж = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
@@ -578,9 +579,9 @@ public class MI3272WithTprCalculator {
         log.info("----- Вычисление Q_ij (таблица 2, часть I) -----");
         double[][] V_KP_pr_ij = MI3272Formulas.calculateV_KP_pr_ij_Formula4(V_KP_0, alpha_cyl_t, t_KP_ij_avg, alpha_st_t, t_st_ij, D, E, s, P_KP_ij_avg);
         double[][] rho15_ij = Appendix.calculateRho_15(workingFluid, rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg);
-        Map<String, double[][]> betaGamma = Appendix.calculateBetaGamma(workingFluid, t_PP_ij_avg, W_w_TPR_ij, rho15_ij, t_KP_ij_avg, W_xc_TPR_ij);
-        double[][] gamma_fluid_ij = betaGamma.get("gamma");
-        double[][] beta_fluid_ij = betaGamma.get("beta");
+        BetaGamma betaGamma = Appendix.calculateBetaGamma(workingFluid, t_PP_ij_avg, W_w_TPR_ij, rho15_ij, t_KP_ij_avg, W_xc_TPR_ij);
+        double[][] gamma_fluid_ij = betaGamma.getGamma();
+        double[][] beta_fluid_ij = betaGamma.getBeta();
         double[][] rho_PP_pr_ij = MI3272Formulas.calculateRho_PP_pr_ij(rho_BIK_ij_avg, t_PP_ij_avg, t_KP_ij_avg, beta_fluid_ij, gamma_fluid_ij, P_KP_ij_avg, P_PP_ij_avg);
 
         log.info("V_КП_пр_ij = \n{}", TableDisplay.display2DimArray(V_KP_pr_ij));
@@ -608,9 +609,9 @@ public class MI3272WithTprCalculator {
         } else {
             log.info("----- Вычисление V_КП_пр_ij по формуле (7) (таблица 1, часть I) -----");
             double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_TPR_ij, t_KP_ij_avg, P_KP_ij_avg);
-            Map<String, double[][]> betaGamma = Appendix.calculateBetaGamma(workingFluid, t_TPR_ij_avg, W_w_ij, rho_15, t_KP_ij_avg, W_xc_ij);
-            double[][] beta_fluid_ij = betaGamma.get("beta");
-            double[][] gamma_fluid_ij = betaGamma.get("gamma");
+            BetaGamma betaGamma = Appendix.calculateBetaGamma(workingFluid, t_TPR_ij_avg, W_w_ij, rho_15, t_KP_ij_avg, W_xc_ij);
+            double[][] beta_fluid_ij = betaGamma.getBeta();
+            double[][] gamma_fluid_ij = betaGamma.getGamma();
             log.info("rho_15 = \n{}", TableDisplay.display2DimArray(rho_15));
             log.info("beta_ж = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
             log.info("gamma_ж = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));
