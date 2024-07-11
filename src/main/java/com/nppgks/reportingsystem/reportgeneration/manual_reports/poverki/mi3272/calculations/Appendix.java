@@ -82,6 +82,7 @@ public class Appendix {
                     }
 
                     gamma_fluid_ij[i][j] = Appendix.calculateGamma_fluid_forCrudeOil(rho_15[i][j], t_TPRorPP[i][j], W_w_ij[i][j]);
+
                 }
             }
         }
