@@ -47,7 +47,7 @@ public class MI3272Calculator {
 
     private double[][] T_ij;
 
-    //private double[][] rho_BIK_ij_avg;
+    private double[][] rho_BIK_ij_avg;
     private double[][] t_st_ij;
     private double K_PEP_gr;
     private double MF_set_range;
@@ -86,7 +86,7 @@ public class MI3272Calculator {
     }
 
     private void validate() {
-        TagValueValidator.notNull(N_mas_ij, "M_mass_ij");
+        TagValueValidator.notNull(N_mas_ij, "N_mass_ij");
         TagValueValidator.notNull(t_KP_ij_avg, "t_KP_ij_avg");
         TagValueValidator.notNull(P_KP_ij_avg, "P_KP_ij_avg");
         TagValueValidator.notNull(rho_PP_ij_avg, "rho_PP_ij_avg");
@@ -194,6 +194,7 @@ public class MI3272Calculator {
 
             // записываются в таблицу 3
             double Z_P = Appendix.getZ_P(theta_sigma / S_MF_range);
+
 
             // записываются в таблицу 4 - (при реализации ГХ в ПЭП)
             double delta = MI3272Formulas.calculateDelta_PEP(Z_P, theta_sigma, epsilon, S_MF_range);

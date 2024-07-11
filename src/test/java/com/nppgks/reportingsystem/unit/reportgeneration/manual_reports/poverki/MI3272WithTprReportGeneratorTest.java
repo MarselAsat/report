@@ -14,7 +14,7 @@ public class MI3272WithTprReportGeneratorTest {
     void mergeInitialMaps(){
         Map<String, String> map1 = new HashMap<>(
                 Map.of("key1", "[value1]",
-                "key2", "[value2]"));
+                        "key2", "[value2]"));
         Map<String, String> map2 = new HashMap<>(
                 Map.of("key1", "[value2]",
                         "key3", "value3",

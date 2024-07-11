@@ -1,7 +1,68 @@
 var prevShiftCount;
+var minutesInput;
+document.getElementById('saveButton').addEventListener('click', function(event) {
+    event.preventDefault(); // Предотвращаем стандартное действие отправки формы
+
+    var minutes = document.getElementById('start-minute-report').value;
+
+    // Отправляем AJAX-запрос на сервер
+    fetch('/api/settings/minute', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ minutes: minutes })
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Обработка ответа от сервера
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
+});
+// Определение функции resetMinuteReport в глобальной области видимости
+function resetMinuteReport() {
+    // Получение элемента responseLabel перед использованием
+    var responseLabel = document.getElementById("response");
+
+    // Отправка запроса на сервер для сброса минутного отчета
+    fetch("/api/settings/minute", {
+        method: "POST"
+    })
+        .then(response => {
+            if (response.ok) {
+                responseLabel.innerText = "Сохранено";
+                responseLabel.style.color = "green";
+            } else {
+                responseLabel.innerText = "Что-то пошло не так";
+                responseLabel.style.color = "red";
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
+
+    // Очистка поля ввода start-minute-report и сохранение значения в localStorage
+    document.getElementById("start-minute-report").value = "";
+    localStorage.setItem("start-minute-report", "");
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Получение элемента minutesInput после полной загрузки DOM
+    minutesInput = document.getElementById("start-minute-report");
+    var minutes = localStorage.getItem("start-minute-report");
+    if (minutes !== null) {
+        minutesInput.value = minutes;
+    }
+
+    // Привязка функции к обработчику события onclick кнопки
+    document.getElementById("resetMinuteReportButton").addEventListener("click", resetMinuteReport);
+});
 
 function save(){
-    var reportTypes = ['hour', 'twohour', 'daily', 'shift', 'month', 'year'];
+    var reportTypes = ['hour', 'twohour', 'daily', 'shift', 'month', 'year' , 'minute'];
     var settings = new Map();
 
     for(var reportType of reportTypes){
@@ -18,6 +79,24 @@ function save(){
     settings.set("daily report columns", document.getElementById("start-daily-report").value)
     settings.set("month report columns", document.getElementById("start-month-report").value)
     settings.set("year report columns", document.getElementById("start-year-report").value)
+    settings.set("minute report columns", document.getElementById("start-minute-report").value)
+
+    var minutes = document.getElementById('start-minute-report').value;
+    fetch('/api/settings/minute', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ minutes: minutes })
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Обработка ответа от сервера
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
 
     let shiftSettings = [];
     let shifts = document.getElementsByClassName("shift-start-time");
@@ -29,7 +108,8 @@ function save(){
         shiftSettings.push(shiftNum+"-"+shiftTime);
     }
     settings.set('shift report columns', shiftSettings.join(","));
-
+    var minuteReportValue = document.getElementById("start-minute-report").value;
+    localStorage.setItem("start-minute-report", minuteReportValue);
     updateSettingsInDB(settings);
 
 }
@@ -82,4 +162,27 @@ function savePrevValue(element){
     if(element.value>0){
         prevShiftCount = element.value;
     }
+
+
+// Привязка функции к обработчику события onclick кнопки
+    //let resetMinuteReport = document.getElementById("resetMinuteReportButton").addEventListener("click", resetMinuteReport);
+    // resetMinuteReport.addEventListener("click", async function () {
+    //     var url = "/api/settings/minute";
+    //     let response = await fetch(url, {
+    //         method: "POST",
+    //         body: JSON.stringify(),
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     })
+    //     let responseText = await response.text();
+    //     let responseLabel = document.getElementById("response");
+    //     if (responseText === "true") {
+    //         responseLabel.innerText = "Сохранено";
+    //         responseLabel.style.color = "green";
+    //     } else {
+    //         responseLabel.innerText = "Что-то пошло не так";
+    //         responseLabel.style.color = "red";
+    //     }
+    // })
 }
