@@ -80,6 +80,7 @@ public class Appendix {
                         double beta_w = Appendix.calculateB_w(t_TPRorPP[i][j], t_KP[i][j], W_xc_ij[i][j]);
                         beta_fluid_ij[i][j] = Appendix.calculateBeta_fluid_forCrudeOilMore5Perc(workingFluid, rho_15[i][j], t_TPRorPP[i][j], W_w_ij[i][j], beta_w);
                     }
+
                     gamma_fluid_ij[i][j] = Appendix.calculateGamma_fluid_forCrudeOil(rho_15[i][j], t_TPRorPP[i][j], W_w_ij[i][j]);
                 }
             }
