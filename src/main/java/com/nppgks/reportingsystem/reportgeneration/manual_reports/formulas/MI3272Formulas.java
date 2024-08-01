@@ -259,7 +259,7 @@ public class MI3272Formulas {
             }
             sum += sum1;
         }
-        return Math.sqrt(sum / sigma_n_j) * 100;
+        return Math.sqrt(sum / (sigma_n_j - 1)) * 100;
     }
 
     // формула 22б
@@ -277,7 +277,7 @@ public class MI3272Formulas {
                 }
                 sum += sum1;
             }
-            S_KF_k[k] = Math.sqrt(sum / sigma_n_j) * 100;
+            S_KF_k[k] = Math.sqrt(sum / (sigma_n_j - 1)) * 100;
         }
         return S_KF_k;
     }
