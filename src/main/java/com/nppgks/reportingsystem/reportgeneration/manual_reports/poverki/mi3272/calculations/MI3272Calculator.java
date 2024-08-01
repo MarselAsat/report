@@ -132,7 +132,7 @@ public class MI3272Calculator {
         log.info("t_ст_ij = \n{}", TableDisplay.display2DimArray(t_st_ij));
 
         log.info("----- Вычисление rho_ПП_пр_ij -----");
-        double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij_avg, t_KP_ij_avg, P_KP_ij_avg);
+        double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij_avg, t_PP_ij_avg, P_PP_ij_avg);
         BetaGamma betaGamma = Appendix.calculateBetaGamma(workingFluid, t_KP_ij_avg, W_w_ij, rho_15, t_KP_ij_avg, W_xc_ij);
         double[][] beta_fluid_ij = betaGamma.getBeta();
         double[][] gamma_fluid_ij = betaGamma.getGamma();
