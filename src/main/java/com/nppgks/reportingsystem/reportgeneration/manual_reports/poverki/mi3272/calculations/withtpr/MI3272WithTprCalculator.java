@@ -321,7 +321,7 @@ public class MI3272WithTprCalculator {
             double[][] rho_15;
             BetaGamma betaGamma;
             rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij, t_PP_ij, P_PP_ij);
-            betaGamma = Appendix.calculateBetaGamma(workingFluid, t_PP_ij, W_w_ij, rho_15, t_KP_ij, W_xc_ij);
+            betaGamma = Appendix.calculateBetaGamma(workingFluid, t_TPR_ij, W_w_ij, rho_15, t_KP_ij, W_xc_ij);
             beta_fluid_ij = betaGamma.getBeta();
             gamma_fluid_ij = betaGamma.getGamma();
 
@@ -331,6 +331,7 @@ public class MI3272WithTprCalculator {
             log.info("gamma_ж = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));
         }
         else{
+            // здесь нужна бета только чтобы вывести ее в протокол отчета?
             double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij, t_TPR_ij, P_TPR_ij);
             BetaGamma betaGamma = Appendix.calculateBetaGamma(workingFluid, t_TPR_ij, W_w_ij, rho_15, t_KP_ij, W_xc_ij);
             beta_fluid_ij = betaGamma.getBeta();
