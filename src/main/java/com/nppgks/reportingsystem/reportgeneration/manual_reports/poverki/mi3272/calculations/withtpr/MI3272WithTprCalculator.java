@@ -304,10 +304,11 @@ public class MI3272WithTprCalculator {
         log.info("t_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_TPR_ij_avg));
         log.info("P_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(P2_TPR_ij_avg));
         log.info("t_ст_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_st_ij));
+        log.info("N_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(N2_TPR_ij_avg));
 
-        log.info("V_КП_пр_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(V2_KP_pr_ij));
-        log.info("K_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(K2_TPR_ij));
-        log.info("K_ТПР_j (повторное измерение) = \n{}", K2_TPR_j);
+        log.info("V_КП_пр_ij (повторное вычисление) = \n{}", TableDisplay.display2DimArray(V2_KP_pr_ij));
+        log.info("K_ТПР_ij (повторное вычисление) = \n{}", TableDisplay.display2DimArray(K2_TPR_ij));
+        log.info("K_ТПР_j (повторное вычисление) = \n{}", K2_TPR_j);
 
         double[] delta_k_j = MI3272Formulas.calculateDelta_K_j(K_TPR_j, K2_TPR_j);
         log.info("N_ТПР_задij = \n{}", TableDisplay.display2DimArray(N_TPR_ij_zad));
