@@ -41,7 +41,7 @@ public class Appendix {
         log.info("beta_ж_max={}", beta_fluid_max);
         return beta_fluid_max;
     }
-    public static Map<String, double[][]> calculateBetaGamma (
+    public static BetaGamma calculateBetaGamma (
             String workingFluid, double[][] t_TPRorPP,
             double[][] W_w_ij, double[][] rho_15, double[][] t_KP, double[][] W_xc_ij){
 
@@ -84,7 +84,8 @@ public class Appendix {
                 }
             }
         }
-        return Map.of("beta", beta_fluid_ij, "gamma", gamma_fluid_ij);
+        BetaGamma betaGamma = new BetaGamma(beta_fluid_ij, gamma_fluid_ij);
+        return betaGamma;
     }
 
 
