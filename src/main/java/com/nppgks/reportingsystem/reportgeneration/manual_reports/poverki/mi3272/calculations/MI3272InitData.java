@@ -14,9 +14,9 @@ public class MI3272InitData implements InitialData {
     // Таблица 2
     private double[][] N_mas_ij;
     private double[][] t_KP_ij_avg, P_KP_ij_avg;
-    private double[][] rho_PP_ij_avg, t_PP_ij_avg, P_PP_ij_avg;
-    double[][] W_w_ij;
+    private double[][] rho_PP_ij_avg, t_PP_ij_avg, P_PP_ij_avg,Rho_PP_ij;
     double[][] W_xc_ij;
+    double[][] W_w_ij;
 
     // Таблица 3
     private Double alpha_cyl_t;

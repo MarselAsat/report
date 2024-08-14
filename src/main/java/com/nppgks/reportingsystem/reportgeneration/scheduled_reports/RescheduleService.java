@@ -1,9 +1,11 @@
 package com.nppgks.reportingsystem.reportgeneration.scheduled_reports;
 
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,7 +13,9 @@ import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
+@Profile("scheduling")
 public class RescheduleService {
 
     ScheduledFuture<?> scheduledHourReport;
@@ -19,8 +23,10 @@ public class RescheduleService {
     List<ScheduledFuture<?>> scheduledShiftReportList = new ArrayList<>();
     ScheduledFuture<?> scheduledMonthReport;
     ScheduledFuture<?> scheduledYearReport;
+    ScheduledFuture<?> scheduledMinuteReport;
 
     private ReportsScheduler reportsScheduler;
+
 
     @Autowired
     public void setScheduledReports(@Lazy ReportsScheduler reportsScheduler){

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header"></head>
+<head>
+    <title id="pageTitle">Формирование отчетов по минутам и часам</title>
+    <script type="text/javascript" th:src="@{/js/opc-server.js}"></script>
+    <link th:href="@{/css/loader.css}" rel="stylesheet"/>
+
+    <!--  sweetAlert library-->
+    <script th:src="@{/external_libraries/sweetalert/sweetalert2.min.js}"></script>
+    <link th:href="@{/external_libraries/sweetalert/sweetalert2.min.css}" rel="stylesheet">
+
+    <!--  tom-select library-->
+    <script th:src="@{/external_libraries/tom-select/tom-select.complete.min.js}"></script>
+    <link th:href="@{/external_libraries/tom-select/tom-select.bootstrap5.min.css}" rel="stylesheet">
+
+    <style>
+        .main-container {
+            margin-top: 5rem;
+        }
+
+        .swal2-confirm {
+            background-color: #0d6efd !important;
+        }
+
+        #tag-value {
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+<nav th:replace="fragments/nav"></nav>
+<div class="main-container container">
+    <h1 class="h2 mb-4 text-center">Формирование отчетов по минутам и часам</h1>
+    <div class="row justify-content-center">
+        <div class="mb-4 mb-lg-0 col-md-10 col-lg-7 col-12">
+            <div class="card">
+                <label for="intervalMinutes">Минуты:</label>
+                <input type="number" id="intervalMinutes" name="intervalMinutes" min="0" max="59" step="1" value="0">
+                <br>
+                <label for="intervalMinutes">Часы:</label>
+                <input type="number" id="intervalHours" name="intervalHours" min="0" max="24" step="1" value="0">
+                <br>
+                <input type="submit" value="Создать">
+                <div class="card-body">
+                    <div class="mb-2">
+                        Введите время для формирование отчета
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <p class="mb-0">Начало формирования минутного отчета</p>
+                            </div>
+                            <div class="col-auto">
+                                <div>
+                                    <input type="time" id="start-daily-report" th:value="${dailyStartTime}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <p class="mb-0">Начало формирования n-часового отчета</p>
+                            </div>
+                            <div class="col-auto">
+                                <div>
+                                    <input type="time" id="start-month-report" th:value="${monthStartTime}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="loader alert" id="loaderTagValue" style="display:none; margin-left: 10pt"></div>
+                    <div id="tag-value" class="alert alert-danger" style="display:none" role="alert">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

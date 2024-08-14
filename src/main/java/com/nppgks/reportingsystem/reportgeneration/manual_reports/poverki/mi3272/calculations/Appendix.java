@@ -44,18 +44,29 @@ public class Appendix {
     public static BetaGamma calculateBetaGamma (
             String workingFluid, double[][] t_TPRorPP,
             double[][] W_w_ij, double[][] rho_15, double[][] t_KP, double[][] W_xc_ij){
-        int n = t_TPRorPP.length;
-        int m = t_TPRorPP[0].length;
+
+        int n = t_KP.length;
+        int n1 = t_TPRorPP.length;
+        int m = t_KP[0].length;
+        int m2 = t_TPRorPP[0].length;
         double[][] beta_fluid_ij = new double[n][m];
         double[][] gamma_fluid_ij = new double[n][m];
 
         boolean oilIsCrude = W_w_ij != null && W_w_ij.length != 0 && W_xc_ij != null && W_xc_ij.length != 0;
 
         if(!oilIsCrude){
-            beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_TPRorPP);
-            gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_TPRorPP);
-        }
-        else{
+            if(t_TPRorPP != null && t_TPRorPP.length > 0 && t_TPRorPP[0].length > 0){
+                n = t_TPRorPP.length;
+                m = t_TPRorPP[0].length;
+                beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_TPRorPP);
+                gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_TPRorPP);
+            } else {
+                beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_KP);
+                gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_KP);
+            }
+        } else {
+            n = n1;
+            m = m2;
             log.info("----- Вычисление Beta и Gamma по приложению B.3 -----");
             log.info("t_КП_ij = \n{}", TableDisplay.display2DimArray(t_KP));
             log.info("W_в = \n{}", TableDisplay.display2DimArray(W_w_ij));
@@ -63,19 +74,20 @@ public class Appendix {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
                     if(W_w_ij[i][j] <= 5){
-                        beta_fluid_ij[i][j] = Appendix.calculateBeta_fluid_forCrudeOilLess5Perc(workingFluid, rho_15[i][j], t_KP[i][j], W_w_ij[i][j]);
+                        beta_fluid_ij[i][j] = Appendix.calculateBeta_fluid_forCrudeOilLess5Perc(workingFluid, rho_15[i][j], t_TPRorPP[i][j], W_w_ij[i][j]);
                     }
                     else{
                         double beta_w = Appendix.calculateB_w(t_TPRorPP[i][j], t_KP[i][j], W_xc_ij[i][j]);
-                        beta_fluid_ij[i][j] = Appendix.calculateBeta_fluid_forCrudeOilMore5Perc(workingFluid, rho_15[i][j], t_KP[i][j], W_w_ij[i][j], beta_w);
+                        beta_fluid_ij[i][j] = Appendix.calculateBeta_fluid_forCrudeOilMore5Perc(workingFluid, rho_15[i][j], t_TPRorPP[i][j], W_w_ij[i][j], beta_w);
                     }
-                    gamma_fluid_ij[i][j] = Appendix.calculateGamma_fluid_forCrudeOil(rho_15[i][j], t_KP[i][j], W_w_ij[i][j]);
+                    gamma_fluid_ij[i][j] = Appendix.calculateGamma_fluid_forCrudeOil(rho_15[i][j], t_TPRorPP[i][j], W_w_ij[i][j]);
                 }
             }
         }
         BetaGamma betaGamma = new BetaGamma(beta_fluid_ij, gamma_fluid_ij);
         return betaGamma;
     }
+
 
     public static double[][] calculateBeta_fluid(String fluidType, double[][] rho_15, double[][] t) {
         int m = rho_15[0].length;

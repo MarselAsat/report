@@ -74,25 +74,92 @@ public class AdminViewController {
     @GetMapping("/settings")
     public String getSettingsPage(ModelMap modelMap) {
 
+//        for (ReportTypesEnum reportType : ReportTypesEnum.values()) {
+//            String reportTypeName = reportType.name();
+//            Proverka proverka = settingsService.getValuesBySettingName(reportTypeName + SettingsConstants.REPORT_COLUMNS_POSTFIX);
+//
+//            List<String> columns = proverka.getValues();
+//            String check = proverka.getCheck();
+//            modelMap.put(reportTypeName + "Columns", columns);
+//
+//            if(reportType.equals(ReportTypesEnum.shift)){
+//                //modelMap.put(reportTypeName+"StartTime",
+//                //        settingsService.getMapValuesBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
+//                modelMap.put(reportTypeName+"StartTime",
+//                        proverka.getStartTime());
+//}
+//            else  if(check.equals("start time report"))  {
+//                modelMap.put(reportTypeName+"StartTime",
+//                        proverka.getStartTime());
+//            }
+//        }
+//
+//
+//        List<MeteringNode> allMeteringNodes = meteringNodeService.getAllNodes();
+//        String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
+//        modelMap.put("meteringNodes", allMeteringNodes);
+//        modelMap.put("meteringStationName", meteringStationName);
+//
+//
+//        return "settings";
+
+
+//            for (ReportTypesEnum reportType : ReportTypesEnum.values()) {
+//                String reportTypeName = reportType.name();
+//                Proverka proverka = settingsService.getValuesBySettingName(reportTypeName + SettingsConstants.REPORT_COLUMNS_POSTFIX);
+//                String startTime = settingsService.getStringValueBySettingName(reportTypeName + SettingsConstants.START_TIME_REPORT_POSTFIX);
+//
+//                List<String> columns = proverka.getValues();
+//                String check = proverka.getCheck();
+//                modelMap.put(reportTypeName + "Columns", columns);
+//
+//                if (check.equals("start time of report")) {
+//                    modelMap.put(reportTypeName + "StartTime", startTime);
+//                } else {
+//                    modelMap.put(reportTypeName + "StartTime", proverka.getStartTime());
+//                }
+//            }
+//
+//            List<MeteringNode> allMeteringNodes = meteringNodeService.getAllNodes();
+//            String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
+//            modelMap.put("meteringNodes", allMeteringNodes);
+//            modelMap.put("meteringStationName", meteringStationName);
+//
+//            return "settings";
+//        }
+//// из gpt с proverka1
         for (ReportTypesEnum reportType : ReportTypesEnum.values()) {
             String reportTypeName = reportType.name();
-            List<String> columns = settingsService.getListValuesBySettingName(reportTypeName + SettingsConstants.REPORT_COLUMNS_POSTFIX);
+            Proverka proverka = settingsService.getValuesBySettingName(reportTypeName + SettingsConstants.REPORT_COLUMNS_POSTFIX);
+
+            List<String> columns = proverka.getValues();
+            String check = proverka.getCheck();
             modelMap.put(reportTypeName + "Columns", columns);
 
-            if(reportType.equals(ReportTypesEnum.shift)){
+//            Integer minuteInterval = settingsService.getMinuteReportInterval();
+//            modelMap.put("minuteReportName", minuteInterval + " минутный отчет");
+
+            if (check.equals("start time report") && reportTypeName.indexOf("shift") >= 0) {
                 modelMap.put(reportTypeName+"StartTime",
-                        settingsService.getMapValuesBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
-            }
-            else if(!reportType.equals(ReportTypesEnum.hour) && !reportType.equals(ReportTypesEnum.twohour)){
-                modelMap.put(reportTypeName+"StartTime",
-                        settingsService.getStringValueBySettingName(reportTypeName+SettingsConstants.START_TIME_REPORT_POSTFIX));
-            }
-        }
+                        settingsService.getMapValuesBySettingName(reportTypeName+SettingsConstants.REPORT_COLUMNS_POSTFIX));
+            }  else if (check.equals("start time report")) {
+                String proverka1 = settingsService.getStringValueBySettingName(reportTypeName + SettingsConstants.REPORT_COLUMNS_POSTFIX);
+                modelMap.put(reportTypeName + "StartTime", proverka1);
+              }
+             else  {
+                // String proverka1 = settingsService.getStringValueBySettingName(reportTypeName + SettingsConstants.REPORT_COLUMNS_POSTFIX);
+                  modelMap.put(reportTypeName + "StartTime", proverka.getStartTime());
+             }
+
+
+
+             }
+
+
         List<MeteringNode> allMeteringNodes = meteringNodeService.getAllNodes();
         String meteringStationName = settingsService.getStringValueBySettingName(SettingsConstants.METERING_STATION_NAME);
         modelMap.put("meteringNodes", allMeteringNodes);
         modelMap.put("meteringStationName", meteringStationName);
-
 
         return "settings";
     }
@@ -102,4 +169,13 @@ public class AdminViewController {
         modelMap.put("tags", allTagsService.getAllScheduledAndManualTags());
         return "opc-server";
     }
+
+    @GetMapping("/TipOtchetov")
+    public String getTipOtchetovPage(ModelMap modelMap) {
+        modelMap.put("tags", allTagsService.getAllScheduledAndManualTags());
+        return "TipOtchetov";
+
+    }
+
+
 }

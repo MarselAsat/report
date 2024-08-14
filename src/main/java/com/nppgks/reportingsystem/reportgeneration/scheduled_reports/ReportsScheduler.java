@@ -2,6 +2,8 @@ package com.nppgks.reportingsystem.reportgeneration.scheduled_reports;
 
 import com.nppgks.reportingsystem.constants.ReportTypesEnum;
 import com.nppgks.reportingsystem.constants.SettingsConstants;
+import com.nppgks.reportingsystem.db.common.entity.Settings;
+import com.nppgks.reportingsystem.db.common.repository.SettingsRepository;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.Report;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportData;
@@ -18,6 +20,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.scheduling.support.PeriodicTrigger;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +33,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import static com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter.formatToSinglePattern;
 
@@ -37,7 +43,6 @@ import static com.nppgks.reportingsystem.util.time.SingleDateTimeFormatter.forma
 @RequiredArgsConstructor
 @Slf4j
 @Profile("scheduling")
-//@DependsOn("liquibase") //let this class run @PostConstruct after liquibase
 public class ReportsScheduler {
 
     private ReportsScheduler reportsScheduler;
@@ -57,6 +62,10 @@ public class ReportsScheduler {
     private final SettingsService settingsService;
 
     private final OpcServiceRequests opcServiceRequests;
+
+
+
+
 
     @Autowired
     public void setRescheduleService(RescheduleService rescheduleService){
@@ -78,6 +87,89 @@ public class ReportsScheduler {
         rescheduleService.scheduledMonthReport = scheduleMonthReport(reportsScheduler::generateReportDataForMonthReport);
         rescheduleService.scheduledYearReport = scheduleYearReport(reportsScheduler::generateReportDataForYearReport);
         scheduleAllShiftReports();
+//        int minutes = 5; // Replace with the desired number of minutes
+//        rescheduleService.scheduledMinuteReport = rescheduleMinuteReport(minutes);
+        rescheduleService.scheduledMinuteReport = rescheduleMinuteReport(reportsScheduler::generateReportDataForMinuteReport);
+    }
+    // каждую минуту в 00 секунд
+//    @Transactional
+//    public List<ReportData> generateReportDataForMinuteReport(int minutes) {
+//        log.info("Создание минутного отчета...");
+//        ReportType minuteReportType = reportTypeService.getReportTypeById(ReportTypesEnum.minute.name());
+//        if (minuteReportType.getActive()) {
+//            LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+//            LocalDateTime startDt = currentDt.minusMinutes(minutes); // Используйте minutes здесь
+//            String name = String.format("Минутный отчет за %s",
+//                    formatToSinglePattern(startDt.toLocalTime()),
+//                    formatToSinglePattern(currentDt.toLocalTime()),
+//                    formatToSinglePattern(startDt.toLocalDate())
+//            );
+//            return createAndSaveReportData(minuteReportType, currentDt, new DateTimeRange(startDt, currentDt), name);
+//        }
+//        return List.of();
+//    }
+
+// РАБОЧИЙ КОД
+        public void resetMinuteReport() {
+        // Отмена задачи
+        if (rescheduleService.scheduledMinuteReport != null && !rescheduleService.scheduledMinuteReport.isCancelled()) {
+            rescheduleService.scheduledMinuteReport.cancel(false);
+        }
+
+        // Получение нового интервала из настроек
+        Proverka minuteReportInterval = settingsService.getValuesBySettingName("minute report columns");
+        Integer interval = minuteReportInterval.getTime();
+
+        // Создание нового cron-выражения на основе нового интервала
+        String cron = String.format("0 */%d * * * *", interval); // Запускает задачу каждые interval минут
+
+        // Планирование новой задачи с новым cron-выражением
+        rescheduleService.scheduledMinuteReport = taskScheduler.schedule(reportsScheduler::generateReportDataForMinuteReport, new CronTrigger(cron));
+    }
+
+//РАБОЧИЙ КОД
+  public List<ReportData> generateReportDataForMinuteReport() {
+        log.info("Создание минутного отчета...");
+        ReportType minuteReportType = reportTypeService.getReportTypeById(ReportTypesEnum.minute.name());
+        if (minuteReportType.getActive()) {
+            try {
+                // Получение настройки "time" непосредственно из базы данных
+                Proverka minuteReportInterval = settingsService.getValuesBySettingName("minute report columns");
+                Integer interval = minuteReportInterval.getTime();
+
+                // Check if interval is null before proceeding
+                if (interval == null) {
+                    log.error("Значение интервала равно null");
+                    return List.of();
+                }
+                LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+                LocalDateTime startDt = currentDt.minusMinutes(interval); // Используйте interval здесь
+                String name = getMinuteReportName(interval, currentDt, startDt);
+                return createAndSaveReportData(minuteReportType, currentDt, new DateTimeRange(startDt, currentDt), name);
+            } catch (NumberFormatException e) {
+                log.error("Не удалось преобразовать значение интервала в число", e);
+                return List.of();
+            } catch (RuntimeException e) {
+                log.error("Ошибка при получении интервала отчета", e);
+                return List.of();
+            }
+        }
+        return List.of();
+    }
+
+
+
+    @Transactional
+    public List<ReportData> generateReportDataForMinuteReport(int minutes) {
+        log.info("Создание минутного отчета...");
+        ReportType minuteReportType = reportTypeService.getReportTypeById(ReportTypesEnum.minute.name());
+        if (minuteReportType.getActive()) {
+            LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+            LocalDateTime startDt = currentDt.minusMinutes(minutes); // Используйте minutes здесь
+            String name = getMinuteReportName(minutes, currentDt, startDt);
+            return createAndSaveReportData(minuteReportType, currentDt, new DateTimeRange(startDt, currentDt), name);
+        }
+        return List.of();
     }
 
     // every hour at 00 minutes
@@ -86,12 +178,11 @@ public class ReportsScheduler {
         log.info("Создание часового отчета...");
         ReportType hourReportType = reportTypeService.getReportTypeById(ReportTypesEnum.hour.name());
         if (hourReportType.getActive()) {
-            LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+            LocalDateTime currentDt = LocalDateTime.now().truncatedTo(ChronoUnit.HOURS);
             DateTimeRange startEndDt = DateTimeRangeBuilder.buildStartEndDateForHourReport(currentDt);
             LocalDateTime startDt = startEndDt.getStartDateTime();
-            String name = String.format("Часовой отчет за %s %s",
-                    formatToSinglePattern(startDt.toLocalTime()),
-                    formatToSinglePattern(startDt.toLocalDate())
+            String name = String.format("Часовой отчет за %s",
+                    formatToSinglePattern(startDt.toLocalTime())
             );
             return createAndSaveReportData(hourReportType, currentDt, startEndDt, name);
         }
@@ -201,8 +292,8 @@ public class ReportsScheduler {
 
     // every day at hour:minute
     public ScheduledFuture<?> scheduleDailyReport(final Runnable task) {
-        String startDailyReportStr = settingsService.getStringValueBySettingName(SettingsConstants.START_DAILY_REPORT);
-        LocalTime startDailyReport = LocalTime.parse(startDailyReportStr);
+        Proverka startDailyReportStr = settingsService.getValuesBySettingName(SettingsConstants.DAILY_REPORT_COLUMNS);
+        LocalTime startDailyReport = LocalTime.parse(startDailyReportStr.getStartTime());
         int hour = startDailyReport.getHour();
         int minute = startDailyReport.getMinute();
         String cron = String.format("30 %s %s * * *", minute, hour);
@@ -217,10 +308,37 @@ public class ReportsScheduler {
         return taskScheduler.schedule(task, new CronTrigger("30 0 */2 * * ?"));
     }
 
+//    public ScheduledFuture<?> rescheduleMinuteReport(int minutes) {
+//        MinuteReportTask task = new MinuteReportTask(this, minutes);
+//        return taskScheduler.schedule(task, new CronTrigger("0 * * * * *"));
+//    }
+
+//    public ScheduledFuture<?> rescheduleMinuteReport(final Runnable task) {
+//        Proverka startMinuteReportStr = settingsService.getValuesBySettingName(SettingsConstants.MINUTE_REPORT_COLUMNS);
+//        Integer delayMinuteTask = startMinuteReportStr.getTime();
+//        StringBuffer stringBuffer = new StringBuffer();
+//        for (int i = 0; i < 60; i++) {
+//            if (i % delayMinuteTask == 0){
+//                stringBuffer.append(i + ",");
+//            }
+//        }
+//        stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+//        String cron = String.format("0 %s * * * *", stringBuffer);
+//        return taskScheduler.schedule(task, new CronTrigger(cron));
+//    }
+//РАБОЧИЙ КОД
+    public ScheduledFuture<?> rescheduleMinuteReport(final Runnable task) {
+        Proverka minuteReportInterval = settingsService.getValuesBySettingName("minute report columns");
+        Integer interval = minuteReportInterval.getTime();
+        String cron = String.format("0 */%d * * * *", interval);
+        return taskScheduler.schedule(task, new CronTrigger(cron));
+    }
+
+
     // every first day of month at hour:minute
     public ScheduledFuture<?> scheduleMonthReport(final Runnable task) {
-        String startMonthReportStr = settingsService.getStringValueBySettingName(SettingsConstants.START_MONTH_REPORT);
-        LocalTime startMonthReport = LocalTime.parse(startMonthReportStr);
+        Proverka startMonthReportStr = settingsService.getValuesBySettingName(SettingsConstants.MONTH_REPORT_COLUMNS);
+        LocalTime startMonthReport = LocalTime.parse(startMonthReportStr.getStartTime());
         int hour = startMonthReport.getHour();
         int minute = startMonthReport.getMinute();
         String cron = String.format("30 %s %s 1 * *", minute, hour);
@@ -229,8 +347,8 @@ public class ReportsScheduler {
 
     // every first January at hour:minute
     public ScheduledFuture<?> scheduleYearReport(final Runnable task) {
-        String startYearReportStr = settingsService.getStringValueBySettingName(SettingsConstants.START_YEAR_REPORT);
-        LocalTime startYearReport = LocalTime.parse(startYearReportStr);
+        Proverka startYearReportStr = settingsService.getValuesBySettingName(SettingsConstants.YEAR_REPORT_COLUMNS);
+        LocalTime startYearReport = LocalTime.parse(startYearReportStr.getStartTime());
         int hour = startYearReport.getHour();
         int minute = startYearReport.getMinute();
         String cron = String.format("30 %s %s 1 JAN *", minute, hour);
@@ -241,7 +359,7 @@ public class ReportsScheduler {
         ReportType shiftReportType = reportTypeService.getReportTypeById(ReportTypesEnum.shift.name());
         if (shiftReportType.getActive()) {
             LinkedHashMap<String, String> shiftNumToStartTime = getShiftNumToEndTime(settingsService
-                    .getMapValuesBySettingName(SettingsConstants.START_SHIFT_REPORT));
+                    .getMapValuesBySettingName(SettingsConstants.SHIFT_REPORT_COLUMNS));
             for (Map.Entry<String, String> entry : shiftNumToStartTime.entrySet()) {
                 ScheduledFuture<?> scheduledShiftReport = scheduleShiftReport(
                         () -> reportsScheduler.generateReportDataForShiftReport(shiftReportType, entry.getKey()),
@@ -278,4 +396,18 @@ public class ReportsScheduler {
         String cron = String.format("30 %s %s * * *", minute, hour);
         return taskScheduler.schedule(task, new CronTrigger(cron));
     }
+
+    private String getMinuteReportName(Integer interval, LocalDateTime currentDt,LocalDateTime startDt){
+        String reportType = interval == 1 ? "минутный" : "минутных";
+        String name = String.format("%d %s отчет за период с %s по %s",
+                interval,
+                reportType,
+                formatToSinglePattern(startDt.toLocalTime()),
+                formatToSinglePattern(currentDt.toLocalTime())
+        );
+        return name;
+    }
+
 }
+
+

@@ -111,6 +111,20 @@
                         <div class="list-group-item">
                             <div class="row align-items-center">
                                 <div class="col">
+                                    <p class="mb-0">Столбцы, отображающиеся в минутном отчете</p>
+                                </div>
+                                <div class="col-auto" id="minute-columns">
+                                    <div th:each="meteringNode : ${meteringNodes}" class="form-check form-check-inline">
+                                        <input type="checkbox" th:name="${meteringNode.getId()}" class="form-check-input"
+                                               th:checked="${minuteColumns.contains(meteringNode.getId())}" autocomplete="off">
+                                        <label class="form-check-label" th:text="${meteringNode.getName()}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
                                     <p class="mb-0">Название узла учета</p>
                                 </div>
                                 <div class="col-auto">
@@ -159,6 +173,18 @@
                         <div class="list-group-item">
                             <div class="row align-items-center">
                                 <div class="col">
+                                    <p class="mb-0">Формирования n-минутного отчета</p>
+                                </div>
+                                <div class="col-auto">
+                                    <div>
+                                        <input type="number" min="1" max="59" id="start-minute-report" value="" placeholder="Введите число" onchange="savePrevValue(this)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col">
                                     <p class="mb-0">Количество смен</p>
                                 </div>
                                 <div class="col-auto">
@@ -184,6 +210,7 @@
                     </div>
                 </div>
                 <button type="submit" onclick="save()" class="btn btn-primary">Сохранить</button>
+                <button id="resetMinuteReportButton" type="button" class="btn btn-secondary" onclick="resetMinuteReport()">Сбросить минутный отчет</button>
                 <label id="response"></label>
             </div>
         </div>

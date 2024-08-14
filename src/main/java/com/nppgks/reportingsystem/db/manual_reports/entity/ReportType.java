@@ -17,7 +17,6 @@ import java.util.Objects;
 @Entity(name = "manual_report_type")
 @Table(name = "report_type", schema = "manual_reports")
 public class ReportType {
-
     @Id
     private String id;
 
