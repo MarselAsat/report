@@ -172,6 +172,22 @@ public class MI3272Formulas {
         }
         return rho_PP_pr_ij;
     }
+//public static double[][] calculateRho_PP_pr_ij(double[][] rho_BIK_ij, double[][] t_KP_ij,
+//                                               double[][] t_ij, double[][] beta_fluid_ij,
+//                                               double[][] gamma_fluid_ij, double[][] P_KP_ij,
+//                                               double[][] P_PP_ij) {
+//    int measureCount = rho_BIK_ij.length;
+//    int pointsCount = rho_BIK_ij[0].length;
+//    double[][] rho_PP_pr_ij = new double[measureCount][pointsCount];
+//    for (int i = 0; i < measureCount; i++) {
+//        for (int j = 0; j < pointsCount; j++) {
+//            rho_PP_pr_ij[i][j] = rho_BIK_ij[i][j] *
+//                    (1 + beta_fluid_ij[i][j] * (t_KP_ij[i][j] - t_ij[i][j])) *
+//                    (1 + gamma_fluid_ij[i][j] * (P_KP_ij[i][j] - P_PP_ij[i][j]));
+//        }
+//    }
+//    return rho_PP_pr_ij;
+//}
 
     // формула 14
     public static double[][] calculateM_mas_ij(double[][] N_mas_ij, double KF_conf) {
@@ -251,7 +267,7 @@ public class MI3272Formulas {
         int measureCount = KF_ij.length;
         int pointsCount = KF_ij[0].length;
         double sum = 0;
-        double sigma_n_j = pointsCount * measureCount;
+        double sigma_n_j = pointsCount * measureCount -1 ;
         for (int j = 0; j < pointsCount; j++) {
             double sum1 = 0;
             for (double[] doubles : KF_ij) {

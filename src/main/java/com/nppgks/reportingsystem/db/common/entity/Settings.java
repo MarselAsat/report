@@ -2,6 +2,8 @@ package com.nppgks.reportingsystem.db.common.entity;
 
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.*;
 
 @Entity
@@ -28,12 +30,9 @@ public class Settings {
     @Column(name = "start_time")
     private String startTime;
 
-    @Column(name = "time")
-    private Integer time; //
+    @Column(name = "time_check")
+    private Integer timecheck; //
 
-    public Integer getTime() {
-        return time;
-    }
 
 
 }

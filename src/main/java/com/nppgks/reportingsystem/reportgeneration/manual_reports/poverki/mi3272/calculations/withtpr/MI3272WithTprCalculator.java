@@ -97,6 +97,7 @@ public class MI3272WithTprCalculator {
         this.D = tprCoeffInitData.getD();
         this.E = tprCoeffInitData.getE();
         this.s = tprCoeffInitData.getS();
+
     }
 
     public void initRestData(MI3272TprInitData MI3272TprInitData) {
@@ -135,6 +136,7 @@ public class MI3272WithTprCalculator {
         this.delta_t_KP = MI3272TprInitData.getDelta_t_KP();
         this.delta_t_PP = MI3272TprInitData.getDelta_t_PP();
         this.ZS = MI3272TprInitData.getZS();
+        this.K_TPR_j = MI3272TprInitData.getK_TPR_j();
     }
 
     double[][] V_KP_pr_ij;

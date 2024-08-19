@@ -25,33 +25,45 @@ public class SettingsService {
 
 
     }
-    public Integer getMinuteReportInterval() {
-        Optional<Settings> settingsOptional = settingsRepository.findByName(SettingsConstants.MINUTE_REPORT_COLUMNS);
-        if (settingsOptional.isPresent()) {
-            Settings settings = settingsOptional.get();
-            return Integer.parseInt(settings.getValue());
-        } else {
-            throw new RuntimeException("Настройка интервала минутного отчета не найдена в базе данных");
-        }
+    public List<String> getListValuesBySettingName(String name){
+        return settingsRepository.findByName(name)
+                .map(settings -> {
+                    String value = settings.getValue();
+                    return Arrays.stream(value.split(",")).toList();
+                })
+                .orElseThrow(() -> new RuntimeException("В таблице настроек нет настройки с названием \""+name+"\""));
+
     }
 
+
+//    public Integer getMinuteReportInterval() {
+//        Optional<Settings> settingsOptional = settingsRepository.findByName(SettingsConstants.MINUTE_REPORT_COLUMNS);
+//        if (settingsOptional.isPresent()) {
+//            Settings settings = settingsOptional.get();
+//            return Integer.parseInt(settings.getValue());
+//        } else {
+//            throw new RuntimeException("Настройка интервала минутного отчета не найдена в базе данных");
+//        }
+//    }
     // Метод для получения значения времени из базы данных
-    public Integer getMinutesFromSettings () {
-        // Ищем настройку по имени "time" в репозитории
-        Optional<Settings> settingsOptional = settingsRepository.findByName("time");
-        if (settingsOptional.isPresent()) {
-            Settings settings = settingsOptional.get();
-            // Возвращаем значение времени из базы данных
-            return settings.getTime();
-        } else {
-            // Если настройка не найдена, выбрасываем исключение или возвращаем значение по умолчанию
-            throw new RuntimeException("Настройка времени не найдена в базе данных");
-        }
-    }
+//    public Integer getMinuteReportInterval() {
+//        Optional<Settings> settingsOptional = settingsRepository.findByName("time");
+//        if (settingsOptional.isPresent()) {
+//            Settings settings = settingsOptional.get();
+//            return Integer.parseInt(settings.getValue());
+//        } else {
+//            throw new RuntimeException("Настройка интервала минутного отчета не найдена в базе данных");
+//        }
+//    }
+//    public Integer getMinuteReportInterval(){
+//        Optional<Settings> settingsOptional = settingsRepository.findByName("time");
+//        if (settingsOptional.isPresent()) {
+//            Settings settings = settingsOptional.get();
+//         return Integer.parseInt(settings.getValue());
 
 
 
-    //    // Метод для получения значений настройки по имени
+        //    // Метод для получения значений настройки по имени
     public Proverka getValuesBySettingName(String name) {
         // Ищем настройку по имени в репозитории
         return settingsRepository.findByName(name)
@@ -65,11 +77,20 @@ public class SettingsService {
                     // Устанавливаем значение check из настройки в объект Test
                     test.setCheck(settings.getCheck());
                     test.setStartTime(settings.getStartTime());
+                    test.setTime(settings.getTimecheck());
                     return test;
                 })
                 // Если настройка не найдена, выбрасываем исключение
                 .orElseThrow(() -> new RuntimeException("В таблице настроек нет настройки с названием \"" + name + "\""));
     }
+
+
+//    public String getTimeValueBySettingName(String name){
+//        return settingsRepository.findByName(name)
+//                .map(Settings::getValue)
+//                .orElseThrow(() -> new RuntimeException("В таблице настроек нет настройки с названием \""+name+"\""));
+//
+//    }
 
     // Метод для получения строкового значения настройки по имени
     public String getStringValueBySettingName(String name){

@@ -136,6 +136,8 @@ public class AdminViewController {
             String check = proverka.getCheck();
             modelMap.put(reportTypeName + "Columns", columns);
 
+//            Integer minuteInterval = settingsService.getMinuteReportInterval();
+//            modelMap.put("minuteReportName", minuteInterval + " минутный отчет");
 
             if (check.equals("start time report") && reportTypeName.indexOf("shift") >= 0) {
                 modelMap.put(reportTypeName+"StartTime",
