@@ -581,7 +581,7 @@ public class MI3272WithTprCalculator {
         log.info("----- Вычисление Q_ij (таблица 2, часть I) -----");
         double[][] V_KP_pr_ij = MI3272Formulas.calculateV_KP_pr_ij_Formula4(V_KP_0, alpha_cyl_t, t_KP_ij_avg, alpha_st_t, t_st_ij, D, E, s, P_KP_ij_avg);
         double[][] rho15_ij = Appendix.calculateRho_15(workingFluid, rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg);
-        BetaGamma betaGamma = Appendix.calculateBetaGamma(workingFluid, t_PP_ij_avg, W_w_TPR_ij, rho15_ij, t_KP_ij_avg, W_xc_TPR_ij);
+        BetaGamma betaGamma = Appendix.calculateBetaGamma(workingFluid, t_KP_ij_avg, W_w_TPR_ij, rho15_ij, t_KP_ij_avg, W_xc_TPR_ij);
         double[][] gamma_fluid_ij = betaGamma.getGamma();
         double[][] beta_fluid_ij = betaGamma.getBeta();
         double[][] rho_PP_pr_ij = MI3272Formulas.calculateRho_PP_pr_ij(rho_BIK_ij_avg, t_PP_ij_avg, t_KP_ij_avg, beta_fluid_ij, gamma_fluid_ij, P_KP_ij_avg, P_PP_ij_avg);
