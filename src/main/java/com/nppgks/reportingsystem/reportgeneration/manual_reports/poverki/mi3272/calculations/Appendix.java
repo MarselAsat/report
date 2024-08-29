@@ -38,7 +38,7 @@ public class Appendix {
             }
         }
         beta_fluid_max = max;
-        log.info("beta_ж_max={}", beta_fluid_max);
+        log.info("\nbeta_ж_max=\n{}", beta_fluid_max);
         return beta_fluid_max;
     }
     public static BetaGamma calculateBetaGamma (
@@ -56,10 +56,10 @@ public class Appendix {
             gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_TPRorPP);
         }
         else{
-            log.info("----- Вычисление Beta и Gamma по приложению B.3 -----");
-            log.info("t_КП_ij = \n{}", TableDisplay.display2DimArray(t_KP));
-            log.info("W_в = \n{}", TableDisplay.display2DimArray(W_w_ij));
-            log.info("W_хс = \n{}", TableDisplay.display2DimArray(W_xc_ij));
+            log.info("\n----- Вычисление Beta и Gamma по приложению B.3 -----");
+            log.info("\nt_КП_ij = \n{}", TableDisplay.display2DimArray(t_KP));
+            log.info("\nW_в = \n{}", TableDisplay.display2DimArray(W_w_ij));
+            log.info("\nW_хс = \n{}", TableDisplay.display2DimArray(W_xc_ij));
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
                     if(W_w_ij[i][j] <= 5){
@@ -73,8 +73,7 @@ public class Appendix {
                 }
             }
         }
-        BetaGamma betaGamma = new BetaGamma(beta_fluid_ij, gamma_fluid_ij);
-        return betaGamma;
+        return new BetaGamma(beta_fluid_ij, gamma_fluid_ij);
     }
 
     public static double[][] calculateBeta_fluid(String fluidType, double[][] rho_15, double[][] t) {

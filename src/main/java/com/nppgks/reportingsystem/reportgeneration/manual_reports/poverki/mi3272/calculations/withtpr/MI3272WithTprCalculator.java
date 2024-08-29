@@ -284,7 +284,7 @@ public class MI3272WithTprCalculator {
     }
 
     public MI3272TprFinalData calculateWithTpr() {
-        log.info("----- МИ3272 -----");
+        log.info("\n----- МИ3272 -----");
 
         validate();
 
@@ -299,25 +299,25 @@ public class MI3272WithTprCalculator {
         double[][] K2_TPR_ij = MI3272Formulas.calculateK_TPR_ij(N2_TPR_ij_avg, V2_KP_pr_ij);
         double[] K2_TPR_j = MI3272Formulas.calculateK_TPR_j(K2_TPR_ij);
 
-        log.info("t_КП_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_KP_ij_avg));
-        log.info("P_КП_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(P2_KP_ij_avg));
-        log.info("t_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_TPR_ij_avg));
-        log.info("P_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(P2_TPR_ij_avg));
-        log.info("t_ст_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_st_ij));
-        log.info("N_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(N2_TPR_ij_avg));
+        log.info("\nt_КП_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_KP_ij_avg));
+        log.info("\nP_КП_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(P2_KP_ij_avg));
+        log.info("\nt_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_TPR_ij_avg));
+        log.info("\nP_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(P2_TPR_ij_avg));
+        log.info("\nt_ст_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_st_ij));
+        log.info("\nN_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(N2_TPR_ij_avg));
 
-        log.info("V_КП_пр_ij (повторное вычисление) = \n{}", TableDisplay.display2DimArray(V2_KP_pr_ij));
-        log.info("K_ТПР_ij (повторное вычисление) = \n{}", TableDisplay.display2DimArray(K2_TPR_ij));
-        log.info("K_ТПР_j (повторное вычисление) = \n{}", K2_TPR_j);
+        log.info("\nV_КП_пр_ij (повторное вычисление) = \n{}", TableDisplay.display2DimArray(V2_KP_pr_ij));
+        log.info("\nK_ТПР_ij (повторное вычисление) = \n{}", TableDisplay.display2DimArray(K2_TPR_ij));
+        log.info("\nK_ТПР_j (повторное вычисление) = \n{}", K2_TPR_j);
 
         double[] delta_k_j = MI3272Formulas.calculateDelta_K_j(K_TPR_j, K2_TPR_j);
-        log.info("N_ТПР_задij = \n{}", TableDisplay.display2DimArray(N_TPR_ij_zad));
+        log.info("\nN_ТПР_задij = \n{}", TableDisplay.display2DimArray(N_TPR_ij_zad));
         double[][] V_TPR_ij = MI3272Formulas.calculateV_TPR_ij(N_TPR_ij_zad, K_TPR_j);
 
         double[][] beta_fluid_ij;
         double[][] gamma_fluid_ij = null;
         if(!PPInKP){
-            log.info("----- Вычисление rho_ПП_пр_ij -----");
+            log.info("\n----- Вычисление rho_ПП_пр_ij -----");
             double[][] rho_15;
             BetaGamma betaGamma;
             rho_15 = Appendix.calculateRho_15(workingFluid, rho_PP_ij, t_PP_ij, P_PP_ij);
@@ -327,8 +327,8 @@ public class MI3272WithTprCalculator {
 
             mi3272TprFinalData.setBeta_fluid_ij(beta_fluid_ij);
 
-            log.info("rho_15 = \n{}", TableDisplay.display2DimArray(rho_15));
-            log.info("gamma_ж = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));
+            log.info("\nrho_15 = \n{}", TableDisplay.display2DimArray(rho_15));
+            log.info("\ngamma_ж = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));
         }
         else{
             // здесь нужна бета только чтобы вывести ее в протокол отчета?
@@ -337,7 +337,7 @@ public class MI3272WithTprCalculator {
             beta_fluid_ij = betaGamma.getBeta();
         }
 
-        log.info("beta_ж = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
+        log.info("\nbeta_ж = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
 
         double[][] rho_PP_pr_ij = null;
         double[][] M_re_ij;
@@ -363,8 +363,8 @@ public class MI3272WithTprCalculator {
         double[][] M_mas_ij = MI3272Formulas.calculateM_mas_ij(N_mas_ij, KF_conf);
         double[][] MF_ij = MI3272Formulas.calculateMF_ij(M_re_ij, M_mas_ij, MF_set_range);
 
-        log.info("----- Вычисление Q_ij для таблицы 2 часть || ------");
-        log.info("T_ij = \n{}", TableDisplay.display2DimArray(T_ij));
+        log.info("\n----- Вычисление Q_ij для таблицы 2 часть || ------");
+        log.info("\nT_ij = \n{}", TableDisplay.display2DimArray(T_ij));
 
         double[][] Q_ij;
         if(PPInKP){
@@ -415,8 +415,8 @@ public class MI3272WithTprCalculator {
             }
 
             double theta_MF_range = MI3272Formulas.calculateTheta_MForKF_range(MF_j_avg, MF_range);
-            log.info("theta_t = \n{}", theta_t);
-            log.info("theta_MF_диап = \n{}", theta_MF_range);
+            log.info("\ntheta_t = \n{}", theta_t);
+            log.info("\ntheta_MF_диап = \n{}", theta_MF_range);
 
             // записываются в таблицу 4 - (при реализации ГХ в ПЭП)
             double theta_sigma = MI3272Formulas.calculateTheta_sigma_PEP(delta_KP, delta_PP, theta_t, delta_UOI_K, theta_MF_range, delta_mas_0);
@@ -468,7 +468,7 @@ public class MI3272WithTprCalculator {
                 theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, mi3272TprFinalData.getBeta_fluid_ij());
             }
 
-            log.info("theta_t = \n{}", theta_t);
+            log.info("\ntheta_t = \n{}", theta_t);
 
             // записываются в таблицу 4 - (при реализации ГХ в СОИ в виде постоянного значения К-фактора)
             double theta_sigma = MI3272Formulas.calculateTheta_sigma_SOI_const(delta_KP, delta_PP, theta_t, delta_UOI_K, theta_KF_range, delta_mas_0);
@@ -521,7 +521,7 @@ public class MI3272WithTprCalculator {
                 theta_t = MI3272Formulas.calculateTheta_t(delta_t_KP, delta_t_PP, mi3272TprFinalData.getBeta_fluid_ij());
             }
 
-            log.info("theta_t = \n{}", theta_t);
+            log.info("\ntheta_t = \n{}", theta_t);
 
             // записываются в таблицу 4 - (при реализации ГХ в СОИ в виде кусочно-линейной аппроксимации)
             double[] theta_sigma_k = MI3272Formulas.calculateTheta_sigma_k(delta_KP, delta_PP, theta_t, delta_UOI_K, theta_KF_k, delta_mas_0k);
@@ -578,7 +578,7 @@ public class MI3272WithTprCalculator {
     }
 
     private double[][] calculateQ_ij(double alpha_cyl_t){
-        log.info("----- Вычисление Q_ij (таблица 2, часть I) -----");
+        log.info("\n----- Вычисление Q_ij (таблица 2, часть I) -----");
         double[][] V_KP_pr_ij = MI3272Formulas.calculateV_KP_pr_ij_Formula4(V_KP_0, alpha_cyl_t, t_KP_ij_avg, alpha_st_t, t_st_ij, D, E, s, P_KP_ij_avg);
         double[][] rho15_ij = Appendix.calculateRho_15(workingFluid, rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg);
         BetaGamma betaGamma = Appendix.calculateBetaGamma(workingFluid, t_KP_ij_avg, W_w_TPR_ij, rho15_ij, t_KP_ij_avg, W_xc_TPR_ij);
@@ -586,16 +586,16 @@ public class MI3272WithTprCalculator {
         double[][] beta_fluid_ij = betaGamma.getBeta();
         double[][] rho_PP_pr_ij = MI3272Formulas.calculateRho_PP_pr_ij(rho_BIK_ij_avg, t_PP_ij_avg, t_KP_ij_avg, beta_fluid_ij, gamma_fluid_ij, P_KP_ij_avg, P_PP_ij_avg);
 
-        log.info("V_КП_пр_ij = \n{}", TableDisplay.display2DimArray(V_KP_pr_ij));
-        log.info("rho_БИК_ij = \n{}", TableDisplay.display2DimArray(rho_BIK_ij_avg));
-        log.info("P_ПП_ij = \n{}", TableDisplay.display2DimArray(P_PP_ij_avg));
-        log.info("t_ПП_ij = \n{}", TableDisplay.display2DimArray(t_PP_ij_avg));
+        log.info("\nV_КП_пр_ij = \n{}", TableDisplay.display2DimArray(V_KP_pr_ij));
+        log.info("\nrho_БИК_ij = \n{}", TableDisplay.display2DimArray(rho_BIK_ij_avg));
+        log.info("\nP_ПП_ij = \n{}", TableDisplay.display2DimArray(P_PP_ij_avg));
+        log.info("\nt_ПП_ij = \n{}", TableDisplay.display2DimArray(t_PP_ij_avg));
 
-        log.info("rho15_ij = \n{}", TableDisplay.display2DimArray(rho15_ij));
-        log.info("gamma_ж_ij = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));
-        log.info("beta_ж_ij = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
-        log.info("rho_ПП_пр_ij = \n{}", TableDisplay.display2DimArray(rho_PP_pr_ij));
-        log.info("T_ij = \n{}", TableDisplay.display2DimArray(T_ij_avg));
+        log.info("\nrho15_ij = \n{}", TableDisplay.display2DimArray(rho15_ij));
+        log.info("\ngamma_ж_ij = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));
+        log.info("\nbeta_ж_ij = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
+        log.info("\nrho_ПП_пр_ij = \n{}", TableDisplay.display2DimArray(rho_PP_pr_ij));
+        log.info("\nT_ij = \n{}", TableDisplay.display2DimArray(T_ij_avg));
         return MI3272Formulas.calculateQ_ij(V_KP_pr_ij, T_ij_avg, rho_PP_pr_ij);
     }
 
@@ -609,14 +609,14 @@ public class MI3272WithTprCalculator {
             V_KP_pr_ij = MI3272Formulas.calculateV_KP_pr_ij_Formula4(V_KP_0, alpha_cyl_t, t_KP_ij_avg,
                     alpha_st_t, t_st_ij, D, E, s, P_KP_ij_avg);
         } else {
-            log.info("----- Вычисление V_КП_пр_ij по формуле (7) (таблица 1, часть I) -----");
+            log.info("\n----- Вычисление V_КП_пр_ij по формуле (7) (таблица 1, часть I) -----");
             double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_TPR_ij, t_KP_ij_avg, P_KP_ij_avg);
             BetaGamma betaGamma = Appendix.calculateBetaGamma(workingFluid, t_TPR_ij_avg, W_w_ij, rho_15, t_KP_ij_avg, W_xc_ij);
             double[][] beta_fluid_ij = betaGamma.getBeta();
             double[][] gamma_fluid_ij = betaGamma.getGamma();
-            log.info("rho_15 = \n{}", TableDisplay.display2DimArray(rho_15));
-            log.info("beta_ж = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
-            log.info("gamma_ж = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));
+            log.info("\nrho_15 = \n{}", TableDisplay.display2DimArray(rho_15));
+            log.info("\nbeta_ж = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
+            log.info("\ngamma_ж = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));
 
             V_KP_pr_ij = MI3272Formulas.calculateV_KP_pr_ij_Formula7(V_KP_0, alpha_cyl_t, t_KP_ij_avg,
                     D, E, s, P_KP_ij_avg, beta_fluid_ij, t_TPR_ij_avg, P_TPR_ij_avg, gamma_fluid_ij);
