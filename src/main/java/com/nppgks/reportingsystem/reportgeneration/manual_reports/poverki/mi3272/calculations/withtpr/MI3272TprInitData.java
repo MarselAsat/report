@@ -10,7 +10,7 @@ public class MI3272TprInitData extends TprCoeffInitData {
     // {ПЭП} - реализация в ПЭП,
     // {СОИ рабочий диапазон} - реализация в СОИ в виде постоянного значения К-фактора,
     // {СОИ поддиапазон} - реализация в СОИ в виде кусочно-линейной аппроксимации (по умолчанию)
-    private String calibrCharImpl;
+    private String calibrCharImpl,WorkingFluid;
 
     // доп параметры для вычисления Q_ij
     private double[][] T_ij_avg, rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg;
@@ -22,6 +22,7 @@ public class MI3272TprInitData extends TprCoeffInitData {
     private double[][] rho_TPR_ij; // используется для расчета beta и gamma в формуле (7)
     private double[][] W_w_TPR_ij;
     private double[][] W_xc_TPR_ij;
+
 
     // предыдущее расчитаное значение коэффициента
     private double[] K_TPR_j;
@@ -41,6 +42,9 @@ public class MI3272TprInitData extends TprCoeffInitData {
     private double delta_UOI_K;
     private double delta_t_KP, delta_t_PP;
     private double ZS;
+//    private double Alpha_cyl_t;
+//    private double Alpha_cyl_t_sq;
+//    private double Alpha_st_t;
 
 
     // Эти параметры не используются в вычислениях. Только отображаются на html странице протокола поверки
