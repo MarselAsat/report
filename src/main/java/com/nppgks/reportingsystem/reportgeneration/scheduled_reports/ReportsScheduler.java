@@ -336,12 +336,18 @@ public class ReportsScheduler {
 //        return taskScheduler.schedule(task, new CronTrigger(cron));
 //    }
 //РАБОЧИЙ КОД
-    public ScheduledFuture<?> rescheduleMinuteReport(final Runnable task) {
-        Proverka minuteReportInterval = settingsService.getValuesBySettingName("minute report columns");
-        Integer interval = minuteReportInterval.getTime();
-        String cron = String.format("0 */%d * * * *", interval);
-        return taskScheduler.schedule(task, new CronTrigger(cron));
+public ScheduledFuture<?> rescheduleMinuteReport(final Runnable task) {
+    Proverka minuteReportInterval = settingsService.getValuesBySettingName("minute report columns");
+    Integer interval = minuteReportInterval.getTime();
+
+    // Проверка на null и использование значения по умолчанию, если interval равно null
+    if (interval == null) {
+        interval = 60; // Значение по умолчанию, если interval равно null
     }
+
+    String cron = String.format("0 */%d * * * *", interval);
+    return taskScheduler.schedule(task, new CronTrigger(cron));
+}
 
 
     // every first day of month at hour:minute
