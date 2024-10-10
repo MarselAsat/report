@@ -81,7 +81,48 @@
             </div>
         </div>
     </div>
-</div>
+        <div class="row justify-content-left">
+            <div class="mb-4 mb-lg-0 col-md-10 col-lg-7 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <strong>Ручной запуск отчетов по расписанию</strong>
+                        </div>
+                        <table class="mb-2">
+                            <td>
+                                <button class="btn btn-primary" type="submit" onclick="generateHourReport()">
+                                    Запустить вручную генерацию часового отчета
+                                </button>
+                            </td>
+                            <td style="vertical-align: middle" class="ps-2">
+                                <div class="loader" id="loaderGenHourReport" style="display:none"></div>
+                            </td>
+                        </table>
+                        <table class="mb-2">
+                            <td>
+                                <button class="btn btn-primary" type="submit" onclick="generate2HourReport()">
+                                    Запустить вручную генерацию двухчасового отчета
+                                </button>
+                            </td>
+                            <td style="vertical-align: middle" class="ps-2">
+                                <div class="loader" id="loaderGen2HourReport" style="display:none"></div>
+                            </td>
+                        </table>
+                        <table>
+                            <td>
+                                <button class="btn btn-primary" type="submit" onclick="generateDailyReport()">
+                                    Запустить вручную генерацию суточного отчета
+                                </button>
+                            </td>
+                            <td style="vertical-align: middle" class="ps-2">
+                                <div class="loader" id="loaderGenDailyReport" style="display:none"></div>
+                            </td>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

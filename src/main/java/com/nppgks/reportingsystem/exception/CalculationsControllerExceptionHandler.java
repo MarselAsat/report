@@ -1,6 +1,7 @@
 package com.nppgks.reportingsystem.exception;
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.nppgks.reportingsystem.controller.ManualExecuteScheduledReportsController;
 import com.nppgks.reportingsystem.controller.poverki.mi3272.MI3272Controller;
 import com.nppgks.reportingsystem.controller.poverki.mi3622.MI3622Controller;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice(assignableTypes = {MI3622Controller.class, MI3272Controller.class})
+@ControllerAdvice(assignableTypes = {MI3622Controller.class, MI3272Controller.class, ManualExecuteScheduledReportsController.class})
 @Slf4j
 public class CalculationsControllerExceptionHandler {
     @ExceptionHandler
@@ -40,6 +41,20 @@ public class CalculationsControllerExceptionHandler {
         log.error(e.getMessage(), e);
 
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handleMissingDbDataException(MissingDbDataException e) {
+        log.error(e.getMessage(), e);
+
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handleReportTypeIsNotActiveException(ReportTypeIsNotActiveException e) {
+        log.error(e.getMessage(), e);
+
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler

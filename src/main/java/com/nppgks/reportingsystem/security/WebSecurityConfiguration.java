@@ -41,6 +41,7 @@ public class WebSecurityConfiguration {
                 .failureUrl("/login?error=true")
                 .and()
                 .logout()
+                .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(customLogoutSuccessHandler)
                 .and()
                 .rememberMe()

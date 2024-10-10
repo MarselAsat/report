@@ -7,6 +7,8 @@ import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportType;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.ReportData;
 import com.nppgks.reportingsystem.db.scheduled_reports.entity.Tag;
 import com.nppgks.reportingsystem.exception.MissingDbDataException;
+import com.nppgks.reportingsystem.exception.MissingOpcTagException;
+import com.nppgks.reportingsystem.exception.ReportTypeIsNotActiveException;
 import com.nppgks.reportingsystem.opcservice.OpcServiceRequests;
 import com.nppgks.reportingsystem.service.dbservices.*;
 import com.nppgks.reportingsystem.util.time.DateTimeRange;
@@ -95,7 +97,7 @@ public class ReportsScheduler {
             );
             return createAndSaveReportData(hourReportType, currentDt, startEndDt, name);
         }
-        return List.of();
+        throw new ReportTypeIsNotActiveException(hourReportType.getName());
     }
 
     // every 2 hour at 00 minutes
@@ -115,7 +117,7 @@ public class ReportsScheduler {
             );
             return createAndSaveReportData(twoHourReportType, currentDt, startEndDt, name);
         }
-        return List.of();
+        throw new ReportTypeIsNotActiveException(twoHourReportType.getName());
     }
 
     @Transactional
@@ -129,7 +131,7 @@ public class ReportsScheduler {
             String reportName = String.format("Суточный отчет за %s", formatToSinglePattern(startDt.toLocalDate()));
             return createAndSaveReportData(dailyReportType, currentDt, startEndDt, reportName);
         }
-        return List.of();
+        throw new ReportTypeIsNotActiveException(dailyReportType.getName());
     }
 
     @Transactional
@@ -147,7 +149,7 @@ public class ReportsScheduler {
                                     startDt.getMonthValue())));
             return createAndSaveReportData(monthReportType, currentDt, startEndDt, reportName);
         }
-        return List.of();
+        throw new ReportTypeIsNotActiveException(monthReportType.getName());
     }
 
     @Transactional
@@ -161,7 +163,7 @@ public class ReportsScheduler {
             String reportName = String.format("Годовой отчет за %s год", startDt.getYear());
             return createAndSaveReportData(yearReportType, currentDt, startEndDt, reportName);
         }
-        return List.of();
+        throw new ReportTypeIsNotActiveException(yearReportType.getName());
     }
 
     @Transactional
@@ -195,7 +197,14 @@ public class ReportsScheduler {
         List<String> tagAddresses = tags.stream()
                 .map(Tag::getAddress)
                 .toList();
+
+        log.info("\nВ OPC сервис были отправлены следующие теги: \n"+tagAddresses);
         Map<String, String> tagValuesFromOPC = opcServiceRequests.getTagValuesFromOpc(tagAddresses);
+        log.info("\nИз OPC сервиса были получены следующие значения тегов: \n"+tagValuesFromOPC);
+
+        if(tagValuesFromOPC.isEmpty()) {
+            throw new MissingOpcTagException("Не получилось сгенерировать %s отчет. Из OPC сервера вернулись 0 значений тегов по следующим адресам: %s".formatted(reportType.getName(), tagAddresses.toString()));
+        }
         return reportDataService.saveReportValuesForReport(tagValuesFromOPC, report, currentDt);
     }
 

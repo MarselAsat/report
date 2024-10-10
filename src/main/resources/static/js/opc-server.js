@@ -133,3 +133,61 @@ function getTagValue(tag) {
             $loaderTagValue.css("display", "none")
         })
 }
+
+function generateHourReport() {
+    generateReport('#loaderGenHourReport', 'hourReport')
+}
+
+function generateReport(loaderReportId, url){
+    let $loaderGenRep = $(loaderReportId)
+    $loaderGenRep.css("display", "block")
+    fetch("/manualGeneration/"+url, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            }
+        }
+    )
+        .then(response => {
+            $loaderGenRep.css("display", "none")
+            if (response.status >= 300) {
+                return Promise.reject(response);
+            }
+            else {
+                return response.text()
+            }
+        })
+        .then(data => {
+            Swal.fire({
+                icon: 'success',
+                text: data
+            })
+        })
+        .catch((response) => {
+            if (response.status >= 500) {
+                response.text().then((data) => {
+                    Swal.fire({
+                        icon: 'error',
+                        text: data
+                    })
+                })
+            }
+            else {
+                response.text().then((data) => {
+                    Swal.fire({
+                        icon: 'info',
+                        text: data
+                    })
+                })
+            }
+        })
+}
+
+function generate2HourReport() {
+    generateReport('#loaderGen2HourReport', '2hourReport')
+}
+
+function generateDailyReport() {
+    generateReport('#loaderGenDailyReport', 'dailyReport')
+}
+
