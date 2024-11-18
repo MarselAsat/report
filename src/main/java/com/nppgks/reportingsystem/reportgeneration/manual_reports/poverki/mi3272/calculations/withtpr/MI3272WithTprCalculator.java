@@ -24,15 +24,16 @@ public class MI3272WithTprCalculator {
 
     // параметры компакт-прувера
     private double[][] t_KP_ij_avg, P_KP_ij_avg;
-    private double[][] rho_TPR_ij; // используется для расчета beta и gamma в формуле (7)
     private double[][] t_st_ij;
     private double[][] t2_KP_ij_avg;
     private double[][] P2_KP_ij_avg;
     private double[][] t2_TPR_ij_avg;
     private double[][] P2_TPR_ij_avg;
     private double[][] t2_st_ij;
-    private double[][] rho2_TPR_ij;
     private double[][] N2_TPR_ij_avg;
+
+    // Для вычисления rho_15 при повторном вычислении V_КП_пр
+    private double[][] t2_PP_ij_avg, P2_PP_ij_avg, rho2_BIK_ij_avg;
 
     // Используется ТПР, входящий в состав компакт-прувера или не входящий
     private boolean TPRInKP;
@@ -92,9 +93,11 @@ public class MI3272WithTprCalculator {
         this.t_TPR_ij_avg = tprCoeffInitData.getT_TPR_ij_avg();
         this.P_TPR_ij_avg = tprCoeffInitData.getP_TPR_ij_avg();
         this.t_st_ij = tprCoeffInitData.getT_st_ij();
-        this.rho_TPR_ij = tprCoeffInitData.getRho_TPR_ij();
         this.N_TPR_ij_avg = tprCoeffInitData.getN_TPR_ij_avg();
         this.V_KP_0 = tprCoeffInitData.getV_KP_0();
+        this.rho_BIK_ij_avg = tprCoeffInitData.getRho_BIK_ij_avg();
+        this.t_PP_ij_avg = tprCoeffInitData.getT_PP_ij_avg();
+        this.P_PP_ij_avg = tprCoeffInitData.getP_PP_ij_avg();
         this.D = tprCoeffInitData.getD();
         this.E = tprCoeffInitData.getE();
         this.s = tprCoeffInitData.getS();
@@ -110,11 +113,10 @@ public class MI3272WithTprCalculator {
         this.t2_KP_ij_avg = MI3272TprInitData.getT_KP_ij_avg();
         this.P2_KP_ij_avg = MI3272TprInitData.getP_KP_ij_avg();
         this.t2_st_ij = MI3272TprInitData.getT_st_ij();
-        this.rho2_TPR_ij = MI3272TprInitData.getRho_TPR_ij();
+        this.t2_PP_ij_avg = MI3272TprInitData.getT_PP_ij_avg();
+        this.P2_PP_ij_avg = MI3272TprInitData.getP_PP_ij_avg();
+        this.rho2_BIK_ij_avg = MI3272TprInitData.getRho_BIK_ij_avg();
         this.T_ij_avg = MI3272TprInitData.getT_ij_avg();
-        this.rho_BIK_ij_avg = MI3272TprInitData.getRho_BIK_ij_avg();
-        this.t_PP_ij_avg = MI3272TprInitData.getT_PP_ij_avg();
-        this.P_PP_ij_avg = MI3272TprInitData.getP_PP_ij_avg();
         this.rho_PP_ij = MI3272TprInitData.getRho_PP_ij();
         this.P_PP_ij = MI3272TprInitData.getP_PP_ij();
         this.N_mas_ij = MI3272TprInitData.getN_mas_ij();
@@ -149,13 +151,13 @@ public class MI3272WithTprCalculator {
         TagValueValidator.notNull(t_KP_ij_avg, "t_KP_ij_avg");
         TagValueValidator.notNull(P_KP_ij_avg, "P_KP_ij_avg");
         TagValueValidator.notNull(t_TPR_ij_avg, "t_TPR_ij_avg");
-        TagValueValidator.notNull(rho_TPR_ij, "rho_TPR_ij");
+        TagValueValidator.notNull(rho_BIK_ij_avg, "rho_BIK_ij_avg");
         TagValueValidator.notNull(N_TPR_ij_avg, "N_TPR_ij_avg");
         TagValueValidator.notNull(alpha_st_t, "alpha_st_t");
 
         TagValueValidator.haveSameLen2DimArr(
-                List.of(P_TPR_ij_avg, t_st_ij, rho_TPR_ij, N_TPR_ij_avg, t_KP_ij_avg, P_KP_ij_avg, t_TPR_ij_avg),
-                List.of("P_TPR_ij_avg", "t_st_ij", "rho_TPR_ij", "N_TPR_ij_avg", "t_KP_ij_avg", "P_KP_ij_avg", "t_TPR_ij_avg"));
+                List.of(P_TPR_ij_avg, t_st_ij, rho_BIK_ij_avg, N_TPR_ij_avg, t_KP_ij_avg, P_KP_ij_avg, t_TPR_ij_avg),
+                List.of("P_TPR_ij_avg", "t_st_ij", "rho_BIK_ij_avg", "N_TPR_ij_avg", "t_KP_ij_avg", "P_KP_ij_avg", "t_TPR_ij_avg"));
 
         if(alpha_cyl_t == null && alpha_cyl_t_sq == null){
             throw new NotValidTagValueException(
@@ -168,8 +170,8 @@ public class MI3272WithTprCalculator {
     public double[] calculateK_j() {
         validateBeforeK_j();
         alpha_cyl_t = MI3272Formulas.calculateAlpha_cyl_t(alpha_cyl_t, alpha_cyl_t_sq);
-        V_KP_pr_ij = calculateV_KP_pr_ij(alpha_cyl_t, t_KP_ij_avg, P_KP_ij_avg, t_TPR_ij_avg,
-                P_TPR_ij_avg, t_st_ij, rho_TPR_ij, W_w_TPR_ij, W_xc_TPR_ij);
+        V_KP_pr_ij = calculateV_KP_pr_ij(alpha_cyl_t, t_KP_ij_avg, P_KP_ij_avg, t_PP_ij_avg, P_PP_ij_avg, rho_BIK_ij_avg, t_TPR_ij_avg,
+                P_TPR_ij_avg, t_st_ij, W_w_TPR_ij, W_xc_TPR_ij);
         K_TPR_ij = MI3272Formulas.calculateK_TPR_ij(N_TPR_ij_avg, V_KP_pr_ij);
         K_TPR_j = MI3272Formulas.calculateK_TPR_j(K_TPR_ij);
         return K_TPR_j;
@@ -181,7 +183,7 @@ public class MI3272WithTprCalculator {
         TagValueValidator.notNull(t2_KP_ij_avg, "t2_KP_ij_avg");
         TagValueValidator.notNull(P2_KP_ij_avg, "P2_KP_ij_avg");
         TagValueValidator.notNull(t2_TPR_ij_avg, "t2_TPR_ij_avg");
-        TagValueValidator.notNull(rho2_TPR_ij, "rho2_TPR_ij");
+        TagValueValidator.notNull(rho2_BIK_ij_avg, "rho2_BIK_ij_avg");
         TagValueValidator.notNull(N2_TPR_ij_avg, "N2_TPR_ij_avg");
 
         TagValueValidator.notNull(T_ij_avg, "T_ij_avg");
@@ -221,10 +223,10 @@ public class MI3272WithTprCalculator {
 
         ArrayList<double[][]> valsLen1 = new ArrayList<>(List.of(
                 T_ij_avg, rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg));
-        valsLen1.addAll(List.of(P2_TPR_ij_avg, t2_st_ij, rho2_TPR_ij, N2_TPR_ij_avg, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg));
+        valsLen1.addAll(List.of(P2_TPR_ij_avg, t2_st_ij, rho2_BIK_ij_avg, N2_TPR_ij_avg, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg));
         ArrayList<String> namesLen1 = new ArrayList<>(List.of(
                 "T_ij_avg", "rho_BIK_ij_avg", "t_PP_ij_avg", "P_PP_ij_avg"));
-        namesLen1.addAll(List.of("P2_TPR_ij_avg", "t2_st_ij", "rho2_TPR_ij", "N2_TPR_ij_avg", "t2_KP_ij_avg", "P2_KP_ij_avg", "t2_TPR_ij_avg"));
+        namesLen1.addAll(List.of("P2_TPR_ij_avg", "t2_st_ij", "rho2_BIK_ij_avg", "N2_TPR_ij_avg", "t2_KP_ij_avg", "P2_KP_ij_avg", "t2_TPR_ij_avg"));
         if(W_w_TPR_ij != null){
             valsLen1.add(W_w_TPR_ij);
             namesLen1.add("W_w_TPR_ij");
@@ -296,11 +298,15 @@ public class MI3272WithTprCalculator {
         double[][] Q_ij_TPR = calculateQ_ij(alpha_cyl_t);
 
         double[] Pi_j = MI3272Formulas.calculatePi_j(K_TPR_ij);
-        double[][] V2_KP_pr_ij = calculateV_KP_pr_ij(alpha_cyl_t, t2_KP_ij_avg, P2_KP_ij_avg, t2_TPR_ij_avg,
-                P2_TPR_ij_avg, t2_st_ij, rho2_TPR_ij, W_w_TPR_ij, W_xc_TPR_ij);
+        log.info("\n----- Повторное вычисление V_КП_пр_ij -----");
+        double[][] V2_KP_pr_ij = calculateV_KP_pr_ij(alpha_cyl_t, t2_KP_ij_avg, P2_KP_ij_avg, t2_PP_ij_avg, P2_PP_ij_avg, rho2_BIK_ij_avg, t2_TPR_ij_avg,
+                P2_TPR_ij_avg, t2_st_ij, W_w_TPR_ij, W_xc_TPR_ij);
         double[][] K2_TPR_ij = MI3272Formulas.calculateK_TPR_ij(N2_TPR_ij_avg, V2_KP_pr_ij);
         double[] K2_TPR_j = MI3272Formulas.calculateK_TPR_j(K2_TPR_ij);
 
+        log.info("\nt_ПП_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_PP_ij_avg));
+        log.info("\nP_ПП_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(P2_PP_ij_avg));
+        log.info("\nrho_БИК_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(rho2_BIK_ij_avg));
         log.info("\nt_КП_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_KP_ij_avg));
         log.info("\nP_КП_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(P2_KP_ij_avg));
         log.info("\nt_ТПР_ij (повторное измерение) = \n{}", TableDisplay.display2DimArray(t2_TPR_ij_avg));
@@ -602,8 +608,9 @@ public class MI3272WithTprCalculator {
     }
 
     private double[][] calculateV_KP_pr_ij(double alpha_cyl_t, double[][] t_KP_ij_avg, double[][] P_KP_ij_avg,
+                                           double[][] t_PP_ij_avg, double[][] P_PP_ij_avg, double[][] rho_BIK_ij_avg,
                                            double[][] t_TPR_ij_avg, double[][] P_TPR_ij_avg,
-                                           double[][] t_st_ij, double[][] rho_TPR_ij, double[][] W_w_ij, double[][] W_xc_ij) {
+                                           double[][] t_st_ij, double[][] W_w_ij, double[][] W_xc_ij) {
         double[][] V_KP_pr_ij;
 
         // если ТПР входит в состав компакт-прувера
@@ -612,10 +619,16 @@ public class MI3272WithTprCalculator {
                     alpha_st_t, t_st_ij, D, E, s, P_KP_ij_avg);
         } else {
             log.info("\n----- Вычисление V_КП_пр_ij по формуле (7) (таблица 1, часть I) -----");
-            double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_TPR_ij, t_KP_ij_avg, P_KP_ij_avg);
+            log.info("\n----- Для вычисления rho_15 используются: -----");
+            log.info("\nrho_БИК_ij_avg = \n{}", TableDisplay.display2DimArray(rho_BIK_ij_avg));
+            log.info("\nt_ПП_ij_avg = \n{}", TableDisplay.display2DimArray(t_PP_ij_avg));
+            log.info("\nP_ПП_ij_avg = \n{}", TableDisplay.display2DimArray(P_PP_ij_avg));
+
+            double[][] rho_15 = Appendix.calculateRho_15(workingFluid, rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg);
             BetaGamma betaGamma = Appendix.calculateBetaGamma(workingFluid, t_TPR_ij_avg, W_w_ij, rho_15, t_KP_ij_avg, W_xc_ij);
             double[][] beta_fluid_ij = betaGamma.getBeta();
             double[][] gamma_fluid_ij = betaGamma.getGamma();
+
             log.info("\nrho_15 = \n{}", TableDisplay.display2DimArray(rho_15));
             log.info("\nbeta_ж = \n{}", TableDisplay.display2DimArray(beta_fluid_ij));
             log.info("\ngamma_ж = \n{}", TableDisplay.display2DimArray(gamma_fluid_ij));

@@ -52,6 +52,9 @@ public class Appendix {
         boolean oilIsCrude = W_w_ij != null && W_w_ij.length != 0 && W_xc_ij != null && W_xc_ij.length != 0;
 
         if(!oilIsCrude){
+            log.info("\n----- Вычисление Beta и Gamma -----");
+            log.info("\nt = \n{}", TableDisplay.display2DimArray(t_TPRorPP));
+
             beta_fluid_ij = Appendix.calculateBeta_fluid(workingFluid, rho_15, t_TPRorPP);
             gamma_fluid_ij = Appendix.calculateGamma_fluid(rho_15, t_TPRorPP);
         }

@@ -19,10 +19,8 @@ public class MI3272TprInitData extends TprCoeffInitData {
     private double[][] N_TPR_ij_avg, t_TPR_ij_avg, P_TPR_ij_avg;
     private double[][] t_KP_ij_avg, P_KP_ij_avg;
     private double[][] t_st_ij;
-    private double[][] rho_TPR_ij; // используется для расчета beta и gamma в формуле (7)
     private double[][] W_w_TPR_ij;
     private double[][] W_xc_TPR_ij;
-
 
     // предыдущее расчитаное значение коэффициента
     private double[] K_TPR_j;
@@ -42,10 +40,6 @@ public class MI3272TprInitData extends TprCoeffInitData {
     private double delta_UOI_K;
     private double delta_t_KP, delta_t_PP;
     private double ZS;
-//    private double Alpha_cyl_t;
-//    private double Alpha_cyl_t_sq;
-//    private double Alpha_st_t;
-
 
     // Эти параметры не используются в вычислениях. Только отображаются на html странице протокола поверки
     private double[] N_TPR_j_zad;
@@ -72,5 +66,4 @@ public class MI3272TprInitData extends TprCoeffInitData {
     private String ppDate;
     private String companyName;
     private String verifierName;
-
 }

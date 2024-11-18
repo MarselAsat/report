@@ -27,7 +27,7 @@ public class TprCoeffInitData implements InitialData {
     private double[][] t_TPR_ij_avg;
     private double[][] P_TPR_ij_avg;
     private double[][] t_st_ij;
-    private double[][] rho_TPR_ij; // используется для расчета beta и gamma в формуле (7)
+    private double[][] rho_BIK_ij_avg, t_PP_ij_avg, P_PP_ij_avg; // используются для рассчета rho_15, betta и gamma в формуле (7)
     private double[][] N_TPR_ij_avg;
     private double V_KP_0;
     private double D, E, s;
